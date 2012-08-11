@@ -111,6 +111,8 @@ GEM
       activesupport (= 3.2.8)
       bundler (~> 1.0)
       railties (= 3.2.8)
+    rails-footnotes (3.7.8)
+      rails (>= 3.0.0)
     railties (3.2.8)
       actionpack (= 3.2.8)
       activesupport (= 3.2.8)
@@ -189,6 +191,7 @@ DEPENDENCIES
   launchy (>= 2.1.0)
   machinist
   rails (= 3.2.8)
+  rails-footnotes (>= 3.7.5.rc4)
   rolify (>= 3.1.0)
   rspec-rails (>= 2.11.0)
   sass-rails (~> 3.2.3)
