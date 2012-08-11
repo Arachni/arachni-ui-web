@@ -1,4 +1,4 @@
-<%= link_to "Arachni Webui v0.4", root_path, class: 'brand' %>
+<%= link_to "Arachni v#{Arachni::VERSION}  - Webui v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
 
 <ul class="nav pull-right">
     <% if user_signed_in? %>

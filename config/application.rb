@@ -70,3 +70,5 @@ module ArachniWebui
         config.assets.version = '1.0'
     end
 end
+
+require File.expand_path( '../version', __FILE__ )
