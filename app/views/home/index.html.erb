@@ -1,5 +1,5 @@
 <div class="hero-unit">
-    <h1>Hello, <%= current_user.name %>!</h1>
+    <h1>Start a scan</h1>
     <p>The only thing you need to do is make a simple choice about the type of
       scan you want to perform.</p>
     <p><a class="btn btn-primary btn-large">Trouble making up your mind?</a></p>
@@ -7,20 +7,21 @@
 
 <div class="row">
     <div class="span4">
-        <h2>Quick</h2>
+        <h2>Direct</h2>
         <p>Perform a direct scan from this machine to the web application.
         No need to setup anything else.</p>
         <p><a class="btn" href="#">Configure &raquo;</a></p>
     </div>
     <div class="span4">
         <h2>Remote</h2>
-        <p>Perform a distributed scan using a deployed Dispatcher.</p>
+        <p>Delegate the scan workload to a deployed Dispatcher.
+            No traffic will pass through this machine.</p>
         <p><a class="btn" href="#">Pick a Dispatcher &raquo;</a></p>
     </div>
     <div class="span4">
-        <h2>High Performance Grid</h2>
-        <p>Combine the resources of multiple Dispatcher for super-fast scans.</p>
-        <p><a class="btn" href="#">View details &raquo;</a></p>
+        <h2>High-Performance Grid</h2>
+        <p>Combine the resources of multiple Dispatchers for super-fast scans.</p>
+        <p><a class="btn" href="#">Pick a master Dispatcher &raquo;</a></p>
     </div>
 </div>
 
