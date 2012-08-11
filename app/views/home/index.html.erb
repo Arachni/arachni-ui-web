@@ -1,100 +1,130 @@
-<div class="hero-unit">
-    <h1>Start a scan</h1>
-    <p>The only thing you need to do is make a simple choice about the type of
-      scan you want to perform.</p>
-    <p><a data-toggle="modal" href="#scan-type-help" class="btn btn-primary btn-large">Trouble making up your mind?</a></p>
-</div>
+<form class="form-horizontal" method='post'>
+    <div class="hero-unit">
+        <h1>Start a scan</h1>
+        <p>The only thing you need to do is make a simple choice about the type of
+            scan you want to perform.</p>
+        <p>
+            <input id="go-btn" class="hide btn btn-large btn-primary" type="submit" value="Go!">
+            <a data-toggle="modal" href="#scan-type-help" class="btn btn-large">Trouble making up your mind?</a>
+        </p>
 
-<div class="modal hide" id="scan-type-help">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h2>Scan types</h2>
     </div>
-    <div class="modal-body">
-        <h3>Direct</h3>
-        <p>One fine body…</p>
+    <div class="control-group">
+        <label class="control-label" for="url">URL</label>
+        <div class="controls">
+            <input type="text" class="input-xlarge" id="url" />
+            <p class="help-block">
+                Full URL of the targeted web application (must
+                include the appropriate protocol --
+                <i>http</i> or <i>https</i>).
+            </p>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="scan-profile">Profile</label>
+        <div class="controls">
+            <div class="input-append">
+                <select class='span2' id="scan-profile">
+                    <option>Default</option>
+                    <option>Minimal</option>
+                    <option>Paranoid</option>
+                    <option>Active</option>
+                    <option>Passive</option>
+                </select><a rel="tooltip" class="btn"
+                            title="Peek"
+                            href="#">
+                <i class="icon-eye-open"></i>
+            </a><a rel="tooltip" class="btn"
+                   title="Edit"
+                   href="#">
+                <i class="icon-pencil"></i></a>
+                <p class="help-block">
+                    Configuration profile to use.
+                </p>
+            </div>
+        </div>
+    </div>
 
-        <h3>Remote</h3>
-        <p>One fine body…</p>
-
-        <h3>High-Performance Grid</h3>
-        <p>One fine body…</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-    </div>
-</div>
-
-<div class="row">
-    <div class="span4">
-        <h2>Direct</h2>
-        <p>Perform a direct scan from this machine to the web application.
-        No need to setup anything else.</p>
-        <p><a data-toggle="modal" href="#direct-profile" class="btn" href="#">Configure &raquo;</a></p>
-    </div>
-    <div class="modal hide" id="direct-profile">
+    <div class="modal hide" id="scan-type-help">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Options</h2>
+            <h2>Scan types</h2>
         </div>
         <div class="modal-body">
-            <form class="form-horizontal">
-                <fieldset>
-                    <div class="control-group">
-                        <label class="control-label" for="url">URL</label>
-                        <div class="controls">
-                            <input type="text" class="input-xlarge" id="url" />
-                            <p class="help-block">
-                                Full URL of the targeted web application (must
-                                include the appropriate protocol --
-                                <i>http</i> or <i>https</i>).
-                            </p>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="scan-profile">Profile</label>
-                        <div class="controls">
-                            <div class="input-append">
-                                <select class='span2' id="scan-profile">
-                                    <option>Default</option>
-                                    <option>Minimal</option>
-                                    <option>Paranoid</option>
-                                    <option>Active</option>
-                                    <option>Passive</option>
-                                </select><a rel="tooltip" class="btn"
-                                            title="Peek"
-                                            href="#">
-                                    <i class="icon-eye-open"></i>
-                                </a><a rel="tooltip" class="btn"
-                                       title="Edit"
-                                       href="#">
-                                    <i class="icon-pencil"></i></a>
-                                <p class="help-block">
-                                    Scan profile to use.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+            <h3>Direct</h3>
+            <p>One fine body…</p>
+
+            <h3>Remote</h3>
+            <p>One fine body…</p>
+
+            <h3>High-Performance Grid</h3>
+            <p>One fine body…</p>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Start scan</button>
             <a href="#" class="btn" data-dismiss="modal">Close</a>
         </div>
     </div>
 
-    <div class="span4">
-        <h2>Remote</h2>
-        <p>Delegate the scan workload to a deployed Dispatcher.
-            No traffic will pass through this machine.</p>
-        <p><a class="btn" href="#">Pick a Dispatcher &raquo;</a></p>
-    </div>
-    <div class="span4">
-        <h2>High-Performance Grid</h2>
-        <p>Combine the resources of multiple Dispatchers for super-fast scans.</p>
-        <p><a class="btn" href="#">Pick a master Dispatcher &raquo;</a></p>
-    </div>
-</div>
+    <div class="row" style='margin-left: -4px;'>
+        <div class="btn-group" data-toggle="buttons-radio">
+            <div onclick="showGoButton();hideDispatcherSelect();" class="span4 btn btn-inverse">
+                <h3>Direct</h3>
+                <p>Perform a direct scan from this machine to the web application.
+                    No need to setup anything else.</p>
+            </div>
+            <div onclick="showGoButton();showDispatcherSelect( 'remote' );" class="span4 btn btn-inverse">
+                <h3>Remote</h3>
+                <p>Delegate the scan workload to a deployed Dispatcher.
+                    No traffic will pass through this machine.</p>
+            </div>
 
-<hr />
+            <div onclick="showGoButton();showDispatcherSelect( 'hpg' );" class="span4 btn btn-inverse">
+                <h3>High-Performance Grid</h3>
+                <p>Combine the resources of multiple Dispatchers for super-fast scans.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <hr />
+
+    <div class="hide" id="dispatcher-remote">
+        <div class="control-group">
+            <label class="control-label" for="dispatcher">Dispatcher</label>
+            <div class="controls">
+                <div>
+                    <select class='span2' name="dispatcher">
+                        <option>192.168.0.1:7331</option>
+                        <option>scanner.com:7331</option>
+                    </select>
+                    <p class="help-block">
+                        The selected Dispatcher will provide a scanner Instance which will be used to perform the scan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide" id="dispatcher-hpg">
+        <div class="control-group">
+            <label class="control-label" for="dispatcher">Master Dispatcher</label>
+            <div class="controls">
+                <div>
+                    <select class='span2' name="dispatcher">
+                        <option>192.168.0.1:7331</option>
+                        <option>scanner.com:7331</option>
+                    </select>
+                    <p class="help-block">
+                        The selected Dispatcher will provide a master Instance which will then manage
+                        and spread the workload across slave Instances requested from other grid members. <br/>
+                        Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+                    </p>
+                    <div class="alert">
+                        <strong>Warning!</strong> Please be sure that the web server will be able to handle the heat,
+                        otherwise you may end up killing it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
