@@ -1,26 +1,28 @@
-<%= link_to "Arachni.Webui", root_path, class: 'brand' %>
-<ul class="nav">
+<%= link_to "Arachni Webui v0.4", root_path, class: 'brand' %>
+
+<ul class="nav pull-right">
     <% if user_signed_in? %>
-        <li>
-        <%= link_to 'Logout', destroy_user_session_path, method: 'delete' %>
-        </li>
-    <% else %>
-        <li>
-            <%= link_to 'Login', new_user_session_path %>
-        </li>
-    <% end %>
-    <% if user_signed_in? %>
-        <li>
-            <%= link_to 'Edit account', edit_user_registration_path %>
-        </li>
-    <% if current_user.has_role? :admin %>
-        <li>
-            <%= link_to 'Admin', users_path %>
-        </li>
-    <% end %>
+    <li>
+        <div class="btn-group">
+            <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %></a>
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="<%= edit_user_registration_path %>"><i class="icon-pencil"></i> Edit</a></li>
+                <% if current_user.has_role? :admin %>
+                <li><a href="<%= users_path %>"><i class="icon-cog"></i> Admin</a></li>
+                <% end %>
+                <li class="divider"></li>
+                <li><%= link_to 'Logout', destroy_user_session_path, method: 'delete' %></li>
+            </ul>
+        </div>
+    </li>
     <% else %>
     <li>
         <%= link_to 'Sign up', new_user_registration_path %>
     </li>
+    <li>
+        <%= link_to 'Login', new_user_session_path %>
+    </li>
     <% end %>
+
 </ul>
