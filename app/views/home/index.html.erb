@@ -85,44 +85,39 @@
         </div>
     </div>
 
-
     <hr />
 
     <div class="hide" id="dispatcher-remote">
         <div class="control-group">
             <label class="control-label" for="dispatcher">Dispatcher</label>
             <div class="controls">
-                <div>
-                    <select class='span2' name="dispatcher">
-                        <option>192.168.0.1:7331</option>
-                        <option>scanner.com:7331</option>
-                    </select>
-                    <p class="help-block">
-                        The selected Dispatcher will provide a scanner Instance which will be used to perform the scan.
-                    </p>
-                </div>
+                <select class='span2' name="dispatcher" id="dispatcher">
+                    <option>192.168.0.1:7331</option>
+                    <option>scanner.com:7331</option>
+                </select>
+                <p class="help-block">
+                    The selected Dispatcher will provide a scanner Instance which will be used to perform the scan.
+                </p>
             </div>
         </div>
     </div>
     <div class="hide" id="dispatcher-hpg">
         <div class="control-group">
-            <label class="control-label" for="dispatcher">Master Dispatcher</label>
+            <div class="alert">
+                <strong>Warning!</strong> Please be sure that the web server will be able to handle the heat,
+                otherwise you may end up killing it.
+            </div>
+            <label class="control-label" for="master-dispatcher">Master Dispatcher</label>
             <div class="controls">
-                <div>
-                    <select class='span2' name="dispatcher">
-                        <option>192.168.0.1:7331</option>
-                        <option>scanner.com:7331</option>
-                    </select>
-                    <p class="help-block">
-                        The selected Dispatcher will provide a master Instance which will then manage
-                        and spread the workload across slave Instances requested from other grid members. <br/>
-                        Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
-                    </p>
-                    <div class="alert">
-                        <strong>Warning!</strong> Please be sure that the web server will be able to handle the heat,
-                        otherwise you may end up killing it.
-                    </div>
-                </div>
+                <select class='span2' name="dispatcher" id="master-dispatcher">
+                    <option>192.168.0.1:7331</option>
+                    <option>scanner.com:7331</option>
+                </select>
+                <p class="help-block">
+                    The selected Dispatcher will provide a master Instance which will then manage
+                    and spread the workload across slave Instances requested from other grid members. <br/>
+                    Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+                </p>
             </div>
         </div>
     </div>
