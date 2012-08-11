@@ -1,4 +1,27 @@
-<h3>Home</h3>
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.name, user %></p>
-<% end %>
+<div class="hero-unit">
+    <h1>Hello, <%= current_user.name %>!</h1>
+    <p>The only thing you need to do is make a simple choice about the type of
+      scan you want to perform.</p>
+    <p><a class="btn btn-primary btn-large">Trouble making up your mind?</a></p>
+</div>
+
+<div class="row">
+    <div class="span4">
+        <h2>Quick</h2>
+        <p>Perform a direct scan from this machine to the web application.
+        No need to setup anything else.</p>
+        <p><a class="btn" href="#">Configure &raquo;</a></p>
+    </div>
+    <div class="span4">
+        <h2>Remote</h2>
+        <p>Perform a distributed scan using a deployed Dispatcher.</p>
+        <p><a class="btn" href="#">Pick a Dispatcher &raquo;</a></p>
+    </div>
+    <div class="span4">
+        <h2>High Performance Grid</h2>
+        <p>Combine the resources of multiple Dispatcher for super-fast scans.</p>
+        <p><a class="btn" href="#">View details &raquo;</a></p>
+    </div>
+</div>
+
+<hr />
