@@ -37,3 +37,5 @@ jQuery ->
         showDispatcherSelect( 'hpg' )
     $('#url').keyup ->
         showGoButton()
+    $('#url').blur ->
+        showGoButton()
