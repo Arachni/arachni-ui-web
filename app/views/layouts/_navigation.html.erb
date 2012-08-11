@@ -1,18 +1,40 @@
 <%= link_to "Arachni v#{Arachni::VERSION}  - Webui v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
 
+<% if user_signed_in? %>
+<ul class="nav">
+    <li><%= link_to 'Reports', '' %></li>
+    <li><%= link_to 'Settings', '' %></li>
+    <li><%= link_to 'Log', '' %></li>
+</ul>
+<% end %>
+
 <ul class="nav pull-right">
     <% if user_signed_in? %>
     <li>
         <div class="btn-group">
             <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %></a>
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="caret"></span>
+            </a>
             <ul class="dropdown-menu">
-                <li><a href="<%= edit_user_registration_path %>"><i class="icon-pencil"></i> Edit</a></li>
+                <li>
+                  <%= link_to edit_user_registration_path do %>
+                      <i class="icon-pencil"></i> Edit
+                  <% end %>
+                </li>
                 <% if current_user.has_role? :admin %>
-                <li><a href="<%= users_path %>"><i class="icon-cog"></i> Admin</a></li>
+                  <li>
+                    <%= link_to users_path do %>
+                        <i class="icon-cog"></i> Admin
+                    <% end %>
+                  </li>
                 <% end %>
                 <li class="divider"></li>
-                <li><%= link_to 'Logout', destroy_user_session_path, method: 'delete' %></li>
+                <li>
+                <%= link_to destroy_user_session_path, method: 'delete' do %>
+                    <i class="icon-off"></i> Sign out
+                <% end %>
+              </li>
             </ul>
         </div>
     </li>
@@ -21,7 +43,7 @@
         <%= link_to 'Sign up', new_user_registration_path %>
     </li>
     <li>
-        <%= link_to 'Login', new_user_session_path %>
+        <%= link_to 'Sign in', new_user_session_path %>
     </li>
     <% end %>
 
