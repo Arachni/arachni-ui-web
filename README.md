@@ -2,6 +2,14 @@
 
 This is the new Web User Interface for [Arachni](https://github.com/Arachni/arachni).
 
+The interface is under development so depending on when you read this it may just
+be a mockup, partially or not at all working.
+
+And now for a general plea:
+If you've got any experience with the technologies mentioned in the [Technical details](#technical-details)
+section and you'd like to see Arachni become more usable then feel free to get in touch and
+I'm sure we'll find something for you to help out with. :)
+
 (This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
 
 ## Technical details
