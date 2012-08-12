@@ -1,6 +1,6 @@
 # Arachni.Webui
 
-This application was generated with the "rails_apps_composer":https://github.com/RailsApps/rails_apps_composer gem provided by the "RailsApps Project":http://railsapps.github.com/.
+This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).
 
 ## Diagnostics
 
@@ -8,7 +8,7 @@ This application was built with recipes that are known to work together.
 
 This application was built with preferences that are known to work together.
 
-If the application doesn't work as expected, please "report an issue":https://github.com/RailsApps/rails_apps_composer/issues and include these diagnostics:
+If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues) and include these diagnostics:
 
 We'd also like to know if you've found combinations of recipes or preferences that do work together.
 
@@ -25,7 +25,7 @@ This application requires:
 * Ruby version 1.9.3
 * Rails version 3.2.8
 
-Learn more about "Installing Rails":http://railsapps.github.com/installing-rails.html.
+Learn more about [Installing Rails](http://railsapps.github.com/installing-rails.html).
 
 ## Database
 
