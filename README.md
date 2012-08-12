@@ -1,22 +1,8 @@
-# Arachni.Webui
+# Arachni WebUI
 
-This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).
+This is the new Web User Interface for [Arachni](https://github.com/Arachni/arachni).
 
-## Diagnostics
-
-This application was built with recipes that are known to work together.
-
-This application was built with preferences that are known to work together.
-
-If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues) and include these diagnostics:
-
-We'd also like to know if you've found combinations of recipes or preferences that do work together.
-
-Recipes:
-RECIPES
-
-Preferences:
-PREFERENCES
+(This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
 
 ## Ruby on Rails
 
@@ -40,25 +26,26 @@ This application uses SQLite with ActiveRecord.
 * Authentication: Devise
 * Authorization: CanCan
 
-
-
-
-
 ## Getting Started
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+To setup the WebUI run:
+
+```
+git clone git://github.com/Arachni/webui.git
+cd webui
+bundle install
+rake db:setup
+rails s puma
+```
 
 ## Documentation and Support
 
-This is the only documentation.
+For the time being, this is the only documentation.
 
-h4. Issues
+### Issues
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-## Similar Projects
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Please send your feedback using Github's issue system at
+[http://github.com/Arachni/arachni/issues](http://github.com/Arachni/arachni/issues).
 
 ## Contributing
 
@@ -67,14 +54,13 @@ If you make improvements to this application, please share with others.
 * Fork the project on GitHub.
 * Make your feature addition or bug fix.
 * Commit with Git.
-* Send the author a pull request.
-
-If you add functionality to this application, create an alternative implementation, or build an application that is similar, please contact me and I'll add a note to the README so that others can find your work.
+* Send a pull request.
 
 ## Credits
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* [Tasos Laskos](https://github.com/Zapotek)
 
 ## License
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Arachni WebUI is licensed under the Apache License Version 2.0.<br/>
+See the [LICENSE](file.LICENSE.html) file for more information.
