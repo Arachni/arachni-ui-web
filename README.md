@@ -1,8 +1,8 @@
-h1. Arachni.Webui
+# Arachni.Webui
 
 This application was generated with the "rails_apps_composer":https://github.com/RailsApps/rails_apps_composer gem provided by the "RailsApps Project":http://railsapps.github.com/.
 
-h2. Diagnostics
+## Diagnostics
 
 This application was built with recipes that are known to work together.
 
@@ -18,7 +18,7 @@ RECIPES
 Preferences:
 PREFERENCES
 
-h2. Ruby on Rails
+## Ruby on Rails
 
 This application requires:
 
@@ -27,11 +27,11 @@ This application requires:
 
 Learn more about "Installing Rails":http://railsapps.github.com/installing-rails.html.
 
-h2. Database
+## Database
 
 This application uses SQLite with ActiveRecord.
 
-h2. Development
+## Development
 
 * Template Engine: ERB
 * Testing Framework: RSpec and Machinist and Cucumber
@@ -44,11 +44,11 @@ h2. Development
 
 
 
-h2. Getting Started
+## Getting Started
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-h2. Documentation and Support
+## Documentation and Support
 
 This is the only documentation.
 
@@ -56,11 +56,11 @@ h4. Issues
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-h2. Similar Projects
+## Similar Projects
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-h2. Contributing
+## Contributing
 
 If you make improvements to this application, please share with others.
 
@@ -71,10 +71,10 @@ If you make improvements to this application, please share with others.
 
 If you add functionality to this application, create an alternative implementation, or build an application that is similar, please contact me and I'll add a note to the README so that others can find your work.
 
-h2. Credits
+## Credits
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-h2. License
+## License
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
