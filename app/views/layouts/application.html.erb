@@ -7,6 +7,9 @@
         <title><%= content_for?( :title ) ? yield( :title ) : "Arachni.Webui" %></title>
         <meta name="description" content="">
         <meta name="author" content="">
+
+        <link rel="shortcut icon" href="/assets/favicon.png" />
+
         <%= stylesheet_link_tag    "application", media: "all" %>
         <%= javascript_include_tag "application" %>
         <%= csrf_meta_tags %>
@@ -29,8 +32,6 @@
                             <%= yield %>
                         </div>
                     </div>
-                    <footer>
-                    </footer>
                 </div>
             </div> <!--! end of .container -->
         </div> <!--! end of #main -->
@@ -38,5 +39,53 @@
         <% if Rails.env.development? %>
         <div id="footnotes_holder"></div>
         <% end %>
+
+        <footer>
+            <div class='container'>
+                <div class='row'>
+                    <div class='span10'>
+                        <div class='row'>
+                            <div class='span3'>
+                                &nbsp;
+                            </div>
+                            <div class='span3'>
+                                <h4>Help</h4>
+                                <hr/>
+                                <ul class='unstyled'>
+                                    <li><a href="https://github.com/Arachni/arachni/wiki/Web-user-interface">User Guide</a></li>
+                                    <li><a href="http://github.com/Arachni/arachni/wiki">Wiki</a></li>
+                                    <li><a href="http://support.arachni-scanner.com">Support</a></li>
+                                    <li><a href="https://github.com/Arachni/arachni/issues">Report a bug</a></li>
+                                </ul>
+                            </div>
+                            <div class='span4'>
+                                <h4>Interesting links</h4>
+                                <hr/>
+                                <ul class='unstyled'>
+                                    <li><a href="http://arachni-scanner.com">Homepage</a></li>
+                                    <li><a href="http://arachni-scanner.com/blog">Blog</a></li>
+                                    <li><a href="http://twitter.com/ArachniScanner">Twitter feed</a></li>
+                                    <li><a href="https://github.com/Arachni/arachni/tree/experimental">The bleeding edge, Arachni's experimental branch</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='footer-floor'>
+                <div class='container'>
+                    <div class='row'>
+                        <div class='span3'>
+                            &nbsp;
+                        </div>
+                        <div class='span4'>
+                            <p>
+                                &copy; 2012 <a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
