@@ -72,7 +72,7 @@
 
     <div class="row" style='margin-left: -4px;'>
         <div class="btn-group" data-toggle="buttons-radio">
-            <a id="direct-btn" class="span4 btn btn-inverse scroll">
+            <a href="#" id="direct-btn" class="span4 btn btn-inverse">
                 <h3>Direct</h3>
                 <p>Perform a direct scan from this machine to the web application.
                     No need to setup anything else.</p>
@@ -96,6 +96,7 @@
             <label class="control-label" for="dispatcher">Dispatcher</label>
             <div class="controls">
                 <select class='span2' name="dispatcher" id="dispatcher">
+                    <option>Auto -- Load balance</option>
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
                 </select>
@@ -104,6 +105,11 @@
                 </p>
             </div>
         </div>
+        <a rel="tooltip" class="btn"
+           title="Edit"
+           href="#">
+            <i class="icon-heart"></i>Health monitor
+        </a>
     </div>
 
     <div class="hide well" id="dispatcher-hpg">
@@ -146,6 +152,11 @@
                 </p>
             </div>
         </div>
+        <a rel="tooltip" class="btn"
+           title="Edit"
+           href="#">
+            <i class="icon-heart"></i>Health monitor
+        </a>
     </div>
 
 </form>
