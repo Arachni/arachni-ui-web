@@ -4,7 +4,9 @@ This is the new Web User Interface for [Arachni](https://github.com/Arachni/arac
 
 (This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
 
-## Ruby on Rails
+## Technical details
+
+### Ruby on Rails
 
 This application requires:
 
@@ -13,11 +15,11 @@ This application requires:
 
 Learn more about [Installing Rails](http://railsapps.github.com/installing-rails.html).
 
-## Database
+### Database
 
 This application uses SQLite with ActiveRecord.
 
-## Development
+### Development
 
 * Template Engine: ERB
 * Testing Framework: RSpec and Machinist and Cucumber
