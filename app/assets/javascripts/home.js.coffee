@@ -4,18 +4,6 @@
 
 scan_type_selected = false
 
-hideDispatcherSelect = () ->
-    scan_type_selected = true
-    $('#dispatcher-hpg').hide( 50 )
-    $('#dispatcher-remote').hide( 50 )
-
-showDispatcherSelect = ( type ) ->
-    hideDispatcherSelect()
-    if type == 'remote'
-        $('#dispatcher-remote').show( 100 )
-    else
-        $('#dispatcher-hpg').show( 100 )
-
 showGoButton = () ->
     url = $('#url').val()
     if scan_type_selected &&
@@ -25,16 +13,28 @@ showGoButton = () ->
     else
         $('#go-btn').hide( 100 )
 
+pickScanType = ( type ) ->
+    scan_type_selected = true
+
+    showGoButton()
+    switch type
+        when 'direct'
+            $('#dispatcher-hpg').hide( 50 )
+            $('#dispatcher-remote').hide( 50 )
+        when 'remote'
+            $('#dispatcher-hpg').hide( 50 )
+            $('#dispatcher-remote').show( 50 )
+        when 'hpg'
+            $('#dispatcher-remote').hide( 50 )
+            $('#dispatcher-hpg').show( 50 )
+
 jQuery ->
     $('#direct-btn').click ->
-        hideDispatcherSelect()
-        showGoButton()
+        pickScanType( 'direct' )
     $('#remote-btn').click ->
-        showDispatcherSelect( 'remote' )
-        showGoButton()
+        pickScanType( 'remote' )
     $('#hpg-btn').click ->
-        showGoButton()
-        showDispatcherSelect( 'hpg' )
+        pickScanType( 'hpg' )
     $('#url').keyup ->
         showGoButton()
     $('#url').blur ->
