@@ -12,6 +12,25 @@ I'm sure we'll find something for you to help out with. :)
 
 (This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
 
+## Goals
+
+Not sure if you're aware of this but Arachni's capabilities are immense.
+
+It can be used as a Ruby lib to help you with pretty much any web related task or
+as a global Grid of highly sophisticated web application security scanners -- and herein
+lies the problem; it's no good having all this power but be unable to tame it.
+
+Enter WebUI, its purpose is to provide a simple, clean, powerful and pretty-on-the-eyes
+interface to all Arachni's goodies.
+
+The old WebUI had the same goals but it was more of a demo, an exercise of sorts,
+an experiment that went a little too far.
+
+This time things are gonna get done right, which is why all involved [technologies](#technical-details)
+have been thoroughly researched and chosen because of their proven track-record
+as well as their familiarity to both users and developers -- which I hope will
+facilitate a certain degree of heightened adoption and community contribution.
+
 ## Technical details
 
 ### Ruby on Rails
