@@ -31,6 +31,9 @@ have been thoroughly researched and chosen because of their proven track-record
 as well as their familiarity to both users and developers -- which I hope will
 facilitate a certain degree of heightened adoption and community contribution.
 
+And most importantly, implement a blue-sky design in order to uplift cross-domain
+synergies via market-wide recognizable interfaces and stuff.
+
 ## Technical details
 
 ### Ruby on Rails
