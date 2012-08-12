@@ -8,12 +8,10 @@ This is the new Web User Interface for [Arachni](https://github.com/Arachni/arac
 
 ### Ruby on Rails
 
-This application requires:
+This application is being developed on:
 
 * Ruby version 1.9.3
 * Rails version 3.2.8
-
-Learn more about [Installing Rails](http://railsapps.github.com/installing-rails.html).
 
 ### Database
 
