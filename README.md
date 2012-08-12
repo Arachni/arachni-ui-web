@@ -20,7 +20,7 @@ It can be used as a Ruby lib to help you with pretty much any web related task o
 as a global Grid of highly sophisticated web application security scanners -- and herein
 lies the problem; it's no good having all this power but be unable to tame it.
 
-Enter WebUI, its purpose is to provide a simple, clean, powerful and pretty-on-the-eyes
+Enter WebUI, its purpose is to provide a simple, clean, powerful and easy-on-the-eyes
 interface to all Arachni's goodies.
 
 The old WebUI had the same goals but it was more of a demo, an exercise of sorts,
