@@ -7,12 +7,12 @@
             <input id="go-btn" class="hide btn btn-large btn-primary" type="submit" value="Go!">
             <a data-toggle="modal" href="#scan-type-help" class="btn btn-large">Trouble making up your mind?</a>
         </p>
-
     </div>
+
     <div class="control-group">
         <label class="control-label" for="url">URL</label>
         <div class="controls">
-            <input type="text" class="input-xlarge" id="url" />
+            <input type="text" class="input-xlarge" name="url" id="url" />
             <p class="help-block">
                 Full URL of the targeted web application (must
                 include the appropriate protocol --
@@ -20,11 +20,12 @@
             </p>
         </div>
     </div>
+
     <div class="control-group">
-        <label class="control-label" for="scan-profile">Profile</label>
+        <label class="control-label" for="scan_profile">Profile</label>
         <div class="controls">
             <div class="input-append">
-                <select class='span2' id="scan-profile">
+                <select class='span2' name="scan_profile" id="scan_profile">
                     <option>Default</option>
                     <option>Minimal</option>
                     <option>Paranoid</option>
@@ -100,15 +101,17 @@
             </div>
         </div>
     </div>
+
     <div class="hide" id="dispatcher-hpg">
         <div class="control-group">
             <div class="alert">
                 <strong>Warning!</strong> Please be sure that the web server will be able to handle the heat,
                 otherwise you may end up killing it.
             </div>
-            <label class="control-label" for="master-dispatcher">Master Dispatcher</label>
+
+            <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
             <div class="controls">
-                <select class='span2' name="dispatcher" id="master-dispatcher">
+                <select class='span2' name="master_dispatcher" id="master_dispatcher">
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
                 </select>
@@ -116,6 +119,26 @@
                     The selected Dispatcher will provide a master Instance which will then manage
                     and spread the workload across slave Instances requested from other grid members. <br/>
                     Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+                </p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="max_slaves">Max Instances</label>
+            <div class="controls">
+                <input class='input-mini' id="max_slaves" name="max_slaves" value="10" />
+                <p class="help-block">
+                    Maximum amount of Instances to utilise.
+                </p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="min_pages_per_instance">Min pages per Instance</label>
+            <div class="controls">
+                <input class='input-mini' id="min_pages_per_instance" name="min_pages_per_instance" value="30" />
+                <p class="help-block">
+                    Minimum amount of pages to be assigned to each Instance.
                 </p>
             </div>
         </div>
