@@ -1,0 +1,11 @@
+<% title 'Profiles' %>
+
+<h1>Available profiles</h1>
+
+<div id='profiles'>
+    <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+</div>
+
+<%= link_to new_profile_path, class: 'btn btn-primary' do %>
+    <i class="icon-plus"></i> New Profile
+<% end %>

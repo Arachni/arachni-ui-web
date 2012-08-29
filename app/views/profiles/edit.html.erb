@@ -1,0 +1,11 @@
+<% title "Edit #{@profile.name}" %>
+
+<% breadcrumb_add 'Profiles', profiles_path %>
+<% subnav spider: 'Spider', http: 'HTTP', auditor: 'Auditor',
+          modules: 'Modules', plugins: 'Plugins', login: 'Login' %>
+
+<h1>Editing '<%= @profile.name %>' profile</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @profile, class: 'btn' %>

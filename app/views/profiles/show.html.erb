@@ -1,0 +1,9 @@
+<% title @profile.name %>
+<% breadcrumb_add 'Profiles', profiles_path %>
+<% subnav spider: 'Spider', http: 'HTTP', auditor: 'Auditor',
+          modules: 'Modules', plugins: 'Plugins', login: 'Login' %>
+
+<%= render @profile %>
+
+<%= link_to 'Edit', edit_profile_path( @profile ), class: 'btn' %>
+<%= link_to 'Back', profiles_path, class: 'btn' %>
