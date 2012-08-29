@@ -1,0 +1,8 @@
+<div class="subnav">
+    <ul class="nav nav-pills">
+        <li><a href="#top" class="scroll" title="Jump to the top" ><i class="icon-arrow-up"></i></a></li>
+    <% sections.each do |id, title| %>
+        <li><a href="#<%= id.to_s %>" class="scroll"><%= title.to_s %></a></li>
+    <% end %>
+    </ul>
+</div>

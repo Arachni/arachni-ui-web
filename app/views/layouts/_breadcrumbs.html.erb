@@ -1,0 +1,21 @@
+<% if breadcrumbs.any? %>
+    <nav class="breadcrumbs">
+        <div class="container">
+            <ul class="bread">
+                <li>
+                    <%= link_to root_path do %>
+                        <i class="icon-home icon-white"></i>
+                    <% end %>
+                </li>
+                <% breadcrumbs.each do |b| %>
+                <li>
+                    <%= link_to b[:title], b[:url] %>
+                </li>
+                <% end %>
+                <li>
+                    <%= link_to yield( :title ), request.path, class: 'active' %>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<% end %>

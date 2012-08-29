@@ -2,9 +2,10 @@
 
 <% if user_signed_in? %>
 <ul class="nav">
-    <li><%= link_to 'Reports', '' %></li>
-    <li><%= link_to 'Settings', '' %></li>
-    <li><%= link_to 'Log', '' %></li>
+    <li <%= mark_if_active( 'home' ) %>><%= link_to 'Home', root_path %></li>
+    <li <%= mark_if_active( 'scans' ) %>><%= link_to 'Scans', '' %></li>
+    <li <%= mark_if_active( 'profiles' ) %>><%= link_to 'Profiles', profiles_path %></li>
+    <li <%= mark_if_active( 'log' ) %>><%= link_to 'Log', '' %></li>
 </ul>
 <% end %>
 

@@ -1,0 +1,17 @@
+<%
+   lk = rk = []
+   if components.any?
+       lk, rk = *components.keys.in_groups_of( (components.keys.size / 2).ceil )
+   end
+   lm = components.slice( *lk )
+   rm = components.slice( *rk )
+%>
+
+<div class="row">
+    <div class="<%= class_name %>">
+        <%= render partial: '/shared/components_accordion', locals: { components: lm }  %>
+    </div>
+    <div class="<%= class_name %>">
+        <%= render partial: '/shared/components_accordion', locals: { components: rm }  %>
+    </div>
+</div>

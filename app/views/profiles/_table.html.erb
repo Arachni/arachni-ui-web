@@ -1,0 +1,36 @@
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <% profiles.each do |profile| %>
+        <tr>
+            <td><%= profile.name %></td>
+            <td>
+                <% if profile.default? %>
+                    Default
+                <% else %>
+                    <%= link_to 'Make default', make_default_profile_path( profile ),
+                                class: 'make-default', method: :post, remote: true
+                    %>
+                <% end %>
+            </td>
+            <td>
+                <%= link_to profile, class: 'btn btn-info' do %>
+                    <i class="icon-eye-open"></i>
+                <% end %>
+                <%= link_to edit_profile_path( profile ), class: 'btn btn-warning' do %>
+                    <i class="icon-pencil"></i>
+                <% end %>
+                <% if !profile.default? %>
+                <%= link_to profile, method: :delete, class: 'btn btn-danger',
+                            data: { confirm: 'Are you sure?' } do %>
+                    <i class="icon-remove-circle"></i>
+                <% end %>
+                <% end %>
+            </td>
+        </tr>
+    <% end %>
+</table>

@@ -1,4 +1,21 @@
 /*
+ * Copyright 2012 Tasos Laskos <tasos.laskos@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
+
+/*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
@@ -12,8 +29,12 @@
  *= require_tree .
 */
 
+section {
+    padding-top: 100px;
+}
+
 .content {
-    background-color: #eee;
+    //background-color: #eee;
     padding: 20px;
     margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
     -webkit-border-radius: 0 0 6px 6px;
@@ -22,6 +43,30 @@
     -webkit-box-shadow: 0 1px 2px rgba( 0, 0, 0, .15 );
     -moz-box-shadow: 0 1px 2px rgba( 0, 0, 0, .15 );
     box-shadow: 0 1px 2px rgba( 0, 0, 0, .15 );
+}
+.jumbotron {
+    position: relative;
+}
+.jumbotron h1 {
+    font-size: 54px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 9px;
+}
+.jumbotron p {
+    font-weight: 300;
+    margin-bottom: 18px;
+}
+.jumbotron .btn-large {
+    border-radius: 6px 6px 6px 6px;
+    font-size: 20px;
+    font-weight: normal;
+    margin-right: 10px;
+    padding: 14px 24px;
+}
+.jumbotron .btn-large small {
+    font-size: 14px;
 }
 
 footer {
@@ -53,4 +98,115 @@ footer #footer-floor h3, footer #footer-floor h4 {
 
 footer ul li {
     padding-top: 5px;
+}
+
+.subnav {
+    background-color: #EEEEEE;
+    background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+    background-repeat: repeat-x;
+    border: 1px solid #E5E5E5;
+    border-radius: 4px 4px 4px 4px;
+    height: 36px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.subnav .nav {
+    margin-bottom: 0;
+}
+.subnav .nav > li > a {
+    border-left: 1px solid #F5F5F5;
+    border-radius: 0 0 0 0;
+    border-right: 1px solid #E5E5E5;
+    margin: 0;
+    padding-bottom: 11px;
+    padding-top: 11px;
+}
+.subnav .nav > .active > a, .subnav .nav > .active > a:hover {
+    background-color: #E9E9E9;
+    border-left: 0 none;
+    border-right-color: #DDDDDD;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05) inset;
+    color: #777777;
+    padding-left: 13px;
+}
+.subnav .nav > .active > a .caret, .subnav .nav > .active > a:hover .caret {
+    border-top-color: #777777;
+}
+.subnav .nav > li:first-child > a, .subnav .nav > li:first-child > a:hover {
+    border-left: 0 none;
+    border-radius: 4px 0 0 4px;
+    padding-left: 12px;
+}
+.subnav .nav > li:last-child > a {
+    border-right: 0 none;
+}
+.subnav .dropdown-menu {
+    border-radius: 0 0 4px 4px;
+}
+.subnav-fixed {
+    border-color: #D5D5D5;
+    border-radius: 0 0 0 0;
+    border-width: 0 0 1px;
+    box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 40px;
+    z-index: 1020;
+}
+.subnav-fixed .nav {
+    margin: 0 auto;
+    padding: 0 1px;
+    width: 938px;
+}
+.subnav .nav > li:first-child > a, .subnav .nav > li:first-child > a:hover {
+    border-radius: 0 0 0 0;
+}
+
+.breadcrumbs {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #252525;
+    border-color: -moz-use-text-color #252525 #252525;
+    border-right: 1px solid #252525;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    height: 27px;
+}
+.breadcrumbs .bread {
+    height: 27px;
+    list-style-type: none;
+    margin: 0;
+}
+.breadcrumbs .bread li {
+    float: left;
+    position: relative;
+}
+.breadcrumbs .bread li a {
+    color: #888888;
+    display: block;
+    padding: 5px 10px;
+}
+.breadcrumbs .bread li a i {
+    opacity: 0.3;
+}
+.breadcrumbs .bread li a:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.breadcrumbs .bread li a:hover i {
+    opacity: 1;
+}
+.breadcrumbs .bread li a:after {
+    content: "/";
+    margin-left: 15px;
+}
+.breadcrumbs .bread li:last-child a:after {
+    content: "";
+}
+.breadcrumbs .bread li.active a {
+    color: #FFFFFF;
 }

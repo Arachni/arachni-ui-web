@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><%= "#{yield( :title )} -" if content_for?( :title ) %> Arachni WebUI</title>
+        <title>
+            <%= "#{yield( :title )} - " if content_for?( :title ) %>
+            <%= "#{title_breadcrumbs} - " if !title_breadcrumbs.empty? %>
+            Arachni WebUI
+        </title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -15,17 +19,22 @@
         <%= csrf_meta_tags %>
         <%= yield( :head ) %>
     </head>
-    <body>
+    <body id="top" data-offset="60" data-target=".subnav" data-spy="scroll">
         <header class="navbar navbar-fixed-top">
             <nav class="navbar-inner">
                 <div class="container">
                     <%= render 'layouts/navigation' %>
                 </div>
             </nav>
+
+            <%= render_breadcrumbs %>
         </header>
+
         <div id="main" role="main">
             <div class="container">
                 <div class="content">
+                    <%= render_subnav %>
+
                      <div class="row">
                         <div class="span12">
                             <%= render 'layouts/messages' %>
@@ -39,6 +48,10 @@
         <% if Rails.env.development? %>
         <div id="footnotes_holder"></div>
         <% end %>
+
+        <div id="loading" class="hide modal progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
 
         <footer>
             <div class='container'>

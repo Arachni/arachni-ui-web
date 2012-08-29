@@ -1,5 +1,5 @@
 =begin
-    Copyright 2010-2012 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2012 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,22 +14,15 @@
     limitations under the License.
 =end
 
-module ApplicationHelper
-    include ::FrameworkHelper
-
-    def object_for( key, obj = nil )
-        if obj
-            ApplicationController.storage[key] = obj
-        else
-            ApplicationController.storage[key]
-        end
-    end
-
-    def pop_object_for( key )
-        ApplicationController.storage.delete( key )
-    end
-
-    def object_for?( key )
-        ApplicationController.storage.include? key
+class RedundantInput < SimpleForm::Inputs::Base
+    def input
+        pp input_html_options
+        pp attribute_name
+        pp options
+        s = <<-HMTL
+            #{@builder.text_field( attribute_name, input_html_options )}
+            #{@builder.text_field( attribute_name, input_html_options )}
+        HMTL
+        s.html_safe
     end
 end

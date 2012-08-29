@@ -1,0 +1,17 @@
+<% if description = Profile.description_for( attribute ) %>
+<p class="help-block">
+    <%= description %>
+</p>
+<% end %>
+
+<% if notice = Profile.notice_for( attribute ) %>
+    <p class="alert alert-info">
+        <%= notice %>
+    </p>
+<% end %>
+
+<% if warning = Profile.warning_for( attribute ) %>
+    <p class="alert">
+        <%= warning %>
+    </p>
+<% end %>

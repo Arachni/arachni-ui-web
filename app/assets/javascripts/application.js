@@ -1,3 +1,19 @@
+// Copyright 2012 Tasos Laskos <tasos.laskos@gmail.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// ----------------------------------------------------------------------------
+//
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -27,9 +43,46 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
-jQuery( document ).ready( function( $ ) {
+$(document).ready( function( $ ) {
     $( '.scroll' ).click( function( event ) {
         event.preventDefault();
         $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top }, 500 );
     });
 });
+
+$(document).ajaxStart( function() {
+    $("#loading").modal();
+}).ajaxStop( function() {
+        $("#loading").modal( 'hide' );
+    });
+
+$(window).ready( function( $ ) {
+    if( !$('.subnav' ) ) return;
+
+    // fix sub nav on scroll
+    var $win = $(window),
+        $nav = $('.subnav' ),
+        navTop = $('header').height() - $nav.height(),
+        isFixed = 0
+
+    processScroll()
+
+    // hack sad times - holdover until rewrite for 2.1
+    $nav.on( 'click', function () {
+        if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
+    })
+
+    $win.on( 'scroll', processScroll )
+
+    function processScroll() {
+        var i, scrollTop = $win.scrollTop()
+        if( scrollTop >= navTop && !isFixed ) {
+            isFixed = 1
+            $nav.addClass( 'subnav-fixed' )
+            $nav.css( 'top', $('header').height() );
+        } else if( scrollTop <= navTop && isFixed ) {
+            isFixed = 0
+            $nav.removeClass( 'subnav-fixed' )
+        }
+    }
+})

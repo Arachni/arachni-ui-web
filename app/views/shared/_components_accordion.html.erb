@@ -1,0 +1,17 @@
+<div class="accordion">
+    <% components.each do |shortname, info| %>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse"
+                   data-parent="#modules-accordion" href="#<%= shortname %>">
+                    <%= info[:name] %> (<%= shortname %>)
+                </a>
+            </div>
+            <div style="height: 0px;" id="<%= shortname %>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <%= info[:description] %>
+                </div>
+            </div>
+        </div>
+    <%end%>
+</div>

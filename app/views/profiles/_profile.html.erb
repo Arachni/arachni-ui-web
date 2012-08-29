@@ -1,0 +1,322 @@
+<header class="jumbotron subhead" id="overview">
+    <h1><%= profile.name %></h1>
+    <p class="lead"><%= profile.description %></p>
+</header>
+
+<section id="spider">
+    <div class="page-header">
+        <h1 id="spider-h">
+            Spider
+            <small>How the scanner will crawl the web application</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <p>
+                <b>Redundant:</b>
+                <%= profile.redundant %>
+            </p>
+            <%= messages_for :redundant %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Depth limit:</b>
+                <%= profile.depth_limit %>
+            </p>
+            <%= messages_for :depth_limit %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Link count limit:</b>
+                <%= profile.link_count_limit %>
+            </p>
+            <%= messages_for :link_count_limit %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Redirect limit:</b>
+                <%= profile.redirect_limit %>
+            </p>
+            <%= messages_for :redirect_limit %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Exclude:</b>
+                <%= profile.exclude %>
+            </p>
+            <%= messages_for :exclude %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Include:</b>
+                <%= profile.include %>
+            </p>
+            <%= messages_for :include %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Follow subdomains:</b>
+                <%= profile.follow_subdomains %>
+            </p>
+            <%= messages_for :follow_subdomains %>
+        </div>
+
+        <div class="span6">
+            <p>
+                <b>Restrict paths:</b>
+                <%= profile.restrict_paths %>
+            </p>
+            <%= messages_for :restrict_paths %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Extend paths:</b>
+                <%= profile.extend_paths %>
+            </p>
+            <%= messages_for :extend_paths %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Exclude binaries:</b>
+                <%= profile.exclude_binaries %>
+            </p>
+            <%= messages_for :exclude_binaries %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Auto redundant:</b>
+                <%= profile.auto_redundant %>
+            </p>
+            <%= messages_for :auto_redundant %>
+        </div>
+    </div>
+</section>
+
+<section id="http">
+    <div class="page-header">
+        <h1 id="http-h">
+            HTTP
+            <small>How the scanner will communicate with the web application</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <p>
+                <b>Http req limit:</b>
+                <%= profile.http_req_limit %>
+            </p>
+            <%= messages_for :http_req_limit %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Proxy host:</b>
+                <%= profile.proxy_host %>
+            </p>
+            <%= messages_for :proxy_host %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Proxy port:</b>
+                <%= profile.proxy_port %>
+            </p>
+            <%= messages_for :proxy_port %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Proxy username:</b>
+                <%= profile.proxy_username %>
+            </p>
+            <%= messages_for :proxy_username %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Proxy password:</b>
+                <%= profile.proxy_password %>
+            </p>
+            <%= messages_for :proxy_password %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Proxy type:</b>
+                <%= profile.proxy_type %>
+            </p>
+            <%= messages_for :proxy_type %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Cookies:</b>
+                <%= profile.cookies %>
+            </p>
+            <%= messages_for :cookies %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>User agent:</b>
+                <%= profile.user_agent %>
+            </p>
+            <%= messages_for :user_agent %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Custom headers:</b>
+                <%= profile.custom_headers %>
+            </p>
+            <%= messages_for :custom_headers %>
+        </div>
+    </div>
+</section>
+
+<section id="auditor">
+    <div class="page-header">
+        <h1 id="auditor-h">
+            Auditor
+            <small>How the scanner will audit the web application</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <p>
+                <b>Audit forms:</b>
+                <%= profile.audit_forms %>
+            </p>
+            <%= messages_for :audit_forms %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Audit cookies:</b>
+                <%= profile.audit_cookies %>
+            </p>
+            <%= messages_for :audit_cookies %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Audit headers:</b>
+                <%= profile.audit_headers %>
+            </p>
+            <%= messages_for :audit_headers %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Audit links:</b>
+                <%= profile.audit_links %>
+            </p>
+            <%= messages_for :audit_links %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Exclude cookies:</b>
+                <%= profile.exclude_cookies %>
+            </p>
+            <%= messages_for :exclude_cookies %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Exclude vectors:</b>
+                <%= profile.exclude_vectors %>
+            </p>
+            <%= messages_for :exclude_vectors %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Fuzz methods:</b>
+                <%= profile.fuzz_methods %>
+            </p>
+            <%= messages_for :fuzz_methods %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Audit cookies extensively:</b>
+                <%= profile.audit_cookies_extensively %>
+            </p>
+            <%= messages_for :audit_cookies_extensively %>
+        </div>
+    </div>
+</section>
+
+<section id="modules">
+    <div class="page-header">
+        <h1 id="modules-h">
+            Modules
+            <small>The security checks to be run again the web application</small>
+        </h1>
+    </div>
+
+    <h2>
+        Audit (Active)
+        <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
+    </h2>
+
+    <% audit = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
+    <% if audit.any? %>
+    <%= render partial: '/shared/components_twin_accordion',
+               locals: {
+                   components: audit,
+                   class_name: 'span6'
+               } %>
+    <% else %>
+    <p class="alert alert-info">No audit modules have been selected.</p>
+    <% end %>
+
+    <h2>
+        Recon (Passive)
+        <small>These checks will passively collect data</small>
+    </h2>
+
+    <% recon = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
+    <% if recon.any? %>
+    <%= render partial: '/shared/components_twin_accordion',
+               locals: {
+                   components: recon,
+                   class_name: 'span6'
+               } %>
+    <% else %>
+    <p class="alert alert-info">No recon modules have been selected.</p>
+    <% end %>
+
+</section>
+
+<section id="plugins">
+    <div class="page-header">
+        <h1 id="plugins-h">
+            Plugins
+            <small>Assisting components to be enabled during the process</small>
+        </h1>
+    </div>
+
+    <% if profile.has_plugins? %>
+    <%= render partial: '/shared/components_twin_accordion',
+               locals: { components: profile.plugins_with_info, class_name: 'span6' }  %>
+    <% else %>
+    <p class="alert alert-info">No plugins have been selected.</p>
+    <% end %>
+
+</section>
+
+<section id="login">
+    <div class="page-header">
+        <h1 id="login-h">
+            Login checks
+            <small>How the scanner will determine its session's validity</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <p>
+                <b>URL:</b>
+                <%= profile.login_check_url %>
+            </p>
+            <%= messages_for :login_check_url %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>Pattern:</b>
+                <%= profile.login_check_pattern %>
+            </p>
+            <%= messages_for :login_check_pattern %>
+        </div>
+    </div>
+</section>

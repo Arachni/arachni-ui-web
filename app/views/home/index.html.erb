@@ -7,7 +7,28 @@
             scan you want to perform.</p>
         <p>
             <input id="go-btn" class="hide btn btn-large btn-primary" type="submit" value="Go!">
+
             <a data-toggle="modal" href="#scan-type-help" class="btn btn-large">Trouble making up your mind?</a>
+            <div class="modal hide" id="scan-type-help">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h2>Scan types</h2>
+                </div>
+                <div class="modal-body">
+                    <h3>Direct</h3>
+                    <p>One fine body…</p>
+
+                    <h3>Remote</h3>
+                    <p>One fine body…</p>
+
+                    <h3>High-Performance Grid</h3>
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
         </p>
     </div>
 
@@ -28,20 +49,42 @@
             <label class="control-label" for="scan_profile">Profile</label>
             <div class="controls">
                 <div class="input-append">
-                    <select class='span2' name="scan_profile" id="scan_profile">
-                        <option>Default</option>
-                        <option>Minimal</option>
-                        <option>Paranoid</option>
-                        <option>Active</option>
-                        <option>Passive</option>
-                    </select><a rel="tooltip" class="btn"
-                                title="Peek"
-                                href="#">
-                    <i class="icon-eye-open"></i>
-                </a><a rel="tooltip" class="btn"
-                       title="Edit"
-                       href="#">
-                    <i class="icon-pencil"></i></a>
+                    <select class='span2' name="scan_profile" id="scan-profile">
+                        <% @profiles.each do |p| %>
+                        <option <%= 'selected' if p.default? %> value='<%= p.id %>'><%= p.name %></option>
+                        <%end%>
+                    </select>
+
+                    <a rel="tooltip" class="btn"
+                        title="Peek"
+                        id="peek-profile"
+                        href="#">
+                        <i class="icon-eye-open"></i> / <i class="icon-pencil"></i>
+                    </a>
+                    <div class="modal hide" id="show-profile">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <div class="nav">
+                                <ul class="nav nav-pills">
+                                    <li><a href="#overview" title="Jump to the top"><i class="icon-arrow-up"></i></a></li>
+                                    <li class=""><a href="#spider-h" >Spider</a></li>
+                                    <li class=""><a href="#http-h" >HTTP</a></li>
+                                    <li class=""><a href="#auditor-h">Auditor</a></li>
+                                    <li class=""><a href="#modules-h">Modules</a></li>
+                                    <li><a href="#plugins-h">Plugins</a></li>
+                                    <li><a href="#login-h">Login</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="modal-body" id="show-profile-container">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" id="profile-edit-btn" class="btn">Edit</a>
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+
                     <p class="help-block">
                         Configuration profile to use.
                     </p>
@@ -50,29 +93,9 @@
         </div>
     </div>
 
-    <div class="modal hide" id="scan-type-help">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Scan types</h2>
-        </div>
-        <div class="modal-body">
-            <h3>Direct</h3>
-            <p>One fine body…</p>
-
-            <h3>Remote</h3>
-            <p>One fine body…</p>
-
-            <h3>High-Performance Grid</h3>
-            <p>One fine body…</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-        </div>
-    </div>
-
     <div class="row" style='margin-left: -4px;'>
         <div class="btn-group" data-toggle="buttons-radio">
-            <a href="#" id="direct-btn" class="span4 btn btn-inverse">
+            <a href="#top" id="direct-btn" class="span4 btn btn-inverse scroll">
                 <h3>Direct</h3>
                 <p>Perform a direct scan from this machine to the web application.
                     No need to setup anything else.</p>
@@ -96,10 +119,13 @@
             <label class="control-label" for="dispatcher">Dispatcher</label>
             <div class="controls">
                 <select class='span2' name="dispatcher" id="dispatcher">
-                    <option>Auto -- Load balance</option>
+                    <option value="auto" selected>Auto -- Load balance</option>
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
                 </select>
+                <div class="hide alert alert-info" id="auto-remote-dispatcher-notice">
+                    The system will automatically assign the scan to the least burdened node.
+                </div>
                 <p class="help-block">
                     The selected Dispatcher will provide a scanner Instance which will be used to perform the scan.
                 </p>
@@ -122,9 +148,13 @@
             <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
             <div class="controls">
                 <select class='span2' name="master_dispatcher" id="master_dispatcher">
+                    <option value="auto" selected>Auto -- Load balance</option>
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
                 </select>
+                <div class="hide alert alert-info" id="auto-master-remote-dispatcher-notice">
+                    The system will automatically assign the scan to the least burdened node.
+                </div>
                 <p class="help-block">
                     The selected Dispatcher will provide a master Instance which will then manage
                     and spread the workload across slave Instances requested from other grid members. <br/>
