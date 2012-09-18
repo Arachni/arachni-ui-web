@@ -39,7 +39,7 @@ class Profile < ActiveRecord::Base
                     :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
                     :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                     :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                    :description, :default
+                    :http_timeout, :description, :default
 
     def self.default
         self.where( default: true ).first

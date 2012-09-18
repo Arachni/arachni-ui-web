@@ -99,7 +99,10 @@
                         <%= f.input :user_agent, hint: messages_for( :user_agent ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :custom_headers, hint: messages_for( :custom_headers ) %>
+                    <%= f.input :http_timeout, hint: messages_for( :http_timeout ) %>
+                </div>
+                <div class="span6">
+                    <%= f.input :custom_headers, hint: messages_for( :custom_headers ) %>
                 </div>
             </div>
         </fieldset>

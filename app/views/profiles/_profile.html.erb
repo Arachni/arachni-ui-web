@@ -160,6 +160,13 @@
         </div>
         <div class="span6">
             <p>
+                <b>Request timeout:</b>
+                <%= profile.http_timeout %>
+            </p>
+            <%= messages_for :http_timeout %>
+        </div>
+        <div class="span6">
+            <p>
                 <b>Custom headers:</b>
                 <%= profile.custom_headers %>
             </p>

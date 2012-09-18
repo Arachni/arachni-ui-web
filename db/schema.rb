@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815011008) do
+ActiveRecord::Schema.define(:version => 20120918232817) do
 
   create_table "profiles", :force => true do |t|
     t.text     "redundant"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20120815011008) do
     t.string   "name"
     t.text     "description"
     t.boolean  "default"
+    t.integer  "http_timeout"
   end
 
   add_index "profiles", ["name"], :name => "index_profiles_on_name"
