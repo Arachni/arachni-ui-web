@@ -29,12 +29,9 @@ tr:hover .make-default {
     width: 100%
 }
 
-#profile_redundant_pattern {
+#profile_redundant {
     width:  100%;
-}
-
-#profile_redundant_pattern input {
-    width:  100%;
+    height: 150px;
 }
 
 #profile_restrict_paths {
@@ -47,6 +44,12 @@ tr:hover .make-default {
 
 #profile_exclude {
     width:  100%;
+    height: 150px;
+}
+
+#profile_include {
+    width:  100%;
+    height: 150px;
 }
 
 #redundant_add {

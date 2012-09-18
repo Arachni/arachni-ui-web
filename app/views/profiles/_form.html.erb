@@ -13,41 +13,19 @@
                 <small>How the scanner will crawl the web application</small>
             </legend>
             <div class="row">
-                <div class="span12">
+                <div class="span6">
+                    <%= f.input :redundant, input_html: {
+                            value: @profile.restrict_paths.map { |k, v| "#{k}:#{v}"}.join( "\n" )
+                        }, hint: messages_for( :redundant ) %>
 
-                    <label for="profile_redundant_pattern">Redundant rules</label>
-                    <table>
-                        <tr>
-                            <th>Process paths matching this pattern</th>
-                            <th>This amount of times</th>
-                        </tr>
-                        <tr>
-                            <td id="profile_redundant_pattern">
-                                <input class="string optional"
-                                       type="text" name="profile[redundant][pattern]">
-                            </td>
-
-                            <td>
-                                <input id="profile_redundant_counter"
-                                       class="integer optional"
-                                       type="number" step="1" size='2'
-                                       name="profile[redundant][counter]" >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan='2'>
-                                <div id="redundant_add" class='btn'>
-                                    Add another one
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <%= messages_for :redundant %>
+                    <p class="alert alert-info">
+                        Rules take the format of <em>pattern:times</em>,
+                        input each rule in its own line.
+                    </p>
                 </div>
-
-                <hr>
-
+                <div class="span6">
+                    <%= f.input :auto_redundant, hint: messages_for( :auto_redundant ) %>
+                </div>
                 <div class="span6">
                     <%= f.input :depth_limit, hint: messages_for( :depth_limit )%>
                 </div>
@@ -63,45 +41,26 @@
                 <div class="span6">
                     <%= f.input :exclude_binaries, hint: messages_for( :exclude_binaries ) %>
                 </div>
+
                 <div class="span6">
-                    <%= f.input :auto_redundant, hint: messages_for( :auto_redundant ) %>
+                    <%= f.input :exclude, input_html: { value: @profile.exclude.join( "\n" ) },
+                                hint: messages_for( :exclude ) %>
+                    <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
-
-                <div class="span12">
-                    <label for="exclude_0">Exclusion patterns</label>
-                    <% @profile.exclude.each_with_index do |pattern, i| %>
-                        <p>
-                            <%= text_field 'exclude', i, name: 'profile[exclude][]', value: pattern %>
-                        </p>
-                    <% end %>
-
-                    <div id="include_add" class='btn'>
-                        Add another one
-                    </div>
-
-                    <%= messages_for :exclude %>
+                <div class="span6">
+                    <%= f.input :include, input_html: { value: @profile.exclude.join( "\n" ) },
+                                hint: messages_for( :include ) %>
+                    <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
-                <div class="span12">
-                    <label for="include_0">Inclusion patterns</label>
-                    <% @profile.include.each_with_index do |pattern, i| %>
-                        <p>
-                            <%= text_field 'include', i, name: 'profile[include][]', value: pattern %>
-                        </p>
-                    <% end %>
-
-                    <div id="include_add" class='btn'>
-                        Add another one
-                    </div>
-                    <%= messages_for :include %>
-                </div>
-
                 <div class="span6">
                     <%= f.input :restrict_paths, input_html: { value: @profile.restrict_paths.join( "\n" ) },
                                 hint: messages_for( :restrict_paths ) %>
+                    <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
                 <div class="span6">
                     <%= f.input :extend_paths, input_html: { value: @profile.restrict_paths.join( "\n" ) },
                                 hint: messages_for( :extend_paths ) %>
+                    <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
             </div>
         </fieldset>
