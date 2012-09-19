@@ -18,6 +18,10 @@ class Profile < ActiveRecord::Base
 
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
+    validate :validate_modules
+    validate :validate_plugins
+    validate :validate_redundant
+
     serialize :cookies, Hash
     serialize :custom_headers, Hash
     serialize :exclude, Array
@@ -62,9 +66,53 @@ class Profile < ActiveRecord::Base
         !!self.default
     end
 
+    def redundant=( string_or_hash )
+        super self.class.string_list_to_hash( string_or_hash, ':' )
+    end
+
+    def exclude=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def include=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def restrict_paths=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def extend_paths=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def exclude_vectors=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def exclude_cookies=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def cookies=( string_or_hash )
+        super self.class.string_list_to_hash( string_or_hash )
+    end
+
+    def custom_headers=( string_or_hash )
+        super self.class.string_list_to_hash( string_or_hash )
+    end
+
     def modules=( m )
-        return super( ::FrameworkHelper.modules.keys ) if m == :all || m == :default
-        super( m )
+        return super( ::FrameworkHelper.modules.keys.map( &:to_s ) ) if m == :all || m == :default
+        super m
+    end
+
+    def plugins=( p )
+        if p == :default
+            c = ::FrameworkHelper.default_plugins.keys.inject( {} ) { |h, name| h[name] = {}; h }
+            return super c
+        end
+        super p
     end
 
     def modules_with_info
@@ -77,14 +125,6 @@ class Profile < ActiveRecord::Base
 
     def has_plugins?
         self.plugins.any?
-    end
-
-    def plugins=( p )
-        if p == :default
-            c = ::FrameworkHelper.default_plugins.keys.inject( {} ) { |h, name| h[name] = {}; h }
-            return super( c )
-        end
-        super( p )
     end
 
     def plugins_with_info
@@ -122,6 +162,45 @@ class Profile < ActiveRecord::Base
     end
     def warning_for( attribute )
         self.class.warning_for( attribute )
+    end
+
+    def self.string_list_to_array( string_or_array )
+        case string_or_array
+            when Array
+                string_or_array
+            else
+                string_or_array.to_s.split( /[\n\r]/ ).reject( &:empty? )
+        end
+    end
+
+    def self.string_list_to_hash( string_or_hash, hash_delimiter = '=' )
+        case string_or_hash
+            when Hash
+                string_or_hash
+            else
+                Hash[string_or_hash.to_s.split( /[\n\r]/ ).reject( &:empty? ).
+                               map{ |rule| rule.split( hash_delimiter, 2 ) }]
+        end
+    end
+
+    def validate_redundant
+        errors.add :redundant, "All redundant rules need a counter." if redundant.values.include? nil
+    end
+
+    def validate_modules
+        available = ::FrameworkHelper.modules.keys.map( &:to_s )
+        modules.each do |mod|
+            next if available.include? mod.to_s
+            errors.add :modules, "Module #{mod} does not exist."
+        end
+    end
+
+    def validate_plugins
+        available = ::FrameworkHelper.plugins.keys.map( &:to_s )
+        plugins.keys.each do |plugin|
+            next if available.include? plugin.to_s
+            errors.add :plugins, "Plugin #{plugin} does not exist."
+        end
     end
 
 end
