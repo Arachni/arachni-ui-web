@@ -70,7 +70,7 @@ section {
 }
 
 footer {
-    background: none repeat scroll 0 0 #252525;
+    background: none repeat scroll 0 0 #111;
     border-top: 0 none;
     margin-top: 19px;
     padding-top: 19px;
@@ -91,6 +91,7 @@ footer a:hover {
 }
 footer #footer-floor {
     background: none repeat scroll 0 0 #1B1B1B;
+    padding: 5px;
 }
 footer #footer-floor h3, footer #footer-floor h4 {
     color: #FFFFFF;
