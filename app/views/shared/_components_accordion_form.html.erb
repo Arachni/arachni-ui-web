@@ -1,0 +1,55 @@
+<div class="accordion">
+    <% components.each do |shortname, info| %>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+
+                <input id="profile_modules" name="profile[<%=input%>][]"
+                    <%='checked' if selected.include? shortname %> type="checkbox"
+                    value="<%=shortname%>">
+
+                <a class="accordion-toggle accordion-component-title" data-toggle="collapse"
+                   data-parent="#modules-accordion" href="#<%= shortname %>">
+                    <%= info[:name] %> (<%= shortname %>)
+                </a>
+            </div>
+            <div style="height: 0px;" id="<%= shortname %>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <pre> <%= prepare_description info[:description] %> </pre>
+                </div>
+
+                <div class="accordion-inner">
+                    <strong>Version:</strong> <%= info[:version] %><br/>
+                    <strong>Authors:</strong>
+
+                    <ul>
+                        <% info[:authors].each do |author| %>
+                        <li><%= author %></li>
+                        <% end %>
+                    </ul>
+                </div>
+
+                <% if info[:options] %>
+                <div class="accordion-inner">
+                    <strong>Options</strong>
+                    <br/>
+
+                    <% info[:options].each do |option| %>
+                        <p class="alert alert-info">
+                            <strong><%= option.name %>:</strong>
+
+                        <% if selected[shortname] && selected[shortname][option.name] %>
+                            <%= selected[shortname][option.name]%>
+                            <% else %>
+                            <em><%= option.default %></em>
+                        <%end%>
+                        </p>
+
+                        <p class="help-block"><%= option.desc %></p>
+                    <%end%>
+                </div>
+                <%end%>
+
+            </div>
+        </div>
+    <%end%>
+</div>

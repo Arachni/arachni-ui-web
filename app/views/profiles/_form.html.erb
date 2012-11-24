@@ -173,11 +173,36 @@
                 Audit (Active)
                 <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
             </h3>
+            <% audit = modules.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
+            <% if audit.any? %>
+                <%= render partial: '/shared/components_twin_accordion_form',
+                           locals: {
+                                   components: audit,
+                                   form:       f,
+                                   selected:   @profile.modules,
+                                   input:      :modules,
+                                   class_name: 'span6'
+                           } %>
+            <% else %>
+                <p class="alert alert-info">No audit modules are available.</p>
+            <% end %>
+
 
             <h3>
                 Recon (Passive)
                 <small>These checks will passively collect data</small>
             </h3>
+            <% recon = modules.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
+            <% if recon.any? %>
+                <%= render partial: '/shared/components_twin_accordion_form',
+                           locals: {
+                                   components: recon,
+                                   form:       f,
+                                   selected:   @profile.modules,
+                                   input:      :modules,
+                                   class_name: 'span6'
+                           } %>
+            <% end %>
 
         </fieldset>
 
@@ -190,6 +215,16 @@
                 <small>Assisting components to be enabled during the process</small>
             </legend>
 
+            <% if plugins.any? %>
+                <%= render partial: '/shared/components_twin_accordion_form',
+                           locals: {
+                                   components: plugins,
+                                   form:       f,
+                                   selected:   @profile.plugins,
+                                   input:      :plugins,
+                                   class_name: 'span6'
+                           } %>
+            <% end %>
         </fieldset>
     </section>
 
