@@ -25,6 +25,8 @@ gem "therubyracer", group: :assets, platform: :ruby
 
 gem 'rails-footnotes', '>= 3.7.5.rc4', group: :development
 
+gem 'arachni-rpc-em', '0.1.3dev', git: 'git://github.com/Arachni/arachni-rpc-em.git'
+
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', git: "#{p}/.git", branch: 'no-webui'
 else
