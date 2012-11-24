@@ -1,7 +1,7 @@
 <%= simple_form_for( @profile ) do |f| %>
     <%= f.error_notification %>
 
-    <% if @profile.errors %>
+    <% if f.error_notification %>
         <div class="alert alert-error fade in">
             <ul>
             <%  @profile.errors.each do |attribute| %>

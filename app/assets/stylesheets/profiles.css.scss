@@ -59,7 +59,10 @@ tr:hover .make-default {
 #profile_modules {
     display: inline;
 }
-
+.accordion-group {
+    border: 0px;
+    border-bottom: 1px solid #E5E5E5
+}
 .accordion-heading .accordion-component-title {
     display: inline;
 }

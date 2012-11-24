@@ -7,12 +7,10 @@
             <label for="profile[plugins][<%= shortname %>][<%= option.name %>]" >
                 <% description = (option.desc.ends_with?( '.' ) ? option.desc[0...-1] : option.desc)  %>
                 <% if option.required? %>
-                    <strong><%= description %></strong>
-                    <%else%>
-                    <%= description %>
+                    <abbr title="required">*</abbr>
                 <%end%>
-                 (<em><%= option.name %></em>)
-                :
+
+                <%= description %> (<strong><em><%= option.name %></em></strong>):
             </label>
 
             <input id="profile[plugins][<%= shortname %>][<%= option.name %>]"
