@@ -9,7 +9,36 @@
             </div>
             <div style="height: 0px;" id="<%= shortname %>" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <%= info[:description] %>
+                    <div class="accordion-inner">
+                        <pre> <%= prepare_description info[:description] %> </pre>
+                    </div>
+
+                    <div class="accordion-inner">
+                        <strong>Version:</strong> <%= info[:version] %><br/>
+                        <strong>Authors:</strong>
+
+                        <ul>
+                            <% info[:authors].each do |author| %>
+                                <li><%= author %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+
+                    <% if info[:options] %>
+                        <div class="accordion-inner">
+                            <strong>Options</strong>
+
+                            <p>
+                                <%= render partial: 'plugin_options',
+                                           locals: {
+                                                   info:       info,
+                                                   shortname:  shortname,
+                                                   options:    @profile.plugins[shortname] || {},
+                                                   disabled:   true
+                                           } %>
+                            </p>
+                        </div>
+                    <%end%>
                 </div>
             </div>
         </div>

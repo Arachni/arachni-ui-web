@@ -68,6 +68,13 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
+        selected_plugins = {}
+        params[:profile][:selected_plugins].each do |plugin|
+            selected_plugins[plugin] = params[:profile][:plugins][plugin]
+        end
+        params[:profile][:plugins] = selected_plugins
+        params[:profile].delete( :selected_plugins )
+
         @profile = Profile.new( params[:profile] )
 
         respond_to do |format|
@@ -84,6 +91,13 @@ class ProfilesController < ApplicationController
     # PUT /profiles/1
     # PUT /profiles/1.json
     def update
+        selected_plugins = {}
+        params[:profile][:selected_plugins].each do |plugin|
+            selected_plugins[plugin] = params[:profile][:plugins][plugin]
+        end
+        params[:profile][:plugins] = selected_plugins
+        params[:profile].delete( :selected_plugins )
+
         @profile = Profile.find( params[:id] )
 
         respond_to do |format|

@@ -3,7 +3,13 @@
         <div class="accordion-group">
             <div class="accordion-heading">
 
-                <input id="profile_modules" name="profile[<%=input%>][]"
+                <input id="profile_<%=input%>"
+                       <% if input.to_s != 'modules' %>
+                        name="profile[selected_<%=input%>][]"
+                       <% else %>
+                        name="profile[<%=input%>][]"
+                       <% end %>
+
                     <%='checked' if selected.include? shortname %> type="checkbox"
                     value="<%=shortname%>">
 
@@ -31,21 +37,15 @@
                 <% if info[:options] %>
                 <div class="accordion-inner">
                     <strong>Options</strong>
-                    <br/>
 
-                    <% info[:options].each do |option| %>
-                        <p class="alert alert-info">
-                            <strong><%= option.name %>:</strong>
-
-                        <% if selected[shortname] && selected[shortname][option.name] %>
-                            <%= selected[shortname][option.name]%>
-                            <% else %>
-                            <em><%= option.default %></em>
-                        <%end%>
-                        </p>
-
-                        <p class="help-block"><%= option.desc %></p>
-                    <%end%>
+                    <p>
+                        <%= render partial: 'plugin_options',
+                                   locals: {
+                                       info:       info,
+                                       shortname:  shortname,
+                                       options:    @profile.plugins[shortname] || {}
+                                   } %>
+                    </p>
                 </div>
                 <%end%>
 

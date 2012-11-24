@@ -1,0 +1,39 @@
+<% disabled = false if local_assigns[:disabled].nil? %>
+
+<div class="plugin-options">
+    <% info[:options].each do |option| %>
+
+        <p class="alert alert-info">
+            <label for="profile[plugins][<%= shortname %>][<%= option.name %>]" >
+                <% description = (option.desc.ends_with?( '.' ) ? option.desc[0...-1] : option.desc) + ':' %>
+                <% if option.required? %>
+                    <strong><%= description %></strong>
+                    <%else%>
+                    <%= description %>
+                <%end%>
+            </label>
+
+            <input id="profile[plugins][<%= shortname %>][<%= option.name %>]"
+                name="profile[plugins][<%= shortname %>][<%= option.name %>]"
+
+                   <%= 'disabled' if disabled %>
+
+                   <% if option.type == 'path' %>
+                   disabled="disabled" type="file" value="<%=option.default%>"
+                   <% elsif option.type == 'bool' %>
+                   type="checkbox"
+
+                   <% if val = options[option.name] %>
+                       <%=val ? 'checked="checked"' : '' %>
+
+                       <% elsif option.default %>
+                       checked="checked"
+                   <%end%>
+
+                   <% else %>
+                   value="<%=(val = options[option.name]) ? val : option.default %>"
+                   <%end%>
+               />
+        </p>
+    <%end%>
+</div>
