@@ -18,4 +18,13 @@ module ProfilesHelper
     def messages_for( attribute )
         render partial: 'attribute_messages', locals: { attribute: attribute }
     end
+
+    def prepare_description( str )
+        placeholder =  '--' + rand( 1000 ).to_s + '--'
+        cstr = str.gsub( /^\s*$/xm, placeholder )
+        cstr.gsub!( /^\s*/xm, '' )
+        cstr.gsub!( placeholder, "\n" )
+        cstr.chomp
+    end
+
 end
