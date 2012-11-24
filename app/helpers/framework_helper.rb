@@ -46,6 +46,8 @@ module FrameworkHelper
         framework do |f|
             (manager = f.send( type )).send( list ).inject( {} ) do |h, name|
                 h[name] = manager[name].info.merge( path: manager.name_to_path( name ) )
+                h[name][:author] = [ h[name][:author] ].flatten
+                h[name][:authors] = h[name][:author]
                 h
             end
         end
