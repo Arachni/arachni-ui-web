@@ -18,7 +18,8 @@ class Profile < ActiveRecord::Base
 
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
-    validates_presence_of :name
+    validates_presence_of   :name
+    validates_uniqueness_of :name
 
     validate :validate_modules
     validate :validate_plugins
@@ -206,6 +207,7 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_login_check_url
+        return if login_check_url.to_s.empty?
         if !(url = Arachni::URI( login_check_url )) || !url.absolute?
             errors.add :login_check_url, "not a valid absolute URL."
         end

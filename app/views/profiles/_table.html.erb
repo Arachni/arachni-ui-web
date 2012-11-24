@@ -18,14 +18,22 @@
                 <% end %>
             </td>
             <td>
-                <%= link_to profile, class: 'btn btn-info' do %>
+                <%= link_to profile, title: 'Show', class: 'btn btn-info' do %>
                     <i class="icon-eye-open"></i>
                 <% end %>
-                <%= link_to edit_profile_path( profile ), class: 'btn btn-warning' do %>
+                <%= link_to edit_profile_path( profile ), title: 'Edit', class: 'btn btn-warning' do %>
                     <i class="icon-pencil"></i>
                 <% end %>
+
+                <%= link_to new_profile_path + '/' + profile.id.to_s,
+                            title: "Create a new profile based on '#{profile.name}'",
+                            method: :post,
+                            class: 'btn btn-primary' do %>
+                    <i class="icon-plus"></i>
+                <% end %>
+
                 <% if !profile.default? %>
-                <%= link_to profile, method: :delete, class: 'btn btn-danger',
+                <%= link_to profile, title: 'Delete', method: :delete, class: 'btn btn-danger',
                             data: { confirm: 'Are you sure?' } do %>
                     <i class="icon-remove-circle"></i>
                 <% end %>

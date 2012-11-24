@@ -43,7 +43,7 @@ class ProfilesController < ApplicationController
     # GET /profiles/new
     # GET /profiles/new.json
     def new
-        @profile = Profile.new
+        @profile = params[:id] ? Profile.find( params[:id] ).dup : Profile.new
 
         respond_to do |format|
             format.html # new.html.erb
