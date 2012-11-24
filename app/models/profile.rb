@@ -18,10 +18,14 @@ class Profile < ActiveRecord::Base
 
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
+    validates_presence_of :name
+
     validate :validate_modules
     validate :validate_plugins
     validate :validate_plugin_options
     validate :validate_redundant
+    validate :validate_cookies
+    validate :validate_custom_headers
     validate :validate_login_check_url
 
     serialize :cookies, Hash
@@ -186,12 +190,24 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_redundant
-        errors.add :redundant, "All redundant rules need a counter." if redundant.values.include? nil
+        errors.add :redundant, "All rules need a counter." if redundant.values.include? nil
+    end
+
+    def validate_cookies
+        cookies.each do |name, value|
+            errors.add :cookies, "name cannot be blank ('#{name}=#{value}')." if name.empty?
+        end
+    end
+
+    def validate_custom_headers
+        custom_headers.each do |name, value|
+            errors.add :custom_headers, "name cannot be blank ('#{name}=#{value}')." if name.empty?
+        end
     end
 
     def validate_login_check_url
         if !(url = Arachni::URI( login_check_url )) || !url.absolute?
-            errors.add :login_check_url, "Login-check URL is not a valid absolute URL."
+            errors.add :login_check_url, "not a valid absolute URL."
         end
     end
 

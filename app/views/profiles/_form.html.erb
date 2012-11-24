@@ -6,9 +6,9 @@
             <ul>
             <%  @profile.errors.each do |attribute| %>
                     <% if attribute != :plugins %>
-                    <li><%= f.error attribute %></li>
+                    <li><%= attribute.to_s.humanize %> <%= f.error attribute %></li>
                     <% else  %>
-                        <li><pre class="alert-error"><%= f.error attribute %></pre></li>
+                        <li><%= attribute.to_s.humanize %> <pre class="alert-error"><%= f.error attribute %></pre></li>
                     <% end  %>
             <% end %>
             </ul>
