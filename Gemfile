@@ -16,7 +16,7 @@ gem "cucumber-rails", ">= 1.3.0", group: :test, require: false
 gem "database_cleaner", ">= 0.8.0", group: :test
 gem "launchy", ">= 2.1.0", group: :test
 gem "machinist", group: :test
-gem "bootstrap-sass", ">= 2.0.4.0"
+gem "bootstrap-sass", ">= 2.2.1.1"
 gem "simple_form"
 gem "devise", ">= 2.1.2"
 gem "cancan", ">= 1.6.8"
