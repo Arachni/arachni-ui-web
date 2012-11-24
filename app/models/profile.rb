@@ -20,7 +20,9 @@ class Profile < ActiveRecord::Base
 
     validate :validate_modules
     validate :validate_plugins
+    validate :validate_plugin_options
     validate :validate_redundant
+    validate :validate_login_check_url
 
     serialize :cookies, Hash
     serialize :custom_headers, Hash
@@ -187,6 +189,12 @@ class Profile < ActiveRecord::Base
         errors.add :redundant, "All redundant rules need a counter." if redundant.values.include? nil
     end
 
+    def validate_login_check_url
+        if !(url = Arachni::URI( login_check_url )) || !url.absolute?
+            errors.add :login_check_url, "Login-check URL is not a valid absolute URL."
+        end
+    end
+
     def validate_modules
         available = ::FrameworkHelper.modules.keys.map( &:to_s )
         modules.each do |mod|
@@ -203,4 +211,15 @@ class Profile < ActiveRecord::Base
         end
     end
 
+    def validate_plugin_options
+        ::FrameworkHelper.framework do |f|
+            plugins.each do |plugin, options|
+                begin
+                    f.plugins.prep_opts( plugin, f.plugins[plugin], options )
+                rescue Arachni::Component::Manager::InvalidOptions => e
+                    errors.add :plugins, e.to_s
+                end
+            end
+        end
+    end
 end

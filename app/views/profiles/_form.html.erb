@@ -1,6 +1,20 @@
 <%= simple_form_for( @profile ) do |f| %>
     <%= f.error_notification %>
 
+    <% if @profile.errors %>
+        <div class="alert alert-error fade in">
+            <ul>
+            <%  @profile.errors.each do |attribute| %>
+                    <% if attribute != :plugins %>
+                    <li><%= f.error attribute %></li>
+                    <% else  %>
+                        <li><pre class="alert-error"><%= f.error attribute %></pre></li>
+                    <% end  %>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
     <header class="jumbotron subhead" id="overview">
         <%= f.input :name %>
         <%= f.input :description, input_html: { rows: 5, cols: 100 } %>
@@ -214,6 +228,12 @@
                 Plugins
                 <small>Assisting components to be enabled during the process</small>
             </legend>
+
+            <% if errors = @profile.errors.messages[:plugins] || [] %>
+                <% errors.each do |message| %>
+                    <pre class="alert alert-error"><%= message %></pre>
+                <%end%>
+            <%end%>
 
             <% if plugins.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',

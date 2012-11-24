@@ -5,12 +5,14 @@
 
         <p class="alert alert-info">
             <label for="profile[plugins][<%= shortname %>][<%= option.name %>]" >
-                <% description = (option.desc.ends_with?( '.' ) ? option.desc[0...-1] : option.desc) + ':' %>
+                <% description = (option.desc.ends_with?( '.' ) ? option.desc[0...-1] : option.desc)  %>
                 <% if option.required? %>
                     <strong><%= description %></strong>
                     <%else%>
                     <%= description %>
                 <%end%>
+                 (<em><%= option.name %></em>)
+                :
             </label>
 
             <input id="profile[plugins][<%= shortname %>][<%= option.name %>]"
