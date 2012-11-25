@@ -1,9 +1,10 @@
 <%
    lk = rk = []
    if components.any?
-       lk, rk = *components.keys.in_groups_of( (components.keys.size / 2).ceil )
+       lk, rk = *components.keys.chunk( 2 )
    end
    lm = components.slice( *lk )
+
    rm = components.slice( *rk )
 %>
 
