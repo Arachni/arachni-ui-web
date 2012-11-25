@@ -27,7 +27,7 @@ class Profile < ActiveRecord::Base
     validate :validate_redundant
     validate :validate_cookies
     validate :validate_custom_headers
-    validate :validate_login_check_url
+    validate :validate_login_check
 
     serialize :cookies, Hash
     serialize :custom_headers, Hash
@@ -209,11 +209,13 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def validate_login_check_url
-        return if login_check_url.to_s.empty?
-        if !(url = Arachni::URI( login_check_url )) || !url.absolute?
+    def validate_login_check
+        return if login_check_url.to_s.empty? && login_check_pattern.empty?
+        if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
             errors.add :login_check_url, "not a valid absolute URL"
         end
+
+        errors.add :login_check_pattern, "cannot be blank" if login_check_pattern.empty?
     end
 
     def validate_modules
