@@ -10,6 +10,7 @@ group :assets do
     gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'factory_girl', group: [:test]
 gem 'jquery-rails'
 gem "puma", ">= 1.4.1", group: [:development, :test]
 gem "rspec-rails", ">= 2.11.0", group: [:development, :test]
