@@ -35,6 +35,12 @@ label {
     float: right;
 }
 
+input#profile_plugins, input#profile_modules {
+    float: left;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
 .help-block {
     display: block;
     clear: both;
@@ -93,9 +99,6 @@ label {
     border: 0px;
     border-bottom: 1px solid #E5E5E5
 }
-.accordion-heading .accordion-component-title {
-    display: inline;
-}
 
 .plugin-options .label {
     display: inline;
@@ -124,4 +127,8 @@ label {
 
 #profile_login_check_pattern {
     width:  100%;
+}
+
+.form-actions input.btn {
+    float: left;
 }
