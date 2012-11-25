@@ -18,117 +18,119 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.make-default {
-    visibility: hidden;
-}
-tr:hover .make-default {
-    visibility: visible;
-}
+#profiles{
+    .make-default {
+        visibility: hidden;
+    }
+    tr:hover .make-default {
+        visibility: visible;
+    }
 
-label {
-    float: left;
-    display: inline;
-    padding-right: 10px;
-}
+    label {
+        float: left;
+        display: inline;
+        padding-right: 10px;
+    }
 
-.checkbox, input {
-    float: right;
-}
+    .checkbox, input {
+        float: right;
+    }
 
-input#profile_plugins, input#profile_modules {
-    float: left;
-    margin-right: 10px;
-    margin-top: 10px;
-}
+    input#profile_plugins, input#profile_modules {
+        float: left;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
 
-.help-block {
-    display: block;
-    clear: both;
-}
+    .help-block {
+        display: block;
+        clear: both;
+    }
 
-.plugin-options label {
-    display: block;
-    float: none;
-}
+    .plugin-options label {
+        display: block;
+        float: none;
+    }
 
-.plugin-options .checkbox, .plugin-options input {
-    display: block;
-    float: none;
-}
+    .plugin-options .checkbox, .plugin-options input {
+        display: block;
+        float: none;
+    }
 
-#profile_name {
-    display: block;
-    float: left;
-}
+    #profile_name {
+        display: block;
+        float: left;
+    }
 
-#profile_description {
-    width: 100%
-}
+    #profile_description {
+        width: 100%
+    }
 
-#profile_redundant {
-    width:  100%;
-    height: 150px;
-}
+    #profile_redundant {
+        width:  100%;
+        height: 150px;
+    }
 
-#profile_restrict_paths {
-    width:  100%;
-}
+    #profile_restrict_paths {
+        width:  100%;
+    }
 
-#profile_extend_paths {
-    width:  100%;
-}
+    #profile_extend_paths {
+        width:  100%;
+    }
 
-#profile_exclude {
-    width:  100%;
-    height: 150px;
-}
+    #profile_exclude {
+        width:  100%;
+        height: 150px;
+    }
 
-#profile_include {
-    width:  100%;
-    height: 150px;
-}
+    #profile_include {
+        width:  100%;
+        height: 150px;
+    }
 
-#profile_cookies {
-    width:  100%;
-}
+    #profile_cookies {
+        width:  100%;
+    }
 
-#profile_modules {
-    display: inline;
-}
-.accordion-group {
-    border: 0px;
-    border-bottom: 1px solid #E5E5E5
-}
+    #profile_modules {
+        display: inline;
+    }
+    .accordion-group {
+        border: 0px;
+        border-bottom: 1px solid #E5E5E5
+    }
 
-.plugin-options .label {
-    display: inline;
-    font-weight: bold;
-}
+    .plugin-options .label {
+        display: inline;
+        font-weight: bold;
+    }
 
-.plugin-options input {
-    display: inline;
-}
+    .plugin-options input {
+        display: inline;
+    }
 
-#profile_custom_headers {
-    width:  100%;
-}
+    #profile_custom_headers {
+        width:  100%;
+    }
 
-#profile_exclude_vectors {
-    width:  100%;
-}
+    #profile_exclude_vectors {
+        width:  100%;
+    }
 
-#profile_exclude_cookies {
-    width:  100%;
-}
+    #profile_exclude_cookies {
+        width:  100%;
+    }
 
-#profile_login_check_url {
-    width:  100%;
-}
+    #profile_login_check_url {
+        width:  100%;
+    }
 
-#profile_login_check_pattern {
-    width:  100%;
-}
+    #profile_login_check_pattern {
+        width:  100%;
+    }
 
-.form-actions input.btn {
-    float: left;
+    .form-actions input.btn {
+        float: left;
+    }
 }
