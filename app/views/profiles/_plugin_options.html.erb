@@ -13,6 +13,8 @@
                 <%= description %> (<strong><em><%= option.name %></em></strong>):
             </label>
 
+            <% required = option.required? ? 'required' : 'optional' %>
+
             <input id="profile[plugins][<%= shortname %>][<%= option.name %>]"
                 name="profile[plugins][<%= shortname %>][<%= option.name %>]"
 
@@ -21,17 +23,25 @@
                    <% if option.type == 'path' %>
                    disabled="disabled" type="file" value="<%=option.default%>"
                    <% elsif option.type == 'bool' %>
-                   type="checkbox"
+                   type="checkbox" class='boolean <%= required %>'
 
                    <% if val = options[option.name] %>
-                       <%=val ? 'checked="checked"' : '' %>
-
-                       <% elsif option.default %>
+                       <%= val ? 'checked="checked"' : '' %>
+                   <% elsif option.default %>
                        checked="checked"
                    <%end%>
 
                    <% else %>
-                   value="<%=(val = options[option.name]) ? val : option.default %>"
+
+                    <% if option.type == 'integer' || option.type == 'port' %>
+                        class="numeric integer <%= required %>"
+                        type='number'
+                    <% else %>
+                        class="string <%= required %>"
+                        type='text'
+                    <%end%>
+
+                    value="<%=(val = options[option.name]) ? val : option.default %>"
                    <%end%>
                />
         </p>
