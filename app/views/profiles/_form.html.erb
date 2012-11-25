@@ -21,7 +21,10 @@
         <div class="span12">
         </div>
 
-        <%= f.input :description, input_html: { rows: 5, cols: 100 } %>
+        <%= f.input :description,
+                    hint: 'You can use <a href="http://daringfireball.net/' +
+                              'projects/markdown/syntax">Markdown</a> for text formatting.',
+                    input_html: { rows: 5, cols: 100 } %>
     </header>
 
     <section id="spider">

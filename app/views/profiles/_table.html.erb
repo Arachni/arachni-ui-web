@@ -3,13 +3,15 @@
         <tr>
             <th><%= profile.name %></th>
             <td>
-                <% if profile.default? %>
-                    Default
-                <% else %>
-                    <%= link_to 'Make default', make_default_profile_path( profile ),
-                                class: 'make-default', method: :post, remote: true
-                    %>
-                <% end %>
+                <em>
+                    <% if profile.default? %>
+                        Default
+                    <% else %>
+                        <%= link_to 'Make default', make_default_profile_path( profile ),
+                                    class: 'make-default', method: :post, remote: true
+                        %>
+                    <% end %>
+                </em>
             </td>
             <td>
                 <%= link_to profile, title: 'Show', class: 'btn btn-info' do %>
