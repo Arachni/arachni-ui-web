@@ -226,7 +226,7 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_login_check
-        return if login_check_url.to_s.empty? && login_check_pattern.empty?
+        return if login_check_url.to_s.empty? && login_check_pattern.to_s.empty?
         if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
             errors.add :login_check_url, "not a valid absolute URL"
         end
