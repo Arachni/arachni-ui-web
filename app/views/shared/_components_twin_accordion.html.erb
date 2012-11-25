@@ -1,10 +1,8 @@
 <%
    lk = rk = []
-   if components.any?
-       lk, rk = *components.keys.chunk( 2 )
-   end
-   lm = components.slice( *lk )
+   lk, rk = *components.keys.chunk( 2 ) if components.any?
 
+   lm = components.slice( *lk )
    rm = components.slice( *rk )
 %>
 
