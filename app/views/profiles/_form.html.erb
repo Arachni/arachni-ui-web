@@ -204,10 +204,10 @@
                 <small>The security checks to be run again the web application</small>
             </legend>
 
-            <h3>
+            <h4>
                 Audit (Active)
                 <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
-            </h3>
+            </h4>
             <% audit = modules.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
             <% if audit.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
@@ -223,10 +223,10 @@
             <% end %>
 
 
-            <h3>
+            <h4>
                 Recon (Passive)
                 <small>These checks will passively collect data</small>
-            </h3>
+            </h4>
             <% recon = modules.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
             <% if recon.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
