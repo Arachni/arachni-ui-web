@@ -95,22 +95,32 @@
         </div>
     </div>
 
-    <div class="row" style='margin-left: -4px;'>
+    <div class="row" id="scan-type-buttons">
         <div class="btn-group" data-toggle="buttons-radio">
             <a href="#top" id="direct-btn" class="span4 btn btn-inverse scroll">
-                <h3>Direct</h3>
-                <p>Perform a direct scan from this machine to the web application.
-                    No need to setup anything else.</p>
+                <h4>Direct</h4>
             </a>
             <a href="#dispatcher-remote" id="remote-btn" class="span4 btn btn-inverse scroll">
-                <h3>Remote</h3>
-                <p>Delegate the scan workload to a deployed Dispatcher.
-                    No traffic will pass through this machine.</p>
+                <h4>Remote</h4>
             </a>
-            <a href="#dispatcher-hpg" id="hpg-btn" class="span4 btn btn-inverse scroll">
-                <h3>High-Performance Grid</h3>
-                <p>Combine the resources of multiple Dispatchers for super-fast scans.</p>
+            <a href="#dispatcher-hpg" id="hpg-btn" class="span3 btn btn-inverse scroll">
+                <h4>High-Performance Grid</h4>
             </a>
+        </div>
+    </div>
+
+    <div class="row" id="scan-type-descriptions">
+        <div class="span4">
+            <div class="well">Perform a direct scan from this machine to the web application.
+                No need to setup anything else.</div>
+        </div>
+        <div class="span4">
+            <div class="well">Delegate the scan workload to a deployed Dispatcher.
+                No traffic will pass through this machine.</div>
+        </div>
+
+        <div class="span3">
+            <div class="well">Combine the resources of multiple Dispatchers for super-fast scans.</div>
         </div>
     </div>
 
