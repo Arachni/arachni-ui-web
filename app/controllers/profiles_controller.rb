@@ -69,7 +69,7 @@ class ProfilesController < ApplicationController
     # POST /profiles.json
     def create
         selected_plugins = {}
-        params[:profile][:selected_plugins].each do |plugin|
+        (params[:profile][:selected_plugins] || []).each do |plugin|
             selected_plugins[plugin] = params[:profile][:plugins][plugin]
         end
         params[:profile][:plugins] = selected_plugins
@@ -92,7 +92,7 @@ class ProfilesController < ApplicationController
     # PUT /profiles/1.json
     def update
         selected_plugins = {}
-        params[:profile][:selected_plugins].each do |plugin|
+        (params[:profile][:selected_plugins] || []).each do |plugin|
             selected_plugins[plugin] = params[:profile][:plugins][plugin]
         end
         params[:profile][:plugins] = selected_plugins
