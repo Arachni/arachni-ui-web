@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120918232817) do
+ActiveRecord::Schema.define(:version => 20121125134116) do
 
   create_table "profiles", :force => true do |t|
     t.text     "redundant"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20120918232817) do
     t.boolean  "fuzz_methods"
     t.boolean  "audit_cookies_extensively"
     t.boolean  "exclude_binaries"
-    t.boolean  "auto_redundant"
+    t.integer  "auto_redundant"
     t.text     "login_check_url"
     t.text     "login_check_pattern"
     t.datetime "created_at",                :null => false
