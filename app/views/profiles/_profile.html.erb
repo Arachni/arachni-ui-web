@@ -1,6 +1,6 @@
 <header class="jumbotron subhead" id="overview">
     <h1><%= profile.name %></h1>
-    <p class="lead"><%= profile.description %></p>
+    <div class="lead"><%= profile.html_description %></div>
 </header>
 
 <section id="spider">
@@ -338,6 +338,7 @@
         </h1>
     </div>
 
+    <% if profile.modules.any? %>
     <h2>
         Audit (Active)
         <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
@@ -368,6 +369,9 @@
                } %>
     <% else %>
     <p class="alert alert-info">No recon modules have been selected.</p>
+    <% end %>
+    <% else %>
+        <p class="alert alert-info">No modules have been selected.</p>
     <% end %>
 
 </section>

@@ -32,4 +32,17 @@ module ApplicationHelper
     def object_for?( key )
         ApplicationController.storage.include? key
     end
+
+    def m( string )
+        RDiscount.new( string ).to_html.html_safe
+    end
+
+    def truncate_html( html, length = 500, append = ' [...]' )
+        return html if html.size <= length
+
+        Nokogiri::HTML.fragment( html[0..length] + append, 'utf-8' ).
+            to_html.html_safe
+    end
+
+    extend self
 end

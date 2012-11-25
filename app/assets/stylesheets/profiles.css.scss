@@ -19,9 +19,16 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #profiles{
+
+    td.description, td.description p {
+        font-size: 12px;
+        color: grey;
+    }
+
     .make-default {
         visibility: hidden;
     }
+
     tr:hover .make-default {
         visibility: visible;
     }

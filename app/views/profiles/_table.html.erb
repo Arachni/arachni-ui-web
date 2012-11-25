@@ -7,7 +7,7 @@
 
     <% profiles.each do |profile| %>
         <tr>
-            <td><%= profile.name %></td>
+            <th><%= profile.name %></th>
             <td>
                 <% if profile.default? %>
                     Default
@@ -24,20 +24,23 @@
                 <%= link_to edit_profile_path( profile ), title: 'Edit', class: 'btn btn-warning' do %>
                     <i class="icon-pencil"></i>
                 <% end %>
-
                 <%= link_to new_profile_path + '/' + profile.id.to_s,
                             title: "Create a new profile based on '#{profile.name}'",
                             method: :post,
                             class: 'btn btn-primary' do %>
                     <i class="icon-plus"></i>
                 <% end %>
-
                 <% if !profile.default? %>
                 <%= link_to profile, title: 'Delete', method: :delete, class: 'btn btn-danger',
                             data: { confirm: 'Are you sure?' } do %>
                     <i class="icon-remove-circle"></i>
                 <% end %>
                 <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td class="description" colspan='3'>
+                <blockquote><%= p profile.html_description_excerpt %></blockquote>
             </td>
         </tr>
     <% end %>

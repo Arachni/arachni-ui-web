@@ -21,6 +21,9 @@ class Profile < ActiveRecord::Base
     validates_presence_of   :name
     validates_uniqueness_of :name
 
+    validates_presence_of   :description
+
+    validate :validate_description
     validate :validate_modules
     validate :validate_plugins
     validate :validate_plugin_options
@@ -71,6 +74,14 @@ class Profile < ActiveRecord::Base
 
     def default?
         !!self.default
+    end
+
+    def html_description
+        ApplicationHelper.m description
+    end
+
+    def html_description_excerpt( *args )
+        ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
     def redundant=( string_or_hash )
@@ -190,6 +201,11 @@ class Profile < ActiveRecord::Base
         end
     end
 
+    def validate_description
+        return if ActionController::Base.helpers.strip_tags( description ) == description
+        errors.add :description, 'cannot contain HTML, please use Markdown instead'
+    end
+
     def validate_redundant
         redundant.each do |pattern, counter|
             next if !(counter.to_s =~ /[^\d]+/)
@@ -245,4 +261,5 @@ class Profile < ActiveRecord::Base
             end
         end
     end
+
 end
