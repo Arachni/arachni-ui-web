@@ -73,10 +73,12 @@
 
     #profile_restrict_paths {
         width:  100%;
+        height: 150px;
     }
 
     #profile_extend_paths {
         width:  100%;
+        height: 150px;
     }
 
     #profile_exclude {
@@ -91,6 +93,7 @@
 
     #profile_cookies {
         width:  100%;
+        height: 150px;
     }
 
     #profile_modules {
@@ -112,14 +115,17 @@
 
     #profile_custom_headers {
         width:  100%;
+        height: 150px;
     }
 
     #profile_exclude_vectors {
         width:  100%;
+        height: 150px;
     }
 
     #profile_exclude_cookies {
         width:  100%;
+        height: 150px;
     }
 
     #profile_login_check_url {
