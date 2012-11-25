@@ -191,25 +191,28 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_redundant
-        errors.add :redundant, "All rules need a counter." if redundant.values.include? nil
+        redundant.each do |pattern, counter|
+            next if !(counter.to_s =~ /[^\d]+/)
+            errors.add :redundant, "rule '#{pattern}' needs an integer counter"
+        end
     end
 
     def validate_cookies
         cookies.each do |name, value|
-            errors.add :cookies, "name cannot be blank ('#{name}=#{value}')." if name.empty?
+            errors.add :cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
     def validate_custom_headers
         custom_headers.each do |name, value|
-            errors.add :custom_headers, "name cannot be blank ('#{name}=#{value}')." if name.empty?
+            errors.add :custom_headers, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
     def validate_login_check_url
         return if login_check_url.to_s.empty?
         if !(url = Arachni::URI( login_check_url )) || !url.absolute?
-            errors.add :login_check_url, "not a valid absolute URL."
+            errors.add :login_check_url, "not a valid absolute URL"
         end
     end
 
@@ -217,7 +220,7 @@ class Profile < ActiveRecord::Base
         available = ::FrameworkHelper.modules.keys.map( &:to_s )
         modules.each do |mod|
             next if available.include? mod.to_s
-            errors.add :modules, "Module #{mod} does not exist."
+            errors.add :modules, "'#{mod}' does not exist"
         end
     end
 
@@ -225,7 +228,7 @@ class Profile < ActiveRecord::Base
         available = ::FrameworkHelper.plugins.keys.map( &:to_s )
         plugins.keys.each do |plugin|
             next if available.include? plugin.to_s
-            errors.add :plugins, "Plugin #{plugin} does not exist."
+            errors.add :plugins, "'#{plugin}' does not exist"
         end
     end
 
