@@ -16,6 +16,7 @@
 
 class ProfilesController < ApplicationController
     before_filter :authenticate_user!
+    before_filter :prepare_plugin_params
 
     # GET /profiles
     # GET /profiles.json
@@ -68,13 +69,6 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
-        selected_plugins = {}
-        (params[:profile][:selected_plugins] || []).each do |plugin|
-            selected_plugins[plugin] = params[:profile][:plugins][plugin]
-        end
-        params[:profile][:plugins] = selected_plugins
-        params[:profile].delete( :selected_plugins )
-
         @profile = Profile.new( params[:profile] )
 
         respond_to do |format|
@@ -91,13 +85,6 @@ class ProfilesController < ApplicationController
     # PUT /profiles/1
     # PUT /profiles/1.json
     def update
-        selected_plugins = {}
-        (params[:profile][:selected_plugins] || []).each do |plugin|
-            selected_plugins[plugin] = params[:profile][:plugins][plugin]
-        end
-        params[:profile][:plugins] = selected_plugins
-        params[:profile].delete( :selected_plugins )
-
         @profile = Profile.find( params[:id] )
 
         respond_to do |format|
@@ -123,4 +110,22 @@ class ProfilesController < ApplicationController
             format.json { head :no_content }
         end
     end
+
+    private
+    def prepare_plugin_params
+        return if !params[:profile]
+
+        if params[:profile][:selected_plugins]
+            selected_plugins = {}
+            (params[:profile][:selected_plugins] || []).each do |plugin|
+                selected_plugins[plugin] = params[:profile][:plugins][plugin]
+            end
+
+            params[:profile][:plugins] = selected_plugins
+            params[:profile].delete( :selected_plugins )
+        else
+            params[:profile][:plugins] = {}
+        end
+    end
+
 end
