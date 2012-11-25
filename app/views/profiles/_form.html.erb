@@ -17,6 +17,10 @@
 
     <header class="jumbotron subhead" id="overview">
         <%= f.input :name %>
+
+        <div class="span12">
+        </div>
+
         <%= f.input :description, input_html: { rows: 5, cols: 100 } %>
     </header>
 
@@ -54,6 +58,9 @@
                 </div>
                 <div class="span6">
                     <%= f.input :exclude_binaries, hint: messages_for( :exclude_binaries ) %>
+                </div>
+
+                <div class="span12">
                 </div>
 
                 <div class="span6">
@@ -159,9 +166,17 @@
                 <div class="span6">
                         <%= f.input :fuzz_methods, hint: messages_for( :fuzz_methods ) %>
                 </div>
+
                 <div class="span12">
-                        <%= f.input :audit_cookies_extensively, hint: messages_for( :audit_cookies_extensively ) %>
                 </div>
+
+                <div class="span6">
+                    <%= f.input :audit_cookies_extensively, hint: messages_for( :audit_cookies_extensively ) %>
+                </div>
+
+                <div class="span12">
+                </div>
+
                 <div class="span6">
                     <%= f.input :exclude_vectors, input_html: { value: @profile.exclude_vectors.join( "\n" ) },
                                 hint: messages_for( :exclude_vectors ) %>

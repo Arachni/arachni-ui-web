@@ -25,6 +25,36 @@ tr:hover .make-default {
     visibility: visible;
 }
 
+label {
+    float: left;
+    display: inline;
+    padding-right: 10px;
+}
+
+.checkbox, input {
+    float: right;
+}
+
+.help-block {
+    display: block;
+    clear: both;
+}
+
+.plugin-options label {
+    display: block;
+    float: none;
+}
+
+.plugin-options .checkbox, .plugin-options input {
+    display: block;
+    float: none;
+}
+
+#profile_name {
+    display: block;
+    float: left;
+}
+
 #profile_description {
     width: 100%
 }
