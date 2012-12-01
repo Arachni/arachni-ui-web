@@ -6,7 +6,7 @@ def create_visitor
 end
 
 def find_user
-    @user ||= User.first conditions: { email: @visitor[:email] }
+    @user ||= User.first( conditions: { email: @visitor[:email] } )
 end
 
 def create_unconfirmed_user
@@ -19,7 +19,13 @@ end
 def create_user
     create_visitor
     delete_user
-    @user = FactoryGirl.create( :user, email: @visitor[:email] )
+    @user = User.create( create_visitor )
+end
+
+def create_admin
+    create_visitor
+    delete_user
+    @user = User.create( create_visitor ).tap { |u| u.add_role :admin }
 end
 
 def delete_user
@@ -32,8 +38,8 @@ def sign_up
     visit '/users/sign_up'
     fill_in "Name", with: @visitor[:name]
     fill_in "Email", with: @visitor[:email]
-    fill_in "Password", with: @visitor[:password]
-    fill_in "Password confirmation", with: @visitor[:password_confirmation]
+    fill_in "user_password", with: @visitor[:password]
+    fill_in "user_password_confirmation", with: @visitor[:password_confirmation]
     click_button "Sign up"
     find_user
 end
@@ -53,6 +59,10 @@ end
 Given /^I am logged in$/ do
     create_user
     sign_in
+end
+
+Given /^I exist as an admin$/ do
+    create_admin
 end
 
 Given /^I exist as a user$/ do
@@ -75,7 +85,7 @@ When /^I sign in with valid credentials$/ do
 end
 
 When /^I sign out$/ do
-    visit '/users/sign_out'
+    click_link 'Sign out'
 end
 
 When /^I sign up with valid user data$/ do
@@ -129,7 +139,7 @@ When /^I edit my account details$/ do
 end
 
 When /^I look at the list of users$/ do
-    visit '/'
+    visit '/users'
 end
 
 ### THEN ###
@@ -141,7 +151,7 @@ end
 
 Then /^I should be signed out$/ do
     page.should have_content "Sign up"
-    page.should have_content "Login"
+    page.should have_content "Sign in"
     page.should_not have_content "Logout"
 end
 
@@ -186,6 +196,5 @@ Then /^I should see an account edited message$/ do
 end
 
 Then /^I should see my name$/ do
-    create_user
     page.should have_content @user[:name]
 end

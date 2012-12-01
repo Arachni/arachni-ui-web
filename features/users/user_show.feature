@@ -4,6 +4,7 @@ Feature: Show Users
   so I can know if the site has users
 
     Scenario: Viewing users
-      Given I exist as a user
+      Given I exist as an admin
+      Given I am logged in
       When I look at the list of users
       Then I should see my name

@@ -30,5 +30,3 @@ Feature: Sign in
       When I sign in with a wrong password
       Then I see an invalid login message
       And I should be signed out
-
-      
