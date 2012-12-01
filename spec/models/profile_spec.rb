@@ -3,7 +3,52 @@ require 'spec_helper'
 describe Profile do
 
     before :all do
-        @new_profile = proc { Profile.new( name: 'stuff', description: 'Desc' ) }
+        @new_profile = proc { Profile.new( name: "Stuff #{rand( 999 )}", description: 'Desc' ) }
+    end
+
+    describe '#make_default' do
+        it 'should make the given profile the default one' do
+            p = @new_profile.call
+            p.save
+
+            p.make_default
+            p.default?.should be_true
+        end
+        it 'should remove the default status from the previous default profile' do
+            p = @new_profile.call
+            p.save
+
+            p.make_default
+            p.default?.should be_true
+
+            p2 = @new_profile.call
+            p2.save
+
+            p2.make_default
+
+            Profile.find( p2.id ).default?.should be_true
+            Profile.find( p.id ).default?.should be_false
+        end
+    end
+
+    describe '#name' do
+        it 'should be required' do
+            Profile.create.errors.messages.include?( :name ).should be_true
+            @new_profile.call.errors.should be_empty
+        end
+        it 'should be unique' do
+            Profile.create( name: 'stuff', description: 'Desc' ).save
+            p = Profile.create( name: 'stuff', description: 'Desc' )
+            p.save
+            p.errors.messages.include?( :name ).should be_true
+        end
+    end
+
+    describe '#description' do
+        it 'should be required' do
+            Profile.create.errors.messages.include?( :name ).should be_true
+            @new_profile.call.errors.should be_empty
+        end
     end
 
     describe '#redundant=' do
@@ -222,7 +267,7 @@ describe Profile do
         end
     end
 
-    describe 'modules=' do
+    describe '#modules=' do
         context 'when the parameter is' do
             context :all do
                 it 'should save all available modules' do
@@ -248,7 +293,7 @@ describe Profile do
         end
     end
 
-    describe 'plugins=' do
+    describe '#plugins=' do
         context 'when the parameter is' do
             context :default do
                 it 'should save all default plugins' do
