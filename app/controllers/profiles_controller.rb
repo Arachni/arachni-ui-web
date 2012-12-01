@@ -57,7 +57,7 @@ class ProfilesController < ApplicationController
         @profile = Profile.find( params[:id] )
     end
 
-    # POST /profiles/1/make_default
+    # PUT /profiles/1/make_default
     def make_default
         Profile.find( params[:id] ).make_default
 

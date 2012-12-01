@@ -48,6 +48,12 @@ describe ProfilesController do
             get :new, { name: 'stuff', description: "test" }
             assigns( :profile ).should be_a_new( Profile )
         end
+        context 'when a profile ID has been provided' do
+            it 'should use that profile as a template for the new profile' do
+                get :new, { id: @profile.to_param }
+                assigns( :profile ).attributes.should eq( @profile.dup.attributes )
+            end
+        end
     end
 
     describe "GET edit" do
@@ -137,16 +143,43 @@ describe ProfilesController do
         end
     end
 
-    describe "DELETE destroy" do
-        it "destroys the requested profile" do
-            expect {
-                delete :destroy, { id: @profile.to_param }
-            }.to change( Profile, :count ).by( -1 )
-        end
+    describe 'PUT make_default' do
+        it 'should set the requested profile as the default one' do
+            @profile.default?.should be_false
+            put :make_default, { id: @profile.to_param }
+            get :show, { id: @profile.to_param }
 
-        it "redirects to the profiles list" do
-            delete :destroy, { id: @profile.to_param }
-            response.should redirect_to( profiles_url )
+            assigns( :profile ).default?.should be_true
+        end
+    end
+
+    describe "DELETE destroy" do
+        context 'when the profile is' do
+            context 'not the default one' do
+                it "destroys the requested profile" do
+                    expect {
+                        delete :destroy, { id: @profile.to_param }
+                    }.to change( Profile, :count ).by( -1 )
+                end
+
+                it "redirects to the profiles list" do
+                    delete :destroy, { id: @profile.to_param }
+                    response.should redirect_to( profiles_url )
+                end
+            end
+            context 'the default one' do
+                it 'should not be allowed to be destroyed' do
+                    ex = nil
+                    begin
+                        delete :destroy, {
+                            id: FactoryGirl.create( :default_profile ).to_param
+                        }
+                    rescue => e
+                        ex = e
+                    end
+                    e.to_s.should == 'Cannot delete default profile.'
+                end
+            end
         end
     end
 

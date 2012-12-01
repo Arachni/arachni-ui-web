@@ -16,7 +16,7 @@
 
 ArachniWebui::Application.routes.draw do
     resources :profiles do
-        post :make_default, on: :member
+        put :make_default, on: :member
     end
 
     match 'profiles/new(/:id)' => 'profiles#new', :as => :new_profile

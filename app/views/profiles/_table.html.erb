@@ -8,7 +8,7 @@
                         Default
                     <% else %>
                         <%= link_to 'Make default', make_default_profile_path( profile ),
-                                    class: 'make-default', method: :post, remote: true
+                                    class: 'make-default', method: :put, remote: true
                         %>
                     <% end %>
                 </em>
