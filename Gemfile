@@ -24,6 +24,8 @@ gem "simple_form"
 gem "devise", ">= 2.1.2"
 gem "cancan", ">= 1.6.8"
 gem "rolify", ">= 3.1.0"
+
+gem 'libv8', '~> 3.11.8'
 gem "therubyracer", group: :assets, platform: :ruby
 
 gem 'rails-footnotes', '>= 3.7.5.rc4', group: :development
