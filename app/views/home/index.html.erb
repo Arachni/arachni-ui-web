@@ -4,32 +4,36 @@
     <div class="hero-unit">
         <h1>Start a scan</h1>
         <p>The only thing you need to do is make a simple choice about the type of
-            scan you want to perform.</p>
-        <p>
-            <input id="go-btn" class="hide btn btn-large btn-primary" type="submit" value="Go!">
-
-            <a data-toggle="modal" href="#scan-type-help" class="btn btn-large">Trouble making up your mind?</a>
-            <div class="modal hide" id="scan-type-help">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h2>Scan types</h2>
-                </div>
-                <div class="modal-body">
-                    <h3>Direct</h3>
-                    <p>One fine body…</p>
-
-                    <h3>Remote</h3>
-                    <p>One fine body…</p>
-
-                    <h3>High-Performance Grid</h3>
-                    <p>One fine body…</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn" data-dismiss="modal">Close</a>
-                </div>
-            </div>
-
+            scan you want to perform.
         </p>
+
+        <p>
+            <input id="go-btn" class="hide btn btn-large btn-primary"
+                   type="submit" value="Go!">
+
+            <a data-toggle="modal" href="#scan-type-help"
+               class="btn btn-large">Trouble making up your mind?</a>
+        </p>
+
+        <div class="modal hide" id="scan-type-help">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h2>Scan types</h2>
+            </div>
+            <div class="modal-body">
+                <h3>Direct</h3>
+                <p>One fine body…</p>
+
+                <h3>Remote</h3>
+                <p>One fine body…</p>
+
+                <h3>High-Performance Grid</h3>
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
     </div>
 
     <div class="well">
@@ -46,7 +50,7 @@
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="scan_profile">Profile</label>
+            <label class="control-label" for="scan-profile">Profile</label>
             <div class="controls">
                 <div class="input-append">
                     <select class='span2' name="scan_profile" id="scan-profile">
@@ -66,7 +70,12 @@
                             <button type="button" class="close" data-dismiss="modal">×</button>
                             <div class="nav">
                                 <ul class="nav nav-pills">
-                                    <li><a href="#overview" title="Jump to the top"><i class="icon-arrow-up"></i></a></li>
+                                    <li>
+                                        <a href="#overview"
+                                           title="Jump to the top">
+                                            <i class="icon-arrow-up"></i>
+                                        </a>
+                                    </li>
                                     <li class=""><a href="#spider-h" >Spider</a></li>
                                     <li class=""><a href="#http-h" >HTTP</a></li>
                                     <li class=""><a href="#auditor-h">Auditor</a></li>
@@ -97,13 +106,13 @@
 
     <div class="row" id="scan-type-buttons">
         <div class="btn-group" data-toggle="buttons-radio">
-            <a href="#top" id="direct-btn" class="span4 btn btn-inverse scroll">
+            <a href="#scan-type-buttons" id="direct-btn" class="span4 btn btn-inverse scroll">
                 <h4>Direct</h4>
             </a>
-            <a href="#dispatcher-remote" id="remote-btn" class="span4 btn btn-inverse scroll">
+            <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
                 <h4>Remote</h4>
             </a>
-            <a href="#dispatcher-hpg" id="hpg-btn" class="span3 btn btn-inverse scroll">
+            <a href="#scan-type-buttons" id="hpg-btn" class="span3 btn btn-inverse scroll">
                 <h4>High-Performance Grid</h4>
             </a>
         </div>
@@ -126,6 +135,32 @@
 
     <hr />
 
+    <div id="hpg-alert" class="hide alert">
+        <strong>Warning!</strong>
+        <ul>
+            <li>
+                High-performance distribution (i.e. using more than 1 Instance) is experimental.
+            </li>
+            <li>
+                Please be sure that the web server will be able to handle the heat,
+                otherwise you may end up killing it.
+            </li>
+        </ul>
+    </div>
+
+    <div class="hide well" id="direct">
+        <div class="control-group integer">
+            <label class="control-label integer" for="direct-slaves">Instances</label>
+            <div class="controls">
+                <input class='numeric integer input-mini' type="number"
+                       id="direct-slaves" name="slaves" value="1" />
+                <p class="help-block">
+                    How many Instances to utilise for the scan.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="hide well" id="dispatcher-remote">
         <div class="control-group">
             <label class="control-label" for="dispatcher">Dispatcher</label>
@@ -135,14 +170,29 @@
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
                 </select>
-                <div class="hide alert alert-info" id="auto-remote-dispatcher-notice">
-                    The system will automatically assign the scan to the least burdened node.
+                <div class="hide alert alert-info"
+                     id="auto-remote-dispatcher-notice">
+                    The system will automatically assign the scan to the least
+                    burdened node.
                 </div>
                 <p class="help-block">
-                    The selected Dispatcher will provide a scanner Instance which will be used to perform the scan.
+                    The selected Dispatcher will provide a scanner Instance
+                    which will be used to perform the scan.
                 </p>
             </div>
         </div>
+
+        <div class="control-group integer">
+            <label class="control-label integer" for="dispatcher-slaves">Instances</label>
+            <div class="controls">
+                <input class='numeric integer input-mini' type="number"
+                       id="dispatcher-slaves" name="slaves" value="1" />
+                <p class="help-block">
+                    How many Instances to utilise for the scan.
+                </p>
+            </div>
+        </div>
+
         <a rel="tooltip" class="btn"
            title="Edit"
            href="#">
@@ -152,11 +202,6 @@
 
     <div class="hide well" id="dispatcher-hpg">
         <div class="control-group">
-            <div class="alert">
-                <strong>Warning!</strong> Please be sure that the web server will be able to handle the heat,
-                otherwise you may end up killing it.
-            </div>
-
             <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
             <div class="controls">
                 <select class='span2' name="master_dispatcher" id="master_dispatcher">
@@ -175,25 +220,31 @@
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group integer">
             <label class="control-label" for="max_slaves">Max Instances</label>
             <div class="controls">
-                <input class='input-mini' id="max_slaves" name="max_slaves" value="10" />
+                <input class='numeric integer input-mini' type="number"
+                       id="max_slaves" name="max_slaves" value="10" />
                 <p class="help-block">
                     Maximum amount of Instances to utilise.
                 </p>
             </div>
         </div>
 
-        <div class="control-group">
-            <label class="control-label" for="min_pages_per_instance">Min pages per Instance</label>
+        <div class="control-group integer">
+            <label class="control-label"
+                   for="min_pages_per_instance">
+                Min pages per Instance
+            </label>
             <div class="controls">
-                <input class='input-mini' id="min_pages_per_instance" name="min_pages_per_instance" value="30" />
+                <input class='numeric integer input-mini' type="number"
+                       id="min_pages_per_instance" name="min_pages_per_instance" value="30" />
                 <p class="help-block">
                     Minimum amount of pages to be assigned to each Instance.
                 </p>
             </div>
         </div>
+
         <a rel="tooltip" class="btn"
            title="Edit"
            href="#">

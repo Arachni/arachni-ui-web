@@ -42,16 +42,21 @@ hadleAutoDispatcherNotice = ( type ) ->
 pickScanType = ( type ) ->
     scan_type_selected = true
 
+    $('#hpg-alert').show( 50 )
+
     hadleAutoDispatcherNotice( type )
     showGoButton()
     switch type
         when 'direct'
             $('#dispatcher-hpg').hide( 50 )
             $('#dispatcher-remote').hide( 50 )
+            $('#direct').show( 50 )
         when 'remote'
+            $('#direct').hide( 50 )
             $('#dispatcher-hpg').hide( 50 )
             $('#dispatcher-remote').show( 50 )
         when 'hpg'
+            $('#direct').hide( 50 )
             $('#dispatcher-remote').hide( 50 )
             $('#dispatcher-hpg').show( 50 )
 
