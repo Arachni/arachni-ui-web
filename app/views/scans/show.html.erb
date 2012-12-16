@@ -1,0 +1,17 @@
+<% title "Scanning #{@scan.parsed_url}" %>
+
+<div id='scans'>
+    <% purl = @scan.parsed_url %>
+    <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
+
+    <hr />
+
+    <% if @scan.owner == current_user %>
+        <%=  render 'share_form' %>
+        <hr/>
+    <% end %>
+
+    <%= render @scan.active? ? 'show_active' : 'show_finished' %>
+
+    <%= link_to 'Back', scans_path %>
+</div>

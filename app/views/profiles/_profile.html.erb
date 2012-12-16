@@ -155,7 +155,7 @@
             <%= messages_for :http_req_limit %>
         </div>
 
-        <% if !profile.proxy_host.empty? && profile.proxy_port %>
+        <% if !profile.proxy_host.to_s.empty? && profile.proxy_port %>
         <div class="span6">
             <p>
                 <b>Proxy host:</b>
@@ -403,7 +403,7 @@
 
     <div class="row">
 
-        <% if !profile.login_check_url.empty? && !profile.login_check_pattern.empty? %>
+        <% if !profile.login_check_url.to_s.empty? && !profile.login_check_pattern.to_s.empty? %>
         <div class="span6">
             <p>
                 <b>URL:</b>

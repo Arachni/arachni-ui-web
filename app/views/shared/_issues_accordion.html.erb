@@ -1,0 +1,45 @@
+<div class="accordion">
+    <% issues.each do |issue| %>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse"
+                   href="#<%= issue.digest %>">
+                    <%= issue.name %>
+                </a>
+
+            </div>
+            <div id="<%= issue.digest %>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>URL</th>
+                            <% if issue.var %>
+                            <th>Input</th>
+                            <% end %>
+                            <th>Element type</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <%= link_to issue.url, issue.url  %>
+                            </td>
+                            <% if issue.var %>
+                            <td>
+                                <%= issue.var %>
+                            </td>
+                            <% end %>
+                            <td>
+                                <%= issue.elem %>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p>
+                        <%= issue.description %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    <%end%>
+</div>

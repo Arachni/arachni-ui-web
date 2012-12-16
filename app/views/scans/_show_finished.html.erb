@@ -1,0 +1,13 @@
+<p>
+    The scan <%= @scan.aborted? ? 'was aborted after' : 'completed in' %> <%= @scan.report.delta_time %>.
+</p>
+
+<% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+
+<p>
+    Download the full report as <%= reports_links[0...-1].join( ', ' ).html_safe %> or <%= reports_links.last %>.
+</p>
+
+<hr/>
+
+<%=  render 'show_issues' %>

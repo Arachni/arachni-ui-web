@@ -1,0 +1,24 @@
+<%
+
+    issues_by_severity = {}
+    issues.each do |issue|
+        (issues_by_severity[issue.severity] ||= []) << issue
+    end
+
+    issues_by_severity.each do |severity, grouped_issues|
+        lk = rk = []
+        lk, rk = *grouped_issues.sort_by { |i| i.name }.chunk( 2 ) if issues.any?
+%>
+
+<h3><%= severity %> severity <small>[<%= grouped_issues.size %>]</small></h3>
+
+<div class="row">
+    <div class="<%= class_name %>">
+        <%= render partial: '/shared/issues_accordion', locals: { issues: lk }  %>
+    </div>
+    <div class="<%= class_name %>">
+        <%= render partial: '/shared/issues_accordion', locals: { issues: rk }  %>
+    </div>
+</div>
+
+<% end %>

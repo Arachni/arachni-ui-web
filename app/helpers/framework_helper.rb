@@ -27,30 +27,48 @@ module FrameworkHelper
     end
 
     def modules
-        @@modules ||= components_for( :modules )
+        components_for( :modules )
     end
 
     def plugins
-        @@plugins ||= components_for( :plugins )
+        components_for( :plugins )
     end
 
     def default_plugins
-        @@default_plugins ||= components_for( :plugins, :default )
+        components_for( :plugins, :default )
     end
 
     def reports
-        @@reports ||= components_for( :reports )
+        components_for( :reports )
+    end
+
+    def reports_with_outfile
+        h = {}
+        reports.
+            reject { |_, info| !info[:options] || !info[:options].map { |o| o.name  }.include?( 'outfile' ) }.
+            map { |name, info| h[name] = info[:name] }
+        h
     end
 
     def components_for( type, list = :available )
-        framework do |f|
-            (manager = f.send( type )).send( list ).inject( {} ) do |h, name|
-                h[name] = manager[name].info.merge( path: manager.name_to_path( name ) )
-                h[name][:author] = [ h[name][:author] ].flatten
-                h[name][:authors] = h[name][:author]
-                h
+        path = File.join( Rails.root, 'config', 'component_cache', "#{type}_#{list}.yml" )
+
+        if !File.exists?( path )
+            components = framework do |f|
+                (manager = f.send( type )).send( list ).inject( {} ) do |h, name|
+                    h[name] = manager[name].info.merge( path: manager.name_to_path( name ) )
+                    h[name][:author] = [ h[name][:author] ].flatten
+                    h[name][:authors] = h[name][:author]
+                    h
+                end
+            end
+
+            File.open( path, 'w' ) do |f|
+                f.write components.to_yaml
             end
         end
+
+        YAML.load( IO.read( path ) )
     end
 
     extend self

@@ -1,0 +1,29 @@
+<div class='row'>
+    <div class="span12">
+        <h2>Issues <small>[<%= @scan.issues.size %>]</small></h2>
+
+        <a href="#" onclick="$('.collapse').collapse( 'show' );">Expand all</a>
+        |
+        <a href="#" onclick="$('.collapse').collapse( 'hide' );">Collapse all</a>
+
+        <hr/>
+
+        <% if @scan.issues.any? %>
+            <%= render partial: '/shared/issues_twin_accordion',
+                       locals: {
+                               issues:     @scan.issues,
+                               class_name: 'span6'
+                       } %>
+
+    <% else %>
+            <p class="alert alert-info">
+                No issues discovered<%= ' yet' if @scan.active? %>.
+            </p>
+        <% end %>
+
+    </div>
+</div>
+
+<!--<script type="text/javascript">
+//    $('.collapse').collapse( 'show' )
+</script>-->

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125134116) do
+ActiveRecord::Schema.define(:version => 20121216173832) do
 
   create_table "profiles", :force => true do |t|
     t.text     "redundant"
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(:version => 20121125134116) do
     t.text     "custom_headers"
     t.text     "restrict_paths"
     t.text     "extend_paths"
-    t.integer  "min_pages_per_instance"
     t.integer  "max_slaves"
     t.boolean  "fuzz_methods"
     t.boolean  "audit_cookies_extensively"
@@ -69,6 +68,34 @@ ActiveRecord::Schema.define(:version => 20121125134116) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "scan_tests", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "scans", :force => true do |t|
+    t.string   "type"
+    t.boolean  "active",          :default => false
+    t.integer  "instance_count"
+    t.string   "instance_url"
+    t.string   "instance_token"
+    t.integer  "profile_id"
+    t.text     "url"
+    t.text     "report"
+    t.string   "status"
+    t.text     "issue_summaries"
+    t.integer  "issue_count"
+    t.text     "statistics"
+    t.integer  "owner_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  create_table "scans_users", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "scan_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

@@ -15,6 +15,13 @@
 =end
 
 ArachniWebui::Application.routes.draw do
+    resources :scans do
+        put :pause,  on: :member
+        put :resume, on: :member
+        put :abort,  on: :member
+        get :report, on: :member
+    end
+
     resources :profiles do
         put :make_default, on: :member
     end

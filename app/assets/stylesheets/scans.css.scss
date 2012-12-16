@@ -1,0 +1,43 @@
+// Place all the styles related to the scans controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#scans {
+    #show-profile.modal {
+        //new custom width
+        width: 1220px;
+        //must be half of the width, minus scrollbar on the left (30px)
+        margin: -300px 0 0 -610px;
+    }
+
+    #show-profile .nav {
+        margin-bottom: 10px;
+        height: 16px;
+    }
+
+    #show-profile .modal-header {
+        margin-bottom: 10px;
+    }
+
+    #scan-type-buttons {
+        margin-left: 3%;
+    }
+
+    #scan-type-descriptions {
+        margin-left: 1%;
+    }
+
+    #scan_url {
+        width: 100%;
+    }
+
+    #scan_type {
+        display: none;
+    }
+
+    .accordion-group {
+        border: 0px;
+        border-bottom: 1px solid #E5E5E5
+    }
+
+}

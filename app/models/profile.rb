@@ -76,6 +76,12 @@ class Profile < ActiveRecord::Base
         !!self.default
     end
 
+    def to_rpc_options
+        ignore  = Profile.protected_attributes
+        ignore |= %w(created_at updated_at name description default)
+        attributes.reject { |k, v| v.nil? || ignore.include?( k ) }
+    end
+
     def html_description
         ApplicationHelper.m description
     end

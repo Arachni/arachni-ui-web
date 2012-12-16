@@ -15,3 +15,7 @@ end
 Profile.blueprint do
   # Attributes here
 end
+
+Scan.blueprint do
+  # Attributes here
+end

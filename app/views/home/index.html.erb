@@ -1,255 +1,32 @@
 <% title "Home" %>
 
-<form class="form-horizontal" method='post'>
-    <div class="hero-unit">
-        <h1>Start a scan</h1>
-        <p>The only thing you need to do is make a simple choice about the type of
-            scan you want to perform.
-        </p>
-
-        <p>
-            <input id="go-btn" class="hide btn btn-large btn-primary"
-                   type="submit" value="Go!">
-
-            <a data-toggle="modal" href="#scan-type-help"
-               class="btn btn-large">Trouble making up your mind?</a>
-        </p>
-
-        <div class="modal hide" id="scan-type-help">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h2>Scan types</h2>
-            </div>
-            <div class="modal-body">
-                <h3>Direct</h3>
-                <p>One fine body…</p>
-
-                <h3>Remote</h3>
-                <p>One fine body…</p>
-
-                <h3>High-Performance Grid</h3>
-                <p>One fine body…</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="well">
-        <div class="control-group">
-            <label class="control-label" for="url">URL</label>
-            <div class="controls">
-                <input type="text" class="input-xlarge" name="url" id="url" />
-                <p class="help-block">
-                    Full URL of the targeted web application (must
-                    include the appropriate protocol --
-                    <i>http</i> or <i>https</i>).
-                </p>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="scan-profile">Profile</label>
-            <div class="controls">
-                <div class="input-append">
-                    <select class='span2' name="scan_profile" id="scan-profile">
-                        <% @profiles.each do |p| %>
-                        <option <%= 'selected' if p.default? %> value='<%= p.id %>'><%= p.name %></option>
-                        <%end%>
-                    </select>
-
-                    <a rel="tooltip" class="btn"
-                        title="Peek"
-                        id="peek-profile"
-                        href="#">
-                        <i class="icon-eye-open"></i> / <i class="icon-pencil"></i>
-                    </a>
-                    <div class="modal hide" id="show-profile">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                            <div class="nav">
-                                <ul class="nav nav-pills">
-                                    <li>
-                                        <a href="#overview"
-                                           title="Jump to the top">
-                                            <i class="icon-arrow-up"></i>
-                                        </a>
-                                    </li>
-                                    <li class=""><a href="#spider-h" >Spider</a></li>
-                                    <li class=""><a href="#http-h" >HTTP</a></li>
-                                    <li class=""><a href="#auditor-h">Auditor</a></li>
-                                    <li class=""><a href="#modules-h">Modules</a></li>
-                                    <li><a href="#plugins-h">Plugins</a></li>
-                                    <li><a href="#login-h">Login</a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-                        <div id='profiles'>
-                            <div class="modal-body" id="show-profile-container">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" id="profile-edit-btn" class="btn">Edit</a>
-                            <a href="#" class="btn" data-dismiss="modal">Close</a>
-                        </div>
-                    </div>
-
-                    <p class="help-block">
-                        Configuration profile to use.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" id="scan-type-buttons">
-        <div class="btn-group" data-toggle="buttons-radio">
-            <a href="#scan-type-buttons" id="direct-btn" class="span4 btn btn-inverse scroll">
-                <h4>Direct</h4>
-            </a>
-            <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
-                <h4>Remote</h4>
-            </a>
-            <a href="#scan-type-buttons" id="hpg-btn" class="span3 btn btn-inverse scroll">
-                <h4>High-Performance Grid</h4>
-            </a>
-        </div>
-    </div>
-
-    <div class="row" id="scan-type-descriptions">
-        <div class="span4">
-            <p class="well">Perform a direct scan from this machine to the web application.
-                No need to setup anything else.</p>
-        </div>
-        <div class="span4">
-            <p class="well">Delegate the scan workload to a deployed Dispatcher.
-                No traffic will pass through this machine.</p>
-        </div>
-
+<div class="hero-unit">
+    <h1>Welcome to Arachni, <small>pick a section and let's get going...</small></h1>
+    <hr/>
+    <div class="row">
         <div class="span3">
-            <p class="well">Combine the resources of multiple Dispatchers for super-fast scans.</p>
+            <h3><a href="<%= scans_path %>">Scans</a></h3>
+            <p>Start, monitor and manage your scans and their results.</p>
+            <p>This is probably what you're here for.</p>
+        </div>
+        <div class="span4">
+            <h3><a href="<%= profiles_path %>">Profiles</a></h3>
+            <p>Create, edit and review scan profiles.</p>
+            <p>Make the whole process easier by creating profiles that better suit your needs.</p>
+        </div>
+        <div class="span3">
+            <h3><a href="">Settings</a></h3>
+            <p>Configure several aspects of the user interface.</p>
         </div>
     </div>
+</div>
 
-    <hr />
-
-    <div id="hpg-alert" class="hide alert">
-        <strong>Warning!</strong>
-        <ul>
-            <li>
-                High-performance distribution (i.e. using more than 1 Instance) is experimental.
-            </li>
-            <li>
-                Please be sure that the web server will be able to handle the heat,
-                otherwise you may end up killing it.
-            </li>
-        </ul>
+<div class="row">
+    <div class="span12">
+        <h2>The skinny:</h2>
     </div>
 
-    <div class="hide well" id="direct">
-        <div class="control-group integer">
-            <label class="control-label integer" for="direct-slaves">Instances</label>
-            <div class="controls">
-                <input class='numeric integer input-mini' type="number"
-                       id="direct-slaves" name="slaves" value="1" />
-                <p class="help-block">
-                    How many Instances to utilise for the scan.
-                </p>
-            </div>
-        </div>
+    <div class="span12">
+        Dashboard stuff will go here, maybe some nice charts and the like...
     </div>
-
-    <div class="hide well" id="dispatcher-remote">
-        <div class="control-group">
-            <label class="control-label" for="dispatcher">Dispatcher</label>
-            <div class="controls">
-                <select class='span2' name="dispatcher" id="dispatcher">
-                    <option value="auto" selected>Auto -- Load balance</option>
-                    <option>192.168.0.1:7331</option>
-                    <option>scanner.com:7331</option>
-                </select>
-                <div class="hide alert alert-info"
-                     id="auto-remote-dispatcher-notice">
-                    The system will automatically assign the scan to the least
-                    burdened node.
-                </div>
-                <p class="help-block">
-                    The selected Dispatcher will provide a scanner Instance
-                    which will be used to perform the scan.
-                </p>
-            </div>
-        </div>
-
-        <div class="control-group integer">
-            <label class="control-label integer" for="dispatcher-slaves">Instances</label>
-            <div class="controls">
-                <input class='numeric integer input-mini' type="number"
-                       id="dispatcher-slaves" name="slaves" value="1" />
-                <p class="help-block">
-                    How many Instances to utilise for the scan.
-                </p>
-            </div>
-        </div>
-
-        <a rel="tooltip" class="btn"
-           title="Edit"
-           href="#">
-            <i class="icon-heart"></i>Health monitor
-        </a>
-    </div>
-
-    <div class="hide well" id="dispatcher-hpg">
-        <div class="control-group">
-            <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
-            <div class="controls">
-                <select class='span2' name="master_dispatcher" id="master_dispatcher">
-                    <option value="auto" selected>Auto -- Load balance</option>
-                    <option>192.168.0.1:7331</option>
-                    <option>scanner.com:7331</option>
-                </select>
-                <div class="hide alert alert-info" id="auto-master-remote-dispatcher-notice">
-                    The system will automatically assign the scan to the least burdened node.
-                </div>
-                <p class="help-block">
-                    The selected Dispatcher will provide a master Instance which will then manage
-                    and spread the workload across slave Instances requested from other grid members. <br/>
-                    Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
-                </p>
-            </div>
-        </div>
-
-        <div class="control-group integer">
-            <label class="control-label" for="max_slaves">Max Instances</label>
-            <div class="controls">
-                <input class='numeric integer input-mini' type="number"
-                       id="max_slaves" name="max_slaves" value="10" />
-                <p class="help-block">
-                    Maximum amount of Instances to utilise.
-                </p>
-            </div>
-        </div>
-
-        <div class="control-group integer">
-            <label class="control-label"
-                   for="min_pages_per_instance">
-                Min pages per Instance
-            </label>
-            <div class="controls">
-                <input class='numeric integer input-mini' type="number"
-                       id="min_pages_per_instance" name="min_pages_per_instance" value="30" />
-                <p class="help-block">
-                    Minimum amount of pages to be assigned to each Instance.
-                </p>
-            </div>
-        </div>
-
-        <a rel="tooltip" class="btn"
-           title="Edit"
-           href="#">
-            <i class="icon-heart"></i>Health monitor
-        </a>
-    </div>
-
-</form>
+</div>

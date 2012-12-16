@@ -18,27 +18,3 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-#show-profile.modal {
-    //new custom width
-    width: 1220px;
-    //must be half of the width, minus scrollbar on the left (30px)
-    margin: -300px 0 0 -610px;
-}
-
-#show-profile .nav {
-    margin-bottom: 10px;
-    height: 16px;
-}
-
-#show-profile .modal-header {
-    margin-bottom: 10px;
-}
-
-#scan-type-buttons {
-    margin-left: 3%;
-}
-
-#scan-type-descriptions {
-    margin-left: 1%;
-}

@@ -1,0 +1,190 @@
+<%= simple_form_for( @scan ) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="well">
+        <%= f.input :url, as: :url, hint: 'Full URL of the targeted web application (must
+                    include the appropriate protocol --
+                    <i>http</i> or <i>https</i>).' %>
+
+        <%= f.input :instance_count, input_html: { value: '1' },
+                    hint: 'How many Instances to utilise for the scan.' %>
+
+        <p class="alert alert-info">
+            Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+        </p>
+
+        <div class="alert">
+            <strong>Warning!</strong>
+            <ul>
+                <li>
+                    High-performance distribution (i.e. using more than 1 Instance) is experimental.
+                </li>
+                <li>
+                    Please be sure that the web server will be able to handle the heat,
+                    otherwise you may end up killing it.
+                </li>
+            </ul>
+        </div>
+
+        <%= f.input :type, as: :hidden %>
+
+        <div class="control-group">
+            <label class="control-label" for="scan_profile">Profile</label>
+            <div class="controls">
+                <div class="input-append">
+                    <select class='span2' name="scan[profile_id]" id="scan_profile">
+                        <% @profiles.each do |p| %>
+                            <option <%= 'selected' if p.default? %> value='<%= p.id %>'><%= p.name %></option>
+                        <%end%>
+                    </select>
+
+                    <a rel="tooltip" class="btn"
+                       title="Peek"
+                       id="peek-profile"
+                       href="#">
+                        <i class="icon-eye-open"></i> / <i class="icon-pencil"></i>
+                    </a>
+                    <div class="modal hide" id="show-profile">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <div class="nav">
+                                <ul class="nav nav-pills">
+                                    <li>
+                                        <a href="#overview"
+                                           title="Jump to the top">
+                                            <i class="icon-arrow-up"></i>
+                                        </a>
+                                    </li>
+                                    <li class=""><a href="#spider-h" >Spider</a></li>
+                                    <li class=""><a href="#http-h" >HTTP</a></li>
+                                    <li class=""><a href="#auditor-h">Auditor</a></li>
+                                    <li class=""><a href="#modules-h">Modules</a></li>
+                                    <li><a href="#plugins-h">Plugins</a></li>
+                                    <li><a href="#login-h">Login</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div id='profiles'>
+                            <div class="modal-body" id="show-profile-container">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" id="profile-edit-btn" class="btn">Edit</a>
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+
+                    <p class="help-block">
+                        Configuration profile to use.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <%= f.association :users, label: 'Share with:',
+                          collection: User.all - [current_user] %>
+
+    </div>
+
+    <% if (type_errors = @scan.errors.messages[:type]).any? %>
+        <div class="alert alert-error">
+            Scan type errors:
+            <ul>
+            <% type_errors.each do |e| %>
+                <li><%= e %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="row" id="scan-type-buttons">
+        <div class="btn-group" data-toggle="buttons-radio">
+            <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
+                <h4>Direct</h4>
+            </a>
+            <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
+                <h4>Remote</h4>
+            </a>
+            <a href="#scan-type-buttons" id="hpg-btn" class="span3 btn btn-inverse scroll">
+                <h4>High-Performance Grid</h4>
+            </a>
+        </div>
+    </div>
+
+    <div class="row" id="scan-type-descriptions">
+        <div class="span4">
+            <p class="well">Perform a direct scan from this machine to the web application.
+                No need to setup anything else.</p>
+        </div>
+        <div class="span4">
+            <p class="well">Delegate the scan workload to a deployed Dispatcher.
+                No traffic will pass through this machine.</p>
+        </div>
+
+        <div class="span3">
+            <p class="well">Combine the resources of multiple Dispatchers for super-fast scans.</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="hide well" id="dispatcher-remote">
+        <div class="control-group">
+            <label class="control-label" for="dispatcher">Dispatcher</label>
+            <div class="controls">
+                <select class='span2' name="dispatcher" id="dispatcher">
+                    <option value="auto" selected>Auto -- Load balance</option>
+                    <option>192.168.0.1:7331</option>
+                    <option>scanner.com:7331</option>
+                </select>
+                <div class="hide alert alert-info"
+                     id="auto-remote-dispatcher-notice">
+                        The system will automatically assign the scan to the least
+                        burdened node. <br/>
+                        If the scan is configured to use more than 1 Instance,
+                        all Instances will be from the same Dispatcher.
+                </div>
+            </div>
+        </div>
+
+        <a rel="tooltip" class="btn"
+           title="Edit"
+           href="#">
+            <i class="icon-heart"></i>Health monitor
+        </a>
+    </div>
+
+    <div class="hide well" id="dispatcher-hpg">
+        <div class="control-group">
+            <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
+            <div class="controls">
+                <select class='span2' name="master_dispatcher" id="master_dispatcher">
+                    <option value="auto" selected>Auto -- Load balance</option>
+                    <option>192.168.0.1:7331</option>
+                    <option>scanner.com:7331</option>
+                </select>
+
+                <div class="hide alert alert-info"
+                     id="auto-master-remote-dispatcher-notice">
+                    The system will automatically assign the scan to the least
+                    burdened node. <br/>
+                    If the scan is configured to use more than 1 Instance,
+                    all Instances will be from Dispatchers with unique bandwidth pipes.
+                </div>
+            </div>
+        </div>
+
+
+        <a rel="tooltip" class="btn"
+           title="Edit"
+           href="#">
+            <i class="icon-heart"></i>Health monitor
+        </a>
+    </div>
+
+    <%= f.button :submit, id: 'go-btn',
+                 class: 'hide btn btn-large btn-primary',
+                 value: 'Go!' %>
+
+<% end %>

@@ -65,7 +65,7 @@ git clone git://github.com/Arachni/webui.git
 cd webui
 bundle install
 rake db:setup
-rails s puma
+rails s thin
 ```
 
 ## Documentation and Support

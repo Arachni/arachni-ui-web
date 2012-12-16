@@ -12,7 +12,7 @@ end
 
 gem 'factory_girl', group: [:test]
 gem 'jquery-rails'
-gem "puma", ">= 1.4.1", group: [:development, :test]
+gem "thin"
 gem "rspec-rails", ">= 2.11.0", group: [:development, :test]
 gem "capybara", ">= 1.1.2", group: :test
 gem "cucumber-rails", ">= 1.3.0", group: :test, require: false
