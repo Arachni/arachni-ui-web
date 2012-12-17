@@ -63,6 +63,21 @@ showSelectedProfile = () ->
             $('#show-profile').modal()
 
 
+window.restoreAccordion = () ->
+    aGroup = $.cookie( 'activeAccordionGroup' )
+    if aGroup
+        $( ".collapse" ).removeClass( 'in' )
+        for collapsable in aGroup.split( '-' )
+            if $( "#" + collapsable )
+                $( "#" + collapsable ).addClass( 'in' )
+    $( ".collapse" ).on 'shown', ->
+        aGroup += '-' + $( this ).attr( 'id' ) + '-'
+        $.cookie( 'activeAccordionGroup', aGroup )
+    $( ".collapse" ).on 'hidden', ->
+        aGroup = aGroup.replace( new RegExp( '-' + $( this ).attr( 'id' ) + '-', 'g' ), '' )
+        $.cookie( 'activeAccordionGroup', aGroup )
+
+
 jQuery ->
     $('#direct-btn').click ->
         pickScanType( 'direct' )
@@ -80,15 +95,4 @@ jQuery ->
         hadleAutoDispatcherNotice( 'hpg' )
     $('#peek-profile').click ->
         showSelectedProfile()
-    aGroup = $.cookie( 'activeAccordionGroup' )
-    if aGroup
-        $( ".collapse" ).removeClass( 'in' )
-        for collapsable in aGroup.split( '-' )
-            if $( "#" + collapsable )
-                $( "#" + collapsable ).addClass( 'in' )
-    $( ".collapse" ).on 'shown', ->
-        aGroup += '-' + $( this ).attr( 'id' ) + '-'
-        $.cookie( 'activeAccordionGroup', aGroup )
-    $( ".collapse" ).on 'hidden', ->
-        aGroup = aGroup.replace( new RegExp( '-' + $( this ).attr( 'id' ) + '-', 'g' ), '' )
-        $.cookie( 'activeAccordionGroup', aGroup )
+    window.restoreAccordion()

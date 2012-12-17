@@ -20,6 +20,7 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             format.html # show.html.erb
+            format.js { render @scan }
             format.json { render json: @scan }
         end
     end

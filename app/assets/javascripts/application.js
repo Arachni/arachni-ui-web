@@ -51,11 +51,11 @@ $(document).ready( function( $ ) {
     });
 });
 
-$(document).ajaxStart( function() {
-    $("#loading").modal();
-}).ajaxStop( function() {
-        $("#loading").modal( 'hide' );
-    });
+//$(document).ajaxStart( function() {
+//    $("#loading").modal();
+//}).ajaxStop( function() {
+//        $("#loading").modal( 'hide' );
+//    });
 
 $(window).ready( function( $ ) {
     if( !$('.subnav' ) ) return;

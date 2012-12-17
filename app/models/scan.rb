@@ -120,10 +120,12 @@ class Scan < ActiveRecord::Base
         save
 
         instance.service.abort_and_report :auditstore  do |auditstore|
-            self.report = auditstore
-            save
+            if !auditstore.rpc_exception?
+                self.report = auditstore
+                save
+                instance.service.shutdown {}
+            end
 
-            instance.service.shutdown {}
             aborted
         end
         true

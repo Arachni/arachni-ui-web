@@ -11,7 +11,21 @@
         <hr/>
     <% end %>
 
-    <%= render @scan.active? ? 'show_active' : 'show_finished' %>
+    <div id='scan'>
+        <%= render @scan %>
+    </div>
 
     <%= link_to 'Back', scans_path %>
 </div>
+
+<% if @scan.active? %>
+<script type="text/javascript">
+    setInterval( function(){
+        $.get( '<%= scan_url( @scan, format: :js ) %>', function( data ){
+                    $('#scan').html( data );
+                    window.restoreAccordion();
+                },
+                "html" )
+    }, 5000 );
+</script>
+<% end %>
