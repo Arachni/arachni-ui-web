@@ -43,6 +43,20 @@ class Scan < ActiveRecord::Base
         Arachni::URI( url )
     end
 
+    def sorted_issues
+        sorted_by_severity = {
+            Arachni::Issue::Severity::HIGH          => [],
+            Arachni::Issue::Severity::MEDIUM        => [],
+            Arachni::Issue::Severity::LOW           => [],
+            Arachni::Issue::Severity::INFORMATIONAL => []
+        }
+        issues.each do |i|
+            sorted_by_severity[i.severity] << i
+        end
+
+        sorted_by_severity.values.flatten
+    end
+
     def active?
         active
     end

@@ -1,10 +1,6 @@
 <%
-    issues_by_severity = {
-            Arachni::Issue::Severity::HIGH          => [],
-            Arachni::Issue::Severity::MEDIUM        => [],
-            Arachni::Issue::Severity::LOW           => [],
-            Arachni::Issue::Severity::INFORMATIONAL => []
-    }
+
+    issues_by_severity = {}
     issues.each do |issue|
         (issues_by_severity[issue.severity] ||= []) << issue
     end

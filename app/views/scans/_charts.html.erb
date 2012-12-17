@@ -15,7 +15,7 @@
 </div>
 
 <script type="text/javascript">
-    <% graph_data = issues_to_graph_data( @scan.issues ) %>
+    <% graph_data = issues_to_graph_data( @scan.sorted_issues ) %>
 
     function pie( holder, title, data, colors ) {
 
