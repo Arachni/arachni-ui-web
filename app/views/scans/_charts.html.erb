@@ -122,11 +122,9 @@
                         drawBorder: false
                     },
                     series: [
-                            <% graph_data[:issues].keys.each do |severity| %>
                         {
-                            label: '<%= severity %>'
-                        },
-                            <% end %>
+                            label: ' '
+                        }
                     ]
                 });
     }
