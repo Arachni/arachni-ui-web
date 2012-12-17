@@ -48,6 +48,7 @@
                         <i class="icon-eye-open"></i>
                     <% end %>
 
+                    <% if scan.owner == current_user %>
                     <% if scan.paused? %>
                         <%= link_to resume_scan_url( scan ), title: 'Resume scan',
                                     method: :put, class: 'btn btn-success',
@@ -67,6 +68,7 @@
                                 method: :put, class: 'btn btn-danger',
                                 data: { confirm: 'Are you sure you want to abort the scan?' } do %>
                         <i class="icon-stop"></i>
+                    <% end %>
                     <% end %>
                 </td>
             </tr>
@@ -123,9 +125,11 @@
                     <%= link_to scan, title: 'Show scan', class: 'btn btn-info' do %>
                         <i class="icon-eye-open"></i>
                     <% end %>
+                    <% if scan.owner == current_user %>
                     <%= link_to scan, title: 'Delete scan', method: :delete, class: 'btn btn-danger',
                                 data: { confirm: 'Are you sure you want to delete this scan?' } do %>
                         <i class="icon-trash"></i>
+                    <% end %>
                     <% end %>
                 </td>
             </tr>

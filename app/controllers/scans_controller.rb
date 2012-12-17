@@ -80,9 +80,7 @@ class ScansController < ApplicationController
     def update
         @scan = current_user.scans.light.find( params[:id] )
 
-        if @scan.owner != current_user
-            fail 'Only the scan owner can update scans.'
-        end
+        fail 'Only the scan owner can do that.' if @scan.owner != current_user
 
         if params[:scan][:user_ids]
             params[:scan][:user_ids] |= [@scan.owner.id]
@@ -102,6 +100,9 @@ class ScansController < ApplicationController
     # PUT /scans/1/pause
     def pause
         @scan = current_user.scans.light.find( params[:id] )
+
+        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+
         @scan.pause
 
         redirect_to :back, notice: 'Scan is being paused.'
@@ -110,6 +111,9 @@ class ScansController < ApplicationController
     # PUT /scans/1/resume
     def resume
         @scan = current_user.scans.light.find( params[:id] )
+
+        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+
         @scan.resume
 
         redirect_to :back, notice: 'Scan is resuming.'
@@ -118,6 +122,9 @@ class ScansController < ApplicationController
     # PUT /scans/1/abort
     def abort
         @scan = current_user.scans.find( params[:id] )
+
+        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+
         @scan.abort
 
         redirect_to :back, notice: 'Scan is being aborted.'
@@ -127,6 +134,9 @@ class ScansController < ApplicationController
     # DELETE /scans/1.json
     def destroy
         @scan = current_user.scans.light.find( params[:id] )
+
+        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+
         @scan.destroy
 
         respond_to do |format|

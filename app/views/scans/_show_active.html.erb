@@ -16,7 +16,7 @@
 
     <div class="span7 progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
         <div class="bar" style="width: <%= @scan.progress %>%;">
-            <span class="badge badge-inverse"><%= @scan.progress %>%</span>
+            <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
         </div>
     </div>
 
@@ -25,6 +25,7 @@
     </div>
 
     <div class='span2'>
+        <% if @scan.owner == current_user %>
         <% if @scan.paused? %>
             <%= link_to resume_scan_url( @scan ), title: 'Resume scan',
                         method: :put, class: 'btn btn-success',
@@ -44,6 +45,9 @@
                     method: :put, class: 'btn btn-danger',
                     data: { confirm: 'Are you sure you want to abort the scan?' } do %>
             <i class="icon-stop"></i>
+        <% end %>
+        <% else %>
+            <span class="label label-info">Started by <%= @scan.owner.name %></span>
         <% end %>
     </div>
 
