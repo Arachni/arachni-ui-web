@@ -69,7 +69,10 @@ class Scan < ActiveRecord::Base
     end
 
     def issues
-        issue_summaries.empty? ? report.issues : issue_summaries
+        issue_summaries.empty? ?
+            report.issues :
+            # let is handle sorting and stuff
+            Arachni::AuditStore.new( issues: issue_summaries ).issues
     end
 
     def issues=( i )
@@ -159,9 +162,9 @@ class Scan < ActiveRecord::Base
     def refresh( &block )
         instance.service.progress( with: :native_issues ) do |progress_data|
             begin
-                self.statistics = progress_data['stats']
-                self.issues     = progress_data['issues']
-                self.status     = progress_data['status']
+                self.statistics  = progress_data['stats']
+                self.issues     |= progress_data['issues']
+                self.status      = progress_data['status']
 
                 # If the scan has completed grab the report and mark it as such.
                 if !progress_data['busy']
