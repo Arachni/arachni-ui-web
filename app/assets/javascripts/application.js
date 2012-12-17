@@ -49,6 +49,9 @@ $(document).ready( function( $ ) {
         event.preventDefault();
         $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top }, 500 );
     });
+    $( '#flash' ).delay( 500 ).fadeIn( 'normal', function() {
+        $( this ).delay( 2500 ).fadeOut();
+    });
 });
 
 //$(document).ajaxStart( function() {
