@@ -88,7 +88,7 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if @scan.update_attributes( params[:scan] )
-                format.html { redirect_to @scan, notice: 'Scan was successfully updated.' }
+                format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }

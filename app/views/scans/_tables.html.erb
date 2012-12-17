@@ -68,6 +68,9 @@
                                 method: :put, class: 'btn btn-danger',
                                 data: { confirm: 'Are you sure you want to abort the scan?' } do %>
                         <i class="icon-stop"></i>
+
+                        <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+
                     <% end %>
                     <% end %>
                 </td>
@@ -130,6 +133,7 @@
                                 data: { confirm: 'Are you sure you want to delete this scan?' } do %>
                         <i class="icon-trash"></i>
                     <% end %>
+                        <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
                     <% end %>
                 </td>
             </tr>

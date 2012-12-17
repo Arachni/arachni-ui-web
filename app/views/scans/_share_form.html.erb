@@ -1,9 +1,12 @@
-    <a href="#shareScan" role="button" class="btn" data-toggle="modal">
+
+<% scan ||= @scan %>
+
+    <a href="#shareScan_<%= scan.id %>" title='Share scan' role="button" class="btn" data-toggle="modal">
         <i class="icon-share"></i>
-        Share scan
+        <%= 'Share scan' if !local_assigns[:nolabel] %>
     </a>
 
-    <div id="shareScan" class="modal hide fade" tabindex="-1" role="dialog"
+    <div id="shareScan_<%= scan.id %>" class="modal hide fade" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
 
         <div class="modal-header">
@@ -11,7 +14,7 @@
             <h3 id="myModalLabel">Share with:</h3>
         </div>
 
-        <%= simple_form_for( @scan ) do |f| %>
+        <%= simple_form_for( local_assigns[:scan] || @scan  ) do |f| %>
         <div class="modal-body">
             <%= f.error_notification %>
                 <%= f.association :users, label: '',
@@ -25,3 +28,14 @@
         </div>
         <% end %>
     </div>
+
+    <script type="text/javascript">
+        // If we have a scan table then we're probably inside it and since
+        // the table will keep being updated by AJAX we must move the modal dialog
+        // out of it otherwise it'll keep vanishing with each AJAX refresh.
+        if( $( '#scans #tables' ) ){
+            $( '#shareScan_<%= scan.id %>' ).each( function() {
+                $( '#scans #tables' ).parent().before( this );
+            })
+        }
+    </script>
