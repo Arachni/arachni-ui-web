@@ -1,5 +1,9 @@
 <% title "Scanning #{@scan.parsed_url}" %>
 
+<script type="text/javascript">
+    var stopUpdating = false
+</script>
+
 <div id='scans'>
     <% purl = @scan.parsed_url %>
     <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
@@ -21,6 +25,9 @@
 <% if @scan.active? %>
 <script type="text/javascript">
     setInterval( function(){
+        if( stopUpdating )
+            return
+
         $.get( '<%= scan_url( @scan, format: :js ) %>', function( data ){
                     $('#scan').html( data );
                     window.restoreAccordion();
