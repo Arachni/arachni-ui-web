@@ -29,6 +29,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require ./jqplot/jquery.jqplot.js
 //= require_tree .
 
 if( typeof String.prototype.startsWith != 'function' ) {

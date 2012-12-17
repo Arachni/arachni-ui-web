@@ -104,4 +104,10 @@
     </div>
 </div>
 
+<% if @scan.issues.any? %>
+    <hr/>
+    <%=  render 'charts', graph_data: issues_to_graph_data( @scan.issues ) %>
+    <hr/>
+<% end %>
+
 <%=  render 'show_issues' %>

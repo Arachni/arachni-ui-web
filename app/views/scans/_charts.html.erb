@@ -1,0 +1,154 @@
+<div class='row' id="graphs">
+
+    <div class='span12' id='chart-issues-container'>
+        <div id='chart-issues' class="clear">
+        </div>
+    </div>
+
+    <div class='span12' id='pies'>
+        <div class="pie-chart" id="chart-severities">
+        </div>
+
+        <div class="pie-chart" id="chart-elements">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function pie( holder, title, data, colors ) {
+
+        container = $( '#' + holder );
+        container.empty();
+
+        $.jqplot( holder,
+                [ data ],
+                {
+                    seriesColors: colors,
+                    title: title,
+                    seriesDefaults: {
+                        renderer: $.jqplot.PieRenderer,
+                        rendererOptions: {
+                            showDataLabels: true
+                        }
+                    },
+                    legend: {
+                        show: true
+                    },
+                    grid: {
+                        drawBorder: false,
+                        drawGridlines: false,
+                        shadow: false
+                    }
+                }
+        );
+    }
+
+
+    function drawBars(){
+    <% issues   = graph_data[:issues].values %>
+
+        $('#chart-issues').empty();
+        $('#chart-issues').attr( "width",( $('#canvas-container').width() ) );
+        $('#chart-issues').attr( "height",( $('#canvas-container').height() ) );
+
+
+        $.jqplot( 'chart-issues',
+                [
+                    <%= issues.to_json.html_safe %>
+                ],
+                {
+                    seriesColors: [ "#4572A7" ],
+                    title: 'Issues by type',
+                    highlighter: {
+                        lineWidthAdjust: 2.5,
+                        sizeAdjust: 5,
+                        showTooltip: true,
+                        tooltipLocation: 'nw',
+                        fadeTooltip: true,
+                        tooltipFadeSpeed: "fast",
+                        tooltipOffset: 2,
+                        tooltipAxes: 'both',
+                        tooltipSeparator: ', ',
+                        useAxesFormatters: true,
+                        tooltipFormatString: '%.5P'
+                    },
+                    stackSeries: true,
+                    seriesDefaults:{
+                        renderer:$.jqplot.BarRenderer,
+                        rendererOptions: {
+                            barPadding: 50,
+                            barDirection: 'vertical',
+                            barWidth: null,
+                            highlightMouseMove: true,
+                            smooth: true,
+                            animation: {
+                                show: false
+                            }
+                        },
+                        pointLabels: {show: true}
+                    },
+                    legend: {
+                        show: true,
+                    },
+                    axesDefaults: {
+                        rendererOptions: {
+                            drawBaseline: false
+                        }
+                    },
+                    axes: {
+                        xaxis: {
+                            renderer: $.jqplot.CategoryAxisRenderer,
+                            ticks: <%= graph_data[:issues].keys.map { |k| k.gsub( ' ', "\n" ) }.to_json.html_safe %>,
+                            drawMajorGridlines: false,
+                            tickOptions: {
+                                mark: 'outside',
+                                showMark: true,
+                                showGridline: true,
+                                markSize: 4,
+                                show: true,
+                                showLabel: true,
+                                formatString: '',
+                            }
+                        }
+                    },
+                    grid: {
+                        shadow: true,
+                        shadowAngle: 45,
+                        shadowOffset: 1.5,
+                        shadowWidth: 3,
+                        shadowDepth: 3,
+                        shadowAlpha: 0.07,
+                        drawBorder: false
+                    },
+                    series: [
+                            <% graph_data[:issues].keys.each do |severity| %>
+                        {
+                            label: '<%= severity %>'
+                        },
+                            <% end %>
+                    ]
+                });
+    }
+
+    function drawPies(){
+        pie( "chart-severities", "Severity levels",
+                <%= graph_data[:severities].map { |k, v| [k, v] }.to_json.html_safe %>,
+                [ '#BD2C00', '#DB843D', '#EDDF3C', '#89A54E' ]
+        );
+
+        pie( "chart-elements", "Issues by element",
+                <%= graph_data[:elements].map { |k, v| [k.capitalize, v] }.to_json.html_safe %>
+        );
+    }
+
+    <% if @scan.issues.any? %>
+    drawBars();
+    drawPies();
+    $(window).resize(function() {
+        drawBars( );
+        drawPies();
+    });
+    <% end %>
+</script>
+

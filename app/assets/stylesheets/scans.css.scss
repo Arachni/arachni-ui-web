@@ -40,4 +40,13 @@
         border-bottom: 1px solid #E5E5E5
     }
 
+    #graphs .pie-chart {
+        width: 50%;
+        float: left;
+    }
+
+    .jqplot-data-label, .jqplot-point-label {
+        color: #FFFFFF;
+    }
+
 }
