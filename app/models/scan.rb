@@ -93,13 +93,6 @@ class Scan < ActiveRecord::Base
         statistics['sitemap_size']
     end
 
-    #def issues
-    #    issue_summaries.empty? ?
-    #        report.issues :
-    #        # let is handle sorting and stuff
-    #        Arachni::AuditStore.new( issues: issue_summaries ).issues
-    #end
-
     def self.report=( r )
         super( r )
         push_arachni_issues( r.issues )

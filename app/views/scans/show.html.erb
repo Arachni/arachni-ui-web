@@ -22,7 +22,6 @@
     <%= link_to 'Back', scans_path %>
 </div>
 
-<% if @scan.active? %>
 <script type="text/javascript">
     setInterval( function(){
         if( stopUpdating )
@@ -35,4 +34,3 @@
                 "html" )
     }, 5000 );
 </script>
-<% end %>

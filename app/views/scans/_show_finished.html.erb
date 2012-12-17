@@ -1,3 +1,5 @@
+<% if @scan.completed? || @scan.aborted? %>
+
 <p>
     The scan <%= @scan.aborted? ? 'was aborted after' : 'completed in' %> <%= @scan.report.delta_time %>.
 </p>
@@ -19,3 +21,16 @@
 <script type="text/javascript">
     stopUpdating = true
 </script>
+
+<% else %>
+
+    <p class='alert alert-info'>
+        Cleaning up and retrieving the report, please wait...
+    </p>
+
+    <div class="progress progress-striped active">
+        <div class="bar" style="width: 100%;"></div>
+    </div>
+
+
+<% end %>
