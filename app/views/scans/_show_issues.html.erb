@@ -1,6 +1,8 @@
+<% issues = @scan.active? ? @scan.issues : @scan.report.issues %>
+
 <div class='row'>
     <div class="span12" id='issues'>
-        <h2>Issues <small>[<%= @scan.issues.size %>]</small></h2>
+        <h2>Issues <small>[<%= issues.size %>]</small></h2>
 
         <a href="#" onclick="$('.collapse').collapse( 'show' ); return false;">Expand all</a>
         |
@@ -11,7 +13,7 @@
         <% if @scan.issues.any? %>
             <%= render partial: '/shared/issues_twin_accordion',
                        locals: {
-                               issues:     @scan.issues,
+                               issues:     issues,
                                class_name: 'span6'
                        } %>
 

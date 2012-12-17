@@ -1,11 +1,17 @@
 <%
-
-    issues_by_severity = {}
+    issues_by_severity = {
+            Arachni::Issue::Severity::HIGH          => [],
+            Arachni::Issue::Severity::MEDIUM        => [],
+            Arachni::Issue::Severity::LOW           => [],
+            Arachni::Issue::Severity::INFORMATIONAL => []
+    }
     issues.each do |issue|
         (issues_by_severity[issue.severity] ||= []) << issue
     end
 
     issues_by_severity.each do |severity, grouped_issues|
+        next if grouped_issues.empty?
+
         lk = rk = []
         lk, rk = *grouped_issues.sort_by { |i| i.name }.chunk( 2 ) if issues.any?
 %>

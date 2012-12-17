@@ -19,3 +19,7 @@ end
 Scan.blueprint do
   # Attributes here
 end
+
+Issue.blueprint do
+  # Attributes here
+end

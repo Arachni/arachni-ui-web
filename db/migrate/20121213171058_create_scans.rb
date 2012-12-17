@@ -10,8 +10,6 @@ class CreateScans < ActiveRecord::Migration
             t.text :url
             t.text :report
             t.string :status
-            t.text :issue_summaries
-            t.integer :issue_count
             t.text :statistics
             t.integer :owner_id
 

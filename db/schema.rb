@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121216173832) do
+ActiveRecord::Schema.define(:version => 20121217185533) do
+
+  create_table "issues", :force => true do |t|
+    t.string   "name"
+    t.text     "url"
+    t.text     "var"
+    t.boolean  "verification"
+    t.float    "cvssv2"
+    t.integer  "cwe"
+    t.text     "description"
+    t.string   "elem"
+    t.string   "method"
+    t.text     "references"
+    t.text     "remedy_code"
+    t.text     "remedy_guidance"
+    t.string   "severity"
+    t.string   "digest"
+    t.integer  "scan_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "profiles", :force => true do |t|
     t.text     "redundant"
@@ -76,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20121216173832) do
 
   create_table "scans", :force => true do |t|
     t.string   "type"
-    t.boolean  "active",          :default => false
+    t.boolean  "active",         :default => false
     t.integer  "instance_count"
     t.string   "instance_url"
     t.string   "instance_token"
@@ -84,12 +104,10 @@ ActiveRecord::Schema.define(:version => 20121216173832) do
     t.text     "url"
     t.text     "report"
     t.string   "status"
-    t.text     "issue_summaries"
-    t.integer  "issue_count"
     t.text     "statistics"
     t.integer  "owner_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "scans_users", :id => false, :force => true do |t|

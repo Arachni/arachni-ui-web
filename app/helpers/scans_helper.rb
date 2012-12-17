@@ -54,16 +54,14 @@ module ScansHelper
     end
 
     def issue_severity_to_alert( severity )
-        ap severity.to_s.downcase.to_sym
-
-        case severity.to_s.downcase.to_sym
-            when :high
+        case severity
+            when Arachni::Issue::Severity::HIGH
                 'important'
-            when :medium
+            when Arachni::Issue::Severity::MEDIUM
                 'warning'
-            when :low
+            when Arachni::Issue::Severity::LOW
                 'default'
-            when :informational
+            when Arachni::Issue::Severity::INFORMATIONAL
                 'info'
         end
     end
@@ -71,11 +69,11 @@ module ScansHelper
     def response_times_to_alert( time )
         time = time.to_f
 
-        if time >= 1
+        if time >= 0.7
             [ 'alert-error',
               'The server takes too long to respond to the scan requests,' +
                   ' this will severely diminish performance.']
-        elsif (0.5..1.0).include?( time )
+        elsif (0.35..0.7).include?( time )
             [ 'alert-warning',
               'Server response times could be better but nothing to worry about yet.' ]
         else

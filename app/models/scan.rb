@@ -7,6 +7,8 @@ class Scan < ActiveRecord::Base
     belongs_to :owner, class_name: 'User', foreign_key: :owner_id
     has_and_belongs_to_many :users
 
+    has_many :issues
+
     attr_accessible :url, :type, :instance_count, :profile_id, :user_ids
 
     validates_presence_of :url
@@ -22,6 +24,7 @@ class Scan < ActiveRecord::Base
 
     serialize :report,          Arachni::AuditStore
     serialize :issue_summaries, Array
+    serialize :issue_digests,   Array
     serialize :statistics,      Hash
 
     def self.active
@@ -48,6 +51,14 @@ class Scan < ActiveRecord::Base
         !active
     end
 
+    def issue_count
+        issues.size
+    end
+
+    def issue_digests
+        issues.map { |i| i.digest }
+    end
+
     def eta
         statistics['eta']
     end
@@ -68,26 +79,16 @@ class Scan < ActiveRecord::Base
         statistics['sitemap_size']
     end
 
-    def issues
-        issue_summaries.empty? ?
-            report.issues :
-            # let is handle sorting and stuff
-            Arachni::AuditStore.new( issues: issue_summaries ).issues
-    end
-
-    def issues=( i )
-        self.issue_summaries = i
-        self.issue_count = i.size
-        i
-    end
+    #def issues
+    #    issue_summaries.empty? ?
+    #        report.issues :
+    #        # let is handle sorting and stuff
+    #        Arachni::AuditStore.new( issues: issue_summaries ).issues
+    #end
 
     def self.report=( r )
         super( r )
-        self.issue_count = r.issues.size
-
-        # We've got the full report, no need for the issue summaries anymore.
-        self.issue_summaries.clear
-
+        push_arachni_issues( r.issues )
         r
     end
 
@@ -160,11 +161,17 @@ class Scan < ActiveRecord::Base
     end
 
     def refresh( &block )
-        instance.service.progress( with: :native_issues ) do |progress_data|
+        instance.service.
+            progress( with: :native_issues,
+                      without: [ issues: [ issue_digests ] ] ) do |progress_data|
+            next if progress_data.rpc_exception?
+
             begin
                 self.statistics  = progress_data['stats']
-                self.issues     |= progress_data['issues']
-                self.status      = progress_data['status']
+
+                push_arachni_issues( progress_data['issues'] )
+
+                self.status = progress_data['status']
 
                 # If the scan has completed grab the report and mark it as such.
                 if !progress_data['busy']
@@ -188,6 +195,16 @@ class Scan < ActiveRecord::Base
     end
 
     private
+
+    def push_arachni_issues( a_issues )
+        [a_issues].compact.flatten.each do |i|
+            next if issue_digests.include? i.digest
+
+            issue_data = i.to_h.reject { |k, _| !Issue.column_names.include?( k ) }
+            issue_data['digest'] = i.digest
+            issues.create issue_data
+        end
+    end
 
     def update_report( &block )
         # Grab the report and save the scan, we're all done now. :)
