@@ -31,26 +31,21 @@
 </div>
 
 <script type="text/javascript">
-    setInterval( function(){
-        if( stopUpdatingScan )
-            return
-
-        $.get( '<%= scan_url( @scan, format: :js ) %>', function( data ){
-                    $('#scan').html( data );
-                    window.restoreAccordion();
-                },
-                "html" )
-    }, 5000 );
 
     initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
-        if( !stopUpdatingScan )
-            return
+        if( !stopUpdatingScan ) {
+            url = '<%= scan_url( @scan, format: :js ) %>'
+            elementToBeUpdated = $( '#scan' )
+        } else {
+            url = '<%= comments_scan_url( @scan, format: :js ) %>'
+            elementToBeUpdated = $( '#scan #comments' )
+        }
 
-        $.get( '<%= comments_scan_url( @scan, format: :js ) %>', function( data ){
 
+        $.get( url, function( data ){
                     wasOpen = $('#comments-list').hasClass( 'in' );
-                    $('#scan #comments').html( data );
+                    elementToBeUpdated.html( data );
                     newCommentsCount = $('#scan #comments #comment').size() - initialCommentCount;
 
                     if( newCommentsCount >0 && !wasOpen ){
