@@ -18,10 +18,10 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe Scan::CommentsController do
+describe CommentsController do
 
   # This should return the minimal set of attributes required to create a valid
-  # Scan::Comment. As you add validations to Scan::Comment, be sure to
+  # Comment. As you add validations to Comment, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
     { "user_id" => "1" }
@@ -29,14 +29,14 @@ describe Scan::CommentsController do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # Scan::CommentsController. Be sure to keep this updated too.
+  # CommentsController. Be sure to keep this updated too.
   def valid_session
     {}
   end
 
   describe "GET index" do
     it "assigns all scan_comments as @scan_comments" do
-      comment = Scan::Comment.create! valid_attributes
+      comment = Comment.create! valid_attributes
       get :index, {}, valid_session
       assigns(:scan_comments).should eq([comment])
     end
@@ -44,7 +44,7 @@ describe Scan::CommentsController do
 
   describe "GET show" do
     it "assigns the requested scan_comment as @scan_comment" do
-      comment = Scan::Comment.create! valid_attributes
+      comment = Comment.create! valid_attributes
       get :show, {:id => comment.to_param}, valid_session
       assigns(:scan_comment).should eq(comment)
     end
@@ -53,13 +53,13 @@ describe Scan::CommentsController do
   describe "GET new" do
     it "assigns a new scan_comment as @scan_comment" do
       get :new, {}, valid_session
-      assigns(:scan_comment).should be_a_new(Scan::Comment)
+      assigns(:scan_comment).should be_a_new(Comment)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested scan_comment as @scan_comment" do
-      comment = Scan::Comment.create! valid_attributes
+      comment = Comment.create! valid_attributes
       get :edit, {:id => comment.to_param}, valid_session
       assigns(:scan_comment).should eq(comment)
     end
@@ -67,35 +67,35 @@ describe Scan::CommentsController do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new Scan::Comment" do
+      it "creates a new Comment" do
         expect {
           post :create, {:scan_comment => valid_attributes}, valid_session
-        }.to change(Scan::Comment, :count).by(1)
+        }.to change(Comment, :count).by(1)
       end
 
       it "assigns a newly created scan_comment as @scan_comment" do
         post :create, {:scan_comment => valid_attributes}, valid_session
-        assigns(:scan_comment).should be_a(Scan::Comment)
+        assigns(:scan_comment).should be_a(Comment)
         assigns(:scan_comment).should be_persisted
       end
 
       it "redirects to the created scan_comment" do
         post :create, {:scan_comment => valid_attributes}, valid_session
-        response.should redirect_to(Scan::Comment.last)
+        response.should redirect_to(Comment.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved scan_comment as @scan_comment" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Scan::Comment.any_instance.stub(:save).and_return(false)
+        Comment.any_instance.stub(:save).and_return(false)
         post :create, {:scan_comment => { "user_id" => "invalid value" }}, valid_session
-        assigns(:scan_comment).should be_a_new(Scan::Comment)
+        assigns(:scan_comment).should be_a_new(Comment)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Scan::Comment.any_instance.stub(:save).and_return(false)
+        Comment.any_instance.stub(:save).and_return(false)
         post :create, {:scan_comment => { "user_id" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
@@ -105,23 +105,23 @@ describe Scan::CommentsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested scan_comment" do
-        comment = Scan::Comment.create! valid_attributes
+        comment = Comment.create! valid_attributes
         # Assuming there are no other scan_comments in the database, this
-        # specifies that the Scan::Comment created on the previous line
+        # specifies that the Comment created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Scan::Comment.any_instance.should_receive(:update_attributes).with({ "user_id" => "1" })
+        Comment.any_instance.should_receive(:update_attributes).with({ "user_id" => "1" })
         put :update, {:id => comment.to_param, :scan_comment => { "user_id" => "1" }}, valid_session
       end
 
       it "assigns the requested scan_comment as @scan_comment" do
-        comment = Scan::Comment.create! valid_attributes
+        comment = Comment.create! valid_attributes
         put :update, {:id => comment.to_param, :scan_comment => valid_attributes}, valid_session
         assigns(:scan_comment).should eq(comment)
       end
 
       it "redirects to the scan_comment" do
-        comment = Scan::Comment.create! valid_attributes
+        comment = Comment.create! valid_attributes
         put :update, {:id => comment.to_param, :scan_comment => valid_attributes}, valid_session
         response.should redirect_to(comment)
       end
@@ -129,17 +129,17 @@ describe Scan::CommentsController do
 
     describe "with invalid params" do
       it "assigns the scan_comment as @scan_comment" do
-        comment = Scan::Comment.create! valid_attributes
+        comment = Comment.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Scan::Comment.any_instance.stub(:save).and_return(false)
+        Comment.any_instance.stub(:save).and_return(false)
         put :update, {:id => comment.to_param, :scan_comment => { "user_id" => "invalid value" }}, valid_session
         assigns(:scan_comment).should eq(comment)
       end
 
       it "re-renders the 'edit' template" do
-        comment = Scan::Comment.create! valid_attributes
+        comment = Comment.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Scan::Comment.any_instance.stub(:save).and_return(false)
+        Comment.any_instance.stub(:save).and_return(false)
         put :update, {:id => comment.to_param, :scan_comment => { "user_id" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
@@ -148,14 +148,14 @@ describe Scan::CommentsController do
 
   describe "DELETE destroy" do
     it "destroys the requested scan_comment" do
-      comment = Scan::Comment.create! valid_attributes
+      comment = Comment.create! valid_attributes
       expect {
         delete :destroy, {:id => comment.to_param}, valid_session
-      }.to change(Scan::Comment, :count).by(-1)
+      }.to change(Comment, :count).by(-1)
     end
 
     it "redirects to the scan_comments list" do
-      comment = Scan::Comment.create! valid_attributes
+      comment = Comment.create! valid_attributes
       delete :destroy, {:id => comment.to_param}, valid_session
       response.should redirect_to(scan_comments_url)
     end

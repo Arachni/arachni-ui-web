@@ -1,2 +1,0 @@
-module Scan::CommentsHelper
-end

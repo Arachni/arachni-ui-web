@@ -13,6 +13,14 @@
 
 ActiveRecord::Schema.define(:version => 20121217231921) do
 
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "scan_id"
+    t.text     "text"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "issues", :force => true do |t|
     t.string   "name"
     t.text     "url"
@@ -88,27 +96,6 @@ ActiveRecord::Schema.define(:version => 20121217231921) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
-
-  create_table "scan_comments", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "scan_id"
-    t.text     "text"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "scan_notes", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "scan_id"
-    t.text     "text"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "scan_tests", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "scans", :force => true do |t|
     t.string   "type"

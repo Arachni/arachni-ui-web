@@ -15,7 +15,7 @@
 =end
 
 ArachniWebui::Application.routes.draw do
-    namespace :scan do resources :comments end
+    resources :comments
 
     resources :scans do
         put :pause,  on: :member
@@ -29,7 +29,7 @@ ArachniWebui::Application.routes.draw do
         put :make_default, on: :member
     end
 
-    match 'profiles/new(/:id)' => 'profiles#new', :as => :new_profile
+    match 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
 
     authenticated :user do
         root to: 'home#index'
