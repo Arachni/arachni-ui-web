@@ -1,7 +1,7 @@
 <% title "Scanning #{@scan.parsed_url}" %>
 
 <script type="text/javascript">
-    var stopUpdatingScan = false
+    var stopUpdatingScan = false;
 </script>
 
 <div id='scans'>
@@ -13,9 +13,10 @@
         <%=  render 'share_form' %>
     <% end %>
 
-    <a class="btn" data-toggle="collapse" href="#comments-list">
+    <a id="toggle-comments-button" class="btn" data-toggle="collapse" href="#comments-list">
         <i class="icon-comment"></i>
         Toggle comments
+        <span id="new-comments-counter" class='hide label label-info'></span>
     </a>
 
     <%= render 'comment_form' %>
@@ -41,12 +42,22 @@
                 "html" )
     }, 5000 );
 
+    initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
         if( !stopUpdatingScan )
             return
 
         $.get( '<%= comments_scan_url( @scan, format: :js ) %>', function( data ){
+
+                    wasOpen = $('#comments-list').hasClass( 'in' );
                     $('#scan #comments').html( data );
+                    newCommentsCount = $('#scan #comments #comment').size() - initialCommentCount;
+
+                    if( newCommentsCount >0 && !wasOpen ){
+                        $('#new-comments-counter' ).html( newCommentsCount );
+                        $('#new-comments-counter').show();
+                    }
+
                     window.restoreAccordion();
                 },
                 "html" )

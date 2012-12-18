@@ -5,6 +5,7 @@
         <% if (comments = scan.comments.reject { |c| !c.user }).any? %>
         <div class="accordion-inner well">
             <% comments.each do |comment| %>
+            <div id="comment">
                 <p>
                     <% if comment.user == current_user %>
                         <span class="label">You:</span>
@@ -18,13 +19,14 @@
                 <blockquote>
                     <%= m comment.text.to_s %>
                 </blockquote>
+            </div>
             <% end %>
         </div>
         <% else %>
         <p class='alert alert-info'>This scan has no comments yet.</p>
         <% end %>
 
-        <a href="#commentScan_<%= scan.id %>" title='Share scan' role="button" class="btn" data-toggle="modal">
+        <a href="#add-scan-comment" title='Comment on scan' role="button" class="btn" data-toggle="modal">
             <i class="icon-comment"></i>
             <%= 'Add comment' if !local_assigns[:nolabel] %>
         </a>

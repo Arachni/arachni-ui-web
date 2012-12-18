@@ -1,6 +1,6 @@
 <% scan ||= @scan %>
 
-<div id="commentScan_<%= scan.id %>" class="modal hide fade" tabindex="-1" role="dialog"
+<div id="add-scan-comment" class="modal hide fade" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
 
     <div class="modal-header">
@@ -28,7 +28,7 @@
     // If we have a scan table then we're probably inside it and since
     // the table will keep being updated by AJAX we must move the modal dialog
     // out of it otherwise it'll keep vanishing with each AJAX refresh.
-    $( '#commentScan_<%= scan.id %>' ).each( function() {
+    $( '#add-scan-comment' ).each( function() {
         $( '#scans' ).parent().before( this );
     })
 </script>
