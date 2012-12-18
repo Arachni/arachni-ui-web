@@ -4,8 +4,11 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
-        @active_scans   = current_user.scans.active.light.reverse
-        @inactive_scans = current_user.scans.inactive.light.reverse
+        @active_scans   = current_user.scans.active.light.order( 'id DESC' )
+
+        # TODO: Add pagination opts to settings.
+        @inactive_scans = current_user.scans.inactive.light.
+            page( params[:page] ).per( 15 ).order( 'id DESC' )
 
         respond_to do |format|
             format.html # index.html.erb

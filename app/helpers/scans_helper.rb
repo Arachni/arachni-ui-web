@@ -1,5 +1,9 @@
 module ScansHelper
 
+    def my_paginate( scans )
+        paginate( scans ).gsub( '.js', '' ).html_safe
+    end
+
     def issues_to_graph_data( issues )
         graph_data = {
             severities:       {

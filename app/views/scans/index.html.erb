@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
     setInterval( function(){
-        $.get( '<%= scans_url( format: :js ) %>', function( data ){
+        $.get( '<%= scans_url( format: :js, params: params ) %>', function( data ){
                     $('#scans #tables').html( data );
                 },
                 "html" )

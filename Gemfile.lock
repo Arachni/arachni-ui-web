@@ -179,6 +179,9 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.5)
     json_pure (1.7.5)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.1.0)
       addressable (~> 2.2.6)
     libv8 (3.11.8.4)
@@ -318,6 +321,7 @@ DEPENDENCIES
   devise (>= 2.1.2)
   factory_girl
   jquery-rails
+  kaminari
   launchy (>= 2.1.0)
   libv8 (~> 3.11.8)
   machinist

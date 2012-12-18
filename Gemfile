@@ -29,6 +29,7 @@ gem 'libv8', '~> 3.11.8'
 gem "therubyracer", group: :assets, platform: :ruby
 
 gem 'rails-footnotes', '>= 3.7.5.rc4', group: :development
+gem 'kaminari'
 
 gem 'arachni-rpc-em', git: 'git://github.com/Arachni/arachni-rpc-em.git'
 
