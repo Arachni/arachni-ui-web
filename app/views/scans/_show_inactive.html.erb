@@ -1,4 +1,4 @@
-<% if @scan.completed? || @scan.aborted? %>
+<% if @scan.finished? %>
 
 <p>
     The scan <%= @scan.aborted? ? 'was aborted after' : 'completed in' %> <%= @scan.report.delta_time %>.

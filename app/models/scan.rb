@@ -64,7 +64,7 @@ class Scan < ActiveRecord::Base
     end
 
     def finished?
-        !active
+        completed? || aborted?
     end
 
     def issue_count
