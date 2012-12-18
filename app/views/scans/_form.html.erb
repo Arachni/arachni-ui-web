@@ -1,10 +1,12 @@
-<%= simple_form_for( @scan ) do |f| %>
+<%= simple_nested_form_for( @scan ) do |f| %>
     <%= f.error_notification %>
 
     <div class="well">
         <%= f.input :url, as: :url, hint: 'Full URL of the targeted web application (must
                     include the appropriate protocol --
                     <i>http</i> or <i>https</i>).' %>
+
+        <%= f.input :description %>
 
         <%= f.input :instance_count, input_html: { value: '1' },
                     hint: 'How many Instances to utilise for the scan.' %>

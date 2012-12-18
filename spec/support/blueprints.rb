@@ -23,3 +23,7 @@ end
 Issue.blueprint do
   # Attributes here
 end
+
+Scan::Comment.blueprint do
+  # Attributes here
+end

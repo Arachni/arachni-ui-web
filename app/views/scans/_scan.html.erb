@@ -1,1 +1,12 @@
+
+<% if !@scan.description.to_s.empty? %>
+<blockquote>
+    <%= @scan.description %>
+</blockquote>
+
+<hr/>
+<% end %>
+
+<%=  render 'comment_list' %>
+
 <%= render @scan.active? ? 'show_active' : 'show_finished' %>

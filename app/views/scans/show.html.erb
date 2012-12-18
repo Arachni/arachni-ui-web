@@ -1,19 +1,26 @@
 <% title "Scanning #{@scan.parsed_url}" %>
 
 <script type="text/javascript">
-    var stopUpdating = false
+    var stopUpdatingScan = false
 </script>
 
 <div id='scans'>
+
     <% purl = @scan.parsed_url %>
     <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
 
-    <hr />
-
     <% if @scan.owner == current_user %>
         <%=  render 'share_form' %>
-        <hr/>
     <% end %>
+
+    <a class="btn" data-toggle="collapse" href="#comments-list">
+        <i class="icon-comment"></i>
+        Toggle comments
+    </a>
+
+    <%= render 'comment_form' %>
+
+    <hr />
 
     <div id='scan'>
         <%= render @scan %>
@@ -24,11 +31,22 @@
 
 <script type="text/javascript">
     setInterval( function(){
-        if( stopUpdating )
+        if( stopUpdatingScan )
             return
 
         $.get( '<%= scan_url( @scan, format: :js ) %>', function( data ){
                     $('#scan').html( data );
+                    window.restoreAccordion();
+                },
+                "html" )
+    }, 5000 );
+
+    setInterval( function(){
+        if( !stopUpdatingScan )
+            return
+
+        $.get( '<%= comments_scan_url( @scan, format: :js ) %>', function( data ){
+                    $('#scan #comments').html( data );
                     window.restoreAccordion();
                 },
                 "html" )

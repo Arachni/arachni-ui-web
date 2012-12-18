@@ -7,9 +7,11 @@ class Scan < ActiveRecord::Base
     belongs_to :owner, class_name: 'User', foreign_key: :owner_id
     has_and_belongs_to_many :users
 
-    has_many :issues
+    has_many :issues,   dependent: :destroy
+    has_many :comments, dependent: :destroy
 
-    attr_accessible :url, :type, :instance_count, :profile_id, :user_ids
+    attr_accessible :url, :description, :type, :instance_count, :profile_id,
+                    :user_ids
 
     validates_presence_of :url
     validate :validate_url

@@ -67,14 +67,14 @@ window.restoreAccordion = () ->
     aGroup = $.cookie( 'activeAccordionGroup' )
     if aGroup
         $( ".collapse" ).removeClass( 'in' )
-        for collapsable in aGroup.split( '-' )
+        for collapsable in aGroup.split( ':' )
             if $( "#" + collapsable )
                 $( "#" + collapsable ).addClass( 'in' )
     $( ".collapse" ).on 'shown', ->
-        aGroup += '-' + $( this ).attr( 'id' ) + '-'
+        aGroup += ':' + $( this ).attr( 'id' ) + ':'
         $.cookie( 'activeAccordionGroup', aGroup )
     $( ".collapse" ).on 'hidden', ->
-        aGroup = aGroup.replace( new RegExp( '-' + $( this ).attr( 'id' ) + '-', 'g' ), '' )
+        aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' )
         $.cookie( 'activeAccordionGroup', aGroup )
 
 

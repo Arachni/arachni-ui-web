@@ -16,6 +16,7 @@
 
 class User < ActiveRecord::Base
     has_and_belongs_to_many :scans
+    has_many :comments
 
     rolify
     # Include default devise modules. Others available are:

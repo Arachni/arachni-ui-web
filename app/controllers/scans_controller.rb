@@ -14,6 +14,16 @@ class ScansController < ApplicationController
         end
     end
 
+    def comments
+        @scan = current_user.scans.find( params[:id] )
+
+        respond_to do |format|
+            format.js { render '_comment_list' }
+        end
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
+    end
+
     # GET /scans/1
     # GET /scans/1.json
     def show
@@ -21,9 +31,11 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             format.html # show.html.erb
-            format.js { render @scan }
+            format.js { render partial: 'scan.html' }
             format.json { render json: @scan }
         end
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # GET /scans/1/report.html
@@ -35,6 +47,8 @@ class ScansController < ApplicationController
         render layout: false,
                text: FrameworkHelper.
                            framework { |f| f.report_as format, @scan.report }
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # GET /scans/new
@@ -48,12 +62,6 @@ class ScansController < ApplicationController
             format.json { render json: @scan }
         end
     end
-
-    ## GET /scans/1/edit
-    #def edit
-    #    @scan     = Scan.find( params[:id] )
-    #    @profiles = Profile.all
-    #end
 
     # POST /scans
     # POST /scans.json
@@ -95,6 +103,8 @@ class ScansController < ApplicationController
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
         end
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/pause
@@ -106,6 +116,8 @@ class ScansController < ApplicationController
         @scan.pause
 
         redirect_to :back, notice: 'Scan is being paused.'
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/resume
@@ -117,6 +129,8 @@ class ScansController < ApplicationController
         @scan.resume
 
         redirect_to :back, notice: 'Scan is resuming.'
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/abort
@@ -128,6 +142,8 @@ class ScansController < ApplicationController
         @scan.abort
 
         redirect_to :back, notice: 'Scan is being aborted.'
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 
     # DELETE /scans/1
@@ -143,5 +159,7 @@ class ScansController < ApplicationController
             format.html { redirect_to scans_url }
             format.json { head :no_content }
         end
+    rescue ActiveRecord::RecordNotFound
+        fail 'You do not have permission to access this scan.'
     end
 end

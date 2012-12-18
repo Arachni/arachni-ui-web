@@ -8,6 +8,7 @@ class CreateScans < ActiveRecord::Migration
             t.string :instance_token
             t.integer :profile_id
             t.text :url
+            t.text :description
             t.text :report
             t.string :status
             t.text :statistics
