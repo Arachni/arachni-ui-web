@@ -30,7 +30,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require ./jqplot/jquery.jqplot.js
-//= require jquery_nested_form
 //= require_tree .
 
 if( typeof String.prototype.startsWith != 'function' ) {
