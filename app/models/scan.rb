@@ -33,7 +33,7 @@ class Scan < ActiveRecord::Base
         where( active: true )
     end
 
-    def self.finished
+    def self.inactive
         where( active: false )
     end
 
@@ -111,6 +111,10 @@ class Scan < ActiveRecord::Base
 
     def completed?
         status == :completed
+    end
+
+    def initializing?
+        status == :initializing
     end
 
     def paused?

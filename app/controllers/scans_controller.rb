@@ -5,7 +5,7 @@ class ScansController < ApplicationController
     # GET /scans.json
     def index
         @active_scans   = current_user.scans.active.light.reverse
-        @finished_scans = current_user.scans.finished.light.reverse
+        @inactive_scans = current_user.scans.inactive.light.reverse
 
         respond_to do |format|
             format.html # index.html.erb

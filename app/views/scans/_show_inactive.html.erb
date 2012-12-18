@@ -25,7 +25,11 @@
 <% else %>
 
     <p class='alert alert-info'>
+        <% if @scan.initializing? %>
+        The scan is initializing, please wait...
+        <% else %>
         Cleaning up and retrieving the report, please wait...
+        <% end %>
     </p>
 
     <div class="progress progress-striped active">
