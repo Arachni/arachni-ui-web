@@ -16,7 +16,6 @@
     <a id="toggle-comments-button" class="btn" data-toggle="collapse"
        href="#scan<%= @scan.id %>-comments-list">
         <i class="icon-comment"></i>
-        Toggle comments
 
         <% if @scan.comments.any? %>
             <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
@@ -25,6 +24,8 @@
 
         <span id="new-comments-counter" title="The scan has new comments."
               class="hide label label-info"></span>
+
+        Toggle comments
     </a>
 
     <%= render partial: 'comment_form', locals: { scan: @scan } %>
