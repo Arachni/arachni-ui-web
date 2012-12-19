@@ -1,5 +1,5 @@
 <div id="comments">
-    <div id="comments-list" class="accordion-body collapse">
+    <div id="scan<%= scan.id %>-comments-list" class="accordion-body collapse">
         <% if (comments = scan.comments.reject { |c| !c.user }).any? %>
         <div class="accordion-inner well">
             <% comments.each do |comment| %>

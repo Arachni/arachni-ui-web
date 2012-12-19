@@ -13,7 +13,8 @@
         <%=  render partial: 'share_form', locals: { scan: @scan } %>
     <% end %>
 
-    <a id="toggle-comments-button" class="btn" data-toggle="collapse" href="#comments-list">
+    <a id="toggle-comments-button" class="btn" data-toggle="collapse"
+       href="#scan<%= @scan.id %>-comments-list">
         <i class="icon-comment"></i>
         Toggle comments
         <span id="new-comments-counter" class="hide label label-info"></span>
