@@ -16,6 +16,7 @@
 
                 <blockquote>
                     <%= m comment.text.to_s %>
+                    <small><em><%= l comment.created_at %></em></small>
                 </blockquote>
             </div>
             <% end %>
