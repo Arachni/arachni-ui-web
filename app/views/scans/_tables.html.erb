@@ -2,79 +2,8 @@
 
 <% if @active_scans.any? %>
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>URL</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Progress</th>
-            <th>ETA</th>
-            <th>Issue count</th>
-            <th>Sitemap size</th>
-            <th>Runtime</th>
-            <th>Started at</th>
-            <th>Started by</th>
-            <th></th>
-        </tr>
-        </thead>
+    <%= render partial: 'table', locals: { scans: @active_scans } %>
 
-        <% @active_scans.each do |scan| %>
-            <tr <%= 'class="warning"'.html_safe if scan.paused? %> >
-                <td><%= scan.id %></td>
-                <td><%= scan.url %></td>
-                <td><%= scan.type %></td>
-                <td><%= scan.status %></td>
-                <td><%= scan.progress %>%</td>
-                <td><%= scan.eta %></td>
-                <td><%= scan.issue_count %></td>
-                <td><%= scan.sitemap_size %></td>
-                <td><%= scan.runtime %></td>
-                <td><%= scan.created_at %></td>
-
-                <td>
-                    <% if scan.owner == current_user %>
-                        <span class="label">You</span>
-                    <% else %>
-                        <span class="label label-info"><%= scan.owner.name %></span>
-                    <% end %>
-                </td>
-
-                <td>
-                    <%= link_to scan, title: 'Show scan', class: 'btn btn-info' do %>
-                        <i class="icon-eye-open"></i>
-                    <% end %>
-
-                    <% if scan.owner == current_user %>
-                    <% if scan.paused? %>
-                        <%= link_to resume_scan_url( scan ), title: 'Resume scan',
-                                    method: :put, class: 'btn btn-success',
-                                    data: { confirm: 'Are you sure you want to resume the scan?' } do %>
-                            <i class=" icon-play-circle"></i>
-                        <% end %>
-
-                    <% else %>
-                        <%= link_to pause_scan_url( scan ), title: 'Pause scan',
-                                    method: :put, class: 'btn btn-warning',
-                                    data: { confirm: 'Are you sure you want to pause the scan?' } do %>
-                            <i class="icon-pause"></i>
-                        <% end %>
-                    <% end  %>
-
-                    <%= link_to abort_scan_url( scan ), title: 'Abort scan',
-                                method: :put, class: 'btn btn-danger',
-                                data: { confirm: 'Are you sure you want to abort the scan?' } do %>
-                        <i class="icon-stop"></i>
-
-                        <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-
-                    <% end %>
-                    <% end %>
-                </td>
-            </tr>
-        <% end %>
-    </table>
 <% else %>
     <p class="alert alert-info">
         There are no active scans at the moment, <a href="<%= new_scan_path %>">start one now</a>.
@@ -86,59 +15,8 @@
 <% if @inactive_scans.any? %>
 
     <%= my_paginate @inactive_scans %>
+    <%= render partial: 'table', locals: { scans: @inactive_scans }  %>
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>URL</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Progress</th>
-            <th>ETA</th>
-            <th>Issue count</th>
-            <th>Sitemap size</th>
-            <th>Runtime</th>
-            <th>Started at</th>
-            <th>Started by</th>
-            <th></th>
-        </tr>
-        </thead>
-
-        <% @inactive_scans.each do |scan| %>
-            <tr <%= 'class="error"'.html_safe if scan.aborted? %> >
-                <td><%= scan.id %></td>
-                <td><%= scan.url %></td>
-                <td><%= scan.type %></td>
-                <td><%= scan.status %></td>
-                <td><%= scan.progress %>%</td>
-                <td><%= scan.eta %></td>
-                <td><%= scan.issue_count %></td>
-                <td><%= scan.sitemap_size %></td>
-                <td><%= scan.runtime %></td>
-                <td><%= scan.created_at %></td>
-                <td>
-                    <% if scan.owner == current_user %>
-                        <span class="label">You</span>
-                    <% else %>
-                        <span class="label label-info"><%= scan.owner.name %></span>
-                    <% end %>
-                </td>
-                <td>
-                    <%= link_to scan, title: 'Show scan', class: 'btn btn-info' do %>
-                        <i class="icon-eye-open"></i>
-                    <% end %>
-                    <% if scan.owner == current_user %>
-                    <%= link_to scan, title: 'Delete scan', method: :delete, class: 'btn btn-danger',
-                                data: { confirm: 'Are you sure you want to delete this scan?' } do %>
-                        <i class="icon-trash"></i>
-                    <% end %>
-                        <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-                    <% end %>
-                </td>
-            </tr>
-        <% end %>
-    </table>
 <% else %>
     <p class="alert alert-info">
         There are no finished scans at the moment.
