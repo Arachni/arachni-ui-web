@@ -1,6 +1,11 @@
 
     <a href="#shareScan_<%= scan.id %>" title="Share scan" role="button" class="btn" data-toggle="modal">
         <i class="icon-share"></i>
+
+        <% if (shared_with = scan.users.size - 1) > 0 %>
+        <span title="Shared with <%= pluralize shared_with, 'more user' %>." class="label"><%= shared_with %></span>
+        <% end %>
+
         <%= 'Share scan' if !local_assigns[:nolabel] %>
     </a>
 

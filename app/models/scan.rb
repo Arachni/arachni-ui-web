@@ -230,13 +230,17 @@ class Scan < ActiveRecord::Base
 
     def completed
         self.status = :completed
-        self.active = false
-        save
+        finished
     end
 
     def aborted
         self.status = :aborted
-        self.active = false
+        finished
+    end
+
+    def finished
+        self.active      = false
+        self.finished_at = Time.now.to_date
         save
     end
 

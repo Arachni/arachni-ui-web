@@ -17,7 +17,14 @@
        href="#scan<%= @scan.id %>-comments-list">
         <i class="icon-comment"></i>
         Toggle comments
-        <span id="new-comments-counter" class="hide label label-info"></span>
+
+        <% if @scan.comments.any? %>
+            <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                  id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
+        <% end %>
+
+        <span id="new-comments-counter" title="The scan has new comments."
+              class="hide label label-info"></span>
     </a>
 
     <%= render partial: 'comment_form', locals: { scan: @scan } %>
@@ -43,14 +50,13 @@
             elementToBeUpdated = $( '#scan #comments' )
         }
 
-
         $.get( url, function( data ){
                     wasOpen = $('#comments-list').hasClass( 'in' );
                     elementToBeUpdated.html( data );
                     newCommentsCount = $('#scan #comments #comment').size() - initialCommentCount;
 
                     if( newCommentsCount >0 && !wasOpen ){
-                        $('#new-comments-counter' ).html( newCommentsCount );
+                        $('#new-comments-counter' ).html( '+' + newCommentsCount );
                         $('#new-comments-counter').show();
                     }
 

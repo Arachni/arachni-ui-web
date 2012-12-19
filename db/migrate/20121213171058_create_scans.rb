@@ -13,6 +13,7 @@ class CreateScans < ActiveRecord::Migration
             t.string :status
             t.text :statistics
             t.integer :owner_id
+            t.datetime :finished_at
 
             t.timestamps
         end

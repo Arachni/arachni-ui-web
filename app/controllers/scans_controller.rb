@@ -18,10 +18,10 @@ class ScansController < ApplicationController
     end
 
     def comments
-        @scan = current_user.scans.find( params[:id] )
+        scan = current_user.scans.find( params[:id] )
 
         respond_to do |format|
-            format.js { render '_comment_list' }
+            format.js { render partial: 'comment_list', locals: { scan: scan } }
         end
     rescue ActiveRecord::RecordNotFound
         fail 'You do not have permission to access this scan.'

@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20121217231921) do
     t.string   "status"
     t.text     "statistics"
     t.integer  "owner_id"
+    t.datetime "finished_at"
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end

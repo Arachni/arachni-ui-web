@@ -8,4 +8,5 @@ jQuery ->
     $('#toggle-comments-button').click ->
         window.newCommentsCount = 0
         window.initialCommentCount = $('#scan #comments #comment').size();
+        $('#total-comments-counter').html( window.initialCommentCount );
         $('#new-comments-counter').hide();
