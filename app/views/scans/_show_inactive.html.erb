@@ -12,7 +12,7 @@
 
 <hr/>
 
-<%= render 'charts' %>
+<%= render partial: 'charts', locals: { issues: @scan.report.issues } %>
 
 <hr/>
 

@@ -110,7 +110,7 @@
 
 <% if @scan.issues.any? %>
     <hr/>
-    <%=  render 'charts' %>
+    <%= render partial: 'charts', locals: { issues: @scan.sorted_issues } %>
     <hr/>
 <% end %>
 

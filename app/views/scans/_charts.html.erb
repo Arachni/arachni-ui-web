@@ -15,7 +15,7 @@
 </div>
 
 <script type="text/javascript">
-    <% graph_data = issues_to_graph_data( @scan.active? ? @scan.sorted_issues : @scan.report.issues ) %>
+    <% graph_data = issues_to_graph_data( issues ) %>
 
     function pie( holder, title, data, colors ) {
 
@@ -30,7 +30,8 @@
                     seriesDefaults: {
                         renderer: $.jqplot.PieRenderer,
                         rendererOptions: {
-                            showDataLabels: true
+                            showDataLabels: true,
+                            dataLabels: 'value'
                         }
                     },
                     legend: {
@@ -47,8 +48,6 @@
 
 
     function drawBars(){
-    <% issues   = graph_data[:issues].values %>
-
         $('#chart-issues').empty();
         $('#chart-issues').attr( "width",( $('#canvas-container').width() ) );
         $('#chart-issues').attr( "height",( $('#canvas-container').height() ) );
@@ -56,11 +55,11 @@
 
         $.jqplot( 'chart-issues',
                 [
-                    <%= issues.to_json.html_safe %>
+                    <%= graph_data[:issues].values.to_json.html_safe %>
                 ],
                 {
                     seriesColors: [ "#4572A7" ],
-                    title: 'Issues by type',
+                    title: '<%= issues.size %> issues of <%= graph_data[:issues].keys.size %> different types',
                     highlighter: {
                         lineWidthAdjust: 2.5,
                         sizeAdjust: 5,
@@ -90,7 +89,7 @@
                         pointLabels: {show: true}
                     },
                     legend: {
-                        show: true,
+                        show: false,
                     },
                     axesDefaults: {
                         rendererOptions: {
@@ -109,7 +108,7 @@
                                 markSize: 4,
                                 show: true,
                                 showLabel: true,
-                                formatString: '',
+                                formatString: ''
                             }
                         }
                     },
@@ -141,7 +140,7 @@
         );
     }
 
-    <% if @scan.issues.any? %>
+    <% if issues.any? %>
     drawBars();
     drawPies();
     $(window).resize(function() {

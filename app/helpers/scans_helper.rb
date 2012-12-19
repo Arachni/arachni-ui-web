@@ -38,22 +38,6 @@ module ScansHelper
             total_elements += 1
         end
 
-        graph_data[:severities].each do |severity, cnt|
-            graph_data[:severities][severity] ||= 0
-            begin
-                graph_data[:severities][severity] = ((cnt / Float( total_severities ) ) * 100).to_i
-            rescue
-            end
-        end
-
-        graph_data[:elements].each do |elem, cnt|
-            graph_data[:elements][elem] ||= 0
-            begin
-                graph_data[:elements][elem] = ((cnt / Float( total_elements ) ) * 100).to_i
-            rescue
-            end
-        end
-
         graph_data
     end
 
