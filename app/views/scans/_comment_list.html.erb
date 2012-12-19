@@ -1,5 +1,3 @@
-<% scan ||= @scan %>
-
 <div id="comments">
     <div id="comments-list" class="accordion-body collapse">
         <% if (comments = scan.comments.reject { |c| !c.user }).any? %>
@@ -23,10 +21,10 @@
             <% end %>
         </div>
         <% else %>
-        <p class='alert alert-info'>This scan has no comments yet.</p>
+        <p class="alert alert-info">This scan has no comments yet.</p>
         <% end %>
 
-        <a href="#add-scan-comment" title='Comment on scan' role="button" class="btn" data-toggle="modal">
+        <a href="#add-scan-comment" title="Comment on scan" role="button" class="btn" data-toggle="modal">
             <i class="icon-comment"></i>
             <%= 'Add comment' if !local_assigns[:nolabel] %>
         </a>

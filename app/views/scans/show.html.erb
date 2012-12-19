@@ -4,26 +4,26 @@
     var stopUpdatingScan = false;
 </script>
 
-<div id='scans'>
+<div id="scans">
 
     <% purl = @scan.parsed_url %>
     <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
 
     <% if @scan.owner == current_user %>
-        <%=  render 'share_form' %>
+        <%=  render partial: 'share_form', locals: { scan: @scan } %>
     <% end %>
 
     <a id="toggle-comments-button" class="btn" data-toggle="collapse" href="#comments-list">
         <i class="icon-comment"></i>
         Toggle comments
-        <span id="new-comments-counter" class='hide label label-info'></span>
+        <span id="new-comments-counter" class="hide label label-info"></span>
     </a>
 
-    <%= render 'comment_form' %>
+    <%= render partial: 'comment_form', locals: { scan: @scan } %>
 
     <hr />
 
-    <div id='scan'>
+    <div id="scan">
         <%= render @scan %>
     </div>
 
@@ -55,6 +55,6 @@
 
                     window.restoreAccordion();
                 },
-                "html" )
+                'html' )
     }, 5000 );
 </script>

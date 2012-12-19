@@ -3,7 +3,7 @@
         <div class="accordion-group">
             <div class="accordion-heading">
 
-                <input id="profile_<%=input%>"
+                <input id="profile_<%= input %>_<%= shortname %>"
                        <% if input.to_s != 'modules' %>
                         name="profile[selected_<%=input%>][]"
                        <% else %>
@@ -38,14 +38,12 @@
                 <div class="accordion-inner">
                     <strong>Options</strong>
 
-                    <p>
-                        <%= render partial: 'plugin_options',
-                                   locals: {
-                                       info:       info,
-                                       shortname:  shortname,
-                                       options:    @profile.plugins[shortname] || {}
-                                   } %>
-                    </p>
+                    <%= render partial: 'plugin_options',
+                               locals: {
+                                   info:       info,
+                                   shortname:  shortname,
+                                   options:    @profile.plugins[shortname] || {}
+                               } %>
                 </div>
                 <%end%>
 

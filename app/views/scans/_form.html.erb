@@ -33,59 +33,22 @@
         <div class="control-group">
             <label class="control-label" for="scan_profile">Profile</label>
             <div class="controls">
-                <div class="input-append">
-                    <select class='span2' name="scan[profile_id]" id="scan_profile">
+                    <select class="span2" name="scan[profile_id]" id="scan_profile">
                         <% @profiles.each do |p| %>
-                            <option <%= 'selected' if p.default? %> value='<%= p.id %>'><%= p.name %></option>
+                            <option <%= 'selected' if p.default? %> value="<%= p.id %>"><%= p.name %></option>
                         <%end%>
                     </select>
-
-                    <a rel="tooltip" class="btn"
-                       title="Peek"
-                       id="peek-profile"
-                       href="#">
-                        <i class="icon-eye-open"></i> / <i class="icon-pencil"></i>
-                    </a>
-                    <div class="modal hide" id="show-profile">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                            <div class="nav">
-                                <ul class="nav nav-pills">
-                                    <li>
-                                        <a href="#overview"
-                                           title="Jump to the top">
-                                            <i class="icon-arrow-up"></i>
-                                        </a>
-                                    </li>
-                                    <li class=""><a href="#spider-h" >Spider</a></li>
-                                    <li class=""><a href="#http-h" >HTTP</a></li>
-                                    <li class=""><a href="#auditor-h">Auditor</a></li>
-                                    <li class=""><a href="#modules-h">Modules</a></li>
-                                    <li><a href="#plugins-h">Plugins</a></li>
-                                    <li><a href="#login-h">Login</a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-                        <div id='profiles'>
-                            <div class="modal-body" id="show-profile-container">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" id="profile-edit-btn" class="btn">Edit</a>
-                            <a href="#" class="btn" data-dismiss="modal">Close</a>
-                        </div>
-                    </div>
 
                     <p class="help-block">
                         Configuration profile to use.
                     </p>
-                </div>
             </div>
         </div>
 
-        <%= f.association :users, label: 'Share with:',
-                          collection: User.all - [current_user] %>
+        <% if User.count > 1 %>
+            <%= f.association :users, label: 'Share scan with:',
+                              collection: User.all - [current_user] %>
+        <% end %>
 
     </div>
 
@@ -135,7 +98,7 @@
         <div class="control-group">
             <label class="control-label" for="dispatcher">Dispatcher</label>
             <div class="controls">
-                <select class='span2' name="dispatcher" id="dispatcher">
+                <select class="span2" name="dispatcher" id="dispatcher">
                     <option value="auto" selected>Auto -- Load balance</option>
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
@@ -150,9 +113,7 @@
             </div>
         </div>
 
-        <a rel="tooltip" class="btn"
-           title="Edit"
-           href="#">
+        <a class="btn" title="Monitor the health of the Dispatcher" href="#">
             <i class="icon-heart"></i>Health monitor
         </a>
     </div>
@@ -161,7 +122,7 @@
         <div class="control-group">
             <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
             <div class="controls">
-                <select class='span2' name="master_dispatcher" id="master_dispatcher">
+                <select class="span2" name="master_dispatcher" id="master_dispatcher">
                     <option value="auto" selected>Auto -- Load balance</option>
                     <option>192.168.0.1:7331</option>
                     <option>scanner.com:7331</option>
@@ -178,9 +139,7 @@
         </div>
 
 
-        <a rel="tooltip" class="btn"
-           title="Edit"
-           href="#">
+        <a class="btn" title="Monitor the health of the Dispatcher" href="#">
             <i class="icon-heart"></i>Health monitor
         </a>
     </div>

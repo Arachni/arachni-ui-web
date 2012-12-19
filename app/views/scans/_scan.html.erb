@@ -7,6 +7,6 @@
 <hr/>
 <% end %>
 
-<%=  render 'comment_list' %>
+<%=  render partial: 'comment_list', locals: { scan: @scan } %>
 
 <%= render @scan.active? ? 'show_active' : 'show_inactive' %>

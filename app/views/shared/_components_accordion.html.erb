@@ -28,15 +28,13 @@
                         <div class="accordion-inner">
                             <strong>Options</strong>
 
-                            <p>
-                                <%= render partial: 'plugin_options',
-                                           locals: {
-                                                   info:       info,
-                                                   shortname:  shortname,
-                                                   options:    @profile.plugins[shortname] || {},
-                                                   disabled:   true
-                                           } %>
-                            </p>
+                            <%= render partial: 'plugin_options',
+                                       locals: {
+                                               info:       info,
+                                               shortname:  shortname,
+                                               options:    @profile.plugins[shortname] || {},
+                                               disabled:   true
+                                       } %>
                         </div>
                     <%end%>
                 </div>

@@ -21,7 +21,7 @@
                    <%= 'disabled' if disabled %>
 
                    <% if option.type == 'path' %>
-                   disabled="disabled" type="file" value="<%=option.default%>"
+                   disabled="disabled" type="file"
                    <% elsif option.type == 'bool' %>
                    type="checkbox" class='boolean <%= required %>'
 
@@ -41,9 +41,11 @@
                         type='text'
                     <%end%>
 
-                    value="<%=(val = options[option.name]) ? val : option.default %>"
+                    <% if val = (options[option.name] || option.default) %>
+                    value="<%= val %>"
+                    <%end%>
                    <%end%>
-               />
+              >
         </p>
     <%end%>
 </div>

@@ -38,53 +38,60 @@
                     <%= f.input :redundant, input_html: {
                             value: @profile.redundant.
                                        map { |k, v| "#{k}:#{v}" }.join( "\n" )
-                        }, hint: messages_for( :redundant ) %>
+                        } %>
 
+                    <%=  messages_for( :redundant ) %>
                     <p class="alert alert-info">
                         Rules take the format of <em>pattern:times</em>,
                         input each rule in its own line.
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :auto_redundant, hint: messages_for( :auto_redundant ) %>
+                    <%= f.input :auto_redundant %>
+                    <%=  messages_for( :auto_redundant ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :depth_limit, hint: messages_for( :depth_limit )%>
+                    <%= f.input :depth_limit %>
+                    <%=  messages_for( :depth_limit ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :link_count_limit, hint: messages_for( :link_count_limit ) %>
+                    <%= f.input :link_count_limit %>
+                    <%=  messages_for( :link_count_limit ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :redirect_limit, hint: messages_for( :redirect_limit ) %>
+                    <%= f.input :redirect_limit %>
+                    <%=  messages_for( :redirect_limit ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :follow_subdomains, hint: messages_for( :follow_subdomains ) %>
+                    <%= f.input :follow_subdomains %>
+                    <%=  messages_for( :follow_subdomains ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :exclude_binaries, hint: messages_for( :exclude_binaries ) %>
+                    <%= f.input :exclude_binaries %>
+                    <%=  messages_for( :exclude_binaries ) %>
                 </div>
 
                 <div class="span12">
                 </div>
 
                 <div class="span6">
-                    <%= f.input :exclude, input_html: { value: @profile.exclude.join( "\n" ) },
-                                hint: messages_for( :exclude ) %>
+                    <%= f.input :exclude, input_html: { value: @profile.exclude.join( "\n" ) } %>
+                    <%=  messages_for( :exclude ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :include, input_html: { value: @profile.exclude.join( "\n" ) },
-                                hint: messages_for( :include ) %>
+                    <%= f.input :include, input_html: { value: @profile.exclude.join( "\n" ) } %>
+                    <%=  messages_for( :include ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :restrict_paths, input_html: { value: @profile.restrict_paths.join( "\n" ) },
-                                hint: messages_for( :restrict_paths ) %>
+                    <%= f.input :restrict_paths, input_html: { value: @profile.restrict_paths.join( "\n" ) } %>
+                    <%=  messages_for( :restrict_paths ) %>
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :extend_paths, input_html: { value: @profile.extend_paths.join( "\n" ) },
-                                hint: messages_for( :extend_paths ) %>
+                    <%= f.input :extend_paths, input_html: { value: @profile.extend_paths.join( "\n" ) } %>
+                    <%=  messages_for( :extend_paths ) %>
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
             </div>
@@ -100,36 +107,45 @@
 
             <div class="row">
                 <div class="span6">
-                        <%= f.input :http_req_limit, hint: messages_for( :http_req_limit ) %>
+                        <%= f.input :http_req_limit %>
+                    <%=  messages_for( :http_req_limit ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_host, hint: messages_for( :proxy_host ) %>
+                        <%= f.input :proxy_host %>
+                    <%=  messages_for( :proxy_host ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_port, hint: messages_for( :proxy_port ) %>
+                        <%= f.input :proxy_port %>
+                    <%=  messages_for( :proxy_port ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_username, hint: messages_for( :proxy_username ) %>
+                        <%= f.input :proxy_username %>
+                    <%=  messages_for( :proxy_username ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_password, as: :string, hint: messages_for( :proxy_password ) %>
+                        <%= f.input :proxy_password, as: :string %>
+                    <%= messages_for( :proxy_password ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_type, hint: messages_for( :proxy_type ) %>
+                    <%= f.input :proxy_type %>
+                    <%= messages_for( :proxy_type ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :user_agent, as: :string,  hint: messages_for( :user_agent ) %>
+                        <%= f.input :user_agent %>
+                    <%= messages_for( :user_agent ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :http_timeout, hint: messages_for( :http_timeout ) %>
+                    <%= f.input :http_timeout %>
+                    <%= messages_for( :http_timeout ) %>
                 </div>
                 <div class="span12">
                 </div>
                 <div class="span6">
                     <%= f.input :cookies, input_html: {
                             value: @profile.cookies.map { |k, v| "#{k}=#{v}" }.join( "\n" )
-                        },
-                        hint: messages_for( :cookies ) %>
+                        } %>
+
+                    <%= messages_for( :cookies ) %>
                     <p class="alert alert-info">
                         Cookies take the format of <em>name=value</em>,
                         input each cookie in its own line.
@@ -138,8 +154,9 @@
                 <div class="span6">
                     <%= f.input :custom_headers, input_html: {
                             value: @profile.custom_headers.map { |k, v| "#{k}=#{v}" }.join( "\n" )
-                        },
-                        hint: messages_for( :custom_headers ) %>
+                        } %>
+
+                    <%= messages_for( :custom_headers ) %>
                     <p class="alert alert-info">
                         Headers take the format of <em>name=value</em>,
                         input each header in its own line.
@@ -158,39 +175,46 @@
 
             <div class="row">
                 <div class="span6">
-                        <%= f.input :audit_forms, hint: messages_for( :audit_forms ) %>
+                    <%= f.input :audit_forms %>
+                    <%= messages_for( :audit_forms ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :audit_cookies, hint: messages_for( :audit_cookies ) %>
+                    <%= f.input :audit_cookies %>
+                    <%= messages_for( :audit_cookies ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :audit_headers, hint: messages_for( :audit_headers ) %>
+                    <%= f.input :audit_headers %>
+                    <%= messages_for( :audit_headers ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :audit_links, hint: messages_for( :audit_links ) %>
+                    <%= f.input :audit_links %>
+                    <%= messages_for( :audit_links ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :fuzz_methods, hint: messages_for( :fuzz_methods ) %>
+                    <%= f.input :fuzz_methods %>
+                    <%= messages_for( :fuzz_methods ) %>
                 </div>
 
                 <div class="span12">
                 </div>
 
                 <div class="span6">
-                    <%= f.input :audit_cookies_extensively, hint: messages_for( :audit_cookies_extensively ) %>
+                    <%= f.input :audit_cookies_extensively %>
+                    <%= messages_for( :audit_cookies_extensively ) %>
                 </div>
 
                 <div class="span12">
                 </div>
 
                 <div class="span6">
-                    <%= f.input :exclude_vectors, input_html: { value: @profile.exclude_vectors.join( "\n" ) },
-                                hint: messages_for( :exclude_vectors ) %>
+                    <%= f.input :exclude_vectors, input_html: { value: @profile.exclude_vectors.join( "\n" ) } %>
+
+                    <%= messages_for( :exclude_vectors ) %>
                     <p class="alert alert-info">Input each parameter/input/vector name in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :exclude_cookies, input_html: { value: @profile.exclude_cookies.join( "\n" ) },
-                                hint: messages_for( :exclude_cookies ) %>
+                    <%= f.input :exclude_cookies, input_html: { value: @profile.exclude_cookies.join( "\n" ) } %>
+                    <%= messages_for( :exclude_cookies ) %>
                     <p class="alert alert-info">Input each cookie's name in its own line.</p>
                 </div>
             </div>
@@ -278,10 +302,12 @@
 
             <div class="row">
                 <div class="span6">
-                    <%= f.input :login_check_url, as: :string, hint: messages_for( :login_check_url ) %>
+                    <%= f.input :login_check_url, as: :string %>
+                    <%= messages_for( :login_check_url ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :login_check_pattern, as: :string, hint: messages_for( :login_check_pattern ) %>
+                    <%= f.input :login_check_pattern, as: :string %>
+                    <%= messages_for( :login_check_pattern ) %>
                 </div>
             </div>
         </fieldset>
