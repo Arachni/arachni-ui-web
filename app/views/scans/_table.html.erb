@@ -50,7 +50,7 @@
             <td><%= scan.eta %></td>
             <% else %>
             <td><%= l scan.created_at %></td>
-            <td><%= l scan.finished_at %></td>
+            <td><%= scan.finished_at ? l( scan.finished_at ) : 'N/A' %></td>
             <% end %>
 
             <td>

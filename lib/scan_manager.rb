@@ -35,7 +35,8 @@ class ScanManager
     private
 
     def refresh_scans
-        ap :refreshing
+        Rails.logger.info "#{self.class}##{__method__}"
+
         ::EM::Iterator.new( Scan.active ).each do |scan, iter|
             scan.refresh { iter.next } rescue iter.next
         end

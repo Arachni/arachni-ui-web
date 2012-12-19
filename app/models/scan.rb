@@ -72,7 +72,7 @@ class Scan < ActiveRecord::Base
     end
 
     def issue_digests
-        issues.map { |i| i.digest }
+        Issue.digests_for_scan( self ).map { |i| i.digest }
     end
 
     def eta
@@ -174,6 +174,8 @@ class Scan < ActiveRecord::Base
     end
 
     def refresh( &block )
+        Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
+
         instance.service.
             progress( with: :native_issues,
                       without: [ issues: [ issue_digests ] ] ) do |progress_data|
@@ -240,7 +242,7 @@ class Scan < ActiveRecord::Base
 
     def finished
         self.active      = false
-        self.finished_at = Time.now.to_date
+        self.finished_at = Time.now
         save
     end
 
