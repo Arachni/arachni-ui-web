@@ -1,4 +1,5 @@
-<% title "Scanning #{@scan.parsed_url}" %>
+<% title @scan.url %>
+<% breadcrumb_add 'Scans', scans_path %>
 
 <script type="text/javascript">
     var stopUpdatingScan = false;
