@@ -7,7 +7,7 @@ class ScansController < ApplicationController
         @active_scans   = current_user.scans.active.light.order( 'id DESC' )
 
         # TODO: Add pagination opts to settings.
-        @inactive_scans = current_user.scans.inactive.light.
+        @finished_scans = current_user.scans.finished.light.
             page( params[:page] ).per( 15 ).order( 'id DESC' )
 
         respond_to do |format|

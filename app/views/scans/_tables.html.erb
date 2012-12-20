@@ -12,10 +12,10 @@
 
 <h2>Finished</h2>
 
-<% if @inactive_scans.any? %>
+<% if @finished_scans.any? %>
 
-    <%= my_paginate @inactive_scans %>
-    <%= render partial: 'table', locals: { scans: @inactive_scans, treat_as_running: false }  %>
+    <%= my_paginate @finished_scans %>
+    <%= render partial: 'table', locals: { scans: @finished_scans, treat_as_running: false }  %>
 
 <% else %>
     <p class="alert alert-info">
