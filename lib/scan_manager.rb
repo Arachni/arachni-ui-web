@@ -1,11 +1,15 @@
 class ScanManager
     include Singleton
 
-    def initialize
-        @timer ||= ::EM.add_periodic_timer( 5 ){ refresh_scans }
+    def self.monitor
+        instance.monitor
     end
 
-    def after_save( scan )
+    def monitor
+        @timer ||= ::EM.add_periodic_timer( 5 ){ refresh }
+    end
+
+    def after_create( scan )
         # If the scan has a status then it's not the first time that it's been
         # saved so bail out to avoid an inf loop.
         return if scan.status
@@ -34,7 +38,7 @@ class ScanManager
 
     private
 
-    def refresh_scans
+    def refresh
         Rails.logger.info "#{self.class}##{__method__}"
 
         ::EM::Iterator.new( Scan.active ).each do |scan, iter|

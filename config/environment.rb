@@ -22,3 +22,7 @@ require File.expand_path( '../application', __FILE__ )
 
 # Initialize the rails application
 ArachniWebui::Application.initialize!
+
+::EM.next_tick do
+    ScanManager.monitor
+end

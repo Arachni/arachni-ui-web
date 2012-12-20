@@ -3,6 +3,7 @@ require 'arachni/rpc/client'
 class Scan < ActiveRecord::Base
     set_inheritance_column 'inheritance_column'
 
+    belongs_to :dispatcher
     belongs_to :profile
     belongs_to :owner, class_name: 'User', foreign_key: :owner_id
     has_and_belongs_to_many :users
@@ -22,7 +23,7 @@ class Scan < ActiveRecord::Base
     # The manager will start the scans when they are saved for the first time
     # and will monitor and update their progress and other details at regular
     # intervals.
-    after_save     ScanManager.instance
+    after_create ScanManager.instance
 
     serialize :report,          Arachni::AuditStore
     serialize :issue_summaries, Array
