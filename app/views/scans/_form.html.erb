@@ -6,7 +6,9 @@
                     include the appropriate protocol --
                     <i>http</i> or <i>https</i>).' %>
 
-        <%= f.input :description %>
+        <%= f.input :description,
+                    hint: 'You can use <a href="http://daringfireball.net/' +
+                           'projects/markdown/syntax">Markdown</a> for text formatting.' %>
 
         <%= f.input :instance_count, input_html: { value: '1' },
                     hint: 'How many Instances to utilise for the scan.' %>
