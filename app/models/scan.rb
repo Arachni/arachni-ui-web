@@ -20,15 +20,12 @@ class Scan < ActiveRecord::Base
     validates :type, inclusion: { in:      [:direct, :remote, :grid],
                                   message: "Please select a scan type" }
 
-    # The manager will start the scans when they are saved for the first time
-    # and will monitor and update their progress and other details at regular
-    # intervals.
+    # The manager will start the scans when they are created and monitor and
+    # update their progress and other details at regular intervals.
     after_create ScanManager.instance
 
-    serialize :report,          Arachni::AuditStore
-    serialize :issue_summaries, Array
-    serialize :issue_digests,   Array
-    serialize :statistics,      Hash
+    serialize :report,     Arachni::AuditStore
+    serialize :statistics, Hash
 
     def self.active
         where( active: true )
@@ -38,8 +35,12 @@ class Scan < ActiveRecord::Base
         where( active: false )
     end
 
+    def self.finished
+        where( "status = 'completed' OR status = 'aborted'" )
+    end
+
     def self.light
-        select( column_names - %w(report issue_summaries) )
+        select( column_names - %w(report) )
     end
 
     def parsed_url
@@ -144,7 +145,8 @@ class Scan < ActiveRecord::Base
                 instance.service.shutdown {}
             end
 
-            aborted
+            self.status = :aborted
+            finish
         end
         true
     end
@@ -191,13 +193,17 @@ class Scan < ActiveRecord::Base
 
                 # If the scan has completed grab the report and mark it as such.
                 if !progress_data['busy']
-
-                    # Set as completed in order for this scan to be skipped by
-                    # the next ScanManager#refresh_scans iteration.
-                    completed
+                    finish
 
                     # Grab the report, we're all done. :)
-                    update_report( &block )
+                    update_report do
+                        # Set as completed in order for this scan to be skipped by
+                        # the next ScanManager#refresh_scans iteration.
+                        self.status = :completed
+                        save
+
+                        block.call if block_given?
+                    end
                 else
                     block.call if block_given?
                 end
@@ -231,17 +237,7 @@ class Scan < ActiveRecord::Base
         end
     end
 
-    def completed
-        self.status = :completed
-        finished
-    end
-
-    def aborted
-        self.status = :aborted
-        finished
-    end
-
-    def finished
+    def finish
         self.active      = false
         self.finished_at = Time.now
         save
