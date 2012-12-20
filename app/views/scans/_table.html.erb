@@ -31,7 +31,7 @@
         <tr <%= if scan.paused?
                     'class="warning"'.html_safe
                 elsif scan.aborted?
-                    'class="error"'.html_safe
+                    'class="error" title="Scan was aborted."'.html_safe
                 end
             %>
         >
@@ -108,3 +108,9 @@
         </tr>
     <% end %>
 </table>
+
+<% if !treat_as_running %>
+    <p>
+        <em>* Red rows indicate aborted scans.</em>
+    </p>
+<% end %>
