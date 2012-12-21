@@ -10,7 +10,7 @@
 
         <hr/>
 
-        <% if @scan.issues.any? %>
+        <% if issues.any? %>
             <%= render partial: '/shared/issues_twin_accordion',
                        locals: {
                                issues:     issues,
