@@ -82,6 +82,9 @@ class ScansController < ApplicationController
         @scan     = Scan.new( params[:scan] )
         @profiles = Profile.all
 
+        @dispatchers      = Dispatcher.alive
+        @grid_dispatchers = @dispatchers.grid_members
+
         @scan.owner = current_user
         @scan.users |= [current_user]
 

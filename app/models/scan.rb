@@ -20,6 +20,8 @@ class Scan < ActiveRecord::Base
     validates :type, inclusion: { in:      [:direct, :remote, :grid],
                                   message: "Please select a scan type" }
 
+    validate :validate_instance_count
+
     # The manager will start the scans when they are created and monitor and
     # update their progress and other details at regular intervals.
     after_create ScanManager.instance
@@ -135,6 +137,10 @@ class Scan < ActiveRecord::Base
         status == :aborted
     end
 
+    def grid?
+        type == :grid
+    end
+
     def instance
         @instance ||=
             Arachni::RPC::Client::Instance.new( Arachni::Options.instance,
@@ -173,6 +179,10 @@ class Scan < ActiveRecord::Base
         instance.framework.resume {}
     end
 
+    def spawns
+        instance_count - 1
+    end
+
     def start
         self.status = :starting
         self.active = true
@@ -180,7 +190,8 @@ class Scan < ActiveRecord::Base
 
         instance.service.scan( profile.to_rpc_options.merge(
             url:    url,
-            spawns: instance_count - 1
+            spawns: spawns,
+            grid:   grid?
         )) { refresh }
     end
 
@@ -258,5 +269,14 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def validate_instance_count
+        if grid? && instance_count <= 1
+            errors.add :instance_count, 'must be more than 1 for Grid scans'
+        end
+
+        if instance_count < 1
+            errors.add :instance_count, 'must be at least 1'
+        end
+    end
 
 end

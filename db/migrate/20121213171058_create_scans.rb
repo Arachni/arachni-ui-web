@@ -2,8 +2,8 @@ class CreateScans < ActiveRecord::Migration
     def change
         create_table :scans do |t|
             t.string :type
-            t.boolean :active , default: false
-            t.integer :instance_count
+            t.boolean :active, default: false
+            t.integer :instance_count, default: 1
             t.integer :dispatcher_id
             t.string :instance_url
             t.string :instance_token

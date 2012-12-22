@@ -10,7 +10,7 @@
                     hint: 'You can use <a href="http://daringfireball.net/' +
                            'projects/markdown/syntax">Markdown</a> for text formatting.' %>
 
-        <%= f.input :instance_count, input_html: { value: '1' },
+        <%= f.input :instance_count,
                     hint: 'How many Instances to utilise for the scan.' %>
 
         <p class="alert alert-info">
@@ -134,14 +134,18 @@
 
                 <div class="alert alert-info">
                     If the scan is configured to use more than 1 Instance,
-                    all Instances will be from Dispatchers with unique bandwidth pipes.
+                    all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
+                    <br/>
+                    Also, the selected Instance count option will be treated as
+                    a maximum value in order to satisfy Grid load-balancing and availability
+                    requirements.
                 </div>
             </div>
         </div>
 
         <% else %>
             <div class="alert alert-info">
-                There are no Dispatchers that are Grd members, <a href="<%= new_dispatcher_path %>">add one now</a>.
+                There are no Dispatchers that are Grid members, <a href="<%= new_dispatcher_path %>">add one now</a>.
             </div>
         <% end %>
     </div>

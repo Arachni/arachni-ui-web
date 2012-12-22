@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(:version => 20121219224226) do
     t.integer  "port"
     t.text     "description"
     t.text     "statistics"
-    t.boolean  "alive",       :default => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.boolean  "alive"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "issues", :force => true do |t|
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20121219224226) do
   create_table "scans", :force => true do |t|
     t.string   "type"
     t.boolean  "active",         :default => false
-    t.integer  "instance_count"
+    t.integer  "instance_count", :default => 1
     t.integer  "dispatcher_id"
     t.string   "instance_url"
     t.string   "instance_token"
