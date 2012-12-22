@@ -1,0 +1,72 @@
+<% if !@dispatcher.reachable? %>
+    <p class="alert alert-warning">
+        This Dispatcher could not be reached, the data displayed here are
+        from when it was last available and will most likely be out of date.
+    </p>
+<% end %>
+
+<div class="row">
+    <div class="span10">
+        <h1><%= @dispatcher.url %></h1>
+    </div>
+    <div class="span2">
+        <%= link_to edit_dispatcher_path( @dispatcher ), title: 'Edit Dispatcher',
+                    class: 'btn btn-warning' do %>
+            <i class="icon-pencil"></i>
+        <% end %>
+
+        <%= link_to @dispatcher, title: 'Delete Dispatcher',
+                    method: :delete, class: 'btn btn-danger',
+                    data: { confirm: 'Are you sure you want to delete this Dispatcher?' } do %>
+            <i class="icon-trash"></i>
+        <% end %>
+    </div>
+</div>
+
+<% if !@dispatcher.description.to_s.empty? %>
+    <blockquote>
+        <%= m @dispatcher.description %>
+    </blockquote>
+<% end %>
+
+<div id="node-info">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Pipe-ID</th>
+            <th>Grid member?</th>
+
+            <% if @dispatcher.grid_member? %>
+                <th>Neighbours</th>
+            <% end %>
+
+            <th>Desired pool size</th>
+            <th>Current pool size</th>
+            <th>Consumed PIDs</th>
+        </tr>
+        </thead>
+        <tr>
+            <td><%= @dispatcher.name || '(Not set)' %></td>
+            <td><%= @dispatcher.pipe_id || '(Not set)' %></td>
+            <td><%= @dispatcher.grid_member? ? 'Yes' : 'No' %></td>
+
+            <% if @dispatcher.grid_member? %>
+                <td>
+                    <% @dispatcher.neighbours.map do |neighbour| %>
+                        <%= link_to neighbour, dispatcher_path( neighbour )%>
+                    <% end.join( ', ' ) %>
+                </td>
+            <% end %>
+
+            <td><%= @dispatcher.statistics['init_pool_size'] %></td>
+            <td><%= @dispatcher.statistics['curr_pool_size'] %></td>
+            <td><%= @dispatcher.consumed_pids.join( ', ' ) %></td>
+        </tr>
+    </table>
+</div>
+
+<h2>Instances</h2>
+<div id="proc-tables">
+    <%= render partial: 'proc_tables', locals: { dispatcher: @dispatcher.finished_jobs } %>
+</div>

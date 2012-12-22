@@ -14,14 +14,6 @@ class DispatchersController < ApplicationController
         end
     end
 
-    def processes
-        @dispatcher = Dispatcher.find( params[:id] )
-
-        respond_to do |format|
-            format.js { render partial: 'proc_tables', locals: { dispatcher: @dispatcher } }
-        end
-    end
-
     # GET /dispatchers/1
     # GET /dispatchers/1.json
     def show
@@ -29,6 +21,7 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             format.html # show.html.erb
+            format.js { render partial: 'dispatcher.html' }
             format.json { render json: @dispatcher }
         end
     end
