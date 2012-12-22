@@ -19,38 +19,38 @@ hadleAutoDispatcherNotice = ( type ) ->
             $('#auto-remote-dispatcher-notice').show( 50 )
         else
             $('#auto-remote-dispatcher-notice').hide( 50 )
-    else if type == 'hpg'
+    else if type == 'grid'
         if $('#master_dispatcher').val() == 'auto'
             $('#auto-master-remote-dispatcher-notice').show( 50 )
         else
             $('#auto-master-remote-dispatcher-notice').hide( 50 )
 
 pickScanType = ( type ) ->
-    $('#hpg-alert').show( 50 )
+    $('#grid-alert').show( 50 )
 
     scan_type_selected = true
 
-    hadleAutoDispatcherNotice( type )
+#    hadleAutoDispatcherNotice( type )
     showGoButton()
     switch type
         when 'direct'
             $('#scan_type').val( 'direct' )
 
-            $('#dispatcher-hpg').hide( 50 )
+            $('#dispatcher-grid').hide( 50 )
             $('#dispatcher-remote').hide( 50 )
             $('#direct').show
         when 'remote'
             $('#scan_type').val( 'remote' )
 
             $('#direct').hide( 50 )
-            $('#dispatcher-hpg').hide( 50 )
+            $('#dispatcher-grid').hide( 50 )
             $('#dispatcher-remote').show( 50 )
-        when 'hpg'
+        when 'grid'
             $('#scan_type').val( 'grid' )
 
             $('#direct').hide( 50 )
             $('#dispatcher-remote').hide( 50 )
-            $('#dispatcher-hpg').show( 50 )
+            $('#dispatcher-grid').show( 50 )
 
 showSelectedProfile = () ->
     id = $('#scan_profile').val()
@@ -83,16 +83,16 @@ jQuery ->
         pickScanType( 'direct' )
     $('#remote-btn').click ->
         pickScanType( 'remote' )
-    $('#hpg-btn').click ->
-        pickScanType( 'hpg' )
+    $('#grid-btn').click ->
+        pickScanType( 'grid' )
     $('#scan_url').keyup ->
         showGoButton()
     $('#scan_url').blur ->
         showGoButton()
-    $('#dispatcher').change ->
-        hadleAutoDispatcherNotice( 'remote' )
-    $('#master_dispatcher').change ->
-        hadleAutoDispatcherNotice( 'hpg' )
+#    $('#dispatcher').change ->
+#        hadleAutoDispatcherNotice( 'remote' )
+#    $('#master_dispatcher').change ->
+#        hadleAutoDispatcherNotice( 'grid' )
     $('#peek-profile').click ->
         showSelectedProfile()
     window.restoreAccordion()

@@ -1,0 +1,17 @@
+<h3>Alive <small>[<%= @dispatcher.jobs.size %>]</small></h3>
+<% if @dispatcher.jobs.any? %>
+    <%= render partial: 'proc_table', locals: { jobs: @dispatcher.jobs } %>
+<% else %>
+    <p class="alert alert-info">
+        There are no running Instance at the moment.
+    </p>
+<% end %>
+
+<h3>Dead <small>[<%= @dispatcher.finished_jobs.size %>]</small></h3>
+<% if @dispatcher.finished_jobs.any? %>
+    <%= render partial: 'proc_table', locals: { jobs: @dispatcher.finished_jobs } %>
+<% else %>
+<p class="alert alert-info">
+    There are no dead Instances at the moment.
+</p>
+<% end %>

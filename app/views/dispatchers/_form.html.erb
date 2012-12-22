@@ -1,0 +1,15 @@
+<%= simple_form_for( @dispatcher ) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+        <%= f.input :address %>
+        <%= f.input :port %>
+        <%= f.input :description,
+                    hint: 'You can use <a href="http://daringfireball.net/' +
+                          'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+    </div>
+
+    <div class="form-actions">
+        <%= f.button :submit %>
+    </div>
+<% end %>

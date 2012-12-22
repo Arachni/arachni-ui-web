@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <th>URL</th>
+        <th>Type</th>
 
         <% if treat_as_running %>
         <th>Status</th>
@@ -39,6 +40,12 @@
             %>
         >
             <td><%= scan.url %></td>
+            <td>
+                <%= scan.type.to_s.capitalize %>
+                <% if scan.dispatcher %>
+                (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
+                <% end %>
+            </td>
 
             <% if treat_as_running %>
             <td><%= scan.status.to_s.capitalize %></td>
@@ -113,7 +120,7 @@
 </table>
 
 <% if has_aborted_scan %>
-    <p>
-        <em>* Red rows indicate aborted scans.</em>
+    <p class="alert alert-info">
+        Red rows indicate aborted scans.
     </p>
 <% end %>

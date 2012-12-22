@@ -60,6 +60,9 @@ class ScansController < ApplicationController
         @profiles = Profile.all
         @scan     = Scan.new
 
+        @dispatchers      = Dispatcher.alive
+        @grid_dispatchers = @dispatchers.grid_members
+
         respond_to do |format|
             format.html # new.html.erb
             format.json { render json: @scan }
@@ -69,6 +72,13 @@ class ScansController < ApplicationController
     # POST /scans
     # POST /scans.json
     def create
+        if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
+            params[:scan][:dispatcher_id] = params[:scan].delete( params[:scan][:type].to_s + '_dispatcher_id' )
+        end
+
+        params[:scan].delete( 'grid_dispatcher_id' )
+        params[:scan].delete( 'remote_dispatcher_id' )
+
         @scan     = Scan.new( params[:scan] )
         @profiles = Profile.all
 

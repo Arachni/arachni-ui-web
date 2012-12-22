@@ -1,4 +1,4 @@
-<h2>Active</h2>
+<h2>Active <small>[<%= @active_scans.size %>]</small></h2>
 
 <% if @active_scans.any? %>
 
@@ -10,7 +10,7 @@
     </p>
 <% end %>
 
-<h2>Finished</h2>
+<h2>Finished <small>[<%= @finished_scans.size %>]</small></h2>
 
 <% if @finished_scans.any? %>
 

@@ -17,20 +17,25 @@ class ScanManager
         scan.save
 
         Thread.new do
-            url, token = case scan.type
-                              when :direct
-                                  spawn_instance
-                              when :remote
-                                  raise 'Not implemented'
-                              when :grid
-                                  raise 'Not implemented'
-                          end
+            case scan.type
+                when :direct
+                    scan.instance_url, scan.instance_token = spawn_instance
+                    scan.start
 
-            scan.instance_url   = url
-            scan.instance_token = token
-            scan.save
+                when :remote
+                    owner = "WebUI v#{ArachniWebui::Application::VERSION}"
 
-            scan.start
+                    scan.dispatcher.client.dispatch( owner ) do |instance_info|
+                        scan.instance_url   = instance_info['url']
+                        scan.instance_token = instance_info['token']
+                        scan.save
+
+                        scan.start
+                    end
+
+                when :grid
+                    raise 'Not implemented'
+            end
         end
 
         true

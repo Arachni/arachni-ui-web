@@ -27,3 +27,7 @@ end
 Scan::Comment.blueprint do
   # Attributes here
 end
+
+Dispatcher.blueprint do
+  # Attributes here
+end

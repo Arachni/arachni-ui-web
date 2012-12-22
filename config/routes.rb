@@ -15,6 +15,10 @@
 =end
 
 ArachniWebui::Application.routes.draw do
+    resources :dispatchers do
+        get :processes, on: :member
+    end
+
     resources :comments
 
     resources :scans do

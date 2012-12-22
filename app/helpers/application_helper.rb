@@ -14,6 +14,9 @@
     limitations under the License.
 =end
 
+require 'socket'
+require 'timeout'
+
 module ApplicationHelper
     include ::FrameworkHelper
 
@@ -42,6 +45,19 @@ module ApplicationHelper
 
         Nokogiri::HTML.fragment( html[0..length] + append, 'utf-8' ).
             to_html.html_safe
+    end
+
+    def host_reachable?( host, port, seconds = 5 )
+        Timeout::timeout( seconds ) do
+            begin
+                TCPSocket.new( host, port ).close
+                true
+            rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, SocketError
+                false
+            end
+        end
+    rescue Timeout::Error
+        false
     end
 
     extend self

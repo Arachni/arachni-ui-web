@@ -4,6 +4,7 @@ class CreateScans < ActiveRecord::Migration
             t.string :type
             t.boolean :active , default: false
             t.integer :instance_count
+            t.integer :dispatcher_id
             t.string :instance_url
             t.string :instance_token
             t.integer :profile_id

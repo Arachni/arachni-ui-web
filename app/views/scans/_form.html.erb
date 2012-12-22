@@ -73,7 +73,7 @@
             <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
                 <h4>Remote</h4>
             </a>
-            <a href="#scan-type-buttons" id="hpg-btn" class="span3 btn btn-inverse scroll">
+            <a href="#scan-type-buttons" id="grid-btn" class="span3 btn btn-inverse scroll">
                 <h4>High-Performance Grid</h4>
             </a>
         </div>
@@ -97,53 +97,53 @@
     <hr />
 
     <div class="hide well" id="dispatcher-remote">
+        <% if @dispatchers.any? %>
         <div class="control-group">
-            <label class="control-label" for="dispatcher">Dispatcher</label>
+            <label class="control-label" for="scan[remote_dispatcher_id]">Dispatcher</label>
             <div class="controls">
-                <select class="span2" name="dispatcher" id="dispatcher">
-                    <option value="auto" selected>Auto -- Load balance</option>
-                    <option>192.168.0.1:7331</option>
-                    <option>scanner.com:7331</option>
+                <select class="span2" name="scan[remote_dispatcher_id]" id="remote_dispatcher_id">
+                    <% @dispatchers.each do |d| %>
+                    <option value="<%= d.id %>"><%= d.to_label %></option>
+                    <% end %>
                 </select>
-                <div class="hide alert alert-info"
-                     id="auto-remote-dispatcher-notice">
-                        The system will automatically assign the scan to the least
-                        burdened node. <br/>
-                        If the scan is configured to use more than 1 Instance,
-                        all Instances will be from the same Dispatcher.
+                <div class="alert alert-info">
+                    If the scan is configured to use more than 1 Instance,
+                    all Instances will be from the same Dispatcher.
                 </div>
             </div>
         </div>
-
-        <a class="btn" title="Monitor the health of the Dispatcher" href="#">
-            <i class="icon-heart"></i>Health monitor
-        </a>
+        <% else %>
+            <div class="alert alert-info">
+                There are no available Dispatchers, <a href="<%= new_dispatcher_path %>">add one now</a>.
+            </div>
+        <% end %>
     </div>
 
-    <div class="hide well" id="dispatcher-hpg">
+    <div class="hide well" id="dispatcher-grid">
+        <% if @grid_dispatchers.any? %>
         <div class="control-group">
-            <label class="control-label" for="master_dispatcher">Master Dispatcher</label>
+            <label class="control-label" for="scan[grid_dispatcher_id]">Master Dispatcher</label>
             <div class="controls">
-                <select class="span2" name="master_dispatcher" id="master_dispatcher">
-                    <option value="auto" selected>Auto -- Load balance</option>
-                    <option>192.168.0.1:7331</option>
-                    <option>scanner.com:7331</option>
+
+
+                <select class="span2" name="scan[grid_dispatcher_id]" id="grid_dispatcher_id">
+                    <% @grid_dispatchers.each do |d| %>
+                        <option value="<%= d.id %>"><%= d.to_label %></option>
+                    <% end %>
                 </select>
 
-                <div class="hide alert alert-info"
-                     id="auto-master-remote-dispatcher-notice">
-                    The system will automatically assign the scan to the least
-                    burdened node. <br/>
+                <div class="alert alert-info">
                     If the scan is configured to use more than 1 Instance,
                     all Instances will be from Dispatchers with unique bandwidth pipes.
                 </div>
             </div>
         </div>
 
-
-        <a class="btn" title="Monitor the health of the Dispatcher" href="#">
-            <i class="icon-heart"></i>Health monitor
-        </a>
+        <% else %>
+            <div class="alert alert-info">
+                There are no Dispatchers that are Grd members, <a href="<%= new_dispatcher_path %>">add one now</a>.
+            </div>
+        <% end %>
     </div>
 
     <%= f.button :submit, id: 'go-btn',

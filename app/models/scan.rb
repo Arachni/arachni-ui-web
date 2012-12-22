@@ -12,7 +12,7 @@ class Scan < ActiveRecord::Base
     has_many :comments, dependent: :destroy
 
     attr_accessible :url, :description, :type, :instance_count, :profile_id,
-                    :user_ids
+                    :user_ids, :dispatcher_id
 
     validates_presence_of :url
     validate :validate_url

@@ -25,4 +25,5 @@ ArachniWebui::Application.initialize!
 
 ::EM.next_tick do
     ScanManager.monitor
+    DispatcherManager.monitor
 end
