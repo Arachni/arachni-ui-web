@@ -18,6 +18,17 @@ class Dispatcher < ActiveRecord::Base
 
     serialize :statistics, Hash
 
+    # Exclude sensitive info.
+    def to_json( options = {} )
+        return super if options[:safe]
+
+        stats = statistics.dup
+        statistics['running_jobs'].each { |j| j.delete 'token' }
+        super( options )
+    ensure
+        self.statistics = stats
+    end
+
     def self.alive
         where( alive: true )
     end

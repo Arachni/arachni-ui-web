@@ -27,6 +27,14 @@ class Scan < ActiveRecord::Base
     serialize :report,     Arachni::AuditStore
     serialize :statistics, Hash
 
+    SENSITIVE = [ :instance_token ]
+
+    # Exclude SENSITIVE info.
+    def to_json( options = {} )
+        options[:except] ||= SENSITIVE
+        super( options )
+    end
+
     def self.active
         where( active: true )
     end
