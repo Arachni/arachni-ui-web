@@ -19,6 +19,7 @@ class Scan < ActiveRecord::Base
 
     validates :type, inclusion: { in:      [:direct, :remote, :grid],
                                   message: "Please select a scan type" }
+    validate :validate_type
 
     validate :validate_instance_count
 
@@ -266,6 +267,13 @@ class Scan < ActiveRecord::Base
         if url.to_s.empty? ||
             (purl = Arachni::URI( url )).to_s.empty? || !purl.absolute?
             errors.add :url, "not a valid absolute URL"
+        end
+    end
+
+    def validate_type
+        if type != :direct
+            errors.add :type, "#{type.to_s.capitalize} scan is not available " +
+                "as there are no suitable Dispatchers available"
         end
     end
 
