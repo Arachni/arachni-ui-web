@@ -13,6 +13,7 @@ class CreateScans < ActiveRecord::Migration
             t.text :report
             t.string :status
             t.text :statistics
+            t.text :error_messages, default: ''
             t.integer :owner_id
             t.datetime :finished_at
 

@@ -138,6 +138,10 @@ class Scan < ActiveRecord::Base
         status == :aborted
     end
 
+    def error?
+        status == :error
+    end
+
     def grid?
         type == :grid
     end
@@ -200,19 +204,28 @@ class Scan < ActiveRecord::Base
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
-            progress( with: :native_issues,
+            progress( with: [:native_issues, errors: error_messages.to_s.lines.count],
                       without: [ issues: [ issue_digests ] ] ) do |progress_data|
-            next if progress_data.rpc_exception?
+            if progress_data.rpc_exception?
+                self.status = :error
+                save
+                next
+            end
 
             begin
-                self.statistics  = progress_data['stats']
+                self.status          = progress_data['status']
+                self.statistics      = progress_data['stats']
+
+                if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
+                    self.error_messages += "\n" + progress_data['errors'].join( "\n" )
+                end
 
                 push_arachni_issues( progress_data['issues'] )
 
-                self.status = progress_data['status']
-
                 # If the scan has completed grab the report and mark it as such.
-                if !progress_data['busy']
+                if progress_data['busy']
+                    block.call if block_given?
+                else
                     finish
 
                     # Grab the report, we're all done. :)
@@ -224,8 +237,6 @@ class Scan < ActiveRecord::Base
 
                         block.call if block_given?
                     end
-                else
-                    block.call if block_given?
                 end
 
                 save
@@ -271,7 +282,7 @@ class Scan < ActiveRecord::Base
     end
 
     def validate_type
-        if type != :direct
+        if type != :direct && !dispatcher
             errors.add :type, "#{type.to_s.capitalize} scan is not available " +
                 "as there are no suitable Dispatchers available"
         end

@@ -1,3 +1,12 @@
+<% if !@scan.error_messages.empty? %>
+    <p class="alert alert-error">This scan has the logged the following errors:</p>
+    <pre id="error_messages"><%= @scan.error_messages %></pre>
+    <script type="text/javascript">
+        objDiv = document.getElementById( "error_messages" );
+        objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
+
+<% end %>
 
 <% if !@scan.description.to_s.empty? %>
 <blockquote>

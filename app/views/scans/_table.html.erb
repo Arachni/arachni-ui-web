@@ -1,6 +1,6 @@
 <% treat_as_running = local_assigns[:treat_as_running].nil? ? true : false %>
 
-<% has_aborted_scan = false %>
+<% show_legend = false %>
 
 <table class="table table-striped table-hover">
     <thead>
@@ -34,7 +34,10 @@
         <tr <%= if scan.paused?
                     'class="warning"'.html_safe
                 elsif scan.aborted?
-                    has_aborted_scan = true
+                    show_legend = true
+                    'class="warning" title="Scan was aborted."'.html_safe
+                elsif scan.error?
+                    show_legend = true
                     'class="error" title="Scan was aborted."'.html_safe
                 end
             %>
@@ -119,8 +122,11 @@
     <% end %>
 </table>
 
-<% if has_aborted_scan %>
-    <p class="alert alert-info">
-        Red rows indicate aborted scans.
-    </p>
+<% if show_legend %>
+    <div class="alert alert-info">
+        <ul>
+            <li>Yellow rows indicate aborted scans.</li>
+            <li>Red rows indicate scans which have stopped due to errors.</li>
+        </ul>
+    </div>
 <% end %>

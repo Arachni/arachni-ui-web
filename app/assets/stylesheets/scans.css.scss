@@ -69,4 +69,9 @@
         width: 100%;
     }
 
+    #error_messages {
+        max-height: 200px;
+        overflow: auto;
+    }
+
 }

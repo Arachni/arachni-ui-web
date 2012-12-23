@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20121219224226) do
     t.text     "report"
     t.string   "status"
     t.text     "statistics"
+    t.text     "error_messages", :default => ""
     t.integer  "owner_id"
     t.datetime "finished_at"
     t.datetime "created_at",                        :null => false
