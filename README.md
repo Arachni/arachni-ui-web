@@ -5,34 +5,20 @@ This is the new Web User Interface for [Arachni](https://github.com/Arachni/arac
 The interface is under development so depending on when you read this it may just
 be a mockup, partially or not at all working.
 
-And now for a general plea:
-If you've got any experience with the technologies mentioned in the [Technical details](#technical-details)
-section and you'd like to see Arachni become more usable then feel free to get in touch and
-I'm sure we'll find something for you to help out with. :)
-
 (This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
 
-## Goals
+## Features
 
-Not sure if you're aware of this but Arachni's capabilities are immense.
-
-It can be used as a Ruby lib to help you with pretty much any web related task or
-as a global Grid of highly sophisticated web application security scanners -- and herein
-lies the problem; it's no good having all this power but be unable to tame it.
-
-Enter WebUI, its purpose is to provide a simple, clean, powerful and easy-on-the-eyes
-interface to all Arachni's goodies.
-
-The old WebUI had the same goals but it was more of a demo, an exercise of sorts,
-an experiment that went a little too far.
-
-This time things are gonna get done right, which is why all involved [technologies](#technical-details)
-have been thoroughly researched and chosen because of their proven track-record
-as well as their familiarity to both users and developers -- which I hope will
-facilitate a certain degree of heightened adoption and community contribution.
-
-And most importantly, implement a blue-sky design in order to uplift cross-domain
-synergies via market-wide recognizable interfaces and stuff.
+- Multi-user, with users being able to:
+  - Share scans.
+  - Comment on shared scans.
+- Can perform the following Scan types:
+  - Direct -- From the WebUI machine to the webapp, no need to setup anything else.
+  - Remote -- Using a Dispatcher, from the machine of the Dispatcher to the webapp.
+  - Grid -- Using multiple Dispatchers, using multiple machines to perform
+    super-fast, distributed scans.
+- Scan exports in a multitude of formats (HTML, XML, YAML and more).
+- Management of preset scan configuration profiles.
 
 ## Technical details
 
@@ -64,6 +50,7 @@ To setup the WebUI run:
 git clone git://github.com/Arachni/webui.git
 cd webui
 bundle install
+rake db:migrate
 rake db:setup
 rails s thin
 ```
@@ -88,7 +75,7 @@ If you make improvements to this application, please share with others.
 
 ## Credits
 
-* [Tasos Laskos](https://github.com/Zapotek)
+* [Tasos Laskos](mailto:tasos.laskos@gmail.com)
 
 ## License
 
