@@ -2,16 +2,10 @@
 <% breadcrumb_add 'Dispatchers', dispatchers_path %>
 
 <div id="dispatchers">
-    <div id="dispatcher">
+    <div id="dispatcher"
+         data-refresh-from-url="<%= dispatcher_url( @dispatcher, format: :js ) %>"
+         data-refresh-rate="5000"
+    >
         <%= render @dispatcher %>
     </div>
 </div>
-
-<script type="text/javascript">
-    setInterval( function(){
-        $.get( '<%= dispatcher_url( @dispatcher, format: :js ) %>', function( data ){
-                    $('#dispatchers #dispatcher').html( data );
-                },
-                "html" )
-    }, 5000 );
-</script>

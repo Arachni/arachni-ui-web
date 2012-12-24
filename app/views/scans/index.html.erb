@@ -9,16 +9,10 @@
         <% end %>
     </p>
 
-    <div id="tables">
+    <div id="tables"
+         data-refresh-from-url="<%= scans_url( format: :js, params: params ) %>"
+         data-refresh-rate="5000"
+    >
         <%=  render 'tables' %>
     </div>
 </div>
-
-<script type="text/javascript">
-    setInterval( function(){
-        $.get( '<%= scans_url( format: :js, params: params ) %>', function( data ){
-                    $('#scans #tables').html( data );
-                },
-                "html" )
-    }, 5000 );
-</script>

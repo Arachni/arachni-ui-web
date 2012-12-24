@@ -52,6 +52,25 @@ $(document).ready( function( $ ) {
     $( '#flash' ).delay( 500 ).fadeIn( 'normal', function() {
         $( this ).delay( 2500 ).fadeOut();
     });
+
+    $('div').filter(function(){
+        if( $(this).data('refresh-from-url') !== undefined ){
+
+            var elem         = $(this);
+            var refresh_rate = 5000;
+            if( elem.data( 'refresh-rate' ) ){
+                refresh_rate = elem.data( 'refresh-rate' )
+            }
+
+            setInterval( function( ){
+                $.get( elem.data( 'refresh-from-url' ), function( data ){
+                        elem.html( data );
+                    },
+                    "html" )
+            }, refresh_rate );
+        }
+    });
+
 });
 
 //$(document).ajaxStart( function() {
