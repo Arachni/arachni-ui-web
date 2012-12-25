@@ -99,3 +99,5 @@ jQuery ->
     $('#active-scan-counter').bind 'refreshed', () ->
         if $(this).text() == '0'
             $(this).hide()
+        else
+            $(this).show()
