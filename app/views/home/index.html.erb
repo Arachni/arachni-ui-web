@@ -1,25 +1,32 @@
 <% title "Home" %>
 
-<div class="hero-unit hidden-phone">
-    <h1>Welcome to Arachni, <small>pick a section and let's get going...</small></h1>
-    <hr/>
-    <div class="row">
-        <div class="span3">
-            <h3><a href="<%= scans_path %>">Scans</a></h3>
-            <p>Start, monitor and manage your scans and their results.</p>
-            <p>This is probably what you're here for.</p>
-        </div>
-        <div class="span4">
-            <h3><a href="<%= profiles_path %>">Profiles</a></h3>
-            <p>Create, edit and review scan profiles.</p>
-            <p>Make the whole process easier by creating profiles that better suit your needs.</p>
-        </div>
-        <div class="span3">
-            <h3><a href="">Settings</a></h3>
-            <p>Configure several aspects of the user interface.</p>
-        </div>
+<h1>Welcome to Arachni, <small>pick a section and let's get going...</small></h1>
+
+<hr/>
+
+<div class="row">
+    <div class="span3">
+        <h3><a href="<%= scans_path %>">Scans</a></h3>
+        <p>Start, monitor and manage your scans and their results.</p>
+        <p>This is probably what you're here for.</p>
+    </div>
+    <div class="span3">
+        <h3><a href="<%= dispatchers_path %>">Dispatchers</a></h3>
+        <p>Add and monitor Dispatchers.</p>
+        <p>Dispatchers are remote agents which allow you to perform remote/distributed scans.</p>
+    </div>
+    <div class="span3">
+        <h3><a href="<%= profiles_path %>">Profiles</a></h3>
+        <p>Create, edit and review scan configuration profiles.</p>
+        <p>Make the whole process easier by creating profiles that better suit your needs.</p>
+    </div>
+    <div class="span3">
+        <h3><a href="">Settings</a></h3>
+        <p>Configure several aspects of the user interface.</p>
     </div>
 </div>
+
+<hr/>
 
 <div class="row">
     <div class="span12">
