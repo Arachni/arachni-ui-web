@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <th>URL</th>
+        <th>Profile</th>
         <th>Type</th>
 
         <% if treat_as_running %>
@@ -43,6 +44,7 @@
             %>
         >
             <td><%= scan.url %></td>
+            <td><%= link_to scan.profile.name, scan.profile %></td>
             <td>
                 <%= scan.type.to_s.capitalize %>
                 <% if scan.dispatcher %>
