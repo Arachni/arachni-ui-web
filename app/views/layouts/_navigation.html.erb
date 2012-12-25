@@ -6,10 +6,10 @@
     <li <%= mark_if_active( 'scans' ) %>>
         <%= link_to scans_path do %>
             Scans
-            <% if (active_scan_count = Scan.light.active.count) > 0 %>
-            <span class="label"><%= active_scan_count %></span>
+            <span id="active-scan-counter" data-refresh-rate="5000"
+                  data-refresh-url="<%= count_scans_url format: :js %>"
+                  class="label"></span>
             <% end %>
-        <% end %>
     </li>
     <li <%= mark_if_active( 'profiles' ) %>><%= link_to 'Profiles', profiles_path %></li>
     <li <%= mark_if_active( 'dispatchers' ) %>><%= link_to 'Dispatchers', dispatchers_path %></li>

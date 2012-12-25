@@ -96,3 +96,6 @@ jQuery ->
     $('#peek-profile').click ->
         showSelectedProfile()
     window.restoreAccordion()
+    $('#active-scan-counter').bind 'refreshed', () ->
+        if $(this).text() == '0'
+            $(this).hide()

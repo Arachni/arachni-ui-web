@@ -27,6 +27,14 @@ class ScansController < ApplicationController
         fail 'You do not have permission to access this scan.'
     end
 
+    def count
+        respond_to do |format|
+            format.js do
+                render text: current_user.scans.active.size.to_s
+            end
+        end
+    end
+
     # GET /scans/1
     # GET /scans/1.json
     def show

@@ -20,11 +20,12 @@ ArachniWebui::Application.routes.draw do
     resources :comments
 
     resources :scans do
-        put :pause,  on: :member
-        put :resume, on: :member
-        put :abort,  on: :member
-        get :report, on: :member
+        put :pause,    on: :member
+        put :resume,   on: :member
+        put :abort,    on: :member
+        get :report,   on: :member
         get :comments, on: :member
+        get :count,    on: :collection
     end
 
     resources :profiles do

@@ -44,6 +44,13 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
+function fetchAndFill( url, element ){
+    $.get( url, function( data ){
+        element.html( data );
+        element.trigger( 'refreshed' );
+    }, "html" );
+}
+
 $(document).ready( function( $ ) {
     $( '.scroll' ).click( function( event ) {
         event.preventDefault();
@@ -53,20 +60,18 @@ $(document).ready( function( $ ) {
         $( this ).delay( 2500 ).fadeOut();
     });
 
-    $('div').filter(function(){
-        if( $(this).data('refresh-from-url') !== undefined ){
+    $('div, span').filter(function(){
+        if( $(this).data('refresh-url') !== undefined ){
 
             var elem         = $(this);
-            var refresh_rate = 5000;
-            if( elem.data( 'refresh-rate' ) ){
-                refresh_rate = elem.data( 'refresh-rate' )
-            }
+            var refresh_rate = elem.data( 'refresh-rate' ) ?
+                elem.data( 'refresh-rate' ) : 5000;
+
+            // Initial fetch
+            fetchAndFill( elem.data( 'refresh-url' ), elem );
 
             setInterval( function( ){
-                $.get( elem.data( 'refresh-from-url' ), function( data ){
-                        elem.html( data );
-                    },
-                    "html" )
+                fetchAndFill( elem.data( 'refresh-url' ), elem );
             }, refresh_rate );
         }
     });
