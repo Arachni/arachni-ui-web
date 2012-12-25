@@ -283,7 +283,7 @@ class Scan < ActiveRecord::Base
     end
 
     def validate_type
-        if type != :direct && !dispatcher
+        if [:grid, :remote].include?( type ) && !dispatcher
             errors.add :type, "#{type.to_s.capitalize} scan is not available " +
                 "as there are no suitable Dispatchers available"
         end
