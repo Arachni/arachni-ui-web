@@ -28,6 +28,8 @@ gem "rolify", ">= 3.1.0"
 gem 'libv8', '~> 3.11.8'
 gem "therubyracer", group: :assets, platform: :ruby
 
+gem "rails-settings-cached"
+
 gem 'rails-footnotes', '>= 3.7.5.rc4', group: :development
 gem 'kaminari'
 

@@ -6,7 +6,7 @@ class ScanManager
     end
 
     def monitor
-        @timer ||= ::EM.add_periodic_timer( 5 ){ refresh }
+        @timer ||= ::EM.add_periodic_timer( Settings.scan_refresh_rate / 1000 ){ refresh }
     end
 
     def after_create( scan )

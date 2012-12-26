@@ -4,7 +4,7 @@
 <div id="dispatchers">
     <div id="dispatcher"
          data-refresh-url="<%= dispatcher_url( @dispatcher, format: :js ) %>"
-         data-refresh-rate="5000"
+         data-refresh-rate="<%= Settings.dispatcher_refresh_rate %>"
     >
         <%= render @dispatcher %>
     </div>

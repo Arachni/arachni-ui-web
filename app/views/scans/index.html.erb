@@ -11,7 +11,7 @@
 
     <div id="tables"
          data-refresh-url="<%= scans_url( format: :js, params: params ) %>"
-         data-refresh-rate="5000"
+         data-refresh-rate="<%= Settings.scan_refresh_rate %>"
     >
         <%=  render 'tables' %>
     </div>

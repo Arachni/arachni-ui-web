@@ -45,11 +45,11 @@
     initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
         if( !stopUpdatingScan ) {
-            url = '<%= scan_url( @scan, format: :js ) %>'
-            elementToBeUpdated = $( '#scan' )
+            url = '<%= scan_url( @scan, format: :js ) %>';
+            elementToBeUpdated = $( '#scan' );
         } else {
-            url = '<%= comments_scan_url( @scan, format: :js ) %>'
-            elementToBeUpdated = $( '#scan #comments' )
+            url = '<%= comments_scan_url( @scan, format: :js ) %>';
+            elementToBeUpdated = $( '#scan #comments' );
         }
 
         $.get( url, function( data ){
@@ -65,5 +65,5 @@
                     window.restoreAccordion();
                 },
                 'html' )
-    }, 5000 );
+    }, <%= Settings.scan_refresh_rate %> );
 </script>

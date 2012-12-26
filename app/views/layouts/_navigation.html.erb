@@ -6,7 +6,7 @@
     <li <%= mark_if_active( 'scans' ) %>>
         <%= link_to scans_path do %>
             Scans
-            <span id="active-scan-counter" data-refresh-rate="5000"
+            <span id="active-scan-counter" data-refresh-rate="<%= Settings.scan_refresh_rate %>"
                   data-refresh-url="<%= count_scans_url format: :js %>"
                   class="label"></span>
             <% end %>
