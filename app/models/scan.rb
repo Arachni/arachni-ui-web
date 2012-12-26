@@ -47,7 +47,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.finished
-        where( "status = 'completed' OR status = 'aborted'" )
+        where( "status = 'completed' OR status = 'aborted' OR status = 'error'" )
     end
 
     def self.light
@@ -77,7 +77,7 @@ class Scan < ActiveRecord::Base
     end
 
     def finished?
-        completed? || aborted?
+        completed? || aborted? || error?
     end
 
     def issue_count
@@ -210,11 +210,13 @@ class Scan < ActiveRecord::Base
 
             if progress_data.rpc_exception?
                 self.status = :error
+                self.active = false
                 save
                 next
             end
 
             begin
+                self.active     = true
                 self.status     = progress_data['status']
                 self.statistics = progress_data['stats']
 

@@ -1,26 +1,46 @@
 <% if @scan.finished? %>
 
-<p>
-    The scan <%= @scan.aborted? ? 'was aborted after' : 'completed in' %> <%= @scan.report.delta_time %>.
-</p>
+    <% if !@scan.error? %>
 
-<% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+        <% report_type = nil %>
 
-<p>
-    Download the full report as <%= reports_links[0...-1].join( ', ' ).html_safe %> or <%= reports_links.last %>.
-</p>
+        <% if @scan.aborted? %>
 
-<hr/>
+            <% report_type = 'partial' %>
+            <p class="alert alert-warning">
+            The scan was aborted after
+        <% else %>
+            <% report_type = 'full' %>
 
-<%= render partial: 'charts', locals: { issues: @scan.report.issues } %>
+            <p class="alert alert-success">
+                The scan completed in
+        <% end %>
 
-<hr/>
+        <%= @scan.report.delta_time %>.
+        </p>
 
-<%=  render 'show_issues' %>
+        <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
 
-<script type="text/javascript">
-    stopUpdatingScan = true
-</script>
+        <p class="alert alert-info">
+            Download the <%= report_type %> report as <%= reports_links[0...-1].join( ', ' ).html_safe %> or <%= reports_links.last %>.
+        </p>
+
+        <hr/>
+    <% else %>
+        <p class="alert alert-error">
+            This scan encountered a fatal error and stopped, only summaries of the logged issues are available.
+        </p>
+    <% end %>
+
+    <%= render partial: 'charts', locals: { issues: @scan.report.issues } %>
+
+    <hr/>
+
+    <%=  render 'show_issues' %>
+
+    <script type="text/javascript">
+        stopUpdatingScan = true
+    </script>
 
 <% else %>
 
@@ -35,6 +55,5 @@
     <div class="progress progress-striped active">
         <div class="bar" style="width: 100%;"></div>
     </div>
-
 
 <% end %>
