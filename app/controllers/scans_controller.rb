@@ -10,7 +10,7 @@ class ScansController < ApplicationController
 
         @finished_scans = current_user.scans.finished.light.
             page( params[:finished_page] ).
-            per( 1 ).order( 'id DESC' )
+            per( Settings.finished_scan_pagination_entries ).order( 'id DESC' )
 
         respond_to do |format|
             format.html # index.html.erb
