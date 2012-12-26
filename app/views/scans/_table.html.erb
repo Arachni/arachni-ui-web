@@ -42,7 +42,7 @@
                     'class="warning" title="Scan was aborted."'.html_safe
                 elsif scan.error?
                     show_error_legend = true
-                    'class="error" title="Scan was aborted."'.html_safe
+                    'class="error" title="Scan encountered a fatal error."'.html_safe
                 end
             %>
         >
