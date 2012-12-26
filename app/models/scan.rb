@@ -204,7 +204,8 @@ class Scan < ActiveRecord::Base
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
-            progress( with: [:instances, :native_issues, errors: error_messages.to_s.lines.count],
+            progress( with:    [ :instances, :native_issues,
+                                 errors: error_messages.to_s.lines.count ],
                       without: [ issues: issue_digests ] ) do |progress_data|
 
             if progress_data.rpc_exception?
@@ -214,8 +215,8 @@ class Scan < ActiveRecord::Base
             end
 
             begin
-                self.status          = progress_data['status']
-                self.statistics      = progress_data['stats']
+                self.status     = progress_data['status']
+                self.statistics = progress_data['stats']
 
                 if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
                     self.error_messages += "\n" + progress_data['errors'].join( "\n" )
