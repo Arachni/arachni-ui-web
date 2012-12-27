@@ -7,8 +7,8 @@
             <%= link_to scans_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
                 Scans
 
-                <% if Scan.active.count > 0 %>
-                    <span id="active-scan-counter" class="label"><%= Scan.active.count %></span>
+                <% if (scan_acount = current_user.scans.active.count) > 0 %>
+                    <span id="active-scan-counter" class="label"><%= scan_acount %></span>
                 <% end %>
 
                 <b class="caret"></b>
@@ -22,7 +22,7 @@
                     <% end %>
                 </li>
 
-                <% if (recent_scans = Scan.active.recent).any? %>
+                <% if (recent_scans = current_user.scans.active.recent).any? %>
                     <li class="divider"></li>
                     <li class="nav-header">Recently started</li>
                     <% recent_scans.each do |scan| %>
@@ -36,7 +36,7 @@
                     <% end %>
                 <% end %>
 
-                <% if (recent_scans = Scan.finished.recent).any? %>
+                <% if (recent_scans = current_user.scans.finished.recent).any? %>
                     <li class="divider"></li>
                     <li class="nav-header">Recently finished</li>
                     <% recent_scans.each do |scan| %>
@@ -62,12 +62,14 @@
             <% end %>
 
             <ul id="profile-dropdown" class="dropdown-menu">
+                <% if can? :create, Profile %>
                 <li>
                     <%= link_to new_profile_url do %>
                         <i class="icon-plus"></i>
                         New
                     <% end %>
                 </li>
+                <% end %>
 
                 <% if (recent_profiles = Profile.light.recent).any? %>
                     <li class="divider"></li>
@@ -80,21 +82,29 @@
             </ul>
         </li>
 
+        <% has_dropdown = (recent_dispatchers = Dispatcher.recent).any? || can?( :create, Dispatcher ) %>
+
         <li class="dropdown">
             <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
                 Dispatchers
+                <% if has_dropdown %>
                 <b class="caret"></b>
+                <% end %>
             <% end %>
 
+            <% if has_dropdown %>
             <ul id="dispatcher-dropdown" class="dropdown-menu">
+
+                <% if current_user.admin? %>
                 <li>
                     <%= link_to new_dispatcher_url do %>
                         <i class="icon-plus"></i>
                         New
                     <% end %>
                 </li>
+                <% end %>
 
-                <% if (recent_dispatchers = Dispatcher.recent).any? %>
+                <% if recent_dispatchers.any? %>
                     <li class="divider"></li>
                     <li class="nav-header">Recently added</li>
                     <% recent_dispatchers.each do |dispatcher| %>
@@ -103,6 +113,7 @@
                 <% end %>
 
             </ul>
+            <% end %>
         </li>
     </ul>
 <% end %>

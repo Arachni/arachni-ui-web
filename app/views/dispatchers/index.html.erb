@@ -3,11 +3,13 @@
 <div id="dispatchers">
     <h1>Dispatchers</h1>
 
+    <% if can? :create, Dispatcher %>
     <p>
         <%= link_to new_dispatcher_path, class: 'btn btn-primary' do %>
             <i class="icon-plus"></i> New Dispatcher
         <% end %>
     </p>
+    <% end %>
 
     <div id="tables"
          data-refresh-url="<%= dispatchers_url( format: :js, params: params ) %>"

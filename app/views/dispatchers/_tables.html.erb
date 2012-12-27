@@ -4,8 +4,12 @@
     <%= render partial: 'table', locals: { dispatchers: @alive_dispatchers } %>
 <% else %>
     <p class="alert alert-info">
-        There are no available Dispatchers at the moment,
-        <a href="<%= new_dispatcher_path %>">add one now</a>.
+        There are no available Dispatchers at the moment
+        <% if can? :create, Dispatcher %>
+            ,
+        <a href="<%= new_dispatcher_path %>">add one now</a>
+        <% end %>
+        .
     </p>
 <% end %>
 

@@ -10,15 +10,19 @@
         <h1><%= @dispatcher.url %></h1>
     </div>
     <div class="span2">
-        <%= link_to edit_dispatcher_path( @dispatcher ), title: 'Edit Dispatcher',
-                    class: 'btn btn-warning' do %>
-            <i class="icon-pencil"></i>
+        <% if can? :edit, Dispatcher %>
+            <%= link_to edit_dispatcher_path( @dispatcher ), title: 'Edit Dispatcher',
+                        class: 'btn btn-warning' do %>
+                <i class="icon-pencil"></i>
+            <% end %>
         <% end %>
 
-        <%= link_to @dispatcher, title: 'Delete Dispatcher',
-                    method: :delete, class: 'btn btn-danger',
-                    data: { confirm: 'Are you sure you want to delete this Dispatcher?' } do %>
-            <i class="icon-trash"></i>
+        <% if can? :delete, Dispatcher %>
+            <%= link_to @dispatcher, title: 'Delete Dispatcher',
+                        method: :delete, class: 'btn btn-danger',
+                        data: { confirm: 'Are you sure you want to delete this Dispatcher?' } do %>
+                <i class="icon-trash"></i>
+            <% end %>
         <% end %>
     </div>
 </div>

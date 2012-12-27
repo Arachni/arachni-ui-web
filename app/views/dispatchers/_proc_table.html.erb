@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <% jobs.each do |job| %>
-    <% scan = Scan.find_by_instance_url( job['url'] ) %>
+    <% scan = current_user.scans.find_by_instance_url( job['url'] ) %>
 
     <tr <%= 'class="warning"'.html_safe if !scan %> >
         <td><%= job['pid'] %></td>
@@ -34,6 +34,6 @@
 
 <% if !scan %>
     <p class="alert alert-info">
-        Rows in yellow indicate that the Instance was not created using the WebUI.
+        Rows in yellow indicate that the Instance was not created by you (or possibly even this WebUI).
     </p>
 <% end %>
