@@ -145,11 +145,11 @@ $(document).ready( function( $ ) {
 
 });
 
-//$(document).ajaxStart( function() {
+$(document).ajaxStart( function() {
 //    $("#loading").modal();
-//}).ajaxStop( function() {
-//        $("#loading").modal( 'hide' );
-//    });
+}).ajaxStop( function() {
+        $("#loading").hide();
+    });
 
 $(window).ready( function( $ ) {
     if( !$('.subnav' ) ) return;

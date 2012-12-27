@@ -77,6 +77,8 @@ window.restoreAccordion = () ->
         aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' )
         $.cookie( 'activeAccordionGroup', aGroup )
 
+window.scanTableLoading = () ->
+    $('#loading').show()
 
 jQuery ->
     $('#direct-btn').click ->
