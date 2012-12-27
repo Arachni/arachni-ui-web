@@ -79,7 +79,7 @@
         </div>
     </div>
 
-    <div class="row" id="scan-type-descriptions">
+    <div class="row hidden-phone" id="scan-type-descriptions">
         <div class="span4">
             <p class="well">Perform a direct scan from this machine to the web application.
                 No need to setup anything else.</p>
@@ -114,9 +114,11 @@
         </div>
         <% else %>
             <div class="alert alert-info">
-                There are no available Dispatchers,
-                <a href="<%= new_dispatcher_path %>">add one now</a> or perform
-                a Direct scan instead.
+                There are no available Dispatchers.
+                <% if can? :create, Dispatcher %>
+                    <a href="<%= new_dispatcher_path %>">Add one now</a> or perform
+                    a Direct scan instead.
+                <% end %>
             </div>
         <% end %>
     </div>
@@ -147,9 +149,11 @@
 
         <% else %>
             <div class="alert alert-info">
-                There are no Dispatchers that are Grid members,
-                <a href="<%= new_dispatcher_path %>">add one now</a> or select
-                a different type of scan.
+                There are no Dispatchers that are Grid members.
+                <% if can? :create, Dispatcher %>
+                <a href="<%= new_dispatcher_path %>">Add one now</a> or select
+                    a different type of scan.
+                <% end %>
             </div>
         <% end %>
     </div>

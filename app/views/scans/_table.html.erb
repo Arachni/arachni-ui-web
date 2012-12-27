@@ -49,7 +49,7 @@
         <tr>
             <th>URL</th>
             <th>Profile</th>
-            <th>Type</th>
+            <th class="hidden-phone">Type</th>
 
             <% if treat_as_running %>
             <th>Status</th>
@@ -59,8 +59,8 @@
             <th>Issue count</th>
 
             <% if treat_as_running %>
-            <th>Sitemap size</th>
-            <th>Running for</th>
+            <th class="hidden-phone">Sitemap size</th>
+            <th class="hidden-phone">Running for</th>
             <th>ETA</th>
             <% else %>
             <th>Started at</th>
@@ -68,7 +68,7 @@
             <% end %>
 
             <th>Owner</th>
-            <th>Comments</th>
+            <th class="hidden-phone">Comments</th>
             <th></th>
         </tr>
         </thead>
@@ -102,8 +102,8 @@
                 <td><%= scan.issue_count %></td>
 
                 <% if treat_as_running %>
-                <td><%= scan.sitemap_size %></td>
-                <td><%= scan.runtime %></td>
+                <td class="hidden-phone"><%= scan.sitemap_size %></td>
+                <td class="hidden-phone"><%= scan.runtime %></td>
                 <td><%= scan.eta %></td>
                 <% else %>
                 <td><%= l scan.created_at %></td>
@@ -118,7 +118,7 @@
                     <% end %>
                 </td>
 
-                <td><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
+                <td class="hidden-phone"><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
 
                 <td>
                     <% if can? :read, scan %>
