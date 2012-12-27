@@ -17,6 +17,15 @@
 class HomeController < ApplicationController
     before_filter :authenticate_user!
 
+    include NavigationHelper
+
     def index
     end
+
+    def navigation
+        respond_to do |format|
+            format.js { render partial: 'layouts/navigation' }
+        end
+    end
+
 end

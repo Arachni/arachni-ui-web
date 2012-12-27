@@ -32,6 +32,8 @@ ArachniWebui::Application.routes.draw do
 
     match 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
 
+    match '/navigation', :to => 'home#navigation'
+
     authenticated :user do
         root to: 'home#index'
     end

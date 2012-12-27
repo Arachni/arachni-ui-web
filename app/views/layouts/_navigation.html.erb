@@ -1,19 +1,110 @@
 <%= link_to "Arachni v#{Arachni::VERSION}  - Webui v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
 
 <% if user_signed_in? %>
-<ul class="nav">
-    <li <%= mark_if_active( 'home' ) %>><%= link_to 'Home', root_path %></li>
-    <li <%= mark_if_active( 'scans' ) %>>
-        <%= link_to scans_path do %>
-            Scans
-            <span id="active-scan-counter" data-refresh-rate="<%= Settings.scan_refresh_rate %>"
-                  data-refresh-url="<%= count_scans_url format: :js %>"
-                  class="label"></span>
+    <ul class="nav">
+        <li><%= link_to 'Home', root_path %></li>
+        <li class="dropdown">
+            <%= link_to scans_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
+                Scans
+
+                <% if Scan.active.count > 0 %>
+                    <span id="active-scan-counter" class="label"><%= Scan.active.count %></span>
+                <% end %>
+
+                <b class="caret"></b>
             <% end %>
-    </li>
-    <li <%= mark_if_active( 'profiles' ) %>><%= link_to 'Profiles', profiles_path %></li>
-    <li <%= mark_if_active( 'dispatchers' ) %>><%= link_to 'Dispatchers', dispatchers_path %></li>
-</ul>
+
+            <ul id="scan-dropdown" class="dropdown-menu">
+                <li>
+                    <%= link_to new_scan_url do %>
+                        <i class="icon-plus"></i>
+                        New
+                    <% end %>
+                </li>
+
+                <% if (recent_scans = Scan.active.recent).any? %>
+                    <li class="divider"></li>
+                    <li class="nav-header">Recently started</li>
+                    <% recent_scans.each do |scan| %>
+                        <li>
+                            <%= link_to scan,
+                                        scan_path( scan ),
+                                        class: ("alert-warning" if scan.paused?),
+                                        title: ("Paused" if scan.paused?)
+                            %>
+                        </li>
+                    <% end %>
+                <% end %>
+
+                <% if (recent_scans = Scan.finished.recent).any? %>
+                    <li class="divider"></li>
+                    <li class="nav-header">Recently finished</li>
+                    <% recent_scans.each do |scan| %>
+                        <%
+                           opts = if scan.error?
+                               { class: "alert-error", title: "Error" }
+                           elsif scan.aborted?
+                               { class: "alert-warning", title: "Aborted" }
+                           end
+                        %>
+                        <li>
+                            <%= link_to scan, scan_path( scan ), opts %>
+                        </li>
+                    <% end %>
+                <% end %>
+            </ul>
+        </li>
+
+        <li class="dropdown">
+            <%= link_to profiles_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
+                Profiles
+                <b class="caret"></b>
+            <% end %>
+
+            <ul id="profile-dropdown" class="dropdown-menu">
+                <li>
+                    <%= link_to new_profile_url do %>
+                        <i class="icon-plus"></i>
+                        New
+                    <% end %>
+                </li>
+
+                <% if (recent_profiles = Profile.light.recent).any? %>
+                    <li class="divider"></li>
+                    <li class="nav-header">Recently added</li>
+                    <% recent_profiles.each do |profile| %>
+                        <li><%= link_to profile, profile_path( profile ) %></li>
+                    <% end %>
+                <% end %>
+
+            </ul>
+        </li>
+
+        <li class="dropdown">
+            <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
+                Dispatchers
+                <b class="caret"></b>
+            <% end %>
+
+            <ul id="dispatcher-dropdown" class="dropdown-menu">
+                <li>
+                    <%= link_to new_dispatcher_url do %>
+                        <i class="icon-plus"></i>
+                        New
+                    <% end %>
+                </li>
+
+                <% if (recent_dispatchers = Dispatcher.recent).any? %>
+                    <li class="divider"></li>
+                    <li class="nav-header">Recently added</li>
+                    <% recent_dispatchers.each do |dispatcher| %>
+                        <li><%= link_to dispatcher, dispatcher_path( dispatcher ) %></li>
+                    <% end %>
+                <% end %>
+
+            </ul>
+        </li>
+    </ul>
 <% end %>
 
 <ul class="nav pull-right">

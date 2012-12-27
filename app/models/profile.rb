@@ -66,6 +66,18 @@ class Profile < ActiveRecord::Base
         end
     end
 
+    def self.recent( limit = 5 )
+        find( :all, order: "id desc", limit: limit )
+    end
+
+    def self.light
+        select( [:id, :name] )
+    end
+
+    def to_s
+        name
+    end
+
     def make_default
         self.class.unmake_default
         self.default = true

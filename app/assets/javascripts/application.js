@@ -32,6 +32,18 @@
 //= require ./jqplot/jquery.jqplot.js
 //= require_tree .
 
+if( typeof Array.prototype.contains != 'function' ) {
+    Array.prototype.contains = function(obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] === obj) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 if( typeof String.prototype.startsWith != 'function' ) {
     String.prototype.startsWith = function( str ){
         return this.slice( 0, str.length ) == str;
@@ -44,8 +56,11 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
+// Request the given url and place the response body as HTML inside the
+// given element.
 function fetchAndFill( url, element ){
     $.get( url, function( data ){
+        element.trigger( 'refresh' );
         element.html( data );
         element.trigger( 'refreshed' );
     }, "html" );
@@ -56,10 +71,14 @@ $(document).ready( function( $ ) {
         event.preventDefault();
         $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top }, 500 );
     });
+
+    // Fade-out flash messages after a while.
     $( '#flash' ).delay( 500 ).fadeIn( 'normal', function() {
         $( this ).delay( 2500 ).fadeOut();
     });
 
+    // Perform AJAX refreshes on elements with a 'data-refresh-url' attribute
+    // at set intervals.
     $('div, span').filter(function(){
         if( $(this).data('refresh-url') !== undefined ){
 
@@ -74,6 +93,48 @@ $(document).ready( function( $ ) {
                 fetchAndFill( elem.data( 'refresh-url' ), elem );
             }, refresh_rate );
         }
+    });
+
+    var visibleDropdowns = [];
+
+    // This gets called just before the navbar is refreshed via AJAX.
+    $('#navigation-top').bind( 'refresh', function(){
+
+        visibleDropdowns = [];
+        $('.dropdown-menu' ).each( function( i, e ){
+            if( $(e).is( ":visible" ) && $(e).attr( 'id' ) != undefined ){
+                visibleDropdowns.push( $(e).attr( 'id' ) );
+            }
+        });
+    });
+
+    // This gets called after the navbar has been refreshed via AJAX.
+    $('#navigation-top').bind( 'refreshed', function(){
+
+        // Set the active section in the navbar.
+        //
+        // Since the navbar gets refreshed via AJAX we can't figure this out on
+        // the server-side because the controller will always be irrelevant.
+        $('ul.nav > li > a' ).each( function( i, e ){
+            if( window.location.pathname == $(e).attr( 'href' ) ){
+                $(e ).parent().addClass( 'active' );
+            }
+        });
+
+        // Hack to maintain dropdown menu state when they get refreshed
+        // during a hover.
+        $('.dropdown-menu' ).each( function( i, e ){
+            if( visibleDropdowns.contains( $(e).attr( 'id' ) ) ){
+                $(e).show();
+                $(e).parent().hover( function(){
+                    $(e).show();
+                }, function(){
+                    $(e).hide();
+                });
+            }
+        });
+
+        visibleDropdowns = [];
     });
 
 });

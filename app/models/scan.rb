@@ -38,6 +38,16 @@ class Scan < ActiveRecord::Base
         super( options )
     end
 
+    def self.recent( limit = 5 )
+        light.find( :all, order: "id desc", limit: limit )
+    end
+
+    def to_s
+        s = "#{url} | #{profile} profile, #{issue_count} issues"
+        s << " (#{progress}%)" if !finished?
+        s << '.'
+    end
+
     def self.active
         where( active: true )
     end

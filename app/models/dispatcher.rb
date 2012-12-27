@@ -53,6 +53,10 @@ class Dispatcher < ActiveRecord::Base
         alive.map { |d| d.grid_member? }.include? true
     end
 
+    def self.recent( limit = 5 )
+        find( :all, order: "id desc", limit: limit )
+    end
+
     def to_label
         str = to_s
         str << " | #{jobs.size} scans" if jobs.any?
