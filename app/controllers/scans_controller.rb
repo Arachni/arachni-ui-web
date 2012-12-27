@@ -3,6 +3,7 @@ class ScansController < ApplicationController
 
     include ScansHelper
 
+    load_and_authorize_resource
 
     # GET /scans
     # GET /scans.json
@@ -47,13 +48,11 @@ class ScansController < ApplicationController
     end
 
     def comments
-        scan = current_user.scans.find( params[:id] )
+        scan = find_scan( params[:id] )
 
         respond_to do |format|
             format.js { render partial: 'comment_list', locals: { scan: scan } }
         end
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     def count
@@ -67,28 +66,24 @@ class ScansController < ApplicationController
     # GET /scans/1
     # GET /scans/1.json
     def show
-        @scan = current_user.scans.find(params[:id])
+        @scan = find_scan( params[:id], false )
 
         respond_to do |format|
             format.html # show.html.erb
             format.js { render partial: 'scan.html' }
             format.json { render json: @scan }
         end
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # GET /scans/1/report.html
     # GET /scans/1/report.json
     def report
-        @scan = current_user.scans.find( params[:id] )
+        @scan = find_scan( params[:id] )
 
         format = URI( request.url ).path.split( '.' ).last
         render layout: false,
                text: FrameworkHelper.
                            framework { |f| f.report_as format, @scan.report }
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # GET /scans/new
@@ -139,9 +134,7 @@ class ScansController < ApplicationController
     # PUT /scans/1
     # PUT /scans/1.json
     def update
-        @scan = current_user.scans.light.find( params[:id] )
-
-        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+        @scan = find_scan( params[:id] )
 
         if params[:scan][:user_ids]
             params[:scan][:user_ids] |= [@scan.owner.id]
@@ -156,63 +149,50 @@ class ScansController < ApplicationController
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
         end
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/pause
     def pause
-        @scan = current_user.scans.light.find( params[:id] )
-
-        fail 'Only the scan owner can do that.' if @scan.owner != current_user
-
+        @scan = find_scan( params[:id] )
         @scan.pause
 
         redirect_to :back, notice: 'Scan is being paused.'
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/resume
     def resume
-        @scan = current_user.scans.light.find( params[:id] )
-
-        fail 'Only the scan owner can do that.' if @scan.owner != current_user
-
+        @scan = find_scan( params[:id] )
         @scan.resume
 
         redirect_to :back, notice: 'Scan is resuming.'
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # PUT /scans/1/abort
     def abort
-        @scan = current_user.scans.find( params[:id] )
-
-        fail 'Only the scan owner can do that.' if @scan.owner != current_user
+        @scan = find_scan( params[:id] )
 
         @scan.abort
 
         redirect_to :back, notice: 'Scan is being aborted.'
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
 
     # DELETE /scans/1
     # DELETE /scans/1.json
     def destroy
-        @scan = current_user.scans.light.find( params[:id] )
-
-        fail 'Only the scan owner can do that.' if @scan.owner != current_user
-
+        @scan = find_scan( params[:id] )
         @scan.destroy
 
         respond_to do |format|
             format.html { redirect_to scans_url }
             format.json { head :no_content }
         end
-    rescue ActiveRecord::RecordNotFound
-        fail 'You do not have permission to access this scan.'
     end
+
+    private
+    def find_scan( id, light = true )
+        s = (current_user.admin? ? Scan : current_user.scans)
+        s = s.light if light
+        s.find( params[:id] )
+    end
+
 end

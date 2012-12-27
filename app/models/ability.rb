@@ -24,13 +24,15 @@ class Ability
         else
             can :read, [Profile, Dispatcher]
 
-            can :read, Scan, Scan do |scan|
+            can :read, Scan do |scan|
                 scan.user_ids.include?( user.id )
             end
 
-            can [:manage], Scan, Scan do |scan|
+            can :manage, Scan do |scan|
                 scan.owner_id == user.id
             end
+
+            can :create, Scan
 
             can [:read, :create], Comment do |comment|
                 comment.scan.owner_id == user.id ||
