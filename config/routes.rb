@@ -41,10 +41,10 @@ ArachniWebui::Application.routes.draw do
     end
     root to: 'home#index'
 
-    devise_for :users, :skip => [:registrations]
+    devise_for :users, :skip => [:registrations], path_prefix: 'd'
     as :user do
         get 'users/edit' => 'devise/registrations#edit', as: 'edit_user_registration'
         put 'users' => 'devise/registrations#update', as: 'user_registration'
     end
-    resources :users, only: [:show, :index]
+    resources :users
 end

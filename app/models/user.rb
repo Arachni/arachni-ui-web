@@ -26,10 +26,23 @@ class User < ActiveRecord::Base
             :rememberable, :trackable, :validatable
 
     # Setup accessible (or protected) attributes for your model
-    attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+    attr_accessible :name, :email, :password, :password_confirmation,
+                    :remember_me, :role_ids
 
     def admin?
         has_role? :admin
+    end
+
+    def to_s
+        name
+    end
+
+    def self.recent( limit = 5 )
+        find( :all, order: "id desc", limit: limit )
+    end
+
+    def own_scans
+        scans.where( owner_id: id )
     end
 
 end

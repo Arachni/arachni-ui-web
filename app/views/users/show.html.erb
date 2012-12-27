@@ -1,3 +1,27 @@
-<h3>User</h3>
-<p>User: <%= @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
+<div id="users">
+    <h1><%= @user.name %> <small><%= @user.email %></small></h1>
+
+    <% if (roles = @user.roles).any? %>
+        <h2>Roles</h2>
+        <ul>
+        <% roles.each do |role| %>
+            <li><%= role.name %></li>
+        <% end %>
+        </ul>
+    <% end %>
+
+    <% if (scans = @user.own_scans).any? %>
+        <h2>Scans<small>[<%= scans.size %>]</small></h2>
+        <ul>
+            <% scans.each do |scan| %>
+                <li><%= link_to scan, scan_path( scan ) %></li>
+            <% end %>
+        </ul>
+    <% end %>
+
+    <% if can? :edit, User %>
+        <div class="form-actions">
+            <%= link_to 'Edit', edit_user_path( @user ), class: 'btn' %>
+        </div>
+    <% end %>
+</div>

@@ -115,6 +115,36 @@
             </ul>
             <% end %>
         </li>
+
+        <% if can? :read, User %>
+        <li class="dropdown">
+            <%= link_to users_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
+                Users
+                <b class="caret"></b>
+            <% end %>
+
+            <ul id="user-dropdown" class="dropdown-menu">
+                <% if can? :create, User %>
+                    <li>
+                        <%= link_to new_user_url do %>
+                            <i class="icon-plus"></i>
+                            New
+                        <% end %>
+                    </li>
+                <% end %>
+
+                <% if (recent_users = User.recent).any? %>
+                    <li class="divider"></li>
+                    <li class="nav-header">Recently added</li>
+                    <% recent_users.each do |user| %>
+                        <li><%= link_to user, user_path( user ) %></li>
+                    <% end %>
+                <% end %>
+
+            </ul>
+        </li>
+        <% end %>
+
     </ul>
 <% end %>
 
@@ -122,7 +152,12 @@
     <% if user_signed_in? %>
     <li>
         <div class="btn-group">
-            <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %></a>
+            <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %>
+                <% if current_user.admin? %>
+                    <span class="label label-info">Administrator</span>
+                <% end %>
+            </a>
+
             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
               <span class="caret"></span>
             </a>
