@@ -28,7 +28,9 @@ ArachniWebui::Application.routes.draw do
         get :count,    on: :collection
     end
 
-    resources :profiles
+    resources :profiles do
+        put :make_default, on: :member
+    end
 
     match 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
 

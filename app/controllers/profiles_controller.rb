@@ -57,6 +57,15 @@ class ProfilesController < ApplicationController
         @profile = Profile.find( params[:id] )
     end
 
+    # PUT /profiles/1/make_default
+    def make_default
+        Profile.find( params[:id] ).make_default
+
+        @profiles = Profile.all
+
+        render partial: 'table', formats: :js
+    end
+
     # POST /profiles
     # POST /profiles.json
     def create
