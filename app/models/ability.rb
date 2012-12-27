@@ -22,8 +22,22 @@ class Ability
         if user.has_role? :admin
             can :manage, :all
         else
-            can :read, :all
+            can :read, [Profile, Dispatcher]
+
+            can :read, Scan, Scan do |scan|
+                scan.user_ids.include?( user.id )
+            end
+
+            can [:manage], Scan, Scan do |scan|
+                scan.owner_id == user.id
+            end
+
+            can [:read, :create], Comment do |comment|
+                comment.scan.owner_id == user.id ||
+                    comment.scan.user_ids.include?( user.id )
+            end
         end
+
         # Define abilities for the passed in user here. For example:
         #
         #   user ||= User.new # guest user (not logged in)

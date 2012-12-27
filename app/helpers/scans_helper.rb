@@ -1,5 +1,25 @@
 module ScansHelper
 
+    def scan_filter( filter )
+        filter ||= 'yours'
+
+        case filter
+            when 'yours'
+                current_user.scans.light.where( "owner_id == ?", current_user.id )
+            when 'shared'
+                current_user.scans.light.where( "owner_id != ?", current_user.id )
+            when 'others'
+                raise 'Unauthorised!' if !current_user.admin?
+
+                ids = current_user.scans.select( :id ).
+                        where( "owner_id != ?", current_user.id ) +
+                    current_user.scans.select( :id ).
+                        where( "owner_id == ?", current_user.id )
+
+                Scan.where( :id => Scan.select( :id ) - ids )
+        end
+    end
+
     def my_paginate( scans, opts = {} )
         paginate( scans, opts ).gsub( '.js', '' ).html_safe
     end

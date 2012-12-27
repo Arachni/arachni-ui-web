@@ -1,0 +1,2 @@
+$("#scans #tables").data( "refresh-url", "<%= escape_javascript scans_url( format: :js, params: params ) %>" );
+$("#scans #tables").html( "<%= escape_javascript( render( 'tables.html' ).force_encoding( 'utf-8' ) ) %>" );

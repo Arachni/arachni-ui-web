@@ -1,20 +1,25 @@
 class ScansController < ApplicationController
     before_filter :authenticate_user!
 
+    include ScansHelper
+
+
     # GET /scans
     # GET /scans.json
     def index
-        @active_scans   = current_user.scans.active.light.
+        params[:filter_finished] ||= params[:filter_active] ||= 'yours'
+
+        @active_scans = scan_filter( params[:filter_active] ).active.
             page( params[:active_page] ).
             per( Settings.active_scan_pagination_entries ).order( 'id DESC' )
 
-        @finished_scans = current_user.scans.finished.light.
+        @finished_scans = scan_filter( params[:filter_finished] ).finished.light.
             page( params[:finished_page] ).
             per( Settings.finished_scan_pagination_entries ).order( 'id DESC' )
 
         respond_to do |format|
             format.html # index.html.erb
-            format.js { render '_tables' }
+            format.js { render '_tables.js' }
             format.json { render json: @scans }
         end
     end

@@ -1,25 +1,12 @@
 <h2>Active <small>[<%= @active_scans.size %>]</small></h2>
 
-<% if @active_scans.any? %>
 
-    <%= my_paginate @active_scans, param_name: 'active_page' %>
-    <%= render partial: 'table', locals: { scans: @active_scans } %>
+<%= my_paginate @active_scans, param_name: 'active_page' %>
+<%= render partial: 'table', locals: { scans: @active_scans } %>
 
-<% else %>
-    <p class="alert alert-info">
-        There are no active scans at the moment, <a href="<%= new_scan_path %>">start one now</a>.
-    </p>
-<% end %>
+
 
 <h2>Finished <small>[<%= @finished_scans.size %>]</small></h2>
 
-<% if @finished_scans.any? %>
-
-    <%= my_paginate @finished_scans, param_name: 'finished_page' %>
-    <%= render partial: 'table', locals: { scans: @finished_scans, treat_as_running: false }  %>
-
-<% else %>
-    <p class="alert alert-info">
-        There are no finished scans at the moment.
-    </p>
-<% end %>
+<%= my_paginate @finished_scans, param_name: 'finished_page' %>
+<%= render partial: 'table', locals: { scans: @finished_scans, treat_as_running: false }  %>

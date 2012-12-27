@@ -61,7 +61,13 @@ if( typeof String.prototype.endsWith != 'function' ) {
 function fetchAndFill( url, element ){
     $.get( url, function( data ){
         element.trigger( 'refresh' );
-        element.html( data );
+
+        if( element.data( 'refresh-type' ) == 'js' ){
+            $.globalEval( data );
+        } else {
+            element.html( data );
+        }
+
         element.trigger( 'refreshed' );
     }, "html" );
 }
