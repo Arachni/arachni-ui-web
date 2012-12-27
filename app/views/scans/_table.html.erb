@@ -7,12 +7,14 @@
    type = (treat_as_running ? 'active' : 'finished')
    filter = "filter_#{type}"
    opts = params.merge( format: :js )
+
+   yours = (params[filter] == 'yours')
 %>
 
 <ul class="nav nav-tabs" id="scan-table-tab"
     data-table-container="<%= type %>-table-container">
     <li
-        <% if params[filter] == 'yours' %>
+        <% if yours %>
            class="active"
         <% end %>
         >
@@ -67,7 +69,10 @@
             <th>Finished at</th>
             <% end %>
 
+            <% if !yours %>
             <th>Owner</th>
+            <% end %>
+
             <th class="hidden-phone">Comments</th>
             <th></th>
         </tr>
@@ -110,6 +115,7 @@
                 <td><%= scan.finished_at ? l( scan.finished_at ) : 'N/A' %></td>
                 <% end %>
 
+                <% if !yours %>
                 <td>
                     <% if scan.owner == current_user %>
                         <span class="label">You</span>
@@ -117,6 +123,7 @@
                         <span class="label label-info"><%= scan.owner.name %></span>
                     <% end %>
                 </td>
+                <% end %>
 
                 <td class="hidden-phone"><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
 
