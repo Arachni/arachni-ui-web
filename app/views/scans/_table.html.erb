@@ -19,16 +19,20 @@
         <% end %>
         >
 
-        <%= link_to 'Yours', scans_url( opts.merge( filter => 'yours' ) ),
-                    onclick: 'scanTableLoading();', remote: true %>
+        <%= link_to scans_url( opts.merge( filter => 'yours' ) ),
+                    onclick: 'scanTableLoading();', remote: true do %>
+            Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
+        <% end %>
     </li>
     <li
     <% if params[filter] == 'shared' %>
     class="active"
     <% end %>
     >
-        <%= link_to 'Shared', scans_url( opts.merge( filter => 'shared' ) ),
-                    onclick: 'scanTableLoading();', remote: true %>
+        <%= link_to scans_url( opts.merge( filter => 'shared' ) ),
+                    onclick: 'scanTableLoading();', remote: true do %>
+            Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
+    <% end %>
     </li>
 
     <% if current_user.admin? %>
@@ -37,8 +41,10 @@
         class="active"
         <% end %>
         >
-            <%= link_to 'Others', scans_url( opts.merge( filter => 'others' ) ),
-                        onclick: 'scanTableLoading();', remote: true %>
+            <%= link_to scans_url( opts.merge( filter => 'others' ) ),
+                        onclick: 'scanTableLoading();', remote: true do %>
+                Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
+        <% end %>
         </li>
     <% end %>
 </ul>
