@@ -154,14 +154,14 @@
         <div class="btn-group">
             <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %>
                 <% if current_user.admin? %>
-                    <span class="label label-info">Administrator</span>
+                    <span class="label label-inverse">Administrator</span>
                 <% end %>
             </a>
 
             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
               <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
+            <ul id="current-user-dropdown" class="dropdown-menu">
                 <li>
                   <%= link_to edit_user_registration_path do %>
                       <i class="icon-pencil"></i> Edit account
