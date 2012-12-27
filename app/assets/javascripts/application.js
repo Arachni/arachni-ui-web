@@ -116,8 +116,8 @@ $(document).ready( function( $ ) {
         // Since the navbar gets refreshed via AJAX we can't figure this out on
         // the server-side because the controller will always be irrelevant.
         $('ul.nav > li > a' ).each( function( i, e ){
-            if( window.location.pathname == $(e).attr( 'href' ) ){
-                $(e ).parent().addClass( 'active' );
+            if( window.location.pathname.split( '/' )[1] == $(e).attr( 'href' ).split( '/' )[1] ){
+                $(e).parent().addClass( 'active' );
             }
         });
 
