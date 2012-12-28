@@ -52,7 +52,7 @@
 <% if scans.any? %>
 
 <div id="<%= type %>-table-container">
-    <em class="muted">
+    <p class="muted">
     <%=
         case params[filter]
             when 'yours'
@@ -63,7 +63,7 @@
                 "You are seeing all others' scans -- you can see them because you're an administrator."
         end
     %>
-    </em>
+    </p>
 
     <table class="table table-striped table-hover table-condensed">
         <thead>
