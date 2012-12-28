@@ -1,5 +1,9 @@
 <% if !@scan.error_messages.empty? %>
-    <p class="alert alert-error">This scan has the logged the following errors:</p>
+    <p class="alert alert-error">
+        This scan has the logged the following errors
+        (you may want to
+        <a href="https://github.com/Arachni/webui/issues">report them</a>):
+    </p>
     <pre id="error_messages"><%= @scan.error_messages %></pre>
     <script type="text/javascript">
         objDiv = document.getElementById( "error_messages" );
