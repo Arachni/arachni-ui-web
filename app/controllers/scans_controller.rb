@@ -78,7 +78,7 @@ class ScansController < ApplicationController
     # GET /scans/1/report.html
     # GET /scans/1/report.json
     def report
-        @scan = find_scan( params[:id] )
+        @scan = find_scan( params[:id], false )
 
         format = URI( request.url ).path.split( '.' ).last
         render layout: false,
