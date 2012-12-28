@@ -39,7 +39,7 @@
                      <div class="row">
                         <div class="span12">
                             <%= render 'layouts/messages' %>
-                            <%= yield %>
+                            <%= yield.force_encoding( 'utf-8' ) %>
                         </div>
                     </div>
                 </div>
