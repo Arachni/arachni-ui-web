@@ -52,6 +52,19 @@
 <% if scans.any? %>
 
 <div id="<%= type %>-table-container">
+    <em class="muted">
+    <%=
+        case params[filter]
+            when 'yours'
+                "You are seeing scans you've started."
+            when 'shared'
+                "You are seeing scans others have shared with you."
+            when 'others'
+                "You are seeing all others' scans -- you can see them because you're an administrator."
+        end
+    %>
+    </em>
+
     <table class="table table-striped table-hover table-condensed">
         <thead>
         <tr>
