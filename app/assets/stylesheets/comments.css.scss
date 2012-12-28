@@ -4,5 +4,11 @@
 
 #comment_text {
     width: 97%;
-    height: 120px;
+    height: 100px;
+}
+
+form#new_comment {
+    div.modal-footer {
+        padding: 10px;
+    }
 }

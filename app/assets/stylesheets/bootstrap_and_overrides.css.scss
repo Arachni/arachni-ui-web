@@ -21,3 +21,10 @@ body { padding-top: 60px; }
 .navbar {
     box-shadow: 0 0 2px 1px #313131 inset, 0 1px 5px #080808;
 }
+
+@media (max-width: 767px) {
+    footer {
+        margin-right: -20px;
+        margin-left: -20px;
+    }
+}

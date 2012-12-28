@@ -11,7 +11,9 @@
                               'label-info'
                           end
         %>
-        <span class="label <%= status_label %>"><%= @scan.status.to_s.capitalize %></span>
+        <p>
+            <span class="label <%= status_label %>"><%= @scan.status.to_s.capitalize %></span>
+        </p>
     </div>
 
     <div class="span7 progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
@@ -21,37 +23,45 @@
     </div>
 
     <div class='span2'>
-        <%= @scan.eta %> left
+        <p>
+            <span class="label label-inverse"><%= @scan.eta %> left</span>
+        </p>
     </div>
 
     <div class='span2'>
-        <% if @scan.owner == current_user %>
-        <% if @scan.paused? %>
-            <%= link_to resume_scan_url( @scan ), title: 'Resume scan',
-                        method: :put, class: 'btn btn-success',
-                        data: { confirm: 'Are you sure you want to resume the scan?' } do %>
-                <i class=" icon-play-circle"></i>
-            <% end %>
+        <% if can? :pause, @scan %>
+            <% if @scan.paused? %>
+                <%= link_to resume_scan_url( @scan ), title: 'Resume scan',
+                            method: :put, class: 'btn btn-success',
+                            data: { confirm: 'Are you sure you want to resume the scan?' } do %>
+                    <i class=" icon-play-circle"></i>
+                <% end %>
 
-        <% else %>
-            <%= link_to pause_scan_url( @scan ), title: 'Pause scan',
-                        method: :put, class: 'btn btn-warning',
-                        data: { confirm: 'Are you sure you want to pause the scan?' } do %>
-                <i class="icon-pause"></i>
-            <% end %>
+            <% else %>
+                <%= link_to pause_scan_url( @scan ), title: 'Pause scan',
+                            method: :put, class: 'btn btn-warning',
+                            data: { confirm: 'Are you sure you want to pause the scan?' } do %>
+                    <i class="icon-pause"></i>
+                <% end %>
+            <% end  %>
         <% end  %>
 
-        <%= link_to abort_scan_url( @scan ), title: 'Abort scan',
-                    method: :put, class: 'btn btn-danger',
-                    data: { confirm: 'Are you sure you want to abort the scan?' } do %>
-            <i class="icon-stop"></i>
+        <% if can? :abort, @scan %>
+            <%= link_to abort_scan_url( @scan ), title: 'Abort scan',
+                        method: :put, class: 'btn btn-danger',
+                        data: { confirm: 'Are you sure you want to abort the scan?' } do %>
+                <i class="icon-stop"></i>
+            <% end %>
         <% end %>
-        <% else %>
+
+        <% if @scan.owner != current_user %>
             <span class="label label-info">Started by <%= @scan.owner.name %></span>
         <% end %>
     </div>
 
 </div>
+
+<hr class="visible-phone" />
 
 <div class='row'>
     <div class="span12">
@@ -61,16 +71,16 @@
                 <th>Requests per second</th>
                 <td><%= @scan.statistics['avg'] %></td>
 
-                <th>Timed out requests</th>
-                <td><%= @scan.statistics['time_out_count'] %></td>
+                <th class="hidden-phone">Timed out requests</th>
+                <td class="hidden-phone"><%= @scan.statistics['time_out_count'] %></td>
 
-                <th>Requests performed</th>
-                <td><%= @scan.statistics['requests'] %></td>
+                <th class="hidden-phone">Requests performed</th>
+                <td class="hidden-phone"><%= @scan.statistics['requests'] %></td>
 
                 <%
                    curr_res_time_class, info = response_times_to_alert( @scan.statistics['average_res_time'] )
                 %>
-                <th>Average response time</th>
+                <th>Response times</th>
                 <td class='alert <%= curr_res_time_class %>'>
                     <abbr title="<%= info %>">
                         <%= '%.3f' % @scan.statistics['average_res_time'].to_f %>s
@@ -86,21 +96,21 @@
                    )
                 %>
 
-                <th>Concurrent HTTP requests</th>
+                <th>Request concurrency</th>
                 <td class='alert <%= max_concurrency_class %>'>
                     <abbr title="<%= info %>">
                         <%= @scan.statistics['max_concurrency'].to_i %>
                     </abbr>
                 </td>
 
-                <th>Responses received</th>
-                <td><%= @scan.statistics['responses'] %> </td>
+                <th class="hidden-phone">Responses received</th>
+                <td class="hidden-phone"><%= @scan.statistics['responses'] %> </td>
 
                 <th>Pages discovered</th>
                 <td><%= @scan.sitemap_size %></td>
 
-                <th>Running for</th>
-                <td><%= @scan.runtime %></td>
+                <th class="hidden-phone">Running for</th>
+                <td class="hidden-phone"><%= @scan.runtime %></td>
 
             </tr>
             </thead>
@@ -109,7 +119,7 @@
 </div>
 
 <% if @scan.issues.any? %>
-    <hr/>
+    <hr class="hidden-phone" />
     <%= render partial: 'charts', locals: { issues: @scan.sorted_issues } %>
     <hr/>
 <% end %>
