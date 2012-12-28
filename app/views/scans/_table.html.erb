@@ -99,7 +99,19 @@
                     end
                 %>
             >
-                <td><%= scan.url %></td>
+                <td>
+                    <% if can? :read, scan %>
+                        <% if !scan.error_messages.to_s.empty? %>
+                            <%= link_to scan,
+                                        title: 'This scan has encountered errors',
+                                        class: 'label label-important' do %>
+                                <i class="icon-exclamation-sign icon-white"></i>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+
+                    <%= scan.url %>
+                </td>
                 <td class="hidden-phone"><%= link_to scan.profile.name, scan.profile %></td>
                 <td class="hidden-phone">
                     <%= scan.type.to_s.capitalize %>
