@@ -24,7 +24,7 @@ class Ability
         else
             can :read, [Profile, Dispatcher]
 
-            can :read, Scan do |scan|
+            can [:read, :comments], Scan do |scan|
                 scan.user_ids.include?( user.id )
             end
 
