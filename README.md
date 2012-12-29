@@ -9,16 +9,22 @@ be a mockup, partially or not at all working.
 
 ## Features
 
-- Multi-user, with users being able to:
-  - Share scans.
-  - Comment on shared scans.
-- Can perform the following Scan types:
+- Administrators can manage all:
+  - Users,
+  - Scan configuration Profiles,
+  - Scans,
+  - Dispatchers.
+- Users can:
+  - Start Scans using one of the admin-defined Profiles and Dispatchers,
+  - Manage, comment, share and export reports of their Scans,
+  - See, comment and export reports of Scans which have been shared with them by other users.
+
+- Available Scan types:
   - Direct -- From the WebUI machine to the webapp, no need to setup anything else.
-  - Remote -- Using a Dispatcher, from the machine of the Dispatcher to the webapp.
-  - Grid -- Using multiple Dispatchers, using multiple machines to perform
+  - Remote (using a Dispatcher) -- From the machine of the Dispatcher to the webapp.
+  - Grid (using multiple Dispatchers) -- Using multiple machines to perform
     super-fast, distributed scans.
-- Scan exports in a multitude of formats (HTML, XML, YAML and more).
-- Management of preset scan configuration profiles.
+- Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
 
 ## Technical details
 
