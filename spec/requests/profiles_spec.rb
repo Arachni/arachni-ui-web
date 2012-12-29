@@ -7,8 +7,7 @@ describe "Profiles" do
                 it "should redirect to the login screen" do
                     get profiles_path
                     response.status.should == 302
-                    response.header['Location'].should ==
-                        'http://www.example.com/users/sign_in'
+                    response.header['Location'].should == new_user_session_url
                 end
             end
         end
