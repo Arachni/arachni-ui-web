@@ -102,9 +102,12 @@ $(document).ready( function( $ ) {
     });
 
     var visibleDropdowns = [];
+    var phoneMenuShown = false;
 
     // This gets called just before the navbar is refreshed via AJAX.
     $('#navigation-top').bind( 'refresh', function(){
+
+        phoneMenuShown = $('#phone-menu ul.dropdown-menu' ).is( ':visible' );
 
         visibleDropdowns = [];
         $('.dropdown-menu' ).each( function( i, e ){
@@ -116,6 +119,10 @@ $(document).ready( function( $ ) {
 
     // This gets called after the navbar has been refreshed via AJAX.
     $('#navigation-top').bind( 'refreshed', function(){
+
+        if( phoneMenuShown ){
+            $('#phone-menu ul.dropdown-menu' ).dropdown( 'toggle' );
+        }
 
         // Set the active section in the navbar.
         //
