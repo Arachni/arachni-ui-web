@@ -25,6 +25,7 @@ be a mockup, partially or not at all working.
   - Grid (using multiple Dispatchers) -- Using multiple machines to perform
     super-fast, distributed scans.
 - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
+- Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 
 ## Technical details
 
