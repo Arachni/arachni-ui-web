@@ -24,7 +24,7 @@ class HomeController < ApplicationController
 
     def navigation
         respond_to do |format|
-            format.js { render partial: 'layouts/navigation' }
+            format.html { render partial: 'layouts/navigation' }
         end
     end
 
