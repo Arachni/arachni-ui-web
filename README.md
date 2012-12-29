@@ -10,13 +10,13 @@ be a mockup, partially or not at all working.
 ## Features
 
 - Administrators can manage all:
-  - Users,
-  - Scan configuration Profiles,
-  - Scans,
-  - Dispatchers.
+  - Users
+  - Scan configuration Profiles
+  - Scans
+  - Dispatchers
 - Users can:
-  - Start Scans using one of the admin-defined Profiles and Dispatchers,
-  - Manage, comment, share and export reports of their Scans,
+  - Start Scans using one of the admin-defined Profiles and Dispatchers.
+  - Manage, comment, share and export reports of their Scans.
   - See, comment and export reports of Scans which have been shared with them by other users.
 
 - Available Scan types:
