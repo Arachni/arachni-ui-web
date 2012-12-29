@@ -1,12 +1,6 @@
 <h2>Active <small>[<%= @counts[:active]['total'] %>]</small></h2>
-
-
-<%= my_paginate @active_scans, param_name: 'active_page' %>
 <%= render partial: 'table', locals: { scans: @active_scans } %>
 
 
-
 <h2>Finished <small>[<%= @counts[:finished]['total'] %>]</small></h2>
-
-<%= my_paginate @finished_scans, param_name: 'finished_page' %>
 <%= render partial: 'table', locals: { scans: @finished_scans, treat_as_running: false }  %>
