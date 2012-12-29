@@ -48,18 +48,9 @@ class ScansController < ApplicationController
     end
 
     def comments
-        scan = find_scan( params[:id] )
-
         respond_to do |format|
-            format.js { render partial: 'comment_list', locals: { scan: scan } }
-        end
-    end
-
-    def count
-        respond_to do |format|
-            format.js do
-                render text: current_user.scans.active.size.to_s
-            end
+            format.html { render partial: 'comment_list',
+                                 locals: { scan: find_scan( params[:id] ) } }
         end
     end
 
@@ -70,8 +61,13 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             format.html # show.html.erb
-            format.js { render partial: 'scan.html' }
             format.json { render json: @scan }
+        end
+    end
+
+    def partial
+        respond_to do |format|
+            format.html { render find_scan( params[:id], false ) }
         end
     end
 

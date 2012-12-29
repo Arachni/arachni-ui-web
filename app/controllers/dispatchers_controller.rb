@@ -36,7 +36,7 @@ class DispatchersController < ApplicationController
         end
     end
 
-    def show_partial
+    def partial
         respond_to do |format|
             format.html { render Dispatcher.find(params[:id]) }
         end

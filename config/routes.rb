@@ -17,12 +17,13 @@
 ArachniWebui::Application.routes.draw do
     resources :dispatchers do
         get :index_tables, on: :collection
-        get :show_partial, on: :member
+        get :partial,      on: :member
     end
 
     resources :comments
 
     resources :scans do
+        get :partial,  on: :member
         put :pause,    on: :member
         put :resume,   on: :member
         put :abort,    on: :member

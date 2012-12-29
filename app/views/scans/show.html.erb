@@ -45,10 +45,10 @@
     initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
         if( !stopUpdatingScan ) {
-            url = '<%= scan_url( @scan, format: :js ) %>';
+            url = '<%= partial_scan_url( @scan ) %>';
             elementToBeUpdated = $( '#scan' );
         } else {
-            url = '<%= comments_scan_url( @scan, format: :js ) %>';
+            url = '<%= comments_scan_url( @scan ) %>';
             elementToBeUpdated = $( '#scan #comments' );
         }
 

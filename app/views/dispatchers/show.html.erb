@@ -3,7 +3,7 @@
 
 <div id="dispatchers">
     <div id="dispatcher"
-         data-refresh-url="<%= show_partial_dispatcher_url( @dispatcher ) %>"
+         data-refresh-url="<%= partial_dispatcher_url( @dispatcher ) %>"
          data-refresh-rate="<%= Settings.dispatcher_refresh_rate %>"
     >
         <%= render @dispatcher %>
