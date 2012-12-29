@@ -86,6 +86,10 @@ class Dispatcher < ActiveRecord::Base
     end
     alias :reachable? :alive?
 
+    def statistics
+        super || {}
+    end
+
     def consumed_pids
         statistics['consumed_pids'] || []
     end
