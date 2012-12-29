@@ -18,13 +18,15 @@ class Ability
     include CanCan::Ability
 
     def initialize( user )
+        alias_action :comments, :partial, :index_tables, to: :read
+
         user ||= User.new # guest user (not logged in)
         if user.has_role? :admin
             can :manage, :all
         else
             can :read, [Profile, Dispatcher]
 
-            can [:read, :comments], Scan do |scan|
+            can :read, Scan do |scan|
                 scan.user_ids.include?( user.id )
             end
 
