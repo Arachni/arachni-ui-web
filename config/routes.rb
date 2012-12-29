@@ -15,7 +15,10 @@
 =end
 
 ArachniWebui::Application.routes.draw do
-    resources :dispatchers
+    resources :dispatchers do
+        get :index_tables, on: :collection
+        get :show_partial, on: :member
+    end
 
     resources :comments
 

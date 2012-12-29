@@ -16,6 +16,15 @@ class DispatchersController < ApplicationController
         end
     end
 
+    def index_tables
+        @alive_dispatchers       = Dispatcher.alive
+        @unreachable_dispatchers = Dispatcher.unreachable
+
+        respond_to do |format|
+            format.html { render partial: 'tables' }
+        end
+    end
+
     # GET /dispatchers/1
     # GET /dispatchers/1.json
     def show
@@ -23,8 +32,13 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             format.html # show.html.erb
-            format.js { render partial: 'dispatcher.html' }
             format.json { render json: @dispatcher }
+        end
+    end
+
+    def show_partial
+        respond_to do |format|
+            format.html { render Dispatcher.find(params[:id]) }
         end
     end
 
