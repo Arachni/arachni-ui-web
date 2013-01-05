@@ -4,19 +4,64 @@
     <div class="span12" id='issues'>
         <h2>Issues <small>[<%= issues.size %>]</small></h2>
 
-        <a href="#" onclick="$('.issue').collapse( 'show' ); return false;">Expand all</a>
-        |
-        <a href="#" onclick="$('.issue').collapse( 'hide' ); return false;">Collapse all</a>
-
-        <hr/>
-
         <% if issues.any? %>
-            <%= render partial: '/shared/issues_twin_accordion',
-                       locals: {
-                               issues:     issues,
-                               class_name: 'span6'
-                       } %>
+            <table class="hidden-phone table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>Element</th>
+                    <th>Input</th>
+                    <th>Severity</th>
+                    <th>CWE</th>
+                    <th>References</th>
+                </tr>
+                </thead>
+                <% issues.each do |issue| %>
+                <tr>
+                    <td><%= issue.name %></td>
+                    <td class="url">
+                        <div class="span4 td-url">
+                            <%= link_to issue.url, issue.url %>
+                        </div>
+                    </td>
+                    <td><%= issue.elem.capitalize %></td>
+                    <td><%= issue.var %></td>
+                    <td>
+                        <p class="label label-<%= issue_severity_to_alert issue.severity %>">
+                            <%= issue.severity %>
+                        </p>
 
+                    </td>
+                    <td>
+                        <% if issue.cwe_url %>
+                            <%= link_to issue.cwe.to_s, issue.cwe_url %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= issue.references.map do |name, url|
+                            link_to name, url
+                        end.join( ', ' ).html_safe %>
+                    </td>
+                </tr>
+                <% end %>
+            </table>
+
+
+            <div class="visible-phone">
+                <a href="#" onclick="$('.issue').collapse( 'show' ); return false;">Expand all</a>
+                |
+                <a href="#" onclick="$('.issue').collapse( 'hide' ); return false;">Collapse all</a>
+
+                <hr/>
+
+                <%= render partial: '/shared/issues_twin_accordion',
+                           locals: {
+                                   issues:     issues,
+                                   class_name: 'span6'
+                           }
+                %>
+            </div>
     <% else %>
             <p class="alert alert-info">
                 No issues discovered<%= ' yet' if @scan.active? %>.

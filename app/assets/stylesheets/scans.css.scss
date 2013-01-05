@@ -74,4 +74,21 @@
         overflow: auto;
     }
 
+    #issues {
+        //table {
+        //    table-layout: fixed;
+        //    width: 100%;
+        //}
+        //
+        //table td {
+        //    width: 100px;
+        //    overflow:  hidden;
+        //    word-wrap: break-word;
+        //}
+
+        .td-url {
+            word-wrap: break-word;
+        }
+
+    }
 }
