@@ -20,7 +20,7 @@
                 <% issues.each do |issue| %>
                 <tr>
                     <td>
-                        <%= link_to issue.name, "##{issue.digest}",
+                        <%= link_to issue.name, "#description-#{issue.digest}",
                                     data: { toggle: 'collapse' } %>
                     </td>
                     <td class="url">
@@ -48,7 +48,7 @@
                 </tr>
                 <tr class="description">
                     <td class="description" colspan="7">
-                        <blockquote class="collapse" id="<%= issue.digest %>">
+                        <blockquote class="collapse" id="description-<%= issue.digest %>">
                             <%= issue.description %>
                         </blockquote>
                     </td>
