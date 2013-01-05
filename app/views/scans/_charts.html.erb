@@ -1,9 +1,9 @@
-<a href="#graphs" data-toggle="collapse" title="Toggle chart visibility"
+<a href="#graphs" onclick="toggleCharts();" title="Toggle chart visibility"
    role="button" class="hidden-phone btn btn-info">
     Toggle chart visibility
 </a>
 
-<div class="row hidden-phone collapse" id="graphs">
+<div class="row hidden-phone collapse" id="charts">
     <div class="span12" id="chart-issues-container">
         <div id="chart-issues" class="clear">
         </div>
@@ -147,15 +147,24 @@
     }
 
     function drawCharts(){
+        if( !$( '#charts' ).hasClass( 'in' ) ) return;
+
         drawBars();
         drawPies();
     }
+
+    function toggleCharts(){
+        $( '#charts' ).collapse( 'toggle' );
+        drawCharts();
+    }
+
+    window.restoreAccordion();
 
     <% if issues.any? %>
     drawCharts();
     $(window).resize(function() {
         drawCharts( );
     });
-    <% end %>
 
+    <% end %>
 </script>
