@@ -1,5 +1,9 @@
-<div class="row hidden-phone" id="graphs">
+<a href="#graphs" data-toggle="collapse" title="Toggle chart visibility"
+   role="button" class="hidden-phone btn btn-info">
+    Toggle chart visibility
+</a>
 
+<div class="row hidden-phone collapse" id="graphs">
     <div class="span12" id="chart-issues-container">
         <div id="chart-issues" class="clear">
         </div>
@@ -48,6 +52,8 @@
 
 
     function drawBars(){
+        if( !$('#chart-issues' ).is(':visible') ) return;
+
         $('#chart-issues').empty();
         $('#chart-issues').attr( "width",( $('#canvas-container').width() ) );
         $('#chart-issues').attr( "height",( $('#canvas-container').height() ) );
@@ -140,12 +146,15 @@
         );
     }
 
-    <% if issues.any? %>
-    drawBars();
-    drawPies();
-    $(window).resize(function() {
-        drawBars( );
+    function drawCharts(){
+        drawBars();
         drawPies();
+    }
+
+    <% if issues.any? %>
+    drawCharts();
+    $(window).resize(function() {
+        drawCharts( );
     });
     <% end %>
 
