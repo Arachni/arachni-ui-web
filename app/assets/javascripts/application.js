@@ -73,6 +73,9 @@ function fetchAndFill( url, element ){
 }
 
 $(document).ready( function( $ ) {
+    // Init all tooltips.
+    $("[rel=tooltip]").tooltip();
+
     $( '.scroll' ).click( function( event ) {
         event.preventDefault();
         $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top }, 500 );
