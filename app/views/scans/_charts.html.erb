@@ -154,7 +154,11 @@
     }
 
     function toggleCharts(){
-        $( '#charts' ).collapse( 'toggle' );
+        container = $( '#charts' );
+
+        container.collapse( 'toggle' );
+        if( !container.hasClass( 'in' ) ) container.empty();
+
         drawCharts();
     }
 
