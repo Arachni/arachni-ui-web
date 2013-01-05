@@ -4,6 +4,8 @@
     <div class="span12" id='issues'>
         <h2>Issues <small>[<%= issues.size %>]</small></h2>
 
+        <p class="muted">Click on an issue's name for more information.</p>
+
         <% if issues.any? %>
             <table class="hidden-phone table table-striped table-hover">
                 <thead>
@@ -14,7 +16,6 @@
                         <th>Input</th>
                         <th>Severity</th>
                         <th>CWE</th>
-                        <th>References</th>
                     </tr>
                 </thead>
                 <% issues.each do |issue| %>
@@ -40,17 +41,22 @@
                             <%= link_to issue.cwe.to_s, issue.cwe_url %>
                         <% end %>
                     </td>
-                    <td>
-                        <%= issue.references.map do |name, url|
-                            link_to name, url
-                        end.join( ', ' ).html_safe %>
-                    </td>
                 </tr>
                 <tr class="description">
                     <td class="description" colspan="7">
-                        <blockquote class="collapse" id="description-<%= issue.digest %>">
-                            <%= issue.description %>
-                        </blockquote>
+
+                        <div class="description-container collapse" id="description-<%= issue.digest %>">
+                            <blockquote>
+                                <%= issue.description %>
+                            </blockquote>
+
+                            <p>
+                                See also:
+                                <%= issue.references.map do |name, url|
+                                    link_to name, url
+                                end.join( ', ' ).html_safe %>
+                            </p>
+                        </div>
                     </td>
                 </tr>
                 <% end %>
