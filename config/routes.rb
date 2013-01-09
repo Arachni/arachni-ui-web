@@ -29,6 +29,7 @@ ArachniWebui::Application.routes.draw do
         put :abort,    on: :member
         get :report,   on: :member
         get :comments, on: :member
+        get :errors,   on: :member
         get :count,    on: :collection
     end
 

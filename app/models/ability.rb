@@ -18,7 +18,7 @@ class Ability
     include CanCan::Ability
 
     def initialize( user )
-        alias_action :comments, :partial, :index_tables, to: :read
+        alias_action :errors, :comments, :partial, :index_tables, to: :read
 
         user ||= User.new # guest user (not logged in)
         if user.has_role? :admin

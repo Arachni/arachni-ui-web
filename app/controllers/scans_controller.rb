@@ -54,6 +54,14 @@ class ScansController < ApplicationController
         end
     end
 
+    def errors
+        @scan = find_scan( params[:id] )
+
+        respond_to do |format|
+            format.text
+        end
+    end
+
     # GET /scans/1
     # GET /scans/1.json
     def show
