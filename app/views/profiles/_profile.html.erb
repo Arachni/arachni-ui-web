@@ -76,6 +76,7 @@
     </div>
 
     <div class="row-fluid">
+        <% if profile.depth_limit %>
         <div class="span6">
             <p>
                 <b>Depth limit:</b>
@@ -83,6 +84,9 @@
             </p>
             <%= messages_for :depth_limit %>
         </div>
+        <% end %>
+
+        <% if profile.link_count_limit %>
         <div class="span6">
             <p>
                 <b>Link count limit:</b>
@@ -90,6 +94,7 @@
             </p>
             <%= messages_for :link_count_limit %>
         </div>
+        <% end %>
     </div>
     <div class="row-fluid">
         <div class="span6">
