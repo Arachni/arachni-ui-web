@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni.webui/../arachni/.git
-  revision: a43c16bfb7ef331bb2b0a7b9d452aaf819200057
+  revision: 8348ca4201be01d9912029f333d5f4b1f4f0df41
   branch: no-webui
   specs:
     arachni (1.0dev)
@@ -285,8 +285,8 @@ GEM
     stringex (1.5.1)
     sys-proctable (0.9.2)
     terminal-table (1.4.5)
-    therubyracer (0.11.1)
-      libv8 (~> 3.11.8.7)
+    therubyracer (0.11.2)
+      libv8 (~> 3.11.8.12)
       ref
     thin (1.5.0)
       daemons (>= 1.0.9)
