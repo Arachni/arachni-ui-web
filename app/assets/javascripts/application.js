@@ -84,7 +84,6 @@ function restoreAccordion(){
             collapsible = collapsibles[i];
 
             if( collapsible != '' && $( "#" + collapsible ) ){
-                console.log( collapsible );
                 $( "#" + collapsible ).addClass( 'in' );
                 $( "#" + collapsible ).height( 'auto' );
             }
