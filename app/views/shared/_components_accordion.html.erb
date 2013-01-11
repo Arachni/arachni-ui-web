@@ -9,11 +9,13 @@
             </div>
             <div style="height: 0px;" id="<%= shortname %>" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <div class="accordion-inner">
-                        <pre> <%= prepare_description info[:description] %> </pre>
+                    <div>
+                        <pre><%= prepare_description info[:description] %></pre>
                     </div>
 
-                    <div class="accordion-inner">
+                    <hr/>
+
+                    <div>
                         <strong>Version:</strong> <%= info[:version] %><br/>
                         <strong>Authors:</strong>
 
