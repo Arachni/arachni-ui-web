@@ -51,3 +51,4 @@ redundant: 'Limits crawl on redundant pages like galleries or catalogs by follow
     URLs that match certain patterns a limited amount of times.'
 restrict_paths: 'Uses the given paths instead of crawling.'
 user_agent: 'User-agent string to be used for HTTP requests.'
+http_timeout: 'HTTP Request timeout (in milliseconds).'
