@@ -76,7 +76,7 @@ $(document).ready( function( $ ) {
     // Init all tooltips.
     $("[rel=tooltip]").tooltip();
 
-    $( 'body' ).data( 'offset', $( 'header' ).height() + 15 );
+    $( 'body' ).data( 'offset', $( 'header' ).height() + 45 );
 
     $( '.scroll' ).click( function( event ) {
         event.preventDefault();
