@@ -137,23 +137,23 @@ class ScansController < ApplicationController
 
     # PUT /scans/1
     # PUT /scans/1.json
-    def update
-        @scan = find_scan( params[:id] )
-
-        if params[:scan][:user_ids]
-            params[:scan][:user_ids] |= [@scan.owner.id]
-        end
-
-        respond_to do |format|
-            if @scan.update_attributes( params[:scan] )
-                format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
-                format.json { head :no_content }
-            else
-                format.html { render action: "edit" }
-                format.json { render json: @scan.errors, status: :unprocessable_entity }
-            end
-        end
-    end
+    #def update
+    #    @scan = find_scan( params[:id] )
+    #
+    #    if params[:scan][:user_ids]
+    #        params[:scan][:user_ids] |= [@scan.owner.id]
+    #    end
+    #
+    #    respond_to do |format|
+    #        if @scan.update_attributes( params[:scan] )
+    #            format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
+    #            format.json { head :no_content }
+    #        else
+    #            format.html { render action: "edit" }
+    #            format.json { render json: @scan.errors, status: :unprocessable_entity }
+    #        end
+    #    end
+    #end
 
     # PUT /scans/1/pause
     def pause

@@ -4,7 +4,9 @@
 <% subnav spider: 'Spider', http: 'HTTP', auditor: 'Auditor',
           modules: 'Modules', plugins: 'Plugins', login: 'Login' %>
 
-<h1>Editing '<%= @profile.name %>' profile</h1>
+<div class="page-header">
+    <h1>Editing '<%= @profile.name %>' profile</h1>
+</div>
 
 <div id='profiles'>
 <%= render 'form' %>

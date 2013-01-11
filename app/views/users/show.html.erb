@@ -1,5 +1,7 @@
 <div id="users">
-    <h1><%= @user.name %> <small><%= @user.email %></small></h1>
+    <div class="page-header">
+        <h1><%= @user.name %> <small><%= @user.email %></small></h1>
+    </div>
 
     <% if (roles = @user.roles).any? %>
         <h2>Roles</h2>

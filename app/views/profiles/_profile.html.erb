@@ -1,7 +1,9 @@
 <div class="row-fluid">
     <div class="span10">
-        <h1><%= profile.name %></h1>
-        <div class="lead"><%= profile.html_description %></div>
+        <div class="page-header">
+            <h1><%= profile.name %></h1>
+            <div class="lead"><%= profile.html_description %></div>
+        </div>
     </div>
 
     <div class="span2">
@@ -30,12 +32,10 @@
 </div>
 
 <section id="spider">
-    <div class="page-header">
-        <h2 id="spider-h">
-            Spider
-            <small>How the scanner will crawl the web application</small>
-        </h2>
-    </div>
+    <h2 id="spider-h">
+        Spider
+        <small>How the scanner will crawl the web application</small>
+    </h2>
 
     <div class="row-fluid">
         <% if profile.redundant.any? %>
@@ -173,13 +173,13 @@
     </div>
 </section>
 
+<hr/>
+
 <section id="http">
-    <div class="page-header">
-        <h2 id="http-h">
-            HTTP
-            <small>How the scanner will communicate with the web application</small>
-        </h2>
-    </div>
+    <h2 id="http-h">
+        HTTP
+        <small>How the scanner will communicate with the web application</small>
+    </h2>
 
     <div class="row-fluid">
         <div class="span6">
@@ -276,13 +276,13 @@
     </div>
 </section>
 
+<hr/>
+
 <section id="auditor">
-    <div class="page-header">
-        <h2 id="auditor-h">
-            Auditor
-            <small>How the scanner will audit the web application</small>
-        </h2>
-    </div>
+    <h2 id="auditor-h">
+        Auditor
+        <small>How the scanner will audit the web application</small>
+    </h2>
 
     <div class="row-fluid">
         <div class="span6">
@@ -369,13 +369,13 @@
     </div>
 </section>
 
+<hr/>
+
 <section id="modules">
-    <div class="page-header">
-        <h2 id="modules-h">
-            Modules
-            <small>The security checks to be run again the web application</small>
-        </h2>
-    </div>
+    <h2 id="modules-h">
+        Modules
+        <small>The security checks to be run again the web application</small>
+    </h2>
 
     <% if profile.modules.any? %>
     <h3>
@@ -415,13 +415,13 @@
 
 </section>
 
+<hr/>
+
 <section id="plugins">
-    <div class="page-header">
-        <h2 id="plugins-h">
-            Plugins
-            <small>Assisting components to be enabled during the process</small>
-        </h2>
-    </div>
+    <h2 id="plugins-h">
+        Plugins
+        <small>Assisting components to be enabled during the process</small>
+    </h2>
 
     <% if profile.has_plugins? %>
     <%= render partial: '/shared/components_twin_accordion',
@@ -432,13 +432,13 @@
 
 </section>
 
+<hr/>
+
 <section id="login">
-    <div class="page-header">
-        <h2 id="login-h">
-            Login check
-            <small>How the scanner will determine its session's validity</small>
-        </h2>
-    </div>
+    <h2 id="login-h">
+        Login check
+        <small>How the scanner will determine its session's validity</small>
+    </h2>
 
     <div class="row-fluid">
 

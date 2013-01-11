@@ -1,8 +1,7 @@
 <%= simple_form_for( @scan ) do |f| %>
     <%= f.error_notification %>
 
-    <div class="well">
-        <%= f.input :url, as: :url, hint: 'Full URL of the targeted web application (must
+        <%= f.input :url, as: :url, label: 'Target URL', hint: 'Full URL of the targeted web application (must
                     include the appropriate protocol --
                     <i>http</i> or <i>https</i>).' %>
 
@@ -52,8 +51,6 @@
                               collection: User.all - [current_user] %>
         <% end %>
 
-    </div>
-
     <% if (type_errors = @scan.errors.messages[:type]).any? %>
         <div class="alert alert-error">
             Scan type errors:
@@ -64,6 +61,8 @@
             </ul>
         </div>
     <% end %>
+
+    <hr/>
 
     <div class="row-fluid btn-group" data-toggle="buttons-radio" id="scan-type-buttons">
         <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
