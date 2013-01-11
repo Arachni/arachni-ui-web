@@ -72,7 +72,42 @@ function fetchAndFill( url, element ){
     }, "html" );
 }
 
+function restoreAccordion(){
+    aGroup = $.cookie( 'activeAccordionGroup' );
+
+    if( aGroup ){
+        $( ".collapse" ).removeClass( 'in' );
+        $( ".collapse" ).height( '0px' );
+
+        collapsibles = aGroup.split( ':' );
+        for( i = 0; i < collapsibles.length; i++ ) {
+            collapsible = collapsibles[i];
+
+            if( collapsible != '' && $( "#" + collapsible ) ){
+                console.log( collapsible );
+                $( "#" + collapsible ).addClass( 'in' );
+                $( "#" + collapsible ).height( 'auto' );
+            }
+        }
+    }
+}
+
 $(document).ready( function( $ ) {
+
+    restoreAccordion();
+
+    $( ".collapse" ).on( 'shown', function(){
+        aGroup = $.cookie( 'activeAccordionGroup' );
+        aGroup += ':' + $( this ).attr( 'id' ) + ':';
+        $.cookie( 'activeAccordionGroup', aGroup );
+    });
+
+    $( ".collapse" ).on( 'hidden', function(){
+        aGroup = $.cookie( 'activeAccordionGroup' );
+        aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
+        $.cookie( 'activeAccordionGroup', aGroup );
+    });
+
     // Init all tooltips.
     $("[rel=tooltip]").tooltip();
 
