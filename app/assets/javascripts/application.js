@@ -72,7 +72,7 @@ function fetchAndFill( url, element ){
     }, "html" );
 }
 
-function restoreAccordion(){
+function restoreAccordions(){
     aGroup = $.cookie( 'activeAccordionGroup' );
 
     if( aGroup ){
@@ -89,11 +89,6 @@ function restoreAccordion(){
             }
         }
     }
-}
-
-$(document).ready( function( $ ) {
-
-    restoreAccordion();
 
     $( ".collapse" ).on( 'shown', function(){
         aGroup = $.cookie( 'activeAccordionGroup' );
@@ -106,6 +101,10 @@ $(document).ready( function( $ ) {
         aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
         $.cookie( 'activeAccordionGroup', aGroup );
     });
+}
+
+$(document).ready( function( $ ) {
+    restoreAccordions();
 
     // Init all tooltips.
     $("[rel=tooltip]").tooltip();
