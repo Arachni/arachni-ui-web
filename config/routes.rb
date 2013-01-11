@@ -22,7 +22,7 @@ ArachniWebui::Application.routes.draw do
 
     resources :comments
 
-    resources :scans do
+    resources :scans, except: [:edit, :update] do
         get :partial,  on: :member
         put :pause,    on: :member
         put :resume,   on: :member
