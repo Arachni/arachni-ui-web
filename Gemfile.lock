@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni.webui/../arachni/.git
-  revision: 8348ca4201be01d9912029f333d5f4b1f4f0df41
+  revision: d0db89ebb5783d18fd931d1c6e0ec7b2b8a419f5
   branch: no-webui
   specs:
     arachni (1.0dev)
@@ -117,7 +117,7 @@ GEM
       dm-transactions (~> 1.2.0)
       dm-types (~> 1.2.0)
       dm-validations (~> 1.2.0)
-    devise (2.2.0)
+    devise (2.2.1)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (~> 3.1)
@@ -220,7 +220,7 @@ GEM
       activesupport (= 3.2.11)
       bundler (~> 1.0)
       railties (= 3.2.11)
-    rails-footnotes (3.7.9)
+    rails-footnotes (3.7.8)
       rails (>= 3.0.0)
     rails-settings-cached (0.2.4)
       rails (>= 3.0.0)
