@@ -15,8 +15,11 @@
 
                     <hr/>
 
-                    <div>
+                    <p>
                         <strong>Version:</strong> <%= info[:version] %><br/>
+                    </p>
+
+                    <div>
                         <strong>Authors:</strong>
 
                         <ul>
@@ -26,8 +29,19 @@
                         </ul>
                     </div>
 
+                    <% if info[:targets].is_a? Array %>
+                        <div>
+                            <strong>Supported platforms:</strong>
+                            <ul>
+                            <% info[:targets].each do |platform| %>
+                                <li><%= platform %></li>
+                            <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
+
                     <% if info[:options] %>
-                        <div class="accordion-inner">
+                        <div>
                             <strong>Options</strong>
 
                             <%= render partial: 'plugin_options',
