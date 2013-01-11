@@ -24,7 +24,7 @@
     }
 
     #scan-type-descriptions {
-        margin-left: 1%;
+        margin-left: 4%;
     }
 
     #scan_url {
@@ -54,10 +54,14 @@
         color: #FFFFFF;
     }
 
+    .progress {
+        height: 20px;
+    }
     #progress-percentage {
         font-weight: bold;
         font-size: 17px;
         color: white;
+        margin-left: 10px;
         text-shadow:
                 -1px -1px 0 #000,
                 1px -1px 0 #000,
@@ -75,13 +79,11 @@
     }
 
     #issues {
-        //table {
-        //    table-layout: fixed;
-        //    width: 100%;
-        //}
-        //
+        table {
+            table-layout: fixed;
+        }
+
         //table td {
-        //    width: 100px;
         //    overflow:  hidden;
         //    word-wrap: break-word;
         //}
@@ -93,15 +95,18 @@
 
             blockquote {
                 margin: 0px;
-                margin-bottom: 10px;
+                margin-left: 20px;
+                padidng: 10p;
+            }
+            p {
+                margin-left: 20px;
             }
         }
 
-        .description-container {
-            padding-left: 20px;
-        }
-
-        .td-url {
+        //.td-url {
+        //    word-wrap: break-word;
+        //}
+        table td.wrap {
             word-wrap: break-word;
         }
 

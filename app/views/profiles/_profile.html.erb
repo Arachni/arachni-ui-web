@@ -1,20 +1,46 @@
-<header class="jumbotron subhead" id="overview">
-    <h1><%= profile.name %></h1>
-    <div class="lead"><%= profile.html_description %></div>
-</header>
+<div class="row-fluid">
+    <div class="span10">
+        <h1><%= profile.name %></h1>
+        <div class="lead"><%= profile.html_description %></div>
+    </div>
+
+    <div class="span2">
+        <% if can? :edit, Profile %>
+            <%= link_to edit_profile_path( profile ), title: 'Edit', class: 'btn btn-warning' do %>
+                <i class="icon-pencil"></i>
+            <% end %>
+        <% end %>
+
+        <% if can? :create, Profile %>
+            <%= link_to new_profile_path + '/' + profile.id.to_s,
+                        title: "Create a new profile based on '#{profile.name}'",
+                        method: :post,
+                        class: 'btn btn-primary' do %>
+                <i class="icon-plus"></i>
+            <% end %>
+        <% end %>
+
+        <% if can?( :delete, Profile ) && !profile.default? %>
+            <%= link_to profile, title: 'Delete', method: :delete, class: 'btn btn-danger',
+                        data: { confirm: 'Are you sure?' } do %>
+                <i class="icon-trash"></i>
+            <% end %>
+        <% end %>
+    </div>
+</div>
 
 <section id="spider">
     <div class="page-header">
-        <h1 id="spider-h">
+        <h2 id="spider-h">
             Spider
             <small>How the scanner will crawl the web application</small>
-        </h1>
+        </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         <% if profile.redundant.any? %>
         <div class="span6">
-            <p>
+            <div>
                 <b>Redundant:</b>
                 <table class="table table-hover">
                     <tr>
@@ -33,7 +59,7 @@
                 <% end %>
 
                 </table>
-            </p>
+            </div>
             <%= messages_for :redundant %>
         </div>
         <% end %>
@@ -47,7 +73,9 @@
             <%= messages_for :auto_redundant %>
         </div>
         <% end %>
+    </div>
 
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Depth limit:</b>
@@ -62,6 +90,8 @@
             </p>
             <%= messages_for :link_count_limit %>
         </div>
+    </div>
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Redirect limit:</b>
@@ -77,7 +107,8 @@
             </p>
             <%= messages_for :follow_subdomains %>
         </div>
-
+    </div>
+    <div class="row-fluid">
         <% if profile.exclude_binaries %>
         <div class="span6">
             <p>
@@ -88,10 +119,8 @@
             <%= messages_for :exclude_binaries %>
         </div>
         <% end %>
-
-        <div class="span12">
-        </div>
-
+    </div>
+    <div class="row-fluid">
         <% if profile.exclude.any? %>
         <div class="span6">
             <p>
@@ -113,7 +142,8 @@
             <%= messages_for :include %>
         </div>
         <% end %>
-
+    </div>
+    <div class="row-fluid">
         <% if profile.restrict_paths.any? %>
         <div class="span6">
             <p>
@@ -140,13 +170,13 @@
 
 <section id="http">
     <div class="page-header">
-        <h1 id="http-h">
+        <h2 id="http-h">
             HTTP
             <small>How the scanner will communicate with the web application</small>
-        </h1>
+        </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Http req limit:</b>
@@ -154,8 +184,10 @@
             </p>
             <%= messages_for :http_req_limit %>
         </div>
+    </div>
 
-        <% if !profile.proxy_host.to_s.empty? && profile.proxy_port %>
+    <% if !profile.proxy_host.to_s.empty? && profile.proxy_port %>
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Proxy host:</b>
@@ -170,6 +202,8 @@
             </p>
             <%= messages_for :proxy_port %>
         </div>
+    </div>
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Proxy username:</b>
@@ -184,6 +218,8 @@
             </p>
             <%= messages_for :proxy_password %>
         </div>
+    </div>
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Proxy type:</b>
@@ -191,8 +227,10 @@
             </p>
             <%= messages_for :proxy_type %>
         </div>
-        <% end %>
+    </div>
+    <% end %>
 
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>User agent:</b>
@@ -207,10 +245,8 @@
             </p>
             <%= messages_for :http_timeout %>
         </div>
-
-        <div class="span12">
-        </div>
-
+    </div>
+    <div class="row-fluid">
         <% if profile.cookies.any? %>
         <div class="span6">
             <p>
@@ -237,13 +273,13 @@
 
 <section id="auditor">
     <div class="page-header">
-        <h1 id="auditor-h">
+        <h2 id="auditor-h">
             Auditor
             <small>How the scanner will audit the web application</small>
-        </h1>
+        </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Audit forms:</b>
@@ -260,6 +296,8 @@
             </p>
             <%= messages_for :audit_cookies %>
         </div>
+    </div>
+    <div class="row-fluid">
         <div class="span6">
             <p>
                 <b>Audit headers:</b>
@@ -276,36 +314,32 @@
             </p>
             <%= messages_for :audit_links %>
         </div>
-
+    </div>
+    <div class="row-fluid">
         <% if profile.fuzz_methods %>
-        <div class="span6">
-            <p>
-                <b>Fuzz methods:</b>
-                <input <%= 'checked' if profile.fuzz_methods %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :fuzz_methods %>
-        </div>
-        <div class="span12">
-        </div>
+            <div class="span6">
+                <p>
+                    <b>Fuzz methods:</b>
+                    <input <%= 'checked' if profile.fuzz_methods %>
+                           disabled type="checkbox">
+                </p>
+                <%= messages_for :fuzz_methods %>
+            </div>
         <% end %>
 
         <% if profile.audit_cookies_extensively %>
-        <div class="span6">
-            <p>
-                <b>Audit cookies extensively:</b>
-                <input <%= 'checked' if profile.audit_cookies_extensively %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :audit_cookies_extensively %>
-        </div>
-        <div class="span12">
-        </div>
+            <div class="span6">
+                <p>
+                    <b>Audit cookies extensively:</b>
+                    <input <%= 'checked' if profile.audit_cookies_extensively %>
+                           disabled type="checkbox">
+                </p>
+                <%= messages_for :audit_cookies_extensively %>
+            </div>
         <% end %>
+    </div>
 
-        <div class="span12">
-        </div>
-
+    <div class="row-fluid">
         <% if profile.exclude_cookies.any? %>
         <div class="span6">
             <p>
@@ -332,17 +366,17 @@
 
 <section id="modules">
     <div class="page-header">
-        <h1 id="modules-h">
+        <h2 id="modules-h">
             Modules
             <small>The security checks to be run again the web application</small>
-        </h1>
+        </h2>
     </div>
 
     <% if profile.modules.any? %>
-    <h2>
+    <h3>
         Audit (Active)
         <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
-    </h2>
+    </h3>
 
     <% audit = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
     <% if audit.any? %>
@@ -355,10 +389,10 @@
     <p class="alert alert-info">No audit modules have been selected.</p>
     <% end %>
 
-    <h2>
+    <h3>
         Recon (Passive)
         <small>These checks will passively collect data</small>
-    </h2>
+    </h3>
 
     <% recon = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
     <% if recon.any? %>
@@ -378,10 +412,10 @@
 
 <section id="plugins">
     <div class="page-header">
-        <h1 id="plugins-h">
+        <h2 id="plugins-h">
             Plugins
             <small>Assisting components to be enabled during the process</small>
-        </h1>
+        </h2>
     </div>
 
     <% if profile.has_plugins? %>
@@ -395,13 +429,13 @@
 
 <section id="login">
     <div class="page-header">
-        <h1 id="login-h">
+        <h2 id="login-h">
             Login check
             <small>How the scanner will determine its session's validity</small>
-        </h1>
+        </h2>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
 
         <% if !profile.login_check_url.to_s.empty? && !profile.login_check_pattern.to_s.empty? %>
         <div class="span6">

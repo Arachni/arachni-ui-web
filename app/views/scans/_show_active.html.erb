@@ -1,4 +1,4 @@
-<div class='row'>
+<div class='row-fluid'>
     <div class='span1'>
         <%
            status_label,= if @scan.paused?
@@ -16,16 +16,16 @@
         </p>
     </div>
 
-    <div class="span7 progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
-        <div class="bar" style="width: <%= @scan.progress %>%;">
-            <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
+    <div class="span8">
+        <div class="progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
+            <div class="bar" style="width: <%= @scan.progress %>%;">
+                <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
+            </div>
         </div>
     </div>
 
-    <div class='span2'>
-        <p>
-            <span class="label label-inverse"><%= @scan.eta %> left</span>
-        </p>
+    <div class='span1'>
+        <span class="label label-inverse"><%= @scan.eta %> left</span>
     </div>
 
     <div class='span2'>
@@ -68,7 +68,7 @@
     Toggle statistics
 </a>
 
-<div class="row collapse" id="statistics">
+<div class="row-fluid collapse" id="statistics">
     <div class="span12">
         <table class="table table-condensed">
             <thead>

@@ -19,7 +19,7 @@
         <%= csrf_meta_tags %>
         <%= yield( :head ) %>
     </head>
-    <body id="top" data-offset="60" data-target=".subnav" data-spy="scroll">
+    <body id="top" data-target=".sidebar" data-spy="scroll">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <nav class="navbar-inner">
                 <div id="navigation-top" class="container"
@@ -32,12 +32,17 @@
         </header>
 
         <div id="main" role="main">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="content">
-                    <%= render_subnav %>
+                    <div class="row-fluid">
 
-                     <div class="row">
-                        <div class="span12">
+                        <div class="span2">
+                            <div class="span3 sidebar hidden-phone">
+                                <%= render_subnav %>
+                            </div>
+                        </div>
+
+                        <div class="span8">
                             <%= render 'layouts/messages' %>
                             <%= yield.force_encoding( 'utf-8' ) %>
                         </div>
@@ -55,8 +60,8 @@
         </div>
 
         <footer>
-            <div class="row">
-                <div class="span4 hidden-phone"></div>
+            <div class="row-fluid">
+                <div class="span2 hidden-phone"></div>
                 <div class="span3 hidden-phone">
                     <h4>Help</h4>
                     <hr/>
@@ -78,8 +83,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="span12 offset4">
+            <div class="row-fluid">
+                <div class="span12 offset2">
                     <p>
                         &copy; 2013 <a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a>
                     </p>

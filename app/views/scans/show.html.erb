@@ -9,6 +9,10 @@
 
     <% purl = @scan.parsed_url %>
     <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
+    <% if !@scan.description.to_s.empty? %>
+        <div class="lead"><%= m @scan.description %></div>
+        <hr/>
+    <% end %>
 
     <% if @scan.owner == current_user %>
         <%=  render partial: 'share_form', locals: { scan: @scan } %>

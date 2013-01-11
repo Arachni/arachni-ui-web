@@ -109,11 +109,11 @@ class ScansController < ApplicationController
     # POST /scans.json
     def create
         if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
-            params[:scan][:dispatcher_id] = params[:scan].delete( params[:scan][:type].to_s + '_dispatcher_id' )
+            params[:scan][:dispatcher_id] = params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
         end
 
-        params[:scan].delete( 'grid_dispatcher_id' )
-        params[:scan].delete( 'remote_dispatcher_id' )
+        params.delete( 'grid_dispatcher_id' )
+        params.delete( 'remote_dispatcher_id' )
 
         @scan     = Scan.new( params[:scan] )
         @profiles = Profile.all

@@ -1,6 +1,6 @@
 <% issues = @scan.active? || @scan.error? ? @scan.sorted_issues : @scan.report.issues %>
 
-<div class="row">
+<div class="row-fluid">
     <div class="span12" id='issues'>
         <h2>Issues <small>[<%= issues.size %>]</small></h2>
 
@@ -10,12 +10,12 @@
             <table class="hidden-phone table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>URL</th>
-                        <th>Element</th>
-                        <th>Input</th>
-                        <th>Severity</th>
-                        <th>CWE</th>
+                        <th style="width: 23%">Name</th>
+                        <th style="width: 48%">URL</th>
+                        <th style="width: 5%">Element</th>
+                        <th style="width: 14%">Input</th>
+                        <th style="width: 7%">Severity</th>
+                        <th style="width: 3%">CWE</th>
                     </tr>
                 </thead>
                 <% issues.each do |issue| %>
@@ -24,13 +24,11 @@
                         <%= link_to issue.name, "#description-#{issue.digest}",
                                     data: { toggle: 'collapse' } %>
                     </td>
-                    <td class="url">
-                        <div class="span4 td-url">
+                    <td class="wrap">
                             <%= link_to issue.url, issue.url %>
-                        </div>
                     </td>
                     <td><%= issue.elem.capitalize %></td>
-                    <td><%= issue.var %></td>
+                    <td class="wrap"><%= issue.var %></td>
                     <td>
                         <p class="label label-<%= issue_severity_to_alert issue.severity %>">
                             <%= issue.severity %>

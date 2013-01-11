@@ -5,9 +5,12 @@
     </p>
 <% end %>
 
-<div class="row">
+<div class="row-fluid">
     <div class="span10">
         <h1><%= @dispatcher.url %></h1>
+        <% if !@dispatcher.description.to_s.empty? %>
+            <div class="lead"><%= m @dispatcher.description %></div>
+        <% end %>
     </div>
     <div class="span2">
         <% if can? :edit, Dispatcher %>
@@ -26,12 +29,6 @@
         <% end %>
     </div>
 </div>
-
-<% if !@dispatcher.description.to_s.empty? %>
-    <blockquote>
-        <%= m @dispatcher.description %>
-    </blockquote>
-<% end %>
 
 <div id="node-info">
     <table class="table table-striped table-hover">

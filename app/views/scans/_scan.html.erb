@@ -12,14 +12,6 @@
 
 <% end %>
 
-<% if !@scan.description.to_s.empty? %>
-<blockquote>
-    <%= m @scan.description %>
-</blockquote>
-
-<hr/>
-<% end %>
-
 <%=  render partial: 'comment_list', locals: { scan: @scan } %>
 
 <%= render @scan.active? ? 'show_active' : 'show_inactive' %>

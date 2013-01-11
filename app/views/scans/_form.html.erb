@@ -65,21 +65,19 @@
         </div>
     <% end %>
 
-    <div class="row" id="scan-type-buttons">
-        <div class="btn-group" data-toggle="buttons-radio">
-            <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
-                <h4>Direct</h4>
-            </a>
-            <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
-                <h4>Remote</h4>
-            </a>
-            <a href="#scan-type-buttons" id="grid-btn" class="span3 btn btn-inverse scroll">
-                <h4>High-Performance Grid</h4>
-            </a>
-        </div>
+    <div class="row-fluid btn-group" data-toggle="buttons-radio" id="scan-type-buttons">
+        <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
+            <h4>Direct</h4>
+        </a>
+        <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
+            <h4>Remote</h4>
+        </a>
+        <a href="#scan-type-buttons" id="grid-btn" class="span4 btn btn-inverse scroll">
+            <h4>High-Performance Grid</h4>
+        </a>
     </div>
 
-    <div class="row hidden-phone" id="scan-type-descriptions">
+    <div class="row-fluid hidden-phone" id="scan-type-descriptions">
         <div class="span4">
             <p class="well">Perform a direct scan from this machine to the web application.
                 No need to setup anything else.</p>
@@ -101,7 +99,7 @@
         <div class="control-group">
             <label class="control-label" for="scan[remote_dispatcher_id]">Dispatcher</label>
             <div class="controls">
-                <select class="span2" name="scan[remote_dispatcher_id]" id="remote_dispatcher_id">
+                <select class="span2" name="remote_dispatcher_id" id="remote_dispatcher_id">
                     <% @dispatchers.each do |d| %>
                     <option value="<%= d.id %>"><%= d.to_label %></option>
                     <% end %>
@@ -129,8 +127,7 @@
             <label class="control-label" for="scan[grid_dispatcher_id]">Master Dispatcher</label>
             <div class="controls">
 
-
-                <select class="span2" name="scan[grid_dispatcher_id]" id="grid_dispatcher_id">
+                <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
                     <% @grid_dispatchers.each do |d| %>
                         <option value="<%= d.id %>"><%= d.to_label %></option>
                     <% end %>

@@ -6,9 +6,3 @@
 <div id='profiles'>
 <%= render @profile %>
 </div>
-
-<% if can? :edit, Profile %>
-<div class="form-actions">
-    <%= link_to 'Edit', edit_profile_path( @profile ), class: 'btn' %>
-</div>
-<% end %>
