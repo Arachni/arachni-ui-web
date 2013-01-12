@@ -19,10 +19,13 @@
         <%= @scan.report.delta_time %>.
         </p>
 
-        <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+        <% reports_links = reports_with_outfile.
+                map { |shortname, n| link_to n, report_scan_path( format: shortname ) } %>
 
         <p class="alert alert-info hidden-desktop">
-            Download the <%= report_type %> report as <%= reports_links[0...-1].join( ', ' ).html_safe %> or <%= reports_links.last %>.
+            Download the <%= report_type %> report as
+            <%= reports_links[0...-1].join( ', ' ).html_safe %> or
+            <%= reports_links.last %>.
         </p>
 
         <hr/>
