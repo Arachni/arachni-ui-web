@@ -104,6 +104,9 @@ function restoreAccordions(){
 }
 
 function updatePage() {
+    // Init all tooltips.
+    $("[rel=tooltip]").tooltip();
+
     restoreAccordions();
 
     // Set the container's height to be at least as high as the affix'ed sidebar
@@ -120,9 +123,6 @@ function updatePage() {
 
 $(document).ready( function( $ ) {
     updatePage();
-
-    // Init all tooltips.
-    $("[rel=tooltip]").tooltip();
 
     $( 'body' ).data( 'offset', $( 'header' ).height() + 45 );
 
