@@ -54,14 +54,19 @@
         color: #FFFFFF;
     }
 
+    .progress-container {
+        text-align: center;
+    }
     .progress {
         height: 20px;
+        text-align: center;
     }
     #progress-percentage {
         font-weight: bold;
         font-size: 17px;
         color: white;
-        margin-left: 10px;
+        position: absolute;
+
         text-shadow:
                 -1px -1px 0 #000,
                 1px -1px 0 #000,

@@ -16,11 +16,11 @@
         </p>
     </div>
 
-    <div class="span8">
+    <div class="span8 progress-container">
+        <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
+
         <div class="progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
-            <div class="bar" style="width: <%= @scan.progress %>%;">
-                <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
-            </div>
+            <div class="bar" style="width: <%= @scan.progress %>%;"></div>
         </div>
     </div>
 
