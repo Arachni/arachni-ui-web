@@ -13,6 +13,14 @@
 
 <ul class="nav nav-tabs" id="scan-table-tab"
     data-table-container="<%= type %>-table-container">
+
+    <% if @counts[type.to_sym]['yours'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
+            </a>
+        </li>
+    <% else %>
     <li
         <% if yours %>
            class="active"
@@ -24,28 +32,49 @@
             Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
         <% end %>
     </li>
-    <li
-    <% if params[filter] == 'shared' %>
-    class="active"
     <% end %>
-    >
-        <%= link_to scans_url( opts.merge( filter => 'shared' ) ),
-                    onclick: 'scanTableLoading();', remote: true do %>
-            Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
-    <% end %>
-    </li>
 
-    <% if current_user.admin? %>
-        <li
-        <% if params[filter] == 'others' %>
+    <% if @counts[type.to_sym]['shared'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+
+    <li
+        <% if params[filter] == 'shared' %>
         class="active"
         <% end %>
+
         >
-            <%= link_to scans_url( opts.merge( filter => 'others' ) ),
-                        onclick: 'scanTableLoading();', remote: true do %>
-                Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
-        <% end %>
+        <%= link_to scans_url( opts.merge( filter => 'shared' ) ),
+                    onclick: 'scanTableLoading();', remote: true do %>
+                    Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
+            <% end %>
         </li>
+    <% end %>
+
+    <% if current_user.admin? %>
+
+        <% if @counts[type.to_sym]['others'] == 0 %>
+            <li class="disabled">
+                <a href="#">
+                    Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
+                </a>
+            </li>
+        <% else %>
+            <li
+            <% if params[filter] == 'others' %>
+            class="active"
+            <% end %>
+            >
+                <%= link_to scans_url( opts.merge( filter => 'others' ) ),
+                            onclick: 'scanTableLoading();', remote: true do %>
+                    Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
+            <% end %>
+            </li>
+        <% end %>
     <% end %>
 </ul>
 
@@ -224,7 +253,8 @@
                 <li>Yellow rows indicate aborted scans.</li>
                 <% end %>
                 <% if show_error_legend %>
-                <li>Red rows indicate scans which have stopped due to a fatal error (i.e. the scan Instance suddenly died).</li>
+                <li>Red rows indicate scans which have stopped due to a fatal
+                    error (i.e. the scan Instance suddenly died).</li>
                 <% end %>
             </ul>
         </div>
@@ -233,6 +263,7 @@
 </div>
     <% else %>
     <p class="alert alert-info">
-        There are no such scans at the moment.
+        There are no scans in the '<%= params[filter].to_s.capitalize %>'
+        category at the moment.
     </p>
 <% end %>
