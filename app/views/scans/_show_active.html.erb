@@ -1,7 +1,7 @@
 <div class='row-fluid'>
     <div class='span1'>
         <%
-           status_label,= if @scan.paused?
+           status_label = if @scan.paused?
                               'label-warning'
                           elsif @scan.completed?
                               'label-success'
