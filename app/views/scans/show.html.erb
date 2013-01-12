@@ -69,6 +69,20 @@
                 Share
             </a>
         </li>
+        <li>
+            <i class="icon-download-alt"></i>
+            Download report as:
+
+            <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+
+            <ul>
+                <% reports_links.each do |l| %>
+                <li>
+                    <%= l %>
+                </li>
+                <% end %>
+            </ul>
+        </li>
     </ul>
 <% end %>
 
