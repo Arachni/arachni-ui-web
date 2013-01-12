@@ -1,18 +1,15 @@
 <% if User.count > 1 && can?( :share, scan ) %>
+    <a href="#shareScan_<%= scan.id %>" title="Share scan"
+       role="button" class="btn" data-toggle="modal">
+        <i class="icon-share"></i>
 
-    <div class="hidden-desktop pull-left">
-        <a href="#shareScan_<%= scan.id %>" title="Share scan"
-           role="button" class="btn" data-toggle="modal">
-            <i class="icon-share"></i>
+        <% if (shared_with = scan.users.size - 1) > 0 %>
+        <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+              class="label"><%= shared_with %></span>
+        <% end %>
 
-            <% if (shared_with = scan.users.size - 1) > 0 %>
-            <span title="Shared with <%= pluralize shared_with, 'more user' %>."
-                  class="label"><%= shared_with %></span>
-            <% end %>
-
-            <%= 'Share scan' if !local_assigns[:nolabel] %>
-        </a>
-    </div>
+        <%= 'Share scan' if !local_assigns[:nolabel] %>
+    </a>
 
     <div id="shareScan_<%= scan.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
@@ -26,7 +23,7 @@
         <div class="modal-body">
             <%= f.error_notification %>
                 <%= f.association :users, label: '',
-                                  collection: User.all - [current_user],
+                                  collection: User.all - [scan.owner],
                                   as: :check_boxes, html_input: { id: 'ff' } %>
 
         </div>

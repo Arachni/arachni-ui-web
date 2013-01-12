@@ -98,12 +98,11 @@
     <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
     <% if !@scan.description.to_s.empty? %>
         <div class="lead"><%= m @scan.description %></div>
-        <hr/>
     <% end %>
 
-    <% if @scan.owner == current_user %>
+    <div class="hidden-desktop pull-left">
         <%= render partial: 'share_form', locals: { scan: @scan } %>
-    <% end %>
+    </div>
 
     <div class="hidden-desktop">
         <a class="toggle-comments btn" data-toggle="collapse"
