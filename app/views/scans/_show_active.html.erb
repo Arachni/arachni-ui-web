@@ -124,7 +124,8 @@
 <%=  render 'show_issues' %>
 
 <script type="text/javascript">
-    $( 'ul#scan-sidebar' ).show();
-    $( 'li#toggle-statistics' ).show();
+    $( 'ul#scan-sidebar' ).show( 'slow' );
+    $( 'li#toggle-statistics' ).fadeIn( 'slow' );
+    $( 'li#toggle-charts' ).fadeIn( 'slow' );
     $( 'li#download-report' ).hide();
 </script>
