@@ -8,7 +8,7 @@
 
 puts 'SETTING UP DEFAULT USERS'
 user = User.create! name:                  'Administrator',
-                    email:                 'admin@admin.com',
+                    email:                 'admin@admin.admin',
                     password:              'administrator',
                     password_confirmation: 'administrator'
 user.add_role :admin
