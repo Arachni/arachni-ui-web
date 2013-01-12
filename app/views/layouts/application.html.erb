@@ -33,22 +33,29 @@
 
         <div id="main" role="main">
             <div class="container-fluid">
-                <div class="content">
+                <div id="content" class="content">
                     <div class="row-fluid">
-
                         <div class="span2 sidebar hidden-phone">
-                            <div class="affix">
-                                <div class="span3 spy">
-                                    <%= render_subnav %>
-                                </div>
-                            </div>
+                            <div id="sidebar-affix" class="affix">
 
-                            <div class="affix">
-                                <%= sidebar.html_safe %>
+                                <% if has_subnav? %>
+                                <div class="row-fluid">
+                                    <div class="span3 spy">
+                                        <%= render_subnav %>
+                                    </div>
+                                </div>
+                                <% end %>
+
+                                <div class="row-fluid">
+                                    <div>
+                                        <%= sidebar.html_safe %>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div class="span8">
+                        <div id="main-content" class="span8">
                             <%= render 'layouts/messages' %>
                             <%= yield.force_encoding( 'utf-8' ) %>
                         </div>

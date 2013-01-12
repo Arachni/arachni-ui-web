@@ -58,6 +58,10 @@ module NavigationHelper
         s
     end
 
+    def has_subnav?
+        object_for? :subnav
+    end
+
     def render_subnav( sections = nil )
         if sections ||= pop_object_for( :subnav )
             render partial: 'layouts/subnav', locals: { sections: sections }
