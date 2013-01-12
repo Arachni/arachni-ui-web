@@ -2,7 +2,7 @@
 <% breadcrumb_add 'Scans', scans_path %>
 
 <% add_to_sidebar do %>
-    <ul class="nav nav-list">
+    <ul class="nav nav-list hide" id="scan-sidebar">
         <li class="nav-header">
             Toggle visibility of
         </li>
@@ -24,16 +24,14 @@
             </a>
         </li>
 
-        <% if @scan.active? %>
-            <li>
-                <a href="#statistics" data-toggle="collapse"
-                   title="Toggle statistics visibility" role="button">
-                    <i class="icon-info-sign"></i>
+        <li id="toggle-statistics" class="hide">
+            <a href="#statistics" data-toggle="collapse"
+               title="Toggle statistics visibility" role="button">
+                <i class="icon-info-sign"></i>
 
-                    Statistics
-                </a>
-            </li>
-        <% end %>
+                Statistics
+            </a>
+        </li>
 
         <li>
             <a href="#graphs" onclick="toggleCharts();"
@@ -56,6 +54,8 @@
                 Add comment
             </a>
         </li>
+
+        <% if User.count > 1 && can?( :share, scan ) %>
         <li>
             <a href="#shareScan_<%= @scan.id %>" title="Share scan"
                role="button" data-toggle="modal">
@@ -69,7 +69,9 @@
                 Share
             </a>
         </li>
-        <li>
+        <% end %>
+
+        <li id="download-report" class="hide">
             <i class="icon-download-alt"></i>
             Download report as:
 
@@ -151,7 +153,7 @@
                         $('#new-comments-counter').show();
                     }
 
-                    restoreAccordions();
+                    updatePage();
                 },
                 'html' )
     }, <%= Settings.scan_refresh_rate %> );
