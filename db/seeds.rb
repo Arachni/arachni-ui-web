@@ -14,6 +14,12 @@ user = User.create! name:                  'Administrator',
 user.add_role :admin
 puts 'Admin user created: ' << user.name
 
+user = User.create! name:                  'Regular User',
+                    email:                 'user@user.user',
+                    password:              'regular_user',
+                    password_confirmation: 'regular_user'
+puts 'Regular user created: ' << user.name
+
 arachni_defaults = {}
 
 ignore = %w(max_slaves)
@@ -33,7 +39,9 @@ arachni_defaults.merge!(
     plugins:       :default
 )
 
-puts 'SETTING UP DEFAULT PROFILE'
+puts
+
+puts 'SETTING UP DEFAULT PROFILES'
 p = Profile.create! arachni_defaults.merge(
                         name:          'Default',
                         description:   'Sensible, default settings.',
