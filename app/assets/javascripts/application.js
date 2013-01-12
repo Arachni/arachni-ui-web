@@ -75,7 +75,7 @@ function fetchAndFill( url, element ){
 function restoreAccordions(){
     aGroup = $.cookie( 'activeAccordionGroup' );
 
-    if( aGroup ){
+    if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
         $( ".collapse" ).height( '0px' );
 
@@ -88,6 +88,10 @@ function restoreAccordions(){
                 $( "#" + collapsible ).height( 'auto' );
             }
         }
+    // Default open accordions.
+    } else {
+        // Scan statistics.
+        $.cookie( 'activeAccordionGroup', ':statistics:' );
     }
 
     $( ".collapse" ).on( 'shown', function(){
