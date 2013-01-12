@@ -25,13 +25,11 @@
         <p class="alert alert-info">This scan has no comments yet.</p>
         <% end %>
 
-        <div class="hidden-desktop">
-            <a href="#add-scan-comment" title="Comment on scan"
-               role="button" class="btn" data-toggle="modal">
-                <i class="icon-comment"></i>
-                <%= 'Add comment' if !local_assigns[:nolabel] %>
-            </a>
-        </div>
+        <a href="#add-scan-comment" title="Comment on scan"
+           role="button" class="btn" data-toggle="modal">
+            <i class="icon-comment"></i>
+            <%= 'Add comment' if !local_assigns[:nolabel] %>
+        </a>
 
         <hr/>
     </div>
