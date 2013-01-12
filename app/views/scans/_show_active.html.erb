@@ -10,9 +10,28 @@
                           else
                               'label-info'
                           end
+
+           tooltip = case @scan.status
+                        when :auditing
+                            "Vectors of the web application are being audited" +
+                            " in order to determine their security status."
+
+                         when :crawling
+                             "The web application is being analyzed in an effort" +
+                             " to find all available pages and attack vectors."
+                     end
         %>
         <p>
-            <span class="label <%= status_label %>"><%= @scan.status.to_s.capitalize %></span>
+            <span class="label <%= status_label %>">
+                <%= @scan.status.to_s.capitalize %>
+            </span>
+
+            <% if tooltip %>
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="<%= tooltip %>" class="pull-right">
+                    <i class="icon-info-sign"></i>
+                </a>
+            <% end %>
         </p>
     </div>
 
@@ -28,7 +47,7 @@
         <span class="label label-inverse"><%= @scan.eta %> left</span>
     </div>
 
-    <div class='span2'>
+    <div class="span2">
         <% if can? :pause, @scan %>
             <% if @scan.paused? %>
                 <%= link_to resume_scan_url( @scan ), title: 'Resume scan',
