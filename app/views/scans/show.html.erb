@@ -55,7 +55,7 @@
             </a>
         </li>
 
-        <% if User.count > 1 && can?( :share, scan ) %>
+        <% if User.count > 1 && can?( :share, @scan ) %>
         <li>
             <a href="#shareScan_<%= @scan.id %>" title="Share scan"
                role="button" data-toggle="modal">
