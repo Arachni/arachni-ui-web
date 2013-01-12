@@ -48,6 +48,16 @@ module NavigationHelper
         object_for :subnav, opts
     end
 
+    def sidebar
+        @sidebar ||= ''
+    end
+
+    def add_to_sidebar( &block )
+        s = capture( &block )
+        sidebar << s
+        s
+    end
+
     def render_subnav( sections = nil )
         if sections ||= pop_object_for( :subnav )
             render partial: 'layouts/subnav', locals: { sections: sections }

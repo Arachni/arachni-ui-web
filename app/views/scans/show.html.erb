@@ -1,6 +1,77 @@
 <% title @scan.url %>
 <% breadcrumb_add 'Scans', scans_path %>
 
+<% add_to_sidebar do %>
+    <ul class="nav nav-list">
+        <li class="nav-header">
+            Toggle visibility of
+        </li>
+        <li>
+            <a class="toggle-comments-button" data-toggle="collapse"
+               href="#scan<%= @scan.id %>-comments-list">
+                <i class="icon-comment"></i>
+
+                <% if @scan.comments.any? %>
+                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                      id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
+                <% end %>
+
+                <span id="new-comments-counter"
+                      title="The scan has new comments."
+                      class="hide label label-info"></span>
+
+                Comments
+            </a>
+        </li>
+
+        <% if @scan.active? %>
+            <li>
+                <a href="#statistics" data-toggle="collapse"
+                   title="Toggle statistics visibility" role="button">
+                    <i class="icon-info-sign"></i>
+
+                    Statistics
+                </a>
+            </li>
+        <% end %>
+
+        <li>
+            <a href="#graphs" onclick="toggleCharts();"
+               title="Toggle chart visibility" role="button">
+                <i class="icon-signal"></i>
+
+                Charts
+            </a>
+        </li>
+
+        <li class="divider"></li>
+
+        <li class="nav-header">
+            Actions
+        </li>
+        <li>
+            <a href="#add-scan-comment" title="Comment on scan"
+               role="button" data-toggle="modal">
+                <i class="icon-comment"></i>
+                Add comment
+            </a>
+        </li>
+        <li>
+            <a href="#shareScan_<%= @scan.id %>" title="Share scan"
+               role="button" data-toggle="modal">
+                <i class="icon-share"></i>
+
+                <% if (shared_with = @scan.users.size - 1) > 0 %>
+                  <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+                  class="label"><%= shared_with %></span>
+                <% end %>
+
+                Share
+            </a>
+        </li>
+    </ul>
+<% end %>
+
 <script type="text/javascript">
     var stopUpdatingScan = false;
 </script>
@@ -15,23 +86,25 @@
     <% end %>
 
     <% if @scan.owner == current_user %>
-        <%=  render partial: 'share_form', locals: { scan: @scan } %>
+        <%= render partial: 'share_form', locals: { scan: @scan } %>
     <% end %>
 
-    <a id="toggle-comments-button" class="btn" data-toggle="collapse"
-       href="#scan<%= @scan.id %>-comments-list">
-        <i class="icon-comment"></i>
+    <div class="hidden-desktop">
+        <a class="toggle-comments btn" data-toggle="collapse"
+           href="#scan<%= @scan.id %>-comments-list">
+            <i class="icon-comment"></i>
 
-        <% if @scan.comments.any? %>
-            <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                  id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
-        <% end %>
+            <% if @scan.comments.any? %>
+                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                      id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
+            <% end %>
 
-        <span id="new-comments-counter" title="The scan has new comments."
-              class="hide label label-info"></span>
+            <span id="new-comments-counter" title="The scan has new comments."
+                  class="hide label label-info"></span>
 
-        Toggle comments
-    </a>
+            Toggle comments
+        </a>
+    </div>
 
     <%= render partial: 'comment_form', locals: { scan: @scan } %>
 

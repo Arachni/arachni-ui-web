@@ -19,7 +19,7 @@
         <%= csrf_meta_tags %>
         <%= yield( :head ) %>
     </head>
-    <body id="top" data-target=".sidebar" data-spy="scroll">
+    <body id="top" data-target=".spy" data-spy="scroll">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <nav class="navbar-inner">
                 <div id="navigation-top" class="container"
@@ -36,9 +36,15 @@
                 <div class="content">
                     <div class="row-fluid">
 
-                        <div class="span2">
-                            <div class="span3 sidebar hidden-phone">
-                                <%= render_subnav %>
+                        <div class="span2 sidebar hidden-phone">
+                            <div class="affix">
+                                <div class="span3 spy">
+                                    <%= render_subnav %>
+                                </div>
+                            </div>
+
+                            <div class="affix">
+                                <%= sidebar.html_safe %>
                             </div>
                         </div>
 

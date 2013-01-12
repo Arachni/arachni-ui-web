@@ -5,7 +5,7 @@
 window.newCommentsCount = 0
 
 jQuery ->
-    $('#toggle-comments-button').click ->
+    $('#toggle-comments').click ->
         window.newCommentsCount = 0
         window.initialCommentCount = $('#scan #comments #comment').size();
         $('#total-comments-counter').html( window.initialCommentCount );
