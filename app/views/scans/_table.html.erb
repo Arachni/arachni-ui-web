@@ -147,8 +147,9 @@
                     <% if can? :read, scan %>
                         <% if !scan.error_messages.to_s.empty? %>
                             <%= link_to errors_scan_url( scan, format: :txt ),
-                                        title: 'This scan has encountered errors',
-                                        class: 'label label-important' do %>
+                                        title: 'This scan has encountered errors.',
+                                        class: 'label label-important',
+                                        rel: 'tooltip', data: { placement: 'left' } do %>
                                 <i class="icon-exclamation-sign icon-white"></i>
                             <% end %>
                         <% end %>
@@ -267,3 +268,7 @@
         category at the moment.
     </p>
 <% end %>
+
+<script type="text/javascript">
+    updatePage();
+</script>
