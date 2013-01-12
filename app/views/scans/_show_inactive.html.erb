@@ -40,7 +40,11 @@
     <%=  render 'show_issues' %>
 
     <script type="text/javascript">
-        stopUpdatingScan = true
+        stopUpdatingScan = true;
+
+        $( 'ul#scan-sidebar' ).show();
+        $( 'li#toggle-statistics' ).hide();
+        $( 'li#download-report' ).show();
     </script>
 
 <% else %>
@@ -57,4 +61,7 @@
         <div class="bar" style="width: 100%;"></div>
     </div>
 
+    <script type="text/javascript">
+        $( 'ul#scan-sidebar' ).hide();
+    </script>
 <% end %>
