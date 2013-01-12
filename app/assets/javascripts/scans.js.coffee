@@ -82,7 +82,6 @@ jQuery ->
 #        hadleAutoDispatcherNotice( 'grid' )
     $('#peek-profile').click ->
         showSelectedProfile()
-    restoreAccordions()
     $('#active-scan-counter').bind 'refreshed', () ->
         if $(this).text() == '0'
             $(this).hide()
