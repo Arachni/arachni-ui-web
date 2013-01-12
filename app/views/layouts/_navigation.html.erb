@@ -190,7 +190,10 @@
     <% if user_signed_in? %>
     <li>
         <div class="btn-group">
-            <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> <%= current_user.name %>
+            <a class="btn btn-primary" href="#">
+                <i class="icon-user icon-white"></i>
+                <%= current_user.name %>
+
                 <% if current_user.admin? %>
                     <span class="label label-inverse">Administrator</span>
                 <% end %>
