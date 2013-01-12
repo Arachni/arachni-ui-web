@@ -11,11 +11,17 @@
                 <thead>
                     <tr>
                         <th style="width: 23%">Name</th>
-                        <th style="width: 48%">URL</th>
+                        <th style="width: 46%">URL</th>
                         <th style="width: 5%">Element</th>
                         <th style="width: 14%">Input</th>
                         <th style="width: 7%">Severity</th>
-                        <th style="width: 3%">CWE</th>
+                        <th style="width: 5%">
+                            CWE
+                            <a href="#" rel="tooltip"
+                               title="Vulnerability definitions from Common Weakness Enumeration project.">
+                                <i class="icon-info-sign"></i>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <% issues.each do |issue| %>
