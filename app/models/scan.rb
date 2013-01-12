@@ -90,6 +90,38 @@ class Scan < ActiveRecord::Base
         completed? || aborted? || error?
     end
 
+    def running?
+        active? && !initializing?
+    end
+
+    def cleaning_up?
+        !active? && !finished?
+    end
+
+    def completed?
+        status == :completed
+    end
+
+    def initializing?
+        status == :initializing
+    end
+
+    def paused?
+        status == :pausing || status == :paused
+    end
+
+    def aborted?
+        status == :aborted
+    end
+
+    def error?
+        status == :error
+    end
+
+    def grid?
+        type == :grid
+    end
+
     def issue_count
         issues.size
     end
@@ -130,30 +162,6 @@ class Scan < ActiveRecord::Base
 
     def status
         super.to_sym if super
-    end
-
-    def completed?
-        status == :completed
-    end
-
-    def initializing?
-        status == :initializing
-    end
-
-    def paused?
-        status == :pausing || status == :paused
-    end
-
-    def aborted?
-        status == :aborted
-    end
-
-    def error?
-        status == :error
-    end
-
-    def grid?
-        type == :grid
     end
 
     def instance
