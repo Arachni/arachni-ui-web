@@ -99,7 +99,7 @@
                 %>
                 <th>Response times</th>
                 <td class="alert <%= curr_res_time_class %>">
-                    <abbr data-placement="bottom" rel="tooltip" title="<%= info %>">
+                    <abbr data-placement="bottom" title="<%= info %>">
                         <%= '%.3f' % @scan.statistics['average_res_time'].to_f %>s
                     </abbr>
                 </td>
@@ -115,7 +115,7 @@
 
                 <th>Request concurrency</th>
                 <td class='alert <%= max_concurrency_class %>'>
-                    <abbr data-placement="left" rel="tooltip" title="<%= info %>">
+                    <abbr title="<%= info %>">
                         <%= @scan.statistics['max_concurrency'].to_i %>
                     </abbr>
                 </td>
