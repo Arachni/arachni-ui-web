@@ -1,4 +1,4 @@
-<%  if User.count > 1 && can?( :share, scan ) %>
+<% if User.count > 1 && can?( :share, scan ) %>
 
     <div class="hidden-desktop pull-left">
         <a href="#shareScan_<%= scan.id %>" title="Share scan"
