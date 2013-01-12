@@ -76,6 +76,8 @@ jQuery ->
         showGoButton()
     $('#scan_url').blur ->
         showGoButton()
+    $('#add-scan-comment').on 'shown', () ->
+        $('textarea#comment_text').focus()
 #    $('#dispatcher').change ->
 #        hadleAutoDispatcherNotice( 'remote' )
 #    $('#master_dispatcher').change ->
