@@ -103,8 +103,23 @@ function restoreAccordions(){
     });
 }
 
-$(document).ready( function( $ ) {
+function updatePage() {
     restoreAccordions();
+
+    // Set the container's height to be at least as high as the affix'ed sidebar
+    min_height  =
+        $( '#sidebar-affix' ).height() > $( '#main-content' ).height() ?
+            $( '#sidebar-affix' ).height() : $( '#main-content' ).height();
+
+    curr_height = $( '#content' ).height();
+
+    if( curr_height < min_height ) {
+        $( '#content' ).height( min_height );
+    }
+}
+
+$(document).ready( function( $ ) {
+    updatePage();
 
     // Init all tooltips.
     $("[rel=tooltip]").tooltip();
