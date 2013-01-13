@@ -8,7 +8,7 @@
     <% sections.each do |id, title| %>
         <li>
             <a href="#<%= id.to_s %>" class="scroll">
-                <%= title.to_s %>
+                <%= title.to_s.html_safe %>
                 <i class="icon-chevron-right"></i>
             </a>
         </li>
