@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
 
     protect_from_forgery
     rescue_from CanCan::AccessDenied do |exception|
-        redirect_to root_path, alert: exception.message
+        #redirect_to root_path, alert: exception.message
+
+        # In case the request is perform via AJAX.
+        flash[:alert] = exception.message
+        render text: "<script> window.location = '#{root_path}'; </script>"
     end
 
     def self.storage
@@ -33,3 +37,4 @@ class ApplicationController < ActionController::Base
         storage.clear
     end
 end
+
