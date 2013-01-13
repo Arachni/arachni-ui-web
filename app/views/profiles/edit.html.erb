@@ -1,8 +1,13 @@
 <% title "Editing #{@profile.name}" %>
 
 <% breadcrumb_add 'Profiles', profiles_path %>
-<% subnav spider: 'Spider', http: 'HTTP', auditor: 'Auditor',
-          modules: 'Modules', plugins: 'Plugins', login: 'Login' %>
+
+<% subnav spider: 'Spider <small>-- Crawler and scope settings</small>',
+          http: 'HTTP <small>-- Network settings</small>',
+          auditor: 'Auditor <small>-- Fuzzing settings</small>',
+          modules: 'Modules <small>-- Security checks</small>',
+          plugins: 'Plugins <small>-- Extra functionality</small>',
+          login: 'Login <small>-- Session settings</small>' %>
 
 <div class="page-header">
     <h1>Editing '<%= @profile.name %>' profile</h1>
