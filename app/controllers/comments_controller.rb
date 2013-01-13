@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     def index
         @comments = commentable.comments
 
-        html_block = if params.include?( :partial )
+        html_block = if params[:partial] == 'true'
             proc { render partial: 'comment_list',
                          locals: { comments: commentable.comments } }
         end
