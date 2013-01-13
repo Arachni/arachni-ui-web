@@ -94,11 +94,18 @@
 
 <div id="scans">
 
-    <% purl = @scan.parsed_url %>
-    <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
-    <% if !@scan.description.to_s.empty? %>
+    <div class="page-header">
+        <% if @scan.owner != current_user %>
+            <span class="label label-info pull-right">Started by <%= @scan.owner.name %></span>
+        <% end %>
+
+        <% purl = @scan.parsed_url %>
+        <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
+
+        <% if !@scan.description.to_s.empty? %>
         <div class="lead"><%= m @scan.description %></div>
-    <% end %>
+        <% end %>
+    </div>
 
     <div class="hidden-desktop pull-left">
         <%= render partial: 'share_form', locals: { scan: @scan } %>
@@ -122,8 +129,6 @@
     </div>
 
     <%= render partial: 'comment_form', locals: { scan: @scan } %>
-
-    <hr />
 
     <div id="scan">
         <%= render @scan %>
