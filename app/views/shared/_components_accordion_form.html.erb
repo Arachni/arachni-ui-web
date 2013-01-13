@@ -34,6 +34,17 @@
                     </ul>
                 </div>
 
+                <% if info[:targets].is_a? Array %>
+                    <div>
+                        <strong>Supported platforms:</strong>
+                        <ul>
+                            <% info[:targets].each do |platform| %>
+                                <li><%= platform %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                <% end %>
+
                 <% if info[:options] %>
                 <div class="accordion-inner">
                     <strong>Options</strong>
