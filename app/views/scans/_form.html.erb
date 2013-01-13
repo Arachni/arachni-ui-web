@@ -1,65 +1,67 @@
 <%= simple_form_for( @scan ) do |f| %>
     <%= f.error_notification %>
 
-        <%= f.input :url, as: :url, label: 'Target URL', hint: 'Full URL of the targeted web application (must
-                    include the appropriate protocol --
-                    <i>http</i> or <i>https</i>).' %>
+    <%= f.input :url, as: :url, label: 'Target URL', hint: 'Full URL of the targeted web application (must
+                include the appropriate protocol --
+                <i>http</i> or <i>https</i>).' %>
 
-        <%= f.input :description,
-                    hint: 'You can use <a href="http://daringfireball.net/' +
-                           'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+    <%= f.input :description,
+                hint: 'You can use <a href="http://daringfireball.net/' +
+                       'projects/markdown/syntax">Markdown</a> for text formatting.' %>
 
-        <%= f.input :instance_count,
-                    hint: 'How many Instances to utilise for the scan.' %>
+    <%= f.input :instance_count,
+                hint: 'How many Instances to utilise for the scan.' %>
 
-        <p class="alert alert-info">
-            Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
-        </p>
+    <p class="alert alert-info">
+        Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+    </p>
 
-        <div class="alert">
-            <strong>Warning!</strong>
-            <ul>
-                <li>
-                    High-performance distribution (i.e. using more than 1 Instance) is experimental.
-                </li>
-                <li>
-                    Please be sure that the web server will be able to handle the heat,
-                    otherwise you may end up killing it.
-                </li>
-            </ul>
+    <div class="alert">
+        <strong>Warning!</strong>
+        <ul>
+            <li>
+                High-performance distribution (i.e. using more than 1 Instance) is experimental.
+            </li>
+            <li>
+                Please be sure that the web server will be able to handle the heat,
+                otherwise you may end up killing it.
+            </li>
+        </ul>
+    </div>
+
+    <%= f.input :type, as: :hidden %>
+
+    <div class="control-group">
+        <label class="control-label" for="scan_profile">Profile</label>
+        <div class="controls">
+            <select class="span2" name="scan[profile_id]" id="scan_profile">
+                <% @profiles.each do |p| %>
+                    <option <%= 'selected' if (params[:scan] || {})[:profile_id].to_i == p.id || p.default? %> value="<%= p.id %>">
+                        <%= p.name %>
+                    </option>
+                <%end%>
+            </select>
+
+            <p class="help-block">
+                Configuration profile to use.
+            </p>
         </div>
+    </div>
 
-        <%= f.input :type, as: :hidden %>
-
-        <div class="control-group">
-            <label class="control-label" for="scan_profile">Profile</label>
-            <div class="controls">
-                    <select class="span2" name="scan[profile_id]" id="scan_profile">
-                        <% @profiles.each do |p| %>
-                            <option <%= 'selected' if p.default? %> value="<%= p.id %>"><%= p.name %></option>
-                        <%end%>
-                    </select>
-
-                    <p class="help-block">
-                        Configuration profile to use.
-                    </p>
-            </div>
-        </div>
-
-        <% if User.count > 1 %>
-            <%= f.association :users, label: 'Share scan with:',
-                              collection: User.all - [current_user] %>
-        <% end %>
+    <% if User.count > 1 %>
+        <%= f.association :users, label: 'Share scan with:',
+                          collection: User.all - [current_user] %>
+    <% end %>
 
     <% if (type_errors = @scan.errors.messages[:type]).any? %>
-        <div class="alert alert-error">
-            Scan type errors:
-            <ul>
-            <% type_errors.each do |e| %>
-                <li><%= e %></li>
-            <% end %>
-            </ul>
-        </div>
+    <div class="alert alert-error">
+        Scan type errors:
+        <ul>
+        <% type_errors.each do |e| %>
+            <li><%= e %></li>
+        <% end %>
+        </ul>
+    </div>
     <% end %>
 
     <hr/>
