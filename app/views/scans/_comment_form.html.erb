@@ -6,14 +6,12 @@
         <h3 id="comment-label">Comment:</h3>
     </div>
 
-    <%= simple_form_for( scan.comments.new ) do |f| %>
+    <%= simple_form_for( [@scan, scan.comments.new] ) do |f| %>
         <div class="modal-body">
             <%= f.error_notification %>
             <%= f.input :text, label: false,
                         hint: 'You can use <a href="http://daringfireball.net/' +
                               'projects/markdown/syntax">Markdown</a> for text formatting.' %>
-
-            <%= f.input :scan_id , as: :hidden %>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

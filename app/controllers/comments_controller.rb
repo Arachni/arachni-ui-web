@@ -1,12 +1,13 @@
 class CommentsController < ApplicationController
     before_filter :authenticate_user!
 
-    load_and_authorize_resource
+    load_resource :scan
+    load_and_authorize_resource :comment, through: [:scan]
 
     ## GET /scan/comments
     ## GET /scan/comments.json
     #def index
-    #    @comments = Comment.all
+    #    @comments = commentable.comments
     #
     #    respond_to do |format|
     #        format.html # index.html.erb
@@ -17,7 +18,7 @@ class CommentsController < ApplicationController
     ## GET /scan/comments/1
     ## GET /scan/comments/1.json
     #def show
-    #    @comment = Comment.find(params[:id])
+    #    @comment = commentable.comments.find( params[:id] )
     #
     #    respond_to do |format|
     #        format.html # show.html.erb
@@ -28,7 +29,7 @@ class CommentsController < ApplicationController
     ## GET /scan/comments/new
     ## GET /scan/comments/new.json
     #def new
-    #    @comment = Comment.new
+    #    @comment = commentable.comments.new
     #
     #    respond_to do |format|
     #        format.html # new.html.erb
@@ -44,13 +45,7 @@ class CommentsController < ApplicationController
     # POST /scan/comments
     # POST /scan/comments.json
     def create
-        begin
-            current_user.scans.find( params[:comment][:scan_id] )
-        rescue ActiveRecord::RecordNotFound
-            fail 'You do not have permission to access this scan.'
-        end
-
-        @comment      = Comment.new(params[:comment])
+        @comment      = commentable.comments.new( params[:comment] )
         @comment.user = current_user
 
         respond_to do |format|
@@ -67,13 +62,7 @@ class CommentsController < ApplicationController
     # PUT /scan/comments/1
     # PUT /scan/comments/1.json
     def update
-        begin
-            current_user.scans.find( params[:comment][:scan_id] )
-        rescue ActiveRecord::RecordNotFound
-            fail 'You do not have permission to access this scan.'
-        end
-
-        @comment = Comment.find(params[:id])
+        @comment = commentable.comments.find( params[:id] )
 
         respond_to do |format|
             if @comment.update_attributes(params[:comment])
@@ -89,18 +78,21 @@ class CommentsController < ApplicationController
     # DELETE /scan/comments/1
     # DELETE /scan/comments/1.json
     def destroy
-        begin
-            current_user.scans.find( params[:comment][:scan_id] )
-        rescue ActiveRecord::RecordNotFound
-            fail 'You do not have permission to access this scan.'
-        end
-
-        @comment = Comment.find(params[:id])
+        @comment = commentable.comments.find( params[:id] )
         @comment.destroy
 
         respond_to do |format|
             format.html { redirect_to comments_url }
             format.json { head :no_content }
         end
+    end
+
+    private
+
+    def commentable
+        params.each do |name, value|
+            return $1.classify.constantize.find( value ) if name =~ /(.+)_id$/
+        end
+        nil
     end
 end

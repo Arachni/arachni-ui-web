@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
-    belongs_to :scan
+    belongs_to :commentable, polymorphic: true
     belongs_to :user
-    attr_accessible :scan_id, :text, :user_id
+
+    attr_accessible :text, :user_id
 end

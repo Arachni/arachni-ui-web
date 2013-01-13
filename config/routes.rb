@@ -20,9 +20,9 @@ ArachniWebui::Application.routes.draw do
         get :partial,      on: :member
     end
 
-    resources :comments
-
     resources :scans, except: [:edit] do
+        resources :comments
+
         get :partial,  on: :member
         put :pause,    on: :member
         put :resume,   on: :member
