@@ -40,6 +40,14 @@
         display: none;
     }
 
+    #scan_instance_count {
+        width: 20px;
+    }
+
+    #scan_profile, #scan_user_ids {
+        width: 20%;
+    }
+
     .accordion-group {
         border: 0px;
         border-bottom: 1px solid #E5E5E5
