@@ -2,6 +2,7 @@ class ScansController < ApplicationController
     before_filter :authenticate_user!
 
     include ScansHelper
+    include ApplicationHelper
 
     load_and_authorize_resource
 
@@ -60,15 +61,13 @@ class ScansController < ApplicationController
     def show
         @scan = find_scan( params[:id], false )
 
-        respond_to do |format|
-            format.html # show.html.erb
-            format.json { render json: @scan }
-        end
-    end
+        html_block = if render_partial?
+                         proc { render @scan }
+                     end
 
-    def partial
         respond_to do |format|
-            format.html { render find_scan( params[:id], false ) }
+            format.html( &html_block )
+            format.json { render json: @scan }
         end
     end
 
@@ -186,6 +185,7 @@ class ScansController < ApplicationController
     end
 
     private
+
     def find_scan( id, light = true )
         s = (current_user.admin? ? Scan : current_user.scans)
         s = s.light if light

@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+    include ApplicationHelper
+
     before_filter :authenticate_user!
 
     load_and_authorize_resource :scan
@@ -9,7 +11,7 @@ class CommentsController < ApplicationController
     def index
         @comments = commentable.comments
 
-        html_block = if params[:partial] == 'true'
+        html_block = if render_partial?
             proc { render partial: 'comment_list',
                          locals: { comments: commentable.comments } }
         end

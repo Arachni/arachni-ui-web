@@ -20,6 +20,10 @@ require 'timeout'
 module ApplicationHelper
     include ::FrameworkHelper
 
+    def render_partial?
+        params[:partial] == 'true'
+    end
+
     def object_for( key, obj = nil )
         if obj
             ApplicationController.storage[key] = obj

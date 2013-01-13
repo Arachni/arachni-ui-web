@@ -15,15 +15,11 @@
 =end
 
 ArachniWebui::Application.routes.draw do
-    resources :dispatchers do
-        get :index_tables, on: :collection
-        get :partial,      on: :member
-    end
+    resources :dispatchers
 
     resources :scans, except: [:edit] do
         resources :comments
 
-        get :partial,  on: :member
         put :pause,    on: :member
         put :resume,   on: :member
         put :abort,    on: :member

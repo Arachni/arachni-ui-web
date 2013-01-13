@@ -1,4 +1,6 @@
 class DispatchersController < ApplicationController
+    include ApplicationHelper
+
     before_filter :authenticate_user!
 
     load_and_authorize_resource
@@ -9,19 +11,13 @@ class DispatchersController < ApplicationController
         @alive_dispatchers       = Dispatcher.alive
         @unreachable_dispatchers = Dispatcher.unreachable
 
+        html_block = if render_partial?
+                         proc { render partial: 'tables' }
+                     end
+
         respond_to do |format|
-            format.html # index.html.erb
-            format.js { render '_tables' }
+            format.html( &html_block )
             format.json { render json: @dispatchers }
-        end
-    end
-
-    def index_tables
-        @alive_dispatchers       = Dispatcher.alive
-        @unreachable_dispatchers = Dispatcher.unreachable
-
-        respond_to do |format|
-            format.html { render partial: 'tables' }
         end
     end
 
@@ -30,15 +26,13 @@ class DispatchersController < ApplicationController
     def show
         @dispatcher = Dispatcher.find(params[:id])
 
-        respond_to do |format|
-            format.html # show.html.erb
-            format.json { render json: @dispatcher }
-        end
-    end
+        html_block = if render_partial?
+                         proc { render Dispatcher.find( params[:id] ) }
+                     end
 
-    def partial
         respond_to do |format|
-            format.html { render Dispatcher.find(params[:id]) }
+            format.html( &html_block )
+            format.json { render json: @dispatcher }
         end
     end
 

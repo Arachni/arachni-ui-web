@@ -140,7 +140,7 @@
     initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
         if( !stopUpdatingScan ) {
-            url = '<%= partial_scan_url( @scan ) %>';
+            url = '<%= scan_url( @scan, partial: true ) %>';
             elementToBeUpdated = $( '#scan' );
         } else {
             url = '<%= scan_comments_url( @scan, partial: true ) %>';
