@@ -7,7 +7,7 @@
             Toggle visibility of
         </li>
         <li>
-            <a class="toggle-comments-button" data-toggle="collapse"
+            <a class="toggle-comments" data-toggle="collapse"
                href="#comments-list">
                 <i class="icon-comment"></i>
 
@@ -136,8 +136,8 @@
 </div>
 
 <script type="text/javascript">
+    var initialCommentCount = $('#scan #comments .comment').size();
 
-    initialCommentCount = $('#scan #comments #comment').size();
     setInterval( function(){
         if( !stopUpdatingScan ) {
             url = '<%= scan_url( @scan, partial: true ) %>';
@@ -152,9 +152,12 @@
                     elementToBeUpdated.html( data );
                     newCommentsCount = $('#scan #comments .comment').size() - initialCommentCount;
 
-                    if( newCommentsCount >0 && !wasOpen ){
+                    if( newCommentsCount > 0 && !wasOpen ){
                         $('#new-comments-counter' ).html( '+' + newCommentsCount );
                         $('#new-comments-counter').show();
+                    } else if( initialCommentCount + newCommentsCount > 0 ) {
+                        $('#total-comments-counter' ).html( initialCommentCount + newCommentsCount );
+                        $('#total-comments-counter').show();
                     }
 
                     updatePage();
