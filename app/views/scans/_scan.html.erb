@@ -1,17 +1,19 @@
 <% if !@scan.error_messages.empty? %>
     <p class="alert alert-error">
-        This scan has the logged the following <%= link_to 'errors', errors_scan_url( @scan, format: :txt ) %>
+        This scan has the logged the following
+        <%= link_to 'errors', errors_scan_url( @scan, format: :txt ) %>
         (you may want to
         <a href="https://github.com/Arachni/webui/issues">report them</a>):
     </p>
+
     <pre id="error_messages"><%= @scan.error_messages %></pre>
+
     <script type="text/javascript">
         objDiv = document.getElementById( "error_messages" );
         objDiv.scrollTop = objDiv.scrollHeight;
     </script>
-
 <% end %>
 
-<%=  render partial: 'comment_list', locals: { scan: @scan } %>
+<%= render partial: 'comments/comment_list', locals: { comments: @scan.comments } %>
 
 <%= render @scan.active? ? 'show_active' : 'show_inactive' %>

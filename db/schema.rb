@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121225233044) do
+ActiveRecord::Schema.define(:version => 20130113170004) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "commentable_id"
-    t.integer  "commentable_type"
+    t.string   "commentable_type"
     t.text     "text"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(:version => 20121225233044) do
     t.integer  "scan_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "motifications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "model_type"
+    t.integer  "model_id"
+    t.string   "action"
+    t.integer  "actor_id"
+    t.text     "text"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "profiles", :force => true do |t|

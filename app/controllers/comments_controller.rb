@@ -1,20 +1,25 @@
 class CommentsController < ApplicationController
     before_filter :authenticate_user!
 
-    load_resource :scan
+    load_and_authorize_resource :scan
     load_and_authorize_resource :comment, through: [:scan]
 
     ## GET /scan/comments
     ## GET /scan/comments.json
-    #def index
-    #    @comments = commentable.comments
-    #
-    #    respond_to do |format|
-    #        format.html # index.html.erb
-    #        format.json { render json: @comments }
-    #    end
-    #end
-    #
+    def index
+        @comments = commentable.comments
+
+        html_block = if params.include?( :partial )
+            proc { render partial: 'comment_list',
+                         locals: { comments: commentable.comments } }
+        end
+
+        respond_to do |format|
+            format.html( &html_block )
+            format.json { render json: @comments }
+        end
+    end
+
     ## GET /scan/comments/1
     ## GET /scan/comments/1.json
     #def show

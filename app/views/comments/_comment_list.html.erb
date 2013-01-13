@@ -1,9 +1,10 @@
 <div id="comments">
-    <div id="scan<%= scan.id %>-comments-list" class="accordion-body collapse">
-        <% if (comments = scan.comments.reject { |c| !c.user }).any? %>
+    <div id="comments-list" class="accordion-body collapse">
+        <% if comments.any? %>
         <div class="accordion-inner well">
+
             <% comments.each do |comment| %>
-            <div id="comment">
+            <div class="comment jumptarget" id="comment-<%= comment.id %>">
                 <p>
                     <% if comment.user == current_user %>
                         <span class="label">You:</span>

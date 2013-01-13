@@ -8,7 +8,7 @@
         </li>
         <li>
             <a class="toggle-comments-button" data-toggle="collapse"
-               href="#scan<%= @scan.id %>-comments-list">
+               href="#comments-list">
                 <i class="icon-comment"></i>
 
                 <% if @scan.comments.any? %>
@@ -113,7 +113,7 @@
 
     <div class="hidden-desktop">
         <a class="toggle-comments btn" data-toggle="collapse"
-           href="#scan<%= @scan.id %>-comments-list">
+           href="#comments-list">
             <i class="icon-comment"></i>
 
             <% if @scan.comments.any? %>
@@ -143,14 +143,14 @@
             url = '<%= partial_scan_url( @scan ) %>';
             elementToBeUpdated = $( '#scan' );
         } else {
-            url = '<%= comments_scan_url( @scan ) %>';
+            url = '<%= scan_comments_url( @scan, partial: true ) %>';
             elementToBeUpdated = $( '#scan #comments' );
         }
 
         $.get( url, function( data ){
                     wasOpen = $('#comments-list').hasClass( 'in' );
                     elementToBeUpdated.html( data );
-                    newCommentsCount = $('#scan #comments #comment').size() - initialCommentCount;
+                    newCommentsCount = $('#scan #comments .comment').size() - initialCommentCount;
 
                     if( newCommentsCount >0 && !wasOpen ){
                         $('#new-comments-counter' ).html( '+' + newCommentsCount );

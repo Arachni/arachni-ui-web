@@ -286,3 +286,10 @@ ul.nav li.dropdown:hover ul.dropdown-menu{
 #phone-menu {
     clear: left;
 }
+
+.jumptarget:before {
+    content: "";
+    display: block;
+    height:  71px; /* fixed header height*/
+    margin:  -71px 0 0; /* negative fixed header height */
+}

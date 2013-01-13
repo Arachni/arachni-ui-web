@@ -45,4 +45,8 @@ class User < ActiveRecord::Base
         scans.where( owner_id: id )
     end
 
+    def ability
+        @ability ||= Ability.new( self )
+    end
+    delegate :can?, :cannot?, :to => :ability
 end

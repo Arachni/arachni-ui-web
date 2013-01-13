@@ -47,13 +47,6 @@ class ScansController < ApplicationController
         end
     end
 
-    def comments
-        respond_to do |format|
-            format.html { render partial: 'comment_list',
-                                 locals: { scan: find_scan( params[:id] ) } }
-        end
-    end
-
     def errors
         @scan = find_scan( params[:id] )
 

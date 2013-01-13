@@ -3,4 +3,8 @@ class Comment < ActiveRecord::Base
     belongs_to :user
 
     attr_accessible :text, :user_id
+
+    def commentable
+        commentable_type.classify.constantize.find( commentable_id )
+    end
 end
