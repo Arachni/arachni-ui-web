@@ -87,7 +87,7 @@ class Dispatcher < ActiveRecord::Base
     alias :reachable? :alive?
 
     def statistics
-        super || {}
+        { 'node' => {} }.merge( super || {})
     end
 
     def consumed_pids
