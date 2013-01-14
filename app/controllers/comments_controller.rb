@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
     include ApplicationHelper
+    include NotificationsHelper
 
     before_filter :authenticate_user!
 
@@ -57,6 +58,10 @@ class CommentsController < ApplicationController
 
         respond_to do |format|
             if @comment.save
+
+                notify commentable, action: 'commented on',
+                       text: truncate_html( m( @comment.text ) )
+
                 format.html { redirect_to :back, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }
             else
@@ -72,7 +77,7 @@ class CommentsController < ApplicationController
         @comment = commentable.comments.find( params[:id] )
 
         respond_to do |format|
-            if @comment.update_attributes(params[:comment])
+            if @comment.update_attributes( params[:comment] )
                 format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
                 format.json { head :no_content }
             else

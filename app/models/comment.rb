@@ -4,6 +4,10 @@ class Comment < ActiveRecord::Base
 
     attr_accessible :text, :user_id
 
+    def subscribers
+        commentable.subscribers
+    end
+
     def commentable
         commentable_type.classify.constantize.find( commentable_id )
     end

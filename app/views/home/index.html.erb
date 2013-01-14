@@ -1,44 +1,13 @@
 <% title "Home" %>
 
 <div class="page-header">
-    <h1>Welcome to Arachni, <small>pick a section and let's get going...</small></h1>
+    <h1>Welcome to Arachni, <small>this is your dashboard.</small></h1>
 </div>
 
-<%
-   span = current_user.admin? ? 'span3' : 'span4'
-%>
+<div id="dashboard"
+     data-refresh-url="<%= root_url( params.merge( partial: true ) ) %>"
+     data-refresh-rate="<%= Settings.dashboard_refresh_rate %>"
+>
 
-<div class="row-fluid">
-    <div class="<%= span %>">
-        <h3><a href="<%= scans_path %>">Scans</a></h3>
-        <p>Start, monitor and generally manage your scans and their results.</p>
-        <p>This is probably what you're here for.</p>
-    </div>
-    <div class="<%= span %>">
-        <h3><a href="<%= profiles_path %>">Profiles</a></h3>
-        <% if can? :manage, Profile %>
-        <p>Create, edit and review scan configuration profiles.</p>
-        <p>Make the whole process easier by creating profiles that better suit your needs.</p>
-        <% else %>
-        <p>
-            Pick one of the scan configuration profiles your administrator created
-            for you for hassle-free scans.
-        </p>
-        <% end %>
-    </div>
-    <div class="<%= span %>">
-        <h3><a href="<%= dispatchers_path %>">Dispatchers</a></h3>
-        <% if can? :manage, Dispatcher %>
-            <p>Add and monitor Dispatchers.</p>
-        <% end %>
-
-        <p>Dispatchers are remote agents which allow you to perform remote/distributed scans.</p>
-    </div>
-
-    <% if current_user.admin? %>
-    <div class="<%= span %>">
-        <h3><a href="<%= users_path %>">Users</a></h3>
-        <p>Add, edit and generally manage your users.</p>
-    </div>
-    <% end %>
+    <%= render 'dashboard' %>
 </div>

@@ -188,15 +188,47 @@
 
 <ul class="nav pull-right">
     <% if user_signed_in? %>
+
+        <% if (notifications = current_user.notifications.unread).any? %>
+        <li class="dropdown">
+            <%= link_to root_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
+                <i class="icon-exclamation-sign"></i>
+
+                <span class="label label-inverse"><%= notifications.count %></span>
+                <b class="caret hidden-phone"></b>
+            <% end %>
+
+            <ul id="notification-dropdown" class="dropdown-menu hidden-phone">
+                <li>
+                    <%= link_to mark_read_notifications_url, method: :put, remote: true do %>
+                        <i class="icon-ok"></i>
+                        Mark all read
+                    <% end %>
+                </li>
+
+                <li class="divider"></li>
+                <% notifications.each do |notification| %>
+                    <li>
+                        <%= link_to notification.model do %>
+                        <%= notification.model_type %>
+                            <%= notification.past_tense_action %>
+
+                            <% if notification.actor %>
+                                by <%= notification.actor %>.
+                            <% end %>
+
+                        <% end %>
+                    </li>
+                <% end %>
+            </ul>
+        </li>
+        <% end %>
+
     <li>
         <div class="btn-group">
             <a class="btn btn-primary" href="#">
                 <i class="icon-user icon-white"></i>
                 <%= current_user.name %>
-
-                <% if current_user.admin? %>
-                    <span class="label label-inverse">Administrator</span>
-                <% end %>
             </a>
 
             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">

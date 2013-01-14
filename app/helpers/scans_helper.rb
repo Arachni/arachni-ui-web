@@ -20,8 +20,10 @@ module ScansHelper
         end
     end
 
-    def my_paginate( scans, opts = {} )
-        paginate( scans, opts ).gsub( '.js', '' ).html_safe
+    def my_paginate( rows, opts = {} )
+        s = paginate( rows, opts )
+        #s.gsub!( /(&amp;|\?)partial=true/, '' ) if !opts[:partial]
+        s.html_safe
     end
 
     def issues_to_graph_data( issues )

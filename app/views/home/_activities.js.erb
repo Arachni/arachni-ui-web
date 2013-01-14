@@ -1,0 +1,2 @@
+$( '#dashboard' ).data( 'refresh-url', "<%= root_url( params.merge( partial: true ) ) %>");
+$( '#activities' ).html( '<%= escape_javascript( render 'activities.html' ) %>' );

@@ -1,0 +1,33 @@
+<% if @activities.any? %>
+    <%= my_paginate @activities, param_name: 'activities_page', remote: true,
+                    params: { render: 'activities' } %>
+
+    <ul class="notifications unstyled">
+        <% @activities.each do |activity| %>
+            <li>
+                <%= link_to activity.model do %>
+                    <%=  activity.model_type %>
+
+                    <% if !activity.text.to_s.include?( "\n" ) %>
+                        <em><%= activity.text.html_safe %></em>
+                    <% end %>
+
+                <% end %>
+
+                <%= activity.past_tense_action %>
+                <small class="muted">-- <%= l activity.created_at %></small>
+
+                <% if activity.text.to_s.include?( "\n" ) %>
+                    <blockquote class="muted">
+                        <%= activity.text.html_safe %>
+                    </blockquote>
+                <% end %>
+
+            </li>
+        <% end %>
+    </ul>
+<% else %>
+    <p class="alert alert-info">
+        You don't seem to have been up to much lately...or ever.
+    </p>
+<% end %>

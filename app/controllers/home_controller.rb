@@ -15,11 +15,32 @@
 =end
 
 class HomeController < ApplicationController
-    before_filter :authenticate_user!
-
+    include ApplicationHelper
     include NavigationHelper
 
+    before_filter :authenticate_user!
+
     def index
+        @activities    = current_user.activities.page( params[:activities_page] ).
+            per( Settings.activities_pagination_entries ).order( 'id DESC' )
+
+        @notifications = current_user.notifications.page( params[:notifications_page] ).
+            per( Settings.notifications_pagination_entries ).order( 'id DESC' )
+
+        html_block = if render_partial?
+                         proc { render partial: 'dashboard' }
+                     end
+
+        respond_to do |format|
+            format.html( &html_block )
+            format.js {
+                if params[:render] == 'activities'
+                    render '_activities.js.erb'
+                elsif params[:render] == 'notifications'
+                    render partial: 'notifications.js.erb'
+                end
+            }
+        end
     end
 
     def navigation

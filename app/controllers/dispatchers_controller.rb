@@ -1,5 +1,6 @@
 class DispatchersController < ApplicationController
     include ApplicationHelper
+    include NotificationsHelper
 
     before_filter :authenticate_user!
 
@@ -59,6 +60,9 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             if @dispatcher.save
+
+                notify @dispatcher
+
                 format.html do
                     redirect_to @dispatcher,
                                 notice: 'Dispatcher was successfully created and ' +
@@ -79,6 +83,9 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             if @dispatcher.update_attributes(params[:dispatcher])
+
+                notify @dispatcher
+
                 format.html { redirect_to @dispatcher, notice: 'Dispatcher was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -91,7 +98,10 @@ class DispatchersController < ApplicationController
     # DELETE /dispatchers/1
     # DELETE /dispatchers/1.json
     def destroy
-        @dispatcher = Dispatcher.find(params[:id])
+        @dispatcher = Dispatcher.find( params[:id] )
+
+        notify @dispatcher
+
         @dispatcher.destroy
 
         respond_to do |format|

@@ -15,6 +15,8 @@
 =end
 
 class ProfilesController < ApplicationController
+    include NotificationsHelper
+
     before_filter :authenticate_user!
     before_filter :prepare_plugin_params
 
@@ -65,6 +67,8 @@ class ProfilesController < ApplicationController
 
         @profiles = Profile.all
 
+        notify @profile, action: 'made default'
+
         render partial: 'table', formats: :js
     end
 
@@ -75,6 +79,9 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.save
+
+                notify @profile
+
                 format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
                 format.json { render json: @profile, status: :created, location: @profile }
             else
@@ -91,6 +98,9 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.update_attributes( params[:profile] )
+
+                notify @profile
+
                 format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -105,6 +115,8 @@ class ProfilesController < ApplicationController
     def destroy
         @profile = Profile.find( params[:id] )
         fail 'Cannot delete default profile.' if @profile.default?
+
+        notify @profile
         @profile.destroy
 
         respond_to do |format|

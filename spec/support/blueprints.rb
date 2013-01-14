@@ -31,3 +31,7 @@ end
 Dispatcher.blueprint do
   # Attributes here
 end
+
+Notification.blueprint do
+  # Attributes here
+end

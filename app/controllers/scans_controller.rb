@@ -3,6 +3,7 @@ class ScansController < ApplicationController
 
     include ScansHelper
     include ApplicationHelper
+    include NotificationsHelper
 
     load_and_authorize_resource
 
@@ -118,6 +119,8 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if @scan.save
+                notify @scan, text: @scan.to_s
+
                 format.html { redirect_to @scan, notice: 'Scan was successfully created.' }
                 format.json { render json: @scan, status: :created, location: @scan }
             else
@@ -152,6 +155,8 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.pause
 
+        notify @scan, text: @scan.to_s
+
         redirect_to :back, notice: 'Scan is being paused.'
     end
 
@@ -160,14 +165,17 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.resume
 
+        notify @scan, text: @scan.to_s
+
         redirect_to :back, notice: 'Scan is resuming.'
     end
 
     # PUT /scans/1/abort
     def abort
         @scan = find_scan( params[:id] )
-
         @scan.abort
+
+        notify @scan, text: @scan.to_s
 
         redirect_to :back, notice: 'Scan is being aborted.'
     end
@@ -177,6 +185,8 @@ class ScansController < ApplicationController
     def destroy
         @scan = find_scan( params[:id] )
         @scan.destroy
+
+        notify @scan, text: @scan.to_s
 
         respond_to do |format|
             format.html { redirect_to scans_url }

@@ -9,7 +9,6 @@ class Scan < ActiveRecord::Base
     has_and_belongs_to_many :users
 
     has_many :issues,        dependent: :destroy
-    has_many :notifications, dependent: :destroy
     has_many :comments, as: :commentable, dependent: :destroy
 
     attr_accessible :url, :description, :type, :instance_count, :profile_id,
@@ -43,10 +42,15 @@ class Scan < ActiveRecord::Base
         light.find( :all, order: "id desc", limit: limit )
     end
 
+    def subscribers
+        users | [owner]
+    end
+
     def to_s
-        s = "#{url} | #{profile} profile, #{issue_count} issues"
-        s << " (#{progress}%)" if !finished?
-        s << '.'
+        s = "#{url} (#{profile} profile, #{issue_count} issues"
+        s << ", #{progress}%" if !finished? && progress.to_f > 0
+        s << ')'
+        s
     end
 
     def self.active
