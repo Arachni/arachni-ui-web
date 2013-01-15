@@ -19,6 +19,7 @@ class Ability
 
     def initialize( user )
         alias_action :errors, :report, to: :read
+        alias_action :mark_read, to: :update
 
         user ||= User.new # guest user (not logged in)
         if user.has_role? :admin
@@ -37,6 +38,8 @@ class Ability
             can [:read, :create], Comment do |comment|
                 can? :read, comment.commentable
             end
+
+            can :manage, Notification, user_id: user.id
         end
 
         # Define abilities for the passed in user here. For example:
