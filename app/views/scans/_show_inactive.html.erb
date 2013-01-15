@@ -36,7 +36,7 @@
         </p>
     <% end %>
 
-    <%= render partial: 'charts', locals: { issues: @scan.report.issues } %>
+    <%= render partial: 'charts', locals: { issues: @scan.sorted_issues } %>
 
     <%=  render 'show_issues' %>
 
@@ -45,6 +45,7 @@
 
         $( 'ul#scan-sidebar' ).show();
         $( 'li#toggle-statistics' ).fadeOut( 'slow' );
+        $( 'li#toggle-charts' ).fadeIn( 'slow' );
         $( 'li#download-report' ).fadeIn( 'slow' );
     </script>
 

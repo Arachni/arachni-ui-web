@@ -35,21 +35,31 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
   create_table "issues", :force => true do |t|
     t.string   "name"
     t.text     "url"
-    t.text     "var"
-    t.boolean  "verification"
+    t.text     "vector_name"
     t.float    "cvssv2"
     t.integer  "cwe"
     t.text     "description"
-    t.string   "elem"
-    t.string   "method"
+    t.string   "vector_type"
+    t.string   "http_method"
+    t.text     "tags"
+    t.text     "headers"
+    t.text     "signature"
+    t.text     "seed"
+    t.text     "proof"
+    t.text     "response_body"
+    t.boolean  "requires_verification"
+    t.text     "audit_options"
     t.text     "references"
     t.text     "remedy_code"
     t.text     "remedy_guidance"
     t.string   "severity"
     t.string   "digest"
+    t.boolean  "false_positive",        :default => false
+    t.boolean  "verified",              :default => false
+    t.text     "verification_steps"
     t.integer  "scan_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
   end
 
   create_table "notifications", :force => true do |t|

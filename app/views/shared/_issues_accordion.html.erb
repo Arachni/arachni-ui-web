@@ -14,24 +14,24 @@
                         <thead>
                         <tr>
                             <th>URL</th>
-                            <% if issue.var %>
+                            <th>Element</th>
+                            <% if issue.vector_name %>
                             <th>Input</th>
                             <% end %>
-                            <th>Element type</th>
                         </tr>
                         </thead>
                         <tr>
                             <td class="wrap">
                                 <%= link_to issue.url, issue.url  %>
                             </td>
-                            <% if issue.var %>
+                            <td>
+                                <%= issue.vector_type %>
+                            </td>
+                            <% if issue.vector_name %>
                             <td class="wrap">
-                                <%= issue.var %>
+                                <%= issue.vector_name %>
                             </td>
                             <% end %>
-                            <td>
-                                <%= issue.elem %>
-                            </td>
                         </tr>
                     </table>
 

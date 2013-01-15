@@ -155,10 +155,16 @@ class Scan < ActiveRecord::Base
         statistics['sitemap_size']
     end
 
-    def self.report=( r )
+    def report=( r )
         super( r )
-        push_arachni_issues( r.issues )
+
+        push_framework_issues( r.issues )
+        r.issues.each { |issue| issues.update_from_framework_issue( issue ) }
+
         r
+    rescue => e
+        ap e
+        ap e.backtrace
     end
 
     def type
@@ -247,7 +253,7 @@ class Scan < ActiveRecord::Base
                     self.error_messages += "\n" + progress_data['errors'].join( "\n" )
                 end
 
-                push_arachni_issues( progress_data['issues'] )
+                push_framework_issues( progress_data['issues'] )
 
                 # If the scan has completed grab the report and mark it as such.
                 if progress_data['busy']
@@ -276,13 +282,10 @@ class Scan < ActiveRecord::Base
 
     private
 
-    def push_arachni_issues( a_issues )
+    def push_framework_issues( a_issues )
         [a_issues].compact.flatten.each do |i|
             next if issue_digests.include? i.digest
-
-            issue_data = i.to_h.reject { |k, _| !Issue.column_names.include?( k ) }
-            issue_data['digest'] = i.digest
-            issues.create issue_data
+            issues.create_from_framework_issue i
         end
     end
 

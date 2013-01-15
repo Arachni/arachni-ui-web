@@ -56,7 +56,7 @@ module ScansHelper
             graph_data[:issues][issue.name] ||= 0
             graph_data[:issues][issue.name] += 1
 
-            graph_data[:elements][issue.elem] += 1
+            graph_data[:elements][issue.vector_type] += 1
             total_elements += 1
         end
 

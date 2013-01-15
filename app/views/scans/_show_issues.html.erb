@@ -1,4 +1,4 @@
-<% issues = @scan.active? || @scan.error? ? @scan.sorted_issues : @scan.report.issues %>
+<% issues = @scan.sorted_issues %>
 
 <div class="row-fluid">
     <div class="span12" id='issues'>
@@ -33,8 +33,8 @@
                     <td class="wrap">
                             <%= link_to issue.url, issue.url %>
                     </td>
-                    <td><%= issue.elem.capitalize %></td>
-                    <td class="wrap"><%= issue.var %></td>
+                    <td><%= issue.vector_type.capitalize %></td>
+                    <td class="wrap"><%= issue.vector_name %></td>
                     <td>
                         <p class="label label-<%= issue_severity_to_alert issue.severity %>">
                             <%= issue.severity %>
