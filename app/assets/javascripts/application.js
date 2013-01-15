@@ -73,7 +73,7 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    aGroup = $.cookie( 'activeAccordionGroup' );
+    aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
@@ -91,19 +91,19 @@ function restoreAccordions(){
     // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( 'activeAccordionGroup', ':statistics:' );
+        $.cookie( 'activeAccordionGroup', ':statistics:', { path: '/' } );
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( 'activeAccordionGroup' );
+        aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
         aGroup += ':' + $( this ).attr( 'id' ) + ':';
-        $.cookie( 'activeAccordionGroup', aGroup );
+        $.cookie( 'activeAccordionGroup', aGroup, { path: '/' } );
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-        aGroup = $.cookie( 'activeAccordionGroup' );
+        aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
         aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-        $.cookie( 'activeAccordionGroup', aGroup );
+        $.cookie( 'activeAccordionGroup', aGroup, { path: '/' } );
     });
 }
 
