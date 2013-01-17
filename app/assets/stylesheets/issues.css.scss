@@ -1,0 +1,74 @@
+// Place all the styles related to the scans controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#issues {
+    table.fixed {
+        table-layout: fixed;
+    }
+
+    table.fixed tr.description, table td.description {
+        padding: 0px;
+        margin: 0px;
+        border: none;
+
+        blockquote {
+            margin: 0px;
+            margin-left: 20px;
+            padidng: 10p;
+        }
+        p {
+            margin-left: 20px;
+        }
+    }
+
+    table.fixed td.wrap {
+        word-wrap: break-word;
+    }
+
+    table.key-values {
+        table th {
+            text-align: right;
+        }
+
+        table th.top {
+            text-align: center;
+        }
+    }
+
+    table th.top {
+        text-align: center;
+        border-top: none;
+    }
+
+    #response_body_container {
+        overflow: scroll;
+        height: 400px;
+        position: relative;
+
+        .proof {
+            color: red;
+            font-weight: bold;
+        }
+    }
+
+    #rendered-response-container {
+        width: 80%;
+        height: 80%;
+        margin-top: 40px;
+        top: 10%;
+        left: 20%;
+    }
+
+    #rendered-response-container .modal-body {
+        width: 100%;
+        height: 85%;
+        max-height: none;
+    }
+
+    iframe.rendered-response {
+        width: 100%;
+        height: 100%;
+        border:  none;
+    }
+}

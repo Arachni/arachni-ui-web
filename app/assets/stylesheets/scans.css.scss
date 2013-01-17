@@ -90,38 +90,4 @@
         max-height: 200px;
         overflow: auto;
     }
-
-    #issues {
-        table {
-            table-layout: fixed;
-        }
-
-        //table td {
-        //    overflow:  hidden;
-        //    word-wrap: break-word;
-        //}
-
-        table tr.description, table td.description {
-            padding: 0px;
-            margin: 0px;
-            border: none;
-
-            blockquote {
-                margin: 0px;
-                margin-left: 20px;
-                padidng: 10p;
-            }
-            p {
-                margin-left: 20px;
-            }
-        }
-
-        //.td-url {
-        //    word-wrap: break-word;
-        //}
-        table td.wrap {
-            word-wrap: break-word;
-        }
-
-    }
 }

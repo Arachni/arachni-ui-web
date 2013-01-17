@@ -1,13 +1,16 @@
-<% issues = @scan.sorted_issues %>
+<% issues ||= @scan.sorted_issues %>
 
 <div class="row-fluid">
     <div class="span12" id='issues'>
         <h2>Issues <small>[<%= issues.size %>]</small></h2>
 
-        <p class="muted">Click on an issue's name for more information.</p>
+        <p class="muted">
+            Click on an issue's name for details,
+            click on a row to see a quick description.
+        </p>
 
         <% if issues.any? %>
-            <table class="hidden-phone table table-striped table-hover">
+            <table class="hidden-phone table table-striped table-hover fixed">
                 <thead>
                     <tr>
                         <th style="width: 23%">Name</th>
@@ -25,10 +28,9 @@
                     </tr>
                 </thead>
                 <% issues.each do |issue| %>
-                <tr>
+                <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );">
                     <td>
-                        <%= link_to issue.name, "#description-#{issue.digest}",
-                                    data: { toggle: 'collapse' } %>
+                        <%= link_to issue.name, scan_issue_url( issue.scan, issue ) %>
                     </td>
                     <td class="wrap">
                             <%= link_to issue.url, issue.url %>
@@ -73,7 +75,7 @@
 
                 <hr/>
 
-                <%= render partial: '/shared/issues_twin_accordion',
+                <%= render partial: '/issues/twin_accordion',
                            locals: {
                                    issues:     issues,
                                    class_name: 'span6'

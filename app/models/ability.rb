@@ -39,6 +39,10 @@ class Ability
                 can? :read, comment.commentable
             end
 
+            can [:read, :update], Issue do |issue|
+                can? :read, issue.scan
+            end
+
             can :manage, Notification, user_id: user.id
         end
 

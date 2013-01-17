@@ -25,7 +25,7 @@ module NavigationHelper
     end
 
     def title_breadcrumbs
-        breadcrumbs.map { |b| b[:title] }.reverse.join( '-' )
+        breadcrumbs.map { |b| b[:title] }.reverse.join( ' - ' )
     end
 
     def breadcrumb_add( title, url )
@@ -44,8 +44,8 @@ module NavigationHelper
         'class="active"'.html_safe if active_controller?( controller )
     end
 
-    def subnav( opts )
-        object_for :subnav, opts
+    def subnav( sections, opts = {} )
+        object_for( :subnav, [sections, opts] )
     end
 
     def sidebar
@@ -63,8 +63,14 @@ module NavigationHelper
     end
 
     def render_subnav( sections = nil )
-        if sections ||= pop_object_for( :subnav )
-            render partial: 'layouts/subnav', locals: { sections: sections }
+        args = pop_object_for( :subnav )
+
+        sections ||= args.first
+        opts       = args.last
+
+        if sections
+            render partial: 'layouts/subnav',
+                   locals: { sections: sections, opts: opts }
         end
     end
 end

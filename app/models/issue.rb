@@ -7,6 +7,7 @@ class Issue < ActiveRecord::Base
     # statement (like null-bytes) so let the serializer deal with them.
     serialize :url,           String
     serialize :seed,          String
+    serialize :proof,         String
     serialize :response_body, String
 
     serialize :references,    Hash
@@ -40,13 +41,55 @@ class Issue < ActiveRecord::Base
 
     attr_accessible *FRAMEWORK_ISSUE_MAP.values
 
-    def self.digests_for_scan( scan )
-        select( [ :digest, :scan_id ] ).where( scan_id: scan.id )
+    #before_save :sanitize
+
+    def url
+        return nil if super.to_s.empty?
+        super
+    end
+
+    def seed
+        return nil if super.to_s.empty?
+        super
+    end
+
+    def proof
+        return nil if super.to_s.empty?
+        super
+    end
+
+    def response_body
+        return nil if super.to_s.empty?
+        super
+    end
+
+    def signature
+        return nil if super.to_s.empty?
+        super
+    end
+
+    def base64_response_body
+        Base64.encode64( response_body ).gsub( /\n/, '' )
+    end
+
+    def to_s
+        s = "#{name} in #{vector_type.capitalize}"
+        s << " input '#{vector_name}'" if vector_name
+        s << ""
+        s.html_safe
     end
 
     def cwe_url
         return if cwe.to_s.empty?
         "http://cwe.mitre.org/data/definitions/#{cwe}.html"
+    end
+
+    def response_body_contains_proof?
+        proof && response_body && response_body.include?( proof )
+    end
+
+    def self.digests_for_scan( scan )
+        select( [ :digest, :scan_id ] ).where( scan_id: scan.id )
     end
 
     def self.create_from_framework_issue( issue )
@@ -67,6 +110,11 @@ class Issue < ActiveRecord::Base
                         !(iv = issue.variations.first.send( k )).nil?
                         iv
                     end
+        end
+
+        if h[:headers]
+            h[:headers][:request]  = h[:headers].delete( 'request' )
+            h[:headers][:response] = h[:headers].delete( 'response' )
         end
 
         h

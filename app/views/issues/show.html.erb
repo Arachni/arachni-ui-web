@@ -1,0 +1,243 @@
+<% title @issue %>
+
+<% breadcrumb_add 'Scans', @issue.scan %>
+<% breadcrumb_add @issue.scan, @issue.scan %>
+
+<%
+   subnav(
+       {
+           technical_details: 'Technical details',
+           identification_data: '<small>&mdash; Identification data</small>',
+           http_data: '<small>&mdash; HTTP data</small>',
+           request: '<small>&mdash;&mdash; Request</small>',
+           headers: '<small>&mdash;&mdash; Headers</small>',
+           response_body: '<small>&mdash;&mdash; Response body</small>',
+           management: 'Management'
+       },
+       top: 'Overview'
+   )
+
+   not_available = '<p class="alert alert-info">Not available</p>'.html_safe
+%>
+
+<div id="issues">
+    <div class="page-header">
+        <h1><%= @issue %>,</h1>
+
+        <div class="lead">
+            at <%= link_to @issue.url, @issue.url %>
+            <small>&ndash; found by <%= link_to @issue.scan, scan_url( @issue.scan ) %>.</small>
+        </div>
+
+        <p class="pull-left label label-<%= issue_severity_to_alert @issue.severity %>">
+            <%= @issue.severity %> severity
+        </p>
+    </div>
+
+    <blockquote>
+        <%= @issue.description %>
+    </blockquote>
+
+    <hr/>
+
+    <% if @issue.scan.active? %>
+    <p class="alert alert-warning">
+        This issue has incomplete data because the scan is still in progress.
+        <br/>
+        Detailed information will become available once the full report
+        is retrieved at the end of the scan.
+    </p>
+    <% end %>
+
+    <h2 id="technical_details">Technical details</h2>
+
+    <h3 id="identification_data">Identification data</h3>
+    <table class="table fixed">
+        <thead>
+            <tr>
+                <th>
+                    Injected seed
+
+                    <% if @issue.seed %>
+                    <a href="#" rel="tooltip"
+                       title="This seed uncovered the vulnerable vector during the audit.">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                    <% end %>
+                </th>
+                <th>
+                    Signature
+
+                    <% if @issue.signature %>
+                    <a href="#" rel="tooltip"
+                       title="This signature was used to detect the vulnerability.">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                    <% end %>
+                </th>
+                <th>
+                    Proof
+                    <% if @issue.proof %>
+                        <a href="#" rel="tooltip"
+                           title="This string was used to verify the existence of the vulnerability.">
+                            <i class="icon-info-sign"></i>
+                        </a>
+                    <% end %>
+                </th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="wrap"><%= @issue.seed || not_available %></td>
+            <td class="wrap"><%= @issue.signature || not_available %></td>
+            <td class="wrap"><%= @issue.proof || not_available %></td>
+        </tr>
+    </table>
+
+    <hr/>
+
+    <h3 id="http_data">HTTP data</h3>
+
+    <h4 id="request">Request</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Method
+            </th>
+            <th>
+                Resource
+
+                <a href="#" rel="tooltip"
+                   title="This resource handled the logged vector's data.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <td class="wrap"><%= @issue.http_method || not_available %></td>
+            <td class="wrap"><%= @issue.url || not_available %></td>
+        </tr>
+    </table>
+
+    <% if params = @issue.audit_options[:params] %>
+    <table class="table key-values">
+        <thead>
+            <tr>
+                <th>
+                    Parameters
+
+                    <a href="#" rel="tooltip"
+                       title="Full request parameters.">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <% params.each do |k, v| %>
+        <tr>
+            <th>
+                <%= k %>
+            </th>
+            <td>
+                <%= v %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+    <% end %>
+
+    <hr/>
+
+    <h4 id="headers">Headers</h4>
+    <table class="table key-values">
+        <tr>
+            <td colspan="2">
+                <table class="table">
+                    <tr>
+                        <th class="top" colspan="2">Request</th>
+                    </tr>
+                    <% if @issue.headers[:request] %>
+                        <% @issue.headers[:request].each do |k, v| %>
+                            <tr>
+                                <th><%= k %></th>
+                                <td><%= v %></td>
+                            </tr>
+                        <% end %>
+                    <% else %>
+                        <tr>
+                            <td class="alert alert-info">
+                                No request headers are available
+                            </td>
+                        </tr>
+                    <% end %>
+                </table>
+            </td>
+            <td colspan="2">
+                <table class="table">
+                    <tr>
+                        <th class="top" colspan="2">Response</th>
+                    </tr>
+                    <% if @issue.headers[:response] %>
+                        <% @issue.headers[:response].each do |k, v| %>
+                            <tr>
+                                <th><%= k %></th>
+                                <td><%= v %></td>
+                            </tr>
+                        <% end %>
+                    <% else %>
+                        <tr>
+                            <td class="alert alert-info">
+                                No response headers are available
+                            </td>
+                        </tr>
+                <% end %>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <h4 id="response_body">Response body</h4>
+
+    <% if @issue.response_body %>
+    <% if @issue.response_body_contains_proof? %>
+        <p class="muted">
+            Proof is highlighted in red and scroll-centered.
+        </p>
+    <% end %>
+
+    <a id="render-response-button" class="btn btn-inverse hidden-phone"
+       data-html="<%= @issue.base64_response_body %>" >
+        Render the response
+    </a>
+
+    <div id="rendered-response-container" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Rendered response</h3>
+        </div>
+        <div class="modal-body">
+        </div>
+    </div>
+
+    <pre id="response_body_container">
+        <%= highlight_issue_response_body( @issue, 'proof' ).html_safe %>
+    </pre>
+
+    <script type="text/javascript">
+        parent = $('#response_body_container');
+        proof  = $('#response_body_container .proof');
+
+        parent.scrollTop( parent.scrollTop() + proof.position().top
+                - parent.height() / 2 + proof.height() / 2 );
+    </script>
+    <% else %>
+        <p class="alert alert-info">
+            Response is not available
+        </p>
+    <% end %>
+
+    <hr/>
+
+    <h2 id="management">Management</h2>
+</div>
