@@ -141,6 +141,11 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if @scan.update_attributes( params[:scan] )
+
+                notify @scan, text: @scan.to_s,
+                       action: params[:scan].include?( :user_ids ) ?
+                                        'shared' : params[:action]
+
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.json { head :no_content }
             else
