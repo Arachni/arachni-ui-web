@@ -59,6 +59,7 @@ To get it running you'll have to run the following (assuming a Debian-based OS):
 sudo apt-get install build-essential libxml2-dev libxslt1-dev libcurl4-openssl-dev libsqlite3-dev libyaml-dev zlib1g-dev ruby1.9.1-dev ruby1.9.1 git libv8-dev
 
 sudo gem install bundler
+sudo gem install therubyracer –v ‘0.11.2’
 
 git clone git://github.com/Arachni/webui.git
 cd webui
