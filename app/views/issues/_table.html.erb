@@ -102,6 +102,25 @@
                 </li>
             <% end %>
 
+            <% if @counts['rest'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        Rest <small>[<%= @counts['rest'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                <% if active_tab == 'rest' %>
+                class="active"
+                <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'rest' ) ),
+                                onclick: 'scanTableLoading();', remote: true do %>
+                        Rest <small>[<%= @counts['rest'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
+
         </ul>
 
         <% if issues.any? %>

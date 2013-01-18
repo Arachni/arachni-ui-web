@@ -28,11 +28,11 @@ class IssuesController < ApplicationController
         params[:tab] ||= 'all'
 
         @counts = Hash.new(0)
-        %w(all verified pending-verification false-positives).each do |type|
-            @counts[type] = issue_filter( type ).light.count
+        %w(all verified pending-verification false-positives rest).each do |type|
+            @counts[type] = issue_filter( type ).count
         end
 
-        @issues = issue_filter( params[:tab] ).light
+        @issues = issue_filter( params[:tab] )
 
         html_block =    if render_partial?
                             proc { render partial: 'table',
@@ -117,13 +117,16 @@ class IssuesController < ApplicationController
     def issue_filter( type )
         case type
             when 'verified'
-                scan.issues.verified
+                scan.issues.verified.light
             when 'pending-verification'
-                scan.issues.pending_verification
+                scan.issues.pending_verification.light
             when 'false-positives'
-                scan.issues.false_positives
+                scan.issues.false_positives.light
+            when 'rest'
+                scan.issues - (scan.issues.verified +
+                    scan.issues.pending_verification + scan.issues.false_positives)
             else
-                scan.issues
+                scan.issues.light
         end
     end
 
