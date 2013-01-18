@@ -11,10 +11,11 @@
                href="#comments">
                 <i class="icon-comment"></i>
 
-                <% if @scan.comments.any? %>
                 <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                      id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
-                <% end %>
+                      id="total-comments-counter"
+                      class="label hide">
+                    <%= @scan.comments.size %>
+                </span>
 
                 <span id="new-comments-counter"
                       title="The scan has new comments."
@@ -81,6 +82,10 @@
     </ul>
 <% end %>
 
+<script type="text/javascript">
+    var scanIsActive = true;
+</script>
+
 <div id="scans">
 
     <div class="page-header">
@@ -132,3 +137,18 @@
         <%= render @scan %>
     </div>
 </div>
+
+<script type="text/javascript">
+    setInterval( function(){
+        // Active scans have to refresh the stats, graphs and issues table
+        // while finished scans only need to refresh their issues table,
+        // which can be handled by the issue table partial itself.
+        if( !scanIsActive ) return;
+
+        $.get( '<%= scan_url( @scan, partial: true ) %>', function( data ){
+                    $('#scan').html( data );
+                    updatePage();
+                },
+                'html' )
+    }, <%= Settings.scan_refresh_rate %> );
+</script>

@@ -1,8 +1,16 @@
-<% issues ||= @scan.sorted_issues %>
+<%
+   issues ||= @scan.sorted_issues
+   refresh = true if !local_assigns.include?( :refresh )
+%>
 
 <div class="row-fluid">
-    <div class="span12" id='issues' data-refresh-url="<%= scan_issues_url( @scan, partial: true ) %>"
-         data-refresh-rate=<%= Settings.scan_refresh_rate %>>
+    <div class="span12" id='issues'
+         <% if refresh %>
+         data-refresh-url="<%= scan_issues_url( @scan, partial: true ) %>"
+         data-refresh-rate=<%= Settings.scan_refresh_rate %>
+         <% end %>
+
+         >
 
         <h2>Issues <small>[<%= issues.size %>]</small></h2>
 

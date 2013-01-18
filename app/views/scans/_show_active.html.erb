@@ -136,7 +136,8 @@
     <hr/>
 <% end %>
 
-<%= render partial: '/issues/table', locals: { issues: @scan.sorted_issues } %>
+<%= render partial: '/issues/table', locals: { issues: @scan.sorted_issues,
+                                               refresh: false } %>
 
 <script type="text/javascript">
     $( 'ul#scan-sidebar' ).show( 'slow' );
