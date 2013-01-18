@@ -1,10 +1,48 @@
-<%= simple_form_for(@issue) do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for( [@issue.scan, @issue] ) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-  </div>
+    <div class="form-inputs">
+        <div class="row-fluid">
+            <div class="span6">
+                <%= f.input :false_positive,
+                            label: 'Mark this issue as a false positive' %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+                <p class="help-block" id="false-positive-report-nudge">
+                    <em>You may also want to <a href="https://github.com/Arachni/arachni/issues">
+                    report this upstream</a> so that it won't happen again.</em>
+                </p>
+            </div>
+
+            <div class="span6">
+                <%= f.input :requires_verification %>
+
+                <p class="help-block">
+                    Does this issue require verification by a human?
+                </p>
+            </div>
+        </div>
+
+        <div id="verification-container" class="well hide">
+            <div class="row-fluid">
+                <div class="span6">
+                    <%= f.input :verified %>
+
+                    <p class="help-block">
+                        Flag this issue as verified and please add the verification
+                        steps you followed to the text-area bellow.
+                    </p>
+                </div>
+            </div>
+
+            <hr/>
+
+            <%= f.input :verification_steps,
+                        hint: 'You can use <a href="http://daringfireball.net/' +
+                            'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <%= f.button :submit %>
+    </div>
 <% end %>

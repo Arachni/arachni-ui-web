@@ -5,7 +5,7 @@
     <ul class="notifications unstyled">
         <% @activities.each do |activity| %>
             <li>
-                <%= link_to activity.model do %>
+                <%= link_to polymorphic_path( activity.model.family ) do %>
                     <%=  activity.model_type %>
 
                     <% if !activity.text.to_s.include?( "\n" ) %>

@@ -46,6 +46,10 @@ class Scan < ActiveRecord::Base
         users | [owner]
     end
 
+    def family
+        [self]
+    end
+
     def to_s
         s = "#{url} (#{profile} profile, #{issue_count} issues"
         s << ", #{progress}%" if !finished? && progress.to_f > 0
@@ -85,10 +89,6 @@ class Scan < ActiveRecord::Base
         end
 
         sorted_by_severity.values.flatten
-    end
-
-    def active?
-        active
     end
 
     def finished?

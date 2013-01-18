@@ -71,4 +71,30 @@
         height: 100%;
         border:  none;
     }
+
+    .form-inputs {
+
+        .help-block {
+            clear: both;
+            display: block;
+        }
+
+        label {
+            display: inline;
+            float: left;
+            padding-right: 10px;
+        }
+
+        .checkbox, input {
+            float: right;
+        }
+
+        #false-positive-report-nudge {
+            display: none;
+        }
+
+        #issue_verification_steps {
+            width: 97%;
+        }
+    }
 }

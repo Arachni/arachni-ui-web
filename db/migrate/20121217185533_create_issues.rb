@@ -34,8 +34,9 @@ class CreateIssues < ActiveRecord::Migration
       t.string :digest
 
       t.boolean :false_positive, default: false
-      t.boolean :verified, default: false
 
+      t.boolean :verified, default: false
+      t.datetime :verified_at
       t.text :verification_steps
 
       t.integer :scan_id

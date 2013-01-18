@@ -17,7 +17,7 @@
 
         <% @notifications.each do |notification| %>
             <li class="notification <%= notification.unread? ? 'alert alert-info' : '' %>" >
-                <%= link_to notification.model do %>
+                <%= link_to polymorphic_path( notification.model.family ) do %>
                     <%=  notification.model_type %>
 
                     <% if !notification.text.to_s.include?( "\n" ) %>

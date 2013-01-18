@@ -40,8 +40,9 @@ class Issue < ActiveRecord::Base
     }
 
     attr_accessible *FRAMEWORK_ISSUE_MAP.values
+    attr_accessible :false_positive, :verified, :verification_steps
 
-    #before_save :sanitize
+    before_save :set_verified_at
 
     def url
         return nil if super.to_s.empty?
@@ -68,6 +69,14 @@ class Issue < ActiveRecord::Base
         super
     end
 
+    def requires_verification_and_verified?
+        requires_verification? && verified?
+    end
+
+    def has_verification_steps?
+        !verification_steps.to_s.empty?
+    end
+
     def base64_response_body
         Base64.encode64( response_body ).gsub( /\n/, '' )
     end
@@ -86,6 +95,18 @@ class Issue < ActiveRecord::Base
 
     def response_body_contains_proof?
         proof && response_body && response_body.include?( proof )
+    end
+
+    def just_verified?
+        verified_changed? && verified?
+    end
+
+    def subscribers
+        scan.subscribers
+    end
+
+    def family
+        [scan, self]
     end
 
     def self.digests_for_scan( scan )
@@ -118,6 +139,12 @@ class Issue < ActiveRecord::Base
         end
 
         h
+    end
+
+    private
+
+    def set_verified_at
+        self.verified_at = just_verified? ? Time.now : nil
     end
 
 end

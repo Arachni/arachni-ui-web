@@ -16,6 +16,7 @@
 
 class IssuesController < ApplicationController
     include ApplicationHelper
+    include NotificationsHelper
 
     load_and_authorize_resource
 
@@ -46,9 +47,18 @@ class IssuesController < ApplicationController
     def update
         @issue = scan.issues.find( params[:id] )
 
+        was_verified = @issue.verified?
+
         respond_to do |format|
             if @issue.update_attributes( params[:issue] )
-                format.html { redirect_to @issue,
+
+                if !was_verified && @issue.verified?
+                    notify @issue, action: 'verified'
+                else
+                    notify @issue
+                end
+
+                format.html { redirect_to [@issue.scan, @issue],
                                           notice: 'Issue was successfully updated.' }
                 format.json { head :no_content }
             else

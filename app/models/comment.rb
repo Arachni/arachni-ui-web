@@ -8,6 +8,10 @@ class Comment < ActiveRecord::Base
         commentable.subscribers
     end
 
+    def family
+        [scan, self]
+    end
+
     def commentable
         commentable_type.classify.constantize.find( commentable_id )
     end

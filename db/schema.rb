@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
     t.string   "digest"
     t.boolean  "false_positive",        :default => false
     t.boolean  "verified",              :default => false
+    t.datetime "verified_at"
     t.text     "verification_steps"
     t.integer  "scan_id"
     t.datetime "created_at",                               :null => false
