@@ -1,0 +1,13 @@
+<div class="comment-form">
+    <%= simple_form_for( [commentable, Comment.new], remote: true ) do |f| %>
+        <div>
+            <%= f.error_notification %>
+            <%= f.input :text, label: false,
+                        hint: 'You can use <a href="http://daringfireball.net/' +
+                              'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+        </div>
+        <div>
+            <%= f.button :submit, class: 'btn btn-primary', value: 'Add comment' %>
+        </div>
+    <% end %>
+</div>

@@ -8,7 +8,7 @@
         </li>
         <li>
             <a class="toggle-comments" data-toggle="collapse"
-               href="#comments-list">
+               href="#comments">
                 <i class="icon-comment"></i>
 
                 <% if @scan.comments.any? %>
@@ -47,13 +47,6 @@
         <li class="nav-header">
             Actions
         </li>
-        <li>
-            <a href="#add-scan-comment" title="Comment on scan"
-               role="button" data-toggle="modal">
-                <i class="icon-comment"></i>
-                Add comment
-            </a>
-        </li>
 
         <% if User.count > 1 && can?( :share, @scan ) %>
         <li>
@@ -87,10 +80,6 @@
         </li>
     </ul>
 <% end %>
-
-<script type="text/javascript">
-    var stopUpdatingScan = false;
-</script>
 
 <div id="scans">
 
@@ -128,40 +117,18 @@
         </a>
     </div>
 
-    <%= render partial: 'comment_form', locals: { scan: @scan } %>
+    <div id="comments" class="accordion-body collapse">
+        <div class="well">
+            <%= render partial: 'comments/list',
+                       locals: { comments: @scan.comments,
+                                 list_url: scan_comments_url( @scan, partial: true )
+                       } %>
+
+            <%= render partial: 'comments/form', locals: { commentable: @scan } %>
+        </div>
+    </div>
 
     <div id="scan">
         <%= render @scan %>
     </div>
 </div>
-
-<script type="text/javascript">
-    var initialCommentCount = $('#scan #comments .comment').size();
-
-    setInterval( function(){
-        if( !stopUpdatingScan ) {
-            url = '<%= scan_url( @scan, partial: true ) %>';
-            elementToBeUpdated = $( '#scan' );
-        } else {
-            url = '<%= scan_comments_url( @scan, partial: true ) %>';
-            elementToBeUpdated = $( '#scan #comments' );
-        }
-
-        $.get( url, function( data ){
-                    wasOpen = $('#comments-list').hasClass( 'in' );
-                    elementToBeUpdated.html( data );
-                    newCommentsCount = $('#scan #comments .comment').size() - initialCommentCount;
-
-                    if( newCommentsCount > 0 && !wasOpen ){
-                        $('#new-comments-counter' ).html( '+' + newCommentsCount );
-                        $('#new-comments-counter').show();
-                    } else if( initialCommentCount + newCommentsCount > 0 ) {
-                        $('#total-comments-counter' ).html( initialCommentCount + newCommentsCount );
-                        $('#total-comments-counter').show();
-                    }
-
-                    updatePage();
-                },
-                'html' )
-    }, <%= Settings.scan_refresh_rate %> );
-</script>

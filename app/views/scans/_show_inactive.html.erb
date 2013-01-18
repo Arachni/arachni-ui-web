@@ -41,8 +41,6 @@
     <%= render partial: '/issues/table', locals: { issues: @scan.sorted_issues } %>
 
     <script type="text/javascript">
-        stopUpdatingScan = true;
-
         $( 'ul#scan-sidebar' ).show();
         $( 'li#toggle-statistics' ).fadeOut( 'slow' );
         $( 'li#toggle-charts' ).fadeIn( 'slow' );

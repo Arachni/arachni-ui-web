@@ -10,15 +10,18 @@ class CommentsController < ApplicationController
     ## GET /scan/comments
     ## GET /scan/comments.json
     def index
-        @comments = commentable.comments
+        @commentable = commentable
+        @comments    = @commentable.comments
 
         html_block = if render_partial?
-            proc { render partial: 'comment_list',
-                         locals: { comments: commentable.comments } }
+            proc { render partial: 'list',
+                         locals: { comments: commentable.comments,
+                                  list_url: polymorphic_url( [@commentable, Comment] ) } }
         end
 
         respond_to do |format|
             format.html( &html_block )
+            format.js { render '_list.js' }
             format.json { render json: @comments }
         end
     end
@@ -53,7 +56,9 @@ class CommentsController < ApplicationController
     # POST /scan/comments
     # POST /scan/comments.json
     def create
-        @comment      = commentable.comments.new( params[:comment] )
+        @commentable = commentable
+
+        @comment      = @commentable.comments.new( params[:comment] )
         @comment.user = current_user
 
         respond_to do |format|
@@ -61,6 +66,8 @@ class CommentsController < ApplicationController
 
                 notify commentable, action: 'commented on',
                        text: truncate_html( m( @comment.text ) )
+
+                format.js { redirect_to polymorphic_url( [@commentable, Comment], format: :js ) }
 
                 format.html { redirect_to :back, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }

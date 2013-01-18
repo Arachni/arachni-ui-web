@@ -23,10 +23,17 @@ class IssuesController < ApplicationController
     # GET /issues
     # GET /issues.json
     def index
+        @scan   = scan
         @issues = scan.sorted_issues
 
+        html_block =    if render_partial?
+                            proc { render partial: 'table' }
+                        else
+                            proc { redirect_to scan }
+                        end
+
         respond_to do |format|
-            format.html { redirect_to scan }
+            format.html( &html_block )
             format.json { render json: @issues }
         end
     end

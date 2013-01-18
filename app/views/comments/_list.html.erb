@@ -1,0 +1,26 @@
+<div id="comments-list" data-refresh-url="<%= list_url %>"
+     data-refresh-rate=<%= Settings.comments_refresh_rate %>>
+
+    <% if comments.any? %>
+        <% comments.each do |comment| %>
+        <div class="comment jumptarget" id="comment-<%= comment.id %>">
+            <p>
+                <% if comment.user == current_user %>
+                    <span class="label">You:</span>
+                <% else %>
+                    <span class="label label-info">
+                        <%= comment.user.name %>:
+                    </span>
+                <% end %>
+            </p>
+
+            <blockquote>
+                <%= m comment.text.to_s %>
+                <small><em><%= l comment.created_at %></em></small>
+            </blockquote>
+        </div>
+        <% end %>
+    <% else %>
+        <p class="alert alert-info">This scan has no comments yet.</p>
+    <% end %>
+</div>

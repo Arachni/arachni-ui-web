@@ -100,6 +100,10 @@ class Profile < ActiveRecord::Base
         opts
     end
 
+    def family
+        [self]
+    end
+
     def html_description
         ApplicationHelper.m description
     end

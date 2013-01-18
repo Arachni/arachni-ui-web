@@ -2,11 +2,31 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+window.commentCount = () ->
+    $('#comments-list .comment').size()
+
 window.newCommentsCount = 0
+window.initialCommentCount = window.commentCount()
+
+window.resetCommentCounters = () ->
+    window.newCommentsCount = 0
+    window.initialCommentCount = window.commentCount()
+    $('#total-comments-counter').html( window.initialCommentCount )
+    $('#new-comments-counter').hide()
 
 jQuery ->
     $('.toggle-comments').click ->
-        window.newCommentsCount = 0
-        window.initialCommentCount = $('#scan #comments .comment').size();
-        $('#total-comments-counter').html( window.initialCommentCount );
-        $('#new-comments-counter').hide();
+        window.resetCommentCounters()
+
+    $('#comments-list').on 'refresh', () ->
+        window.initialCommentCount = window.commentCount()
+        window.commentsWereOpen    = $('#comments').hasClass( 'in' )
+
+    $('#comments-list').on 'refreshed', () ->
+        window.newCommentsCount = window.commentCount() - window.initialCommentCount
+        if window.newCommentsCount > 0 && !window.commentsWereOpen
+            $('#new-comments-counter' ).html( '+' + window.newCommentsCount )
+            $('#new-comments-counter').show()
+        else if( window.initialCommentCount + window.newCommentsCount > 0 )
+            $('#total-comments-counter' ).html( window.initialCommentCount + window.newCommentsCount )
+            $('#total-comments-counter').show()

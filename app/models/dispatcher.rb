@@ -37,6 +37,10 @@ class Dispatcher < ActiveRecord::Base
         where( alive: false )
     end
 
+    def family
+        [self]
+    end
+
     def self.find_by_url( url )
         find_by_address_and_port( *url.split( ':' ) )
     end

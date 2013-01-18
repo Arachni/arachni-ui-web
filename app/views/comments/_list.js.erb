@@ -1,0 +1,9 @@
+$("#comments-list").html( "<%= escape_javascript(
+                        render( partial: 'list.html',
+                                 locals: { comments: @commentable.comments,
+                                           list_url: polymorphic_url( [@commentable, Comment] ) })  ).
+                                  force_encoding( 'utf-8' ) %>" );
+
+window.resetCommentCounters();
+
+$('#comment_text' ).val( '' );
