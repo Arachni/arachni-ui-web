@@ -131,17 +131,12 @@
     </div>
 </div>
 
-<% if @scan.issues.any? %>
-    <%= render partial: 'charts', locals: { issues: @scan.sorted_issues } %>
-    <hr/>
-<% end %>
-
-<%= render partial: '/issues/table', locals: { issues: @scan.sorted_issues,
-                                               refresh: false } %>
-
 <script type="text/javascript">
-    $( 'ul#scan-sidebar' ).show( 'slow' );
-    $( 'li#toggle-statistics' ).fadeIn( 'slow' );
-    $( 'li#toggle-charts' ).fadeIn( 'slow' );
-    $( 'li#download-report' ).hide();
+    $(document).ready( function( $ ) {
+        $( '#issues' ).show();
+        $( 'ul#scan-sidebar' ).show( 'slow' );
+        $( 'li#toggle-statistics' ).fadeIn( 'slow' );
+        $( 'li#toggle-charts' ).fadeIn( 'slow' );
+        $( 'li#download-report' ).hide();
+    });
 </script>

@@ -39,17 +39,16 @@
         </p>
     <% end %>
 
-    <%= render partial: 'charts', locals: { issues: @scan.sorted_issues } %>
-
-    <%= render partial: '/issues/table', locals: { issues: @scan.sorted_issues } %>
-
     <script type="text/javascript">
-        autoRefreshElement( '#issues' );
+        $(document).ready( function( $ ) {
+            autoRefreshElement( '#issues' );
 
-        $( 'ul#scan-sidebar' ).show();
-        $( 'li#toggle-statistics' ).fadeOut( 'slow' );
-        $( 'li#toggle-charts' ).fadeIn( 'slow' );
-        $( 'li#download-report' ).fadeIn( 'slow' );
+            $( '#issues' ).show();
+            $( 'ul#scan-sidebar' ).show();
+            $( 'li#toggle-statistics' ).fadeOut( 'slow' );
+            $( 'li#toggle-charts' ).fadeIn( 'slow' );
+            $( 'li#download-report' ).fadeIn( 'slow' );
+        });
     </script>
 
 <% else %>
@@ -67,8 +66,11 @@
     </div>
 
     <script type="text/javascript">
-        $( 'ul#scan-sidebar' ).show();
-        $( 'li#toggle-statistics' ).fadeOut( 'slow' );
-        $( 'li#toggle-charts' ).fadeOut( 'slow' );
+        $(document).ready( function( $ ) {
+            $( '#issues' ).hide();
+            $( 'ul#scan-sidebar' ).show();
+            $( 'li#toggle-statistics' ).fadeOut( 'slow' );
+            $( 'li#toggle-charts' ).fadeOut( 'slow' );
+        });
     </script>
 <% end %>

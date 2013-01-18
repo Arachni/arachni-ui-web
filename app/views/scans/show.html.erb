@@ -136,6 +136,11 @@
     <div id="scan">
         <%= render @scan %>
     </div>
+
+    <div id="issues" class="hide"
+         data-refresh-url="<%= scan_issues_url( @scan, partial: true ) %>"
+         data-refresh-rate=<%= Settings.scan_refresh_rate %>>
+    </div>
 </div>
 
 <script type="text/javascript">

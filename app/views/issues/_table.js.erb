@@ -1,0 +1,2 @@
+$("#issues").data( "refresh-url", "<%= escape_javascript scan_issues_url( @scan, format: :html, params: params ) %>" );
+$("#issues").html( "<%= escape_javascript( render( partial: 'table.html', locals: { issues: issues } ).force_encoding( 'utf-8' ) ) %>" );

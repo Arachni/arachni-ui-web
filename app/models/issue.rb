@@ -44,6 +44,23 @@ class Issue < ActiveRecord::Base
 
     before_save :set_verified_at
 
+    ORDERED_SEVERITIES = [
+        Arachni::Issue::Severity::HIGH,
+        Arachni::Issue::Severity::MEDIUM,
+        Arachni::Issue::Severity::LOW,
+        Arachni::Issue::Severity::INFORMATIONAL
+    ]
+
+    def self.order_by_severity
+        ret = "CASE"
+        ORDERED_SEVERITIES.each_with_index do |p, i|
+            ret << " WHEN severity = '#{p}' THEN #{i}"
+        end
+        ret << " END"
+    end
+    scope :by_severity, order: order_by_severity
+    default_scope by_severity
+
     def self.light
         select( column_names - %w(response_body references) )
     end
@@ -71,6 +88,18 @@ class Issue < ActiveRecord::Base
     def signature
         return nil if super.to_s.empty?
         super
+    end
+
+    def self.verified
+        where( 'requires_verification = ? AND verified = ?', true, true )
+    end
+
+    def self.pending_verification
+        where( 'requires_verification = ? AND verified = ?', true, false )
+    end
+
+    def self.false_positives
+        where( 'false_positive = ?', true )
     end
 
     def requires_verification_and_verified?

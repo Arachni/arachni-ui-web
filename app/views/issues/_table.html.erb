@@ -1,65 +1,108 @@
 <%
-   issues ||= @scan.sorted_issues
    refresh = true if !local_assigns.include?( :refresh )
+
+   active_tab = params[:tab]
+   opts       = params.merge( format: :js )
 %>
 
 <div class="row-fluid">
     <div class="span12" id='issues'
          <% if refresh %>
-         data-refresh-url="<%= scan_issues_url( @scan, partial: true ) %>"
+         data-refresh-url="<%= scan_issues_url( @scan, opts.merge( partial: true )) %>"
          data-refresh-rate=<%= Settings.scan_refresh_rate %>
          <% end %>
-
          >
 
-        <h2>Issues <small>[<%= issues.size %>]</small></h2>
+        <%= render partial: '/issues/charts', locals: { issues: issues } %>
+
+        <h2>Issues <small>[<%= @counts['all'] %>]</small></h2>
 
         <p class="muted">
             Click on an issue's name for details,
             click on a row to see a quick description.
         </p>
 
-        <!--<ul class="nav nav-tabs" id="issue-tabs"-->
-            <!--data-table-container="table-container">-->
-            <!--<li class="active">-->
-                <!--<a href="#all" data-toggle="tab">-->
-                    <!--All-->
-                <!--</a>-->
-            <!--</li>-->
+        <ul class="nav nav-tabs" id="issue-tabs"
+            data-table-container="table-container">
 
-            <!--<li>-->
-                <!--<a href="#verified" data-toggle="tab">-->
-                    <!--Verified-->
-                <!--</a>-->
-            <!--</li>-->
+            <% if @counts['all'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        All <small>[<%= @counts['all'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                    <% if active_tab == 'all' %>
+                    class="active"
+                    <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'all' ) ),
+                                onclick: 'scanTableLoading();', remote: true do %>
+                        All <small>[<%= @counts['all'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
 
-            <!--<li>-->
-                <!--<a href="#pending-verification" data-toggle="tab">-->
-                    <!--Pending verification-->
-                <!--</a>-->
-            <!--</li>-->
+            <% if @counts['verified'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        Verified <small>[<%= @counts['verified'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                <% if active_tab == 'verified' %>
+                class="active"
+                <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'verified' ) ),
+                                onclick: 'scanTableLoading();', remote: true do %>
+                        Verified <small>[<%= @counts['verified'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
 
-            <!--<li>-->
-                <!--<a href="#false-positives" data-toggle="tab">-->
-                    <!--False positives-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
 
-        <!--<div class="tab-content">-->
-            <!--<div id="all" class="tab-pane fade active in">-->
-                <!--All issues-->
-            <!--</div>-->
-            <!--<div id="verified" class="tab-pane fade">-->
-                <!--Verified-->
-            <!--</div>-->
-            <!--<div id="pending-verification" class="tab-pane fade">-->
-                <!--Pending verification-->
-            <!--</div>-->
-            <!--<div id="false-positives" class="tab-pane fade">-->
-                <!--False positives-->
-            <!--</div>-->
-        <!--</div>-->
+            <% if @counts['pending-verification'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        Pending verification <small>[<%= @counts['pending-verification'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                <% if active_tab == 'pending-verification' %>
+                class="active"
+                <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'pending-verification' ) ),
+                                onclick: 'scanTableLoading();', remote: true do %>
+                        Pending verification <small>[<%= @counts['pending-verification'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
+
+            <% if @counts['false-positives'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        False positives <small>[<%= @counts['false-positives'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                <% if active_tab == 'false-positives' %>
+                class="active"
+                <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'false-positives' ) ),
+                                onclick: 'scanTableLoading();', remote: true do %>
+                        False positives <small>[<%= @counts['false-positives'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
+
+        </ul>
 
         <% if issues.any? %>
             <table class="hidden-phone table table-striped table-hover table-condensed fixed">
@@ -126,7 +169,7 @@
                            }
                 %>
             </div>
-    <% else %>
+        <% else %>
             <p class="alert alert-info">
                 No issues discovered<%= ' yet' if @scan.active? %>.
             </p>

@@ -23,17 +23,28 @@ class IssuesController < ApplicationController
     # GET /issues
     # GET /issues.json
     def index
-        @scan   = scan
-        @issues = scan.sorted_issues
+        @scan = scan
+
+        params[:tab] ||= 'all'
+
+        @counts = Hash.new(0)
+        %w(all verified pending-verification false-positives).each do |type|
+            @counts[type] = issue_filter( type ).light.count
+        end
+
+        @issues = issue_filter( params[:tab] ).light
 
         html_block =    if render_partial?
-                            proc { render partial: 'table' }
+                            proc { render partial: 'table',
+                                          locals: { issues: @issues } }
                         else
-                            proc { redirect_to scan }
+                            proc { redirect_to @scan }
                         end
 
         respond_to do |format|
             format.html( &html_block )
+            format.js { render partial: 'table.js',
+                               locals: { issues: @issues } }
             format.json { render json: @issues }
         end
     end
@@ -92,6 +103,19 @@ class IssuesController < ApplicationController
 
     def scan
         current_user.scans.find( params[:scan_id] )
+    end
+
+    def issue_filter( type )
+        case type
+            when 'verified'
+                scan.issues.verified
+            when 'pending-verification'
+                scan.issues.pending_verification
+            when 'false-positives'
+                scan.issues.false_positives
+            else
+                scan.issues
+        end
     end
 
 end
