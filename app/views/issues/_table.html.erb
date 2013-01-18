@@ -124,6 +124,28 @@
         </ul>
 
         <% if issues.any? %>
+            <p class="muted">
+                <%=
+                   case active_tab
+                       when 'all'
+                          'Listing all issues.'
+
+                       when 'verified'
+                          'These issues have been verified by a human.'
+
+                       when 'pending-verification'
+                           'These issues require manual verification.'
+
+                       when 'false-positives'
+                           'These issues have been flagged as false-positives.'
+
+                       when 'rest'
+                           'These issues don\'t fit in any of the other categories.'
+                   end
+
+                %>
+            </p>
+
             <table class="hidden-phone table table-striped table-hover table-condensed fixed">
                 <thead>
                     <tr>

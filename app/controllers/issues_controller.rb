@@ -123,8 +123,10 @@ class IssuesController < ApplicationController
             when 'false-positives'
                 scan.issues.false_positives.light
             when 'rest'
-                scan.issues - (scan.issues.verified +
-                    scan.issues.pending_verification + scan.issues.false_positives)
+                rest = scan.issues - (scan.issues.verified +
+                        scan.issues.pending_verification + scan.issues.false_positives)
+
+                rest == scan.issues ? [] : rest
             else
                 scan.issues.light
         end
