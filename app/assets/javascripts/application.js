@@ -69,6 +69,7 @@ function fetchAndFill( url, element ){
         }
 
         element.trigger( 'refreshed' );
+        updatePage();
     }, "html" );
 }
 
