@@ -12,6 +12,8 @@ window.resetCommentCounters = () ->
     window.newCommentsCount = 0
     window.initialCommentCount = window.commentCount()
     $('#total-comments-counter').html( window.initialCommentCount )
+    if window.initialCommentCount > 0
+        $('#total-comments-counter').show()
     $('#new-comments-counter').hide()
 
 jQuery ->
