@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
         html_block = if render_partial?
             proc { render partial: 'list',
                          locals: { comments: commentable.comments,
-                                  list_url: polymorphic_url( [@commentable, Comment] ) } }
+                                  list_url: polymorphic_url( [@commentable.family, Comment].flatten ) } }
         end
 
         respond_to do |format|
@@ -67,7 +67,7 @@ class CommentsController < ApplicationController
                 notify commentable, action: 'commented on',
                        text: truncate_html( m( @comment.text ) )
 
-                format.js { redirect_to polymorphic_url( [@commentable, Comment], format: :js ) }
+                format.js { redirect_to polymorphic_url( [@commentable.family, Comment].flatten, format: :js ) }
 
                 format.html { redirect_to :back, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }
@@ -109,9 +109,14 @@ class CommentsController < ApplicationController
     private
 
     def commentable
-        params.each do |name, value|
-            return $1.classify.constantize.find( value ) if name =~ /(.+)_id$/
+        if id = params[:issue_id]
+            return Issue.find( id )
         end
+
+        if id = params[:scan_id]
+            return current_user.scans.find( id )
+        end
+
         nil
     end
 end

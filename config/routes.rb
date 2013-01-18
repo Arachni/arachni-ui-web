@@ -23,7 +23,9 @@ ArachniWebui::Application.routes.draw do
 
     resources :scans, except: [:edit] do
         resources :comments
-        resources :issues, only: [ :index, :show, :update ]
+        resources :issues, only: [ :index, :show, :update ] do
+            resources :comments
+        end
 
         put :pause,    on: :member
         put :resume,   on: :member

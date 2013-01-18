@@ -76,6 +76,12 @@
             </a>
         </li>
 
+        <li>
+            <a href="#issue-<%= @issue.digest %>-discussion" data-toggle="tab">
+                Discussion <small>[<%= @issue.comments.count %>]</small>
+            </a>
+        </li>
+
         <% if @issue.has_verification_steps? %>
             <li>
                 <a href="#issue-<%= @issue.digest %>-verification" data-toggle="tab">
@@ -281,6 +287,15 @@
                     </td>
                 </tr>
             </table>
+        </div>
+
+        <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane fade">
+            <%= render partial: 'comments/list',
+                       locals: { comments: @issue.comments,
+                                 list_url: scan_issue_comments_url( @issue.scan, @issue, partial: true )
+                       } %>
+
+            <%= render partial: 'comments/form', locals: { commentable: @issue } %>
         </div>
 
         <% if @issue.has_verification_steps? %>

@@ -1,6 +1,8 @@
 class Issue < ActiveRecord::Base
     belongs_to :scan
 
+    has_many :comments, as: :commentable, dependent: :destroy
+
     validates_uniqueness_of :digest, scope: :scan_id
 
     # These can contain lots of junk characters which may blow up the SQL
