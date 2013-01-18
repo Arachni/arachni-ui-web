@@ -44,6 +44,10 @@ module NavigationHelper
         'class="active"'.html_safe if active_controller?( controller )
     end
 
+    def show_sidebar?
+        has_subnav? || !sidebar.to_s.empty?
+    end
+
     def subnav( sections, opts = {} )
         object_for( :subnav, [sections, opts] )
     end
