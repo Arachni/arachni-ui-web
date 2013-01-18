@@ -51,15 +51,33 @@ This application uses SQLite with ActiveRecord.
 
 ## Getting Started
 
-To setup the WebUI run:
+The WebUI is still under development so there are no packages for it yet.
+To get it running you'll have to run the following (assuming a Debian-based OS):
 
 ```
+# Arachni Framework dependencies, along with some Rails ones.
+sudo apt-get install build-essential libxml2-dev libxslt1-dev libcurl4-openssl-dev libsqlite3-dev libyaml-dev zlib1g-dev ruby1.9.1-dev ruby1.9.1 git libv8-dev
+
+sudo gem install bundler
+
 git clone git://github.com/Arachni/webui.git
 cd webui
 bundle install
 rake db:migrate
 rake db:setup
 rails s thin
+```
+
+Also, the DB schema is pretty fluid during development so migrate after each
+```git pull``` and don't be surprised if you'll have to remove the existing schema
+and DBs for things to work again:
+
+```
+rm db/development.sqlite3
+rm db/test.sqlite3
+rm db/schema.rb
+rake db:migrate
+rake db:setup
 ```
 
 ## Documentation and Support
