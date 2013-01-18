@@ -73,7 +73,9 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
+    cookieName = 'activeAccordionGroup';
+
+    aGroup = $.cookie( cookieName, undefined, { path: '/' } );
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
@@ -91,20 +93,67 @@ function restoreAccordions(){
     // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( 'activeAccordionGroup', ':statistics:', { path: '/' } );
+        $.cookie( cookieName, ':statistics:', { path: '/' } );
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
-        aGroup += ':' + $( this ).attr( 'id' ) + ':';
-        $.cookie( 'activeAccordionGroup', aGroup, { path: '/' } );
+        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+
+        if( aGroup != null ) {
+            aGroup += ':' + $( this ).attr( 'id' ) + ':';
+        } else {
+            aGroup = ':' + $( this ).attr( 'id' ) + ':';
+        }
+
+        $.cookie( cookieName, aGroup, { path: '/' } );
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-        aGroup = $.cookie( 'activeAccordionGroup', undefined, { path: '/' } );
-        aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-        $.cookie( 'activeAccordionGroup', aGroup, { path: '/' } );
+        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+
+        if( aGroup != null ) {
+            aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
+            $.cookie( cookieName, aGroup, { path: '/' } );
+        }
     });
+}
+
+function restoreTabs() {
+    cookieName = 'activeTabGroup';
+
+    elements = $('a[data-toggle="tab"]');
+    aGroup   = $.cookie( cookieName, undefined, { path: '/' } );
+
+    if( aGroup != null ) {
+        elementIDs = aGroup.split( ':' );
+        for( i = 0; i < elementIDs.length; i++ ) {
+            element = $('a[href$="' + elementIDs[i] + '"]');
+
+            if( element ) {
+                element.tab( 'show' );
+            }
+        }
+    }
+
+    elements.on( 'shown', function( e ){
+        id = e.target.href.split( '#' ).pop();
+
+        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+
+        if( aGroup != null ) {
+            previous = e.relatedTarget.href.split( '#' ).pop();
+            aGroup = aGroup.replace( new RegExp( ':' + previous + ':', 'g' ), '' );
+
+            if( aGroup.indexOf( id ) == -1 ) {
+                aGroup += ':' + id + ':';
+            }
+        } else {
+            aGroup = ':' + id + ':';
+        }
+
+        $.cookie( cookieName, aGroup, { path: '/' } );
+    });
+
 }
 
 function updatePage() {
@@ -112,6 +161,7 @@ function updatePage() {
     $("[rel=tooltip]").tooltip();
 
     restoreAccordions();
+    restoreTabs();
 
     // Set the container's height to be at least as high as the affix'ed sidebar
     min_height  =
