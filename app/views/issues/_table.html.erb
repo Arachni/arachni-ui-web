@@ -54,7 +54,7 @@
         <!--</div>-->
 
         <% if issues.any? %>
-            <table class="hidden-phone table table-striped table-hover fixed">
+            <table class="hidden-phone table table-striped table-hover table-condensed fixed">
                 <thead>
                     <tr>
                         <th style="width: 23%">Name</th>
@@ -94,18 +94,10 @@
                 </tr>
                 <tr class="description">
                     <td class="description" colspan="7">
-
                         <div class="description-container collapse" id="description-<%= issue.digest %>">
                             <blockquote>
                                 <%= issue.description %>
                             </blockquote>
-
-                            <p>
-                                See also:
-                                <%= issue.references.map do |name, url|
-                                    link_to name, url
-                                end.join( ', ' ).html_safe %>
-                            </p>
                         </div>
                     </td>
                 </tr>

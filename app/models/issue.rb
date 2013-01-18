@@ -44,6 +44,10 @@ class Issue < ActiveRecord::Base
 
     before_save :set_verified_at
 
+    def self.light
+        select( column_names - %w(response_body references) )
+    end
+
     def url
         return nil if super.to_s.empty?
         super

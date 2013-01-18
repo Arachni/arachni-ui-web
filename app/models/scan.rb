@@ -84,7 +84,7 @@ class Scan < ActiveRecord::Base
             Arachni::Issue::Severity::LOW           => [],
             Arachni::Issue::Severity::INFORMATIONAL => []
         }
-        issues.each do |i|
+        issues.light.each do |i|
             sorted_by_severity[i.severity] << i
         end
 

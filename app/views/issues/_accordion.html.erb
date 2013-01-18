@@ -38,21 +38,6 @@
                     <p>
                         <%= issue.description %>
                     </p>
-
-                    <% if issue.references.is_a?( Hash ) && issue.references.any? %>
-                    <hr/>
-                        <h4>References</h4>
-                        <ul>
-
-                        <% if issue.cwe_url %>
-                            <li><%= link_to 'CWE definition', issue.cwe_url %></li>
-                        <% end %>
-
-                        <% issue.references.each do |name, url| %>
-                        <li><%= link_to name, url %></li>
-                        <% end %>
-                        </ul>
-                    <% end %>
                 </div>
             </div>
         </div>
