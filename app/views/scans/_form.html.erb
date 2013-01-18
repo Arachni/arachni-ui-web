@@ -9,7 +9,9 @@
             <%= f.input :description,
                         hint: 'You can use <a href="http://daringfireball.net/' +
                                       'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+        </div>
 
+        <div class="span6">
             <div class="control-group">
                 <label class="control-label" for="scan_profile">Profile</label>
                 <div class="controls">
@@ -26,28 +28,6 @@
                     </p>
                 </div>
             </div>
-        </div>
-
-        <div class="span6">
-            <%= f.input :instance_count,
-                        hint: 'How many Instances to utilise for the scan.' %>
-
-            <p class="alert alert-info">
-                Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
-            </p>
-
-            <div class="alert">
-                <strong>Warning!</strong>
-                <ul>
-                    <li>
-                        High-performance distribution (i.e. using more than 1 Instance) is experimental.
-                    </li>
-                    <li>
-                        Please be sure that the web server will be able to handle the heat,
-                        otherwise you may end up killing it.
-                    </li>
-                </ul>
-            </div>
 
             <% if User.count > 1 %>
                 <%= f.association :users, label: 'Share scan with:',
@@ -56,26 +36,48 @@
         </div>
     </div>
 
+    <%= f.input :type, as: :hidden, default: 'direct' %>
 
-    <%= f.input :type, as: :hidden %>
+    <a href="#advanced" data-toggle="collapse">
+        Toggle visibility of advanced options
+    </a>
 
-    <% if (type_errors = @scan.errors.messages[:type]).any? %>
-    <div class="alert alert-error">
-        Scan type errors:
-        <ul>
-        <% type_errors.each do |e| %>
-            <li><%= e %></li>
+    <div id="advanced" class="collapse">
+        <hr/>
+
+        <%= f.input :instance_count,
+                    hint: 'How many Instances to utilise for the scan.' %>
+
+        <p class="alert alert-info">
+            Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+        </p>
+
+        <div class="alert">
+            <strong>Warning!</strong>
+            <ul>
+                <li>
+                    High-performance distribution (i.e. using more than 1 Instance) is experimental.
+                </li>
+                <li>
+                    Please be sure that the web server will be able to handle the heat,
+                    otherwise you may end up killing it.
+                </li>
+            </ul>
+        </div>
+
+        <% if (type_errors = @scan.errors.messages[:type]).any? %>
+            <div class="alert alert-error">
+                Scan type errors:
+                <ul>
+                    <% type_errors.each do |e| %>
+                        <li><%= e %></li>
+                    <% end %>
+                </ul>
+            </div>
         <% end %>
-        </ul>
-    </div>
-    <% end %>
 
-    <hr/>
-
-    <div class="row-fluid">
-        <div class="span10">
         <div class="row-fluid btn-group" data-toggle="buttons-radio" id="scan-type-buttons">
-            <a href="#top" id="direct-btn" class="span4 btn btn-inverse scroll">
+            <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
                 <h4>Direct</h4>
             </a>
             <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
@@ -163,13 +165,11 @@
                 </div>
             <% end %>
         </div>
-        </div>
-
-        <div class="span2">
-            <%= f.button :submit, id: 'go-btn',
-                         class: 'hide btn btn-large btn-primary',
-                         value: 'Go!' %>
-        </div>
     </div>
+
+    <%= f.button :submit, id: 'go-btn',
+                 class: 'btn btn-large btn-primary',
+                 value: 'Go!' %>
+
 
 <% end %>

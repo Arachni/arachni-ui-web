@@ -73,9 +73,9 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    cookieName = 'activeAccordionGroup';
+    var accordionCookieName = 'activeAccordionGroup';
 
-    aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+    aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
@@ -93,11 +93,11 @@ function restoreAccordions(){
     // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( cookieName, ':statistics:', { path: '/' } );
+        $.cookie( accordionCookieName, ':statistics:', { path: '/' } );
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
         if( aGroup != null ) {
             aGroup += ':' + $( this ).attr( 'id' ) + ':';
@@ -105,24 +105,24 @@ function restoreAccordions(){
             aGroup = ':' + $( this ).attr( 'id' ) + ':';
         }
 
-        $.cookie( cookieName, aGroup, { path: '/' } );
+        $.cookie( accordionCookieName, aGroup, { path: '/' } );
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
         if( aGroup != null ) {
             aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-            $.cookie( cookieName, aGroup, { path: '/' } );
+            $.cookie( accordionCookieName, aGroup, { path: '/' } );
         }
     });
 }
 
 function restoreTabs() {
-    cookieName = 'activeTabGroup';
+    var tabCookieName = 'activeTabGroup';
 
     elements = $('a[data-toggle="tab"]');
-    aGroup   = $.cookie( cookieName, undefined, { path: '/' } );
+    aGroup   = $.cookie( tabCookieName, undefined, { path: '/' } );
 
     if( aGroup != null ) {
         elementIDs = aGroup.split( ':' );
@@ -138,7 +138,7 @@ function restoreTabs() {
     elements.on( 'shown', function( e ){
         id = e.target.href.split( '#' ).pop();
 
-        aGroup = $.cookie( cookieName, undefined, { path: '/' } );
+        aGroup = $.cookie( tabCookieName, undefined, { path: '/' } );
 
         if( aGroup != null ) {
             previous = e.relatedTarget.href.split( '#' ).pop();
@@ -151,7 +151,7 @@ function restoreTabs() {
             aGroup = ':' + id + ':';
         }
 
-        $.cookie( cookieName, aGroup, { path: '/' } );
+        $.cookie( tabCookieName, aGroup, { path: '/' } );
     });
 
 }
