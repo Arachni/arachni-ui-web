@@ -87,7 +87,7 @@ For the time being, this is the only documentation.
 ### Issues
 
 Please send your feedback using Github's issue system at
-[http://github.com/Arachni/arachni/issues](http://github.com/Arachni/arachni/issues).
+[http://github.com/Arachni/webui/issues](http://github.com/Arachni/webui/issues).
 
 ## Contributing
 
