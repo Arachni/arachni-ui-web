@@ -176,6 +176,31 @@ function updatePage() {
     }
 }
 
+var autoRefreshedElements = [];
+
+function autoRefreshElement( selector ){
+    if( autoRefreshedElements.contains( selector ) ) return;
+    autoRefreshedElements.push( selector );
+
+    var elem         = $(selector);
+    var refresh_rate = elem.data( 'refresh-rate' ) ?
+        elem.data( 'refresh-rate' ) : 5000;
+
+    // Initial fetch
+    fetchAndFill( elem.data( 'refresh-url' ), elem );
+
+    setInterval( function( ){
+        fetchAndFill( elem.data( 'refresh-url' ), elem );
+    }, refresh_rate );
+}
+
+function autoRefreshElements( selector ){
+    $(selector).filter(function(){
+        if( $(this).data('refresh-url') === undefined ) return;
+        autoRefreshElement( this );
+    });
+}
+
 $(document).ready( function( $ ) {
     updatePage();
 
@@ -183,7 +208,8 @@ $(document).ready( function( $ ) {
 
     $( '.scroll' ).click( function( event ) {
         event.preventDefault();
-        $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top - $( 'header' ).height() - 10 }, 500 );
+        $( 'html,body' ).animate( { scrollTop: $( this.hash ).offset().top -
+            $( 'header' ).height() - 10 }, 500 );
     });
 
     // Fade-out flash messages after a while.
@@ -193,21 +219,7 @@ $(document).ready( function( $ ) {
 
     // Perform AJAX refreshes on elements with a 'data-refresh-url' attribute
     // at set intervals.
-    $('div, span').filter(function(){
-        if( $(this).data('refresh-url') !== undefined ){
-
-            var elem         = $(this);
-            var refresh_rate = elem.data( 'refresh-rate' ) ?
-                elem.data( 'refresh-rate' ) : 5000;
-
-            // Initial fetch
-            fetchAndFill( elem.data( 'refresh-url' ), elem );
-
-            setInterval( function( ){
-                fetchAndFill( elem.data( 'refresh-url' ), elem );
-            }, refresh_rate );
-        }
-    });
+    autoRefreshElements('div, span');
 
     var visibleDropdowns = [];
     var phoneMenuShown = false;
