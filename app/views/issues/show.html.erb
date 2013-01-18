@@ -64,7 +64,7 @@
     <% if @issue.verified? %>
     <p class="alert alert-success">
         <i class="icon-ok"></i>
-        This issue has been verified.
+        This issue was verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
     </p>
     <% end %>
 

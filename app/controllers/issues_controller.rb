@@ -65,12 +65,21 @@ class IssuesController < ApplicationController
     def update
         @issue = scan.issues.find( params[:id] )
 
-        was_verified = @issue.verified?
+        if just_verified = (!@issue.verified? && params[:issue][:verified] != '0')
+            @issue.verified_by = current_user
+            @issue.verified_at = Time.now
+        end
+
+        if !params[:issue][:verification_steps].empty? &&
+            @issue.verification_steps != params[:issue][:verification_steps]
+
+            @issue.verification_steps_by = current_user
+        end
 
         respond_to do |format|
             if @issue.update_attributes( params[:issue] )
 
-                if !was_verified && @issue.verified?
+                if just_verified
                     notify @issue, action: 'verified'
                 else
                     notify @issue

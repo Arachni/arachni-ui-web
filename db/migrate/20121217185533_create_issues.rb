@@ -39,6 +39,9 @@ class CreateIssues < ActiveRecord::Migration
       t.datetime :verified_at
       t.text :verification_steps
 
+      t.integer :verified_by
+      t.integer :verification_steps_by
+
       t.integer :scan_id
 
       t.timestamps

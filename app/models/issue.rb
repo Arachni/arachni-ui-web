@@ -42,9 +42,8 @@ class Issue < ActiveRecord::Base
     }
 
     attr_accessible *FRAMEWORK_ISSUE_MAP.values
-    attr_accessible :false_positive, :verified, :verification_steps
-
-    before_save :set_verified_at
+    attr_accessible :false_positive, :verified, :verification_steps,
+                    :verified_by, :verification_steps_by
 
     ORDERED_SEVERITIES = [
         Arachni::Issue::Severity::HIGH,
@@ -52,6 +51,9 @@ class Issue < ActiveRecord::Base
         Arachni::Issue::Severity::LOW,
         Arachni::Issue::Severity::INFORMATIONAL
     ]
+
+    PROTECTED = [ :verified_at, :verified_by, :verification_steps_by,
+                  :verification_steps, :false_positive]
 
     def self.order_by_severity
         ret = "CASE"
@@ -90,6 +92,28 @@ class Issue < ActiveRecord::Base
     def signature
         return nil if super.to_s.empty?
         super
+    end
+
+    def verified_by=( user )
+        return if !user
+
+        super user.id
+    end
+
+    def verified_by
+        return nil if !(id = super)
+        User.find id
+    end
+
+    def verification_steps_by=( user )
+        return if !user
+
+        super user.id
+    end
+
+    def verification_steps_by
+        return nil if !(id = super)
+        User.find id
     end
 
     def self.verified
@@ -153,8 +177,9 @@ class Issue < ActiveRecord::Base
     end
 
     def self.update_from_framework_issue( issue )
-        where( digest: issue.digest ).first.
-            update_attributes( translate_framework_issue( issue ) )
+        h = translate_framework_issue( issue )
+        h.delete( :requires_verification )
+        where( digest: issue.digest ).first.update_attributes( h )
     end
 
     def self.translate_framework_issue( issue )
@@ -168,18 +193,14 @@ class Issue < ActiveRecord::Base
                     end
         end
 
+        h.reject!{ |k, v| PROTECTED.include? k }
+
         if h[:headers]
             h[:headers][:request]  = h[:headers].delete( 'request' )
             h[:headers][:response] = h[:headers].delete( 'response' )
         end
 
         h
-    end
-
-    private
-
-    def set_verified_at
-        self.verified_at = just_verified? ? Time.now : nil
     end
 
 end

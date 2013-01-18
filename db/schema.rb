@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
     t.boolean  "verified",              :default => false
     t.datetime "verified_at"
     t.text     "verification_steps"
+    t.integer  "verified_by"
+    t.integer  "verification_steps_by"
     t.integer  "scan_id"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
