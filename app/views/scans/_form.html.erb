@@ -6,9 +6,6 @@
             <%= f.input :url, as: :url, label: 'Target URL', hint: 'Full URL of the targeted web application (must
                         include the appropriate protocol --
                         <i>http</i> or <i>https</i>).' %>
-            <%= f.input :description,
-                        hint: 'You can use <a href="http://daringfireball.net/' +
-                                      'projects/markdown/syntax">Markdown</a> for text formatting.' %>
         </div>
 
         <div class="span6">
@@ -28,7 +25,17 @@
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="row-fluid">
+        <div class="span6">
+            <%= f.input :description,
+                        hint: 'You can use <a href="http://daringfireball.net/' +
+                                      'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+        </div>
+
+        <div class="span6">
             <% if User.count > 1 %>
                 <%= f.association :users, label: 'Share scan with:',
                                   collection: User.all - [current_user] %>
