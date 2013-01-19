@@ -41,6 +41,15 @@
         border-top: none;
     }
 
+    table#parameters {
+        tr:first-child{
+            td, th {
+                padding-top: 0;
+                border-top: none;
+            }
+        }
+    }
+
     #response_body_container {
         overflow: scroll;
         height: 400px;

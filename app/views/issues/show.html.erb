@@ -138,61 +138,56 @@
             <h3 id="http_data">HTTP data</h3>
 
             <h4 id="request">Request</h4>
-            <div class="row-fluid">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        Method
+                    </th>
+                    <th>
+                        Resource
 
-                <div class="span6">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>
-                                Method
-                            </th>
-                            <th>
-                                Resource
+                        <a href="#" rel="tooltip"
+                           title="This resource handled the logged vector's data.">
+                            <i class="icon-info-sign"></i>
+                        </a>
+                    </th>
 
-                                <a href="#" rel="tooltip"
-                                   title="This resource handled the logged vector's data.">
-                                    <i class="icon-info-sign"></i>
-                                </a>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td class="wrap"><%= @issue.http_method || not_available %></td>
-                            <td class="wrap"><%= @issue.url || not_available %></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="span6">
                     <% if params = @issue.audit_options[:params] %>
-                    <table class="table key-values">
-                        <thead>
-                            <tr>
-                                <th colspan="2">
-                                    Parameters
+                        <th colspan="2">
+                            Parameters
 
-                                    <a href="#" rel="tooltip"
-                                       title="Full request parameters.">
-                                        <i class="icon-info-sign"></i>
-                                    </a>
-                                </th>
-                            </tr>
-                        </thead>
-                        <% params.each do |k, v| %>
-                        <tr>
-                            <th>
-                                <%= k %>
-                            </th>
-                            <td>
-                                <%= v %>
-                            </td>
-                        </tr>
-                        <% end %>
-                    </table>
+                            <a href="#" rel="tooltip"
+                               title="Full request parameters.">
+                                <i class="icon-info-sign"></i>
+                            </a>
+                        </th>
                     <% end %>
-                </div>
-            </div>
+                </tr>
+                </thead>
+                <tr>
+                    <td class="wrap"><%= @issue.http_method || not_available %></td>
+                    <td class="wrap"><%= @issue.url || not_available %></td>
+
+                    <% if params %>
+                    <td>
+                        <table id="parameters" class="table key-values">
+                            <% params.each do |k, v| %>
+                                <tr>
+                                    <th>
+                                        <%= k %>
+                                    </th>
+                                    <td>
+                                        <%= v %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </table>
+                    </td>
+                    <% end %>
+
+                </tr>
+            </table>
 
             <hr/>
 
