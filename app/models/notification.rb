@@ -21,18 +21,22 @@ class Notification < ActiveRecord::Base
     end
 
     def user=( u )
+        return if !u
         self.user_id = u.id
     end
 
     def user
+        return if !user_id
         User.find( user_id )
     end
 
     def actor=( u )
+        return if !u
         self.actor_id = u.id
     end
 
     def actor
+        return if !actor_id
         User.find( actor_id )
     end
 
