@@ -5,8 +5,7 @@
     <ul class="notifications unstyled">
         <% @activities.each do |activity| %>
             <li>
-                <%= render partial: 'shared/notification',
-                           locals: { notification: activity } %>
+                <%= render activity %>
             </li>
         <% end %>
     </ul>

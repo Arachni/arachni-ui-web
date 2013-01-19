@@ -190,7 +190,7 @@
     <% if user_signed_in? %>
 
         <% if (notifications = current_user.notifications.unread).any? %>
-        <li class="dropdown">
+        <li class="dropdown" id="notifications-list">
             <%= link_to root_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
                 <i class="icon-exclamation-sign"></i>
 

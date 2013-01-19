@@ -43,10 +43,9 @@ class NotificationsController < ApplicationController
     def mark_read
         current_user.notifications.mark_read
 
-        if !request.xhr?
-            respond_to do |format|
-                format.html { redirect_to :back }
-            end
+        respond_to do |format|
+            format.html { redirect_to :back }
+            format.js
         end
     end
 

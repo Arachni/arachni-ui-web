@@ -17,8 +17,7 @@
 
         <% @notifications.each do |notification| %>
             <li class="notification <%= notification.unread? ? 'alert alert-info' : '' %>" >
-                <%= render partial: 'shared/notification',
-                           locals: { notification: notification, with: [ :actor ] } %>
+                <%= render notification, with: [ :actor ] %>
             </li>
         <% end %>
 
