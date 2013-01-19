@@ -16,9 +16,15 @@ window.resetCommentCounters = () ->
         $('#total-comments-counter').show()
     $('#new-comments-counter').hide()
 
+window.hookFormOnSubmit = () ->
+    $('#new_comment').on 'submit', () ->
+        $('#posting-comment-spinner').show()
+
 jQuery ->
     $('.toggle-comments').click ->
         window.resetCommentCounters()
+
+    window.hookFormOnSubmit()
 
     $('#comments-list').on 'refresh', () ->
         window.initialCommentCount = window.commentCount()
