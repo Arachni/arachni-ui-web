@@ -32,11 +32,24 @@
         </p>
 
         <hr/>
+
+        <script type="text/javascript">
+            $(document).ready( function( $ ) {
+                $( 'li#download-report' ).fadeIn( 'slow' );
+            });
+        </script>
+
     <% else %>
         <p class="alert alert-error">
             This scan encountered a fatal error and stopped, only summaries of
             the logged issues are available.
         </p>
+
+        <script type="text/javascript">
+            $(document).ready( function( $ ) {
+                $( 'li#download-report' ).fadeOut( 'slow' );
+            });
+        </script>
     <% end %>
 
     <script type="text/javascript">
@@ -47,7 +60,6 @@
             $( 'ul#scan-sidebar' ).show();
             $( 'li#toggle-statistics' ).fadeOut( 'slow' );
             $( 'li#toggle-charts' ).fadeIn( 'slow' );
-            $( 'li#download-report' ).fadeIn( 'slow' );
         });
     </script>
 
