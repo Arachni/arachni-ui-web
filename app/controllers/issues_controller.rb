@@ -82,7 +82,7 @@ class IssuesController < ApplicationController
                 if just_verified
                     notify @issue, action: 'verified'
                 else
-                    notify @issue
+                    notify @issue, action: 'reviewed'
                 end
 
                 format.html { redirect_to [@issue.scan, @issue],
