@@ -18,7 +18,7 @@
             <td>
                 <% if can? :read, Profile %>
                     <%= link_to profile, title: 'Show', class: 'btn btn-info' do %>
-                        <i class="icon-eye-open"></i>
+                        <i class="icon-eye-open icon-muted"></i>
                     <% end %>
                 <% end %>
 
@@ -33,7 +33,7 @@
                                 title: "Create a new profile based on '#{profile.name}'",
                                 method: :post,
                                 class: 'btn btn-primary' do %>
-                        <i class="icon-plus"></i>
+                        <i class="icon-copy"></i>
                     <% end %>
                 <% end %>
 
