@@ -13,6 +13,7 @@ be a mockup, partially or not at all working.
   - Users
   - Scan configuration Profiles
   - Scans
+  - Scan Issues
   - Dispatchers
 - Users can:
   - Start Scans using one of the admin-defined Profiles and Dispatchers.
