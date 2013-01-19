@@ -38,15 +38,6 @@
 
     <hr/>
 
-    <% if @issue.scan.active? %>
-    <p class="alert alert-warning">
-        This issue has incomplete data because the scan is still in progress.
-        <br/>
-        Detailed information will become available once the full report
-        is retrieved at the end of the scan.
-    </p>
-    <% end %>
-
     <% if @issue.requires_verification? && !@issue.verified? %>
     <p class="alert alert-warning">
         <i class="icon-exclamation-sign"></i>
