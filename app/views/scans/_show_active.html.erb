@@ -1,5 +1,5 @@
 <div class='row-fluid'>
-    <div class='span1'>
+    <div class='span2'>
         <%
            status_label = if @scan.paused?
                               'label-warning'
@@ -28,14 +28,14 @@
 
             <% if tooltip %>
                 <a href="#" rel="tooltip" data-placement="bottom"
-                   title="<%= tooltip %>" class="pull-right">
+                   title="<%= tooltip %>">
                     <i class="icon-info-sign"></i>
                 </a>
             <% end %>
         </p>
     </div>
 
-    <div class="span8 progress-container">
+    <div class="span6 progress-container">
         <span id="progress-percentage"><%= @scan.progress %><small>%</small></span>
 
         <div class="progress progress-striped <%= @scan.paused? ? 'progress-warning' : 'active' %>">
@@ -43,11 +43,11 @@
         </div>
     </div>
 
-    <div class='span1'>
+    <div class='span2'>
         <span class="label label-inverse"><%= @scan.eta %> left</span>
     </div>
 
-    <div class="span2">
+    <div class="span2 pull-right">
         <% if can? :pause, @scan %>
             <% if @scan.paused? %>
                 <%= link_to resume_scan_url( @scan ), title: 'Resume scan',
