@@ -28,7 +28,7 @@ class IssuesController < ApplicationController
         params[:tab] ||= 'all'
 
         @counts = Hash.new(0)
-        %w(all verified pending-verification false-positives rest).each do |type|
+        %w(all verified pending-verification false-positives awaiting-review).each do |type|
             @counts[type] = issue_filter( type ).count
         end
 
@@ -122,11 +122,9 @@ class IssuesController < ApplicationController
                 scan.issues.pending_verification.light
             when 'false-positives'
                 scan.issues.false_positives.light
-            when 'rest'
-                rest = scan.issues - (scan.issues.verified +
+            when 'awaiting-review'
+                scan.issues - (scan.issues.verified +
                         scan.issues.pending_verification + scan.issues.false_positives)
-
-                rest == scan.issues ? [] : rest
             else
                 scan.issues.light
         end

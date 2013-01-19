@@ -102,21 +102,21 @@
                 </li>
             <% end %>
 
-            <% if @counts['rest'] == 0 %>
+            <% if @counts['awaiting-review'] == 0 %>
                 <li class="disabled">
                     <a href="#">
-                        Awaiting review <small>[<%= @counts['rest'] %>]</small>
+                        Awaiting review <small>[<%= @counts['awaiting-review'] %>]</small>
                     </a>
                 </li>
             <% else %>
                 <li
-                <% if active_tab == 'rest' %>
+                <% if active_tab == 'awaiting-review' %>
                 class="active"
                 <% end %>
                 >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'rest' ) ),
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'awaiting-review' ) ),
                                 onclick: 'scanTableLoading();', remote: true do %>
-                        Awaiting review <small>[<%= @counts['rest'] %>]</small>
+                        Awaiting review <small>[<%= @counts['awaiting-review'] %>]</small>
                     <% end %>
                 </li>
             <% end %>
@@ -139,7 +139,7 @@
                        when 'false-positives'
                            'These issues have been flagged as false-positives.'
 
-                       when 'rest'
+                       when 'awaiting-review'
                            'These issues have not yet been reviewed.'
                    end
 
