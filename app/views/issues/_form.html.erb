@@ -39,12 +39,6 @@
             <%= f.input :verification_steps,
                         hint: '(You can use <a href="http://daringfireball.net/' +
                             'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
-
-            <% if @issue.verification_steps_by %>
-                <p>
-                    Steps last updated by <%= @issue.verification_steps_by %>.
-                </p>
-            <% end %>
         </div>
     </div>
 

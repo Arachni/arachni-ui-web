@@ -3,6 +3,7 @@ class Issue < ActiveRecord::Base
 
     has_many :comments, as: :commentable, dependent: :destroy
 
+    validate :review_options
     validates_uniqueness_of :digest, scope: :scan_id
 
     # These can contain lots of junk characters which may blow up the SQL
@@ -117,19 +118,31 @@ class Issue < ActiveRecord::Base
     end
 
     def self.verified
-        where( 'requires_verification = ? AND verified = ?', true, true )
+        where( 'requires_verification = ? AND verified = ? AND false_positive = ?', true, true, false )
     end
 
     def self.pending_verification
-        where( 'requires_verification = ? AND verified = ?', true, false )
+        where( 'requires_verification = ? AND verified = ? AND false_positive = ?', true, false, false )
     end
 
     def self.false_positives
         where( 'false_positive = ?', true )
     end
 
+    def verified?
+        super && !false_positive?
+    end
+
+    def pending_verification?
+        requires_verification? && !verified? && !false_positive?
+    end
+
+    def pending_review?
+        !verified && !false_positive && !requires_verification
+    end
+
     def requires_verification_and_verified?
-        requires_verification? && verified?
+        requires_verification? && verified? && !false_positive?
     end
 
     def has_verification_steps?
@@ -203,4 +216,11 @@ class Issue < ActiveRecord::Base
         h
     end
 
+    private
+
+    def review_options
+        if false_positive && (requires_verification || verified)
+            errors.add :false_positive, 'cannot include additional options'
+        end
+    end
 end

@@ -43,28 +43,35 @@
             <i class="icon-exclamation-sign"></i>
             This issues is marked as a false-positive.
         </p>
-    <% else %>
-        <% if @issue.requires_verification? && !@issue.verified? %>
-        <p class="alert alert-warning">
-            <i class="icon-exclamation-sign"></i>
+    <% end %>
 
-            This issue is pending manual verification.
+    <% if @issue.pending_verification? %>
+    <p class="alert alert-warning">
+        <i class="icon-exclamation-sign"></i>
 
-            <% if @issue.has_verification_steps? %>
-                <br/>
-                Verification steps are available for it, please consider following them
-                and flagging the issue accordingly.
-            <% end %>
-        </p>
+        This issue is pending manual verification.
+
+        <% if @issue.has_verification_steps? %>
+            <br/>
+            Verification steps are available for it, please consider following them
+            and flagging the issue accordingly.
         <% end %>
+    </p>
     <% end %>
 
     <% if @issue.verified? %>
-    <p class="alert alert-success">
-        <i class="icon-ok"></i>
-        This issue was verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
-    </p>
+        <p class="alert alert-success">
+            <i class="icon-ok"></i>
+            This issue was verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
+        </p>
     <% end %>
+
+    <% if @issue.pending_review? %>
+    <p class="alert alert-info">
+        <i class="icon-question-sign"></i>
+        This issue is awaiting review.
+    </p>
+<% end %>
 
     <ul class="nav nav-tabs" id="issue-tabs"
         data-table-container="table-container">
@@ -89,8 +96,8 @@
         <% end %>
 
         <li>
-            <a href="#issue-<%= @issue.digest %>-manage" data-toggle="tab">
-                Manage
+            <a href="#issue-<%= @issue.digest %>-review" data-toggle="tab">
+                Review
             </a>
         </li>
     </ul>
@@ -300,13 +307,21 @@
 
         <% if @issue.has_verification_steps? %>
         <div id="issue-<%= @issue.digest %>-verification" class="tab-pane fade">
-            <h3>Verification steps</h3>
+            <h3>
+                Verification steps
+                <% if @issue.verification_steps_by %>
+                    <small> &ndash; last updated by <%= @issue.verification_steps_by %></small>
+                <% end %>
+            </h3>
 
-            <%= m @issue.verification_steps %>
+            <p>
+                <%= m @issue.verification_steps %>
+            </p>
+
         </div>
         <% end %>
 
-        <div id="issue-<%= @issue.digest %>-manage" class="tab-pane fade">
+        <div id="issue-<%= @issue.digest %>-review" class="tab-pane fade">
             <%= render 'form' %>
         </div>
 

@@ -105,7 +105,7 @@
             <% if @counts['rest'] == 0 %>
                 <li class="disabled">
                     <a href="#">
-                        Rest <small>[<%= @counts['rest'] %>]</small>
+                        Awaiting review <small>[<%= @counts['rest'] %>]</small>
                     </a>
                 </li>
             <% else %>
@@ -116,7 +116,7 @@
                 >
                     <%= link_to scan_issues_url( @scan, opts.merge( tab: 'rest' ) ),
                                 onclick: 'scanTableLoading();', remote: true do %>
-                        Rest <small>[<%= @counts['rest'] %>]</small>
+                        Awaiting review <small>[<%= @counts['rest'] %>]</small>
                     <% end %>
                 </li>
             <% end %>
@@ -140,7 +140,7 @@
                            'These issues have been flagged as false-positives.'
 
                        when 'rest'
-                           'These issues don\'t fit in any of the other categories.'
+                           'These issues have not yet been reviewed.'
                    end
 
                 %>
@@ -164,8 +164,32 @@
                     </tr>
                 </thead>
                 <% issues.each do |issue| %>
-                <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );">
+
+                <%
+                    icon, msg, row_class = nil
+
+                    if active_tab == 'all'
+                        icon, msg, row_class =  if issue.requires_verification_and_verified?
+                                                    [ 'ok', 'Verified', 'success']
+                                                elsif issue.false_positive?
+                                                    [ 'remove', 'False-positive', 'error']
+                                                elsif issue.pending_verification?
+                                                    [ 'exclamation-sign', 'Needs verification', 'warning']
+                                                else
+                                                    [ 'question-sign', 'Awaiting review', '']
+                                                end
+                   end
+
+                %>
+
+                <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );"
+                    class="<%= row_class %>" >
                     <td>
+                        <a href="#" rel="tooltip"
+                           title="<%= msg %>">
+                            <i class="icon-<%= icon %>"></i>
+                        </a>
+
                         <%= link_to issue.name, scan_issue_url( issue.scan, issue ) %>
                     </td>
                     <td class="wrap">

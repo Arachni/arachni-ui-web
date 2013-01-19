@@ -89,7 +89,7 @@ class IssuesController < ApplicationController
                                           notice: 'Issue was successfully updated.' }
                 format.json { head :no_content }
             else
-                format.html { render action: "edit" }
+                format.html { render action: "show" }
                 format.json { render json: @issue.errors,
                                      status: :unprocessable_entity }
             end
