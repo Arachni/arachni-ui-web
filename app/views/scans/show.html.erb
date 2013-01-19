@@ -12,14 +12,13 @@
                 <i class="icon-comment"></i>
 
                 <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                      id="total-comments-counter"
-                      class="label hide">
+                      class="label hide total-comments-counter">
                     <%= @scan.comments.size %>
                 </span>
 
-                <span id="new-comments-counter"
-                      title="The scan has new comments."
-                      class="hide label label-info"></span>
+                <span title="The scan has new comments."
+                      class="hide label label-info new-comments-counter">
+                </span>
 
                 Comments
             </a>
@@ -112,11 +111,11 @@
 
             <% if @scan.comments.any? %>
                 <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                      id="total-comments-counter" class="label"><%= @scan.comments.size %></span>
+                      class="label total-comments-counter"><%= @scan.comments.size %></span>
             <% end %>
 
-            <span id="new-comments-counter" title="The scan has new comments."
-                  class="hide label label-info"></span>
+            <span title="The scan has new comments."
+                  class="hide label label-info new-comments-counter"></span>
 
             Toggle comments
         </a>

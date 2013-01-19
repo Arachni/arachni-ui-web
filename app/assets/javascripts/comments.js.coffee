@@ -11,10 +11,10 @@ window.initialCommentCount = window.commentCount()
 window.resetCommentCounters = () ->
     window.newCommentsCount = 0
     window.initialCommentCount = window.commentCount()
-    $('#total-comments-counter').html( window.initialCommentCount )
+    $('.total-comments-counter').html( window.initialCommentCount )
     if window.initialCommentCount > 0
         $('#total-comments-counter').show()
-    $('#new-comments-counter').hide()
+    $('.new-comments-counter').hide()
 
 window.hookFormOnSubmit = () ->
     $('#new_comment').on 'submit', () ->
@@ -33,8 +33,8 @@ jQuery ->
     $('#comments-list').on 'refreshed', () ->
         window.newCommentsCount = window.commentCount() - window.initialCommentCount
         if window.newCommentsCount > 0 && !window.commentsWereOpen
-            $('#new-comments-counter' ).html( '+' + window.newCommentsCount )
-            $('#new-comments-counter').show()
+            $('.new-comments-counter' ).html( '+' + window.newCommentsCount )
+            $('.new-comments-counter').show()
         else if( window.initialCommentCount + window.newCommentsCount > 0 )
-            $('#total-comments-counter' ).html( window.initialCommentCount + window.newCommentsCount )
-            $('#total-comments-counter').show()
+            $('.total-comments-counter' ).html( window.initialCommentCount + window.newCommentsCount )
+            $('.total-comments-counter').show()

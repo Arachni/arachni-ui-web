@@ -17,12 +17,12 @@
 
         <h2>Issues <small>[<%= @counts['all'] %>]</small></h2>
 
-        <p class="muted">
+        <p class="muted hidden-phone">
             Click on an issue's name for details,
             click on a row to see a quick description.
         </p>
 
-        <ul class="nav nav-tabs" id="issue-tabs"
+        <ul class="nav nav-tabs hidden-phone" id="issue-tabs"
             data-table-container="table-container">
 
             <% if @counts['all'] == 0 %>
@@ -124,7 +124,7 @@
         </ul>
 
         <% if issues.any? %>
-            <p class="muted">
+            <p class="muted hidden-phone">
                 <%=
                    case active_tab
                        when 'all'
