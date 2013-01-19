@@ -66,16 +66,14 @@
 <% else %>
 
     <p class='alert alert-info'>
+        <i class="icon-spinner icon-spin"></i>
+
         <% if @scan.initializing? %>
         The scan is initializing, please wait...
         <% else %>
         Cleaning up and retrieving the report, please wait...
         <% end %>
     </p>
-
-    <div class="progress progress-striped active">
-        <div class="bar" style="width: 100%;"></div>
-    </div>
 
     <script type="text/javascript">
         $(document).ready( function( $ ) {
