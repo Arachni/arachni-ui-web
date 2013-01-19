@@ -21,21 +21,35 @@
         </div>
     </div>
 
-    <% if (roles = @user.roles).any? %>
-        <h2>Roles</h2>
-        <ul>
-        <% roles.each do |role| %>
-            <li><%= role.name %></li>
-        <% end %>
-        </ul>
-    <% end %>
+    <div class="row-fluid">
+        <div class="span6">
+            <h2>Activities</h2>
+            <div id="dashboard"
+                 data-refresh-url="<%= root_url( format: :js, render: 'activities' ) %>"
+                 data-refresh-type="js">
+                <div id="activities"></div>
+            </div>
+        </div>
 
-    <% if (scans = @user.own_scans).any? %>
-        <h2>Scans<small>[<%= scans.size %>]</small></h2>
-        <ul>
-            <% scans.each do |scan| %>
-                <li><%= link_to scan, scan_path( scan ) %></li>
+        <div class="span6">
+            <% if (roles = @user.roles).any? %>
+                <h2>Roles</h2>
+                <ul>
+                    <% roles.each do |role| %>
+                        <li><%= role.name %></li>
+                    <% end %>
+                </ul>
             <% end %>
-        </ul>
-    <% end %>
+
+            <% if (scans = @user.own_scans).any? %>
+                <h2>Scans <small>[<%= scans.size %>]</small></h2>
+                <ul>
+                    <% scans.each do |scan| %>
+                        <li><%= link_to scan, scan_path( scan ) %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+        </div>
+    </div>
+
 </div>
