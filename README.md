@@ -19,13 +19,13 @@ be a mockup, partially or not at all working.
     - Start Scans using one of the admin-defined Profiles and Dispatchers.
     - Manage, comment, share and export reports of their Scans.
     - Discuss and Review Issues:
-          o Mark them as false positives
-          o Mark them as requiring manual verification
-          o Mark them as verified
-          o Add verification steps
+        - Mark them as false positives
+        - Mark them as requiring manual verification
+        - Mark them as verified
+        - Add verification steps
     - Receive notifications for:
-          o Shared scans -- Started, paused, resumed, aborted, commented
-          o Issues of shared scans -- Reviewed, verified, commented
+        - Shared scans -- Started, paused, resumed, aborted, commented
+        - Issues of shared scans -- Reviewed, verified, commented
     - Review their Activity
     - See, comment and export reports of Scans which have been shared with them by other users.
 
