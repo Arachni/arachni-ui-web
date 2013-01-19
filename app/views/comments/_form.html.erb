@@ -1,5 +1,7 @@
-<div class="comment-form">
-    <%= simple_form_for( [commentable.family, Comment.new].flatten, remote: true ) do |f| %>
+<% @comment ||= Comment.new %>
+
+<div class="comment-form" id="comment-form">
+    <%= simple_form_for( [commentable.family, @comment].flatten, remote: true ) do |f| %>
         <div>
             <%= f.error_notification %>
             <%= f.input :text, label: false,

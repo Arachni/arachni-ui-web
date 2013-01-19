@@ -72,6 +72,7 @@ class CommentsController < ApplicationController
                 format.html { redirect_to :back, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }
             else
+                format.js { render partial: 'form.js' }
                 format.html { render action: "new" }
                 format.json { render json: @comment.errors, status: :unprocessable_entity }
             end
