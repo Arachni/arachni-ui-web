@@ -41,7 +41,7 @@
     <% if @issue.false_positive? %>
         <p class="alert alert-error">
             <i class="icon-exclamation-sign"></i>
-            This issues is marked as a false-positive.
+            Marked as a false-positive.
         </p>
     <% end %>
 
@@ -49,11 +49,11 @@
     <p class="alert alert-warning">
         <i class="icon-exclamation-sign"></i>
 
-        This issue is pending manual verification.
+        Pending manual verification.
 
         <% if @issue.has_verification_steps? %>
             <br/>
-            Verification steps are available for it, please consider following them
+            Verification steps are available, please consider following them
             and flagging the issue accordingly.
         <% end %>
     </p>
@@ -62,14 +62,14 @@
     <% if @issue.verified? %>
         <p class="alert alert-success">
             <i class="icon-ok"></i>
-            This issue was verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
+            Verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
         </p>
     <% end %>
 
     <% if @issue.pending_review? %>
     <p class="alert alert-info">
         <i class="icon-question-sign"></i>
-        This issue is awaiting review.
+        Awaiting review.
     </p>
 <% end %>
 

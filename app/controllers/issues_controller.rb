@@ -70,7 +70,7 @@ class IssuesController < ApplicationController
             @issue.verified_at = Time.now
         end
 
-        if !params[:issue][:verification_steps].empty? &&
+        if !params[:issue][:verification_steps].to_s.empty? &&
             @issue.verification_steps != params[:issue][:verification_steps]
 
             @issue.verification_steps_by = current_user

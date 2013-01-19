@@ -16,13 +16,21 @@ renderResponse = ( container, html ) ->
 updateElementsVisibility = () ->
     if $( '#issue_false_positive').is( ':checked' )
             $( '#false-positive-report-nudge' ).show( 'fast' )
+            $( '#issue_requires_verification' ).prop( 'disabled', true )
+            $( '#issue_verified' ).prop( 'disabled', true )
+            $( '#issue_verification_steps' ).prop( 'disabled', true )
         else
             $( '#false-positive-report-nudge' ).hide( 'fast' )
+            $( '#issue_requires_verification' ).prop( 'disabled', false )
+            $( '#issue_verified' ).prop( 'disabled', false )
+            $( '#issue_verification_steps' ).prop( 'disabled', false )
 
     if $( '#issue_requires_verification').is( ':checked' )
         $( '#verification-container' ).show( 'fast' )
+        $( '#issue_false_positive' ).prop( 'disabled', true )
     else
         $( '#verification-container' ).hide( 'fast' )
+        $( '#issue_false_positive' ).prop( 'disabled', false )
 
 jQuery ->
     $('#render-response-button' ).click ->
