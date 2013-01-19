@@ -42,7 +42,7 @@ jQuery ->
         $('#sidenav').hide()
     $('#issue-tabs a[href$="verification"]').on 'shown', () ->
         $('#sidenav').hide()
-    $('#issue-tabs a[href$="manage"]').on 'shown', () ->
+    $('#issue-tabs a[href$="review"]').on 'shown', () ->
         $('#sidenav').hide()
     $('#issue_false_positive').change ->
         updateElementsVisibility()
