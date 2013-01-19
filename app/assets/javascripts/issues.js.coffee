@@ -30,6 +30,8 @@ jQuery ->
         $('#rendered-response-container').modal( 'show' )
     $('#issue-tabs a[href$="technical-details"]').on 'shown', () ->
         $('#sidenav').show()
+    $('#issue-tabs a[href$="discussion"]').on 'shown', () ->
+        $('#sidenav').hide()
     $('#issue-tabs a[href$="verification"]').on 'shown', () ->
         $('#sidenav').hide()
     $('#issue-tabs a[href$="manage"]').on 'shown', () ->
