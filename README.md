@@ -28,7 +28,6 @@ be a mockup, partially or not at all working.
         - Issues of shared scans -- Reviewed, verified, commented
     - Review their Activity
     - See, comment and export reports of Scans which have been shared with them by other users.
-
  - Available Scan types:
     - Direct -- From the WebUI machine to the webapp, no need to setup anything else.
     - Remote (using a Dispatcher) -- From the machine of the Dispatcher to the webapp.
