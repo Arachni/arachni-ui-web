@@ -11,6 +11,7 @@ class Dispatcher < ActiveRecord::Base
     validates_uniqueness_of :address, scope: :port
 
     validate :server_reachability
+    validate :validate_description
 
     attr_accessible :address, :port, :description
 
@@ -173,6 +174,13 @@ class Dispatcher < ActiveRecord::Base
             errors.add :address, err
             errors.add :port, err
         end
+    end
+
+    private
+
+    def validate_description
+        return if ActionController::Base.helpers.strip_tags( description ) == description
+        errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
 
 end

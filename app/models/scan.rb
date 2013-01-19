@@ -22,6 +22,7 @@ class Scan < ActiveRecord::Base
     validate :validate_type
 
     validate :validate_instance_count
+    validate :validate_description
 
     # The manager will start the scans when they are created and monitor and
     # update their progress and other details at regular intervals.
@@ -312,6 +313,11 @@ class Scan < ActiveRecord::Base
         if instance_count < 1
             errors.add :instance_count, 'must be at least 1'
         end
+    end
+
+    def validate_description
+        return if ActionController::Base.helpers.strip_tags( description ) == description
+        errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
 
 end
