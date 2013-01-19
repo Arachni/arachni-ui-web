@@ -52,10 +52,7 @@ class Scan < ActiveRecord::Base
     end
 
     def to_s
-        s = "#{url} (#{profile} profile, #{issue_count} issues"
-        s << ", #{progress}%" if !finished? && progress.to_f > 0
-        s << ')'
-        s
+        s = "#{url} (#{profile} profile)"
     end
 
     def self.active

@@ -5,24 +5,8 @@
     <ul class="notifications unstyled">
         <% @activities.each do |activity| %>
             <li>
-                <%= link_to polymorphic_path( activity.model.family ) do %>
-                    <%=  activity.model_type %>
-
-                    <% if !activity.text.to_s.include?( "\n" ) %>
-                        <em><%= activity.text.html_safe %></em>
-                    <% end %>
-
-                <% end %>
-
-                <%= activity.past_tense_action %>
-                <small class="muted">-- <%= l activity.created_at %></small>
-
-                <% if activity.text.to_s.include?( "\n" ) %>
-                    <blockquote class="muted">
-                        <%= activity.text.html_safe %>
-                    </blockquote>
-                <% end %>
-
+                <%= render partial: 'shared/notification',
+                           locals: { notification: activity } %>
             </li>
         <% end %>
     </ul>

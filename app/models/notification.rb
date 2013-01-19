@@ -62,10 +62,11 @@ class Notification < ActiveRecord::Base
     end
 
     def to_s
-        "#{model_type} #{past_tense_action} by #{actor} -- #{model}"
+        s = model.family.reverse.map do |model|
+            "#{model.class} <em>#{model}</em>"
+        end.join( ' of ' )
+
+        s + " #{past_tense_action} by #{actor}"
     end
 
-    def text
-        super || model.to_s
-    end
 end

@@ -209,15 +209,7 @@
                 <li class="divider"></li>
                 <% notifications.each do |notification| %>
                     <li>
-                        <%= link_to polymorphic_path( notification.model.family ) do %>
-                        <%= notification.model_type %>
-                            <%= notification.past_tense_action %>
-
-                            <% if notification.actor %>
-                                by <%= notification.actor %>.
-                            <% end %>
-
-                        <% end %>
+                        <%= link_to notification.to_s.html_safe, polymorphic_path( notification.model.family ) %>
                     </li>
                 <% end %>
             </ul>

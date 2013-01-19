@@ -24,7 +24,7 @@ module NotificationsHelper
                     model:  model,
                     user:   subscriber,
                     action: opts[:action] || params[:action],
-                    text:   opts[:text] || model.to_s
+                    text:   opts[:text]
                 )
             end
         else
@@ -32,7 +32,7 @@ module NotificationsHelper
                 actor:  current_user,
                 model:  model,
                 action: opts[:action] || params[:action],
-                text:   opts[:text] || model.to_s
+                text:   opts[:text]
             )
         end
     end

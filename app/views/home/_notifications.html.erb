@@ -17,26 +17,8 @@
 
         <% @notifications.each do |notification| %>
             <li class="notification <%= notification.unread? ? 'alert alert-info' : '' %>" >
-                <%= link_to polymorphic_path( notification.model.family ) do %>
-                    <%=  notification.model_type %>
-
-                    <% if !notification.text.to_s.include?( "\n" ) %>
-                        <em><%= notification.text.html_safe %></em>
-                    <% end %>
-
-                <% end %>
-
-                <%= notification.past_tense_action %>
-
-                by <%= notification.actor %>
-
-                <small class="muted">-- <%= l notification.created_at %></small>
-
-                <% if notification.text.to_s.include?( "\n" ) %>
-                    <blockquote class="muted">
-                        <%= notification.text.html_safe %>
-                    </blockquote>
-                <% end %>
+                <%= render partial: 'shared/notification',
+                           locals: { notification: notification, with: [ :actor ] } %>
             </li>
         <% end %>
 

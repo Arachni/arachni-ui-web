@@ -119,7 +119,7 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if @scan.save
-                notify @scan, text: @scan.to_s
+                notify @scan
 
                 format.html { redirect_to @scan, notice: 'Scan was successfully created.' }
                 format.json { render json: @scan, status: :created, location: @scan }
@@ -142,8 +142,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             if @scan.update_attributes( params[:scan] )
 
-                notify @scan, text: @scan.to_s,
-                       action: params[:scan].include?( :user_ids ) ?
+                notify @scan, action: params[:scan].include?( :user_ids ) ?
                                         'shared' : params[:action]
 
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
@@ -160,7 +159,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.pause
 
-        notify @scan, text: @scan.to_s
+        notify @scan
 
         redirect_to :back, notice: 'Scan is being paused.'
     end
@@ -170,7 +169,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.resume
 
-        notify @scan, text: @scan.to_s
+        notify @scan
 
         redirect_to :back, notice: 'Scan is resuming.'
     end
@@ -180,7 +179,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.abort
 
-        notify @scan, text: @scan.to_s
+        notify @scan
 
         redirect_to :back, notice: 'Scan is being aborted.'
     end
@@ -191,7 +190,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params[:id] )
         @scan.destroy
 
-        notify @scan, text: @scan.to_s
+        notify @scan
 
         respond_to do |format|
             format.html { redirect_to scans_url }
