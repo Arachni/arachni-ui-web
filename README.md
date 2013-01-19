@@ -17,6 +17,15 @@ be a mockup, partially or not at all working.
 - Users can:
   - Start Scans using one of the admin-defined Profiles and Dispatchers.
   - Manage, comment, share and export reports of their Scans.
+  - Discuss and Review Issues:
+    - Mark them as false positives
+    - Mark them as requiring manual verification
+    - Mark them as verified
+    - Add verification steps
+  - Receive notifications for:
+    - Shared scans -- Started, paused, resumed, aborted, commented
+    - Issues of shared scans -- Reviewed, verified, commented
+  - Review their Activity
   - See, comment and export reports of Scans which have been shared with them by other users.
 
 - Available Scan types:
