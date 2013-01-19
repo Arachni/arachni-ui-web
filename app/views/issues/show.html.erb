@@ -38,18 +38,25 @@
 
     <hr/>
 
-    <% if @issue.requires_verification? && !@issue.verified? %>
-    <p class="alert alert-warning">
-        <i class="icon-exclamation-sign"></i>
+    <% if @issue.false_positive? %>
+        <p class="alert alert-error">
+            <i class="icon-exclamation-sign"></i>
+            This issues is marked as a false-positive.
+        </p>
+    <% else %>
+        <% if @issue.requires_verification? && !@issue.verified? %>
+        <p class="alert alert-warning">
+            <i class="icon-exclamation-sign"></i>
 
-        This issue requires manual verification but has not yet been verified.
+            This issue is pending manual verification.
 
-        <% if @issue.has_verification_steps? %>
-            <br/>
-            Verification steps are available for it, please consider following them
-            and flagging the issue accordingly.
+            <% if @issue.has_verification_steps? %>
+                <br/>
+                Verification steps are available for it, please consider following them
+                and flagging the issue accordingly.
+            <% end %>
+        </p>
         <% end %>
-    </p>
     <% end %>
 
     <% if @issue.verified? %>
