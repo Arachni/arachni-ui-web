@@ -55,22 +55,6 @@ class Notification < ActiveRecord::Base
     end
 
     def action_description
-        #if action == :completed
-        #    return action
-        #elsif action == :error
-        #    return 'encountered a fatal error'
-        #elsif action == :commented
-        #    return 'has a new comment'
-        #end
-        #
-        #"was " + case action
-        #    when :destroy, :edit, :abort
-        #        "#{action}ed"
-        #    when :create, :update, :resume, :pause
-        #        "#{action}d"
-        #    else
-        #        action.to_s
-        #end
         model.describe_notification action
     end
 
