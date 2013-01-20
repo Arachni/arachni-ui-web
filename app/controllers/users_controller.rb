@@ -15,7 +15,6 @@
 =end
 
 class UsersController < ApplicationController
-    include NotificationsHelper
     before_filter :authenticate_user!
 
     load_and_authorize_resource
@@ -53,9 +52,6 @@ class UsersController < ApplicationController
 
         respond_to do |format|
             if @user.save
-
-                notify @user
-
                 format.html { redirect_to @user, notice: 'User was successfully created.' }
                 format.json { render json: @user, status: :created, location: @user }
             else
@@ -77,9 +73,6 @@ class UsersController < ApplicationController
 
         respond_to do |format|
             if @user.update_attributes(params[:user])
-
-                notify @user
-
                 format.html { redirect_to :back, notice: 'User was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -91,8 +84,6 @@ class UsersController < ApplicationController
 
     def destroy
         @user = User.find( params[:id] )
-
-        notify @user
 
         @user.destroy
 

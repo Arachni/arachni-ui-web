@@ -10,9 +10,9 @@
 
 <% end %>
 
-<%= notification.past_tense_action %>
+<%= notification.action_description %>
 
-<% if with.include? :actor %>
+<% if with.include?( :actor ) && notification.actor %>
     by <%= notification.actor %>
 <% end %>
 

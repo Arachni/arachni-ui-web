@@ -1,9 +1,9 @@
 class ScansController < ApplicationController
-    before_filter :authenticate_user!
-
     include ScansHelper
     include ApplicationHelper
     include NotificationsHelper
+
+    before_filter :authenticate_user!
 
     load_and_authorize_resource
 

@@ -54,15 +54,24 @@ class Notification < ActiveRecord::Base
         super.to_sym
     end
 
-    def past_tense_action
-        "was " + case action
-            when :destroy, :edit, :abort
-                "#{action}ed"
-            when :create, :update, :resume, :pause
-                "#{action}d"
-            else
-                action.to_s
-        end
+    def action_description
+        #if action == :completed
+        #    return action
+        #elsif action == :error
+        #    return 'encountered a fatal error'
+        #elsif action == :commented
+        #    return 'has a new comment'
+        #end
+        #
+        #"was " + case action
+        #    when :destroy, :edit, :abort
+        #        "#{action}ed"
+        #    when :create, :update, :resume, :pause
+        #        "#{action}d"
+        #    else
+        #        action.to_s
+        #end
+        model.describe_notification action
     end
 
     def to_s
@@ -70,7 +79,9 @@ class Notification < ActiveRecord::Base
             "#{model.class} <em>#{model}</em>"
         end.join( ' of ' )
 
-        s + " #{past_tense_action} by #{actor}"
+        s << " #{action_description}"
+        s << " by #{actor}" if actor
+        s
     end
 
 end

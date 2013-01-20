@@ -1,6 +1,8 @@
 require 'arachni/rpc/client'
 
 class Scan < ActiveRecord::Base
+    include Extensions::Notifier
+
     set_inheritance_column 'inheritance_column'
 
     belongs_to :dispatcher
@@ -201,6 +203,29 @@ class Scan < ActiveRecord::Base
         instance_count - 1
     end
 
+    def describe_notification( action )
+        case action
+            when :completed
+                action
+            when :error
+                'encountered a fatal error and stopped'
+            when :destroy
+                'was deleted'
+            when :abort
+                'was aborted'
+            when :pause, :resume
+                "was #{action}d"
+            when :create
+                'started'
+            when :commented
+                'has a new comment'
+            when :shared
+                'was shared with you'
+            else
+                action.to_s
+        end
+    end
+
     def start
         self.status = :starting
         self.active = true
@@ -225,6 +250,9 @@ class Scan < ActiveRecord::Base
                 self.status = :error
                 self.active = false
                 save
+
+                notify action: self.status
+
                 next
             end
 
@@ -251,6 +279,8 @@ class Scan < ActiveRecord::Base
                         # the next ScanManager#refresh_scans iteration.
                         self.status = :completed
                         save
+
+                        notify action: self.status
 
                         block.call if block_given?
                     end

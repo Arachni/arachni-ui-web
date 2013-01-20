@@ -1,6 +1,5 @@
 class DispatchersController < ApplicationController
     include ApplicationHelper
-    include NotificationsHelper
 
     before_filter :authenticate_user!
 
@@ -60,9 +59,6 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             if @dispatcher.save
-
-                notify @dispatcher
-
                 format.html do
                     redirect_to @dispatcher,
                                 notice: 'Dispatcher was successfully created and ' +
@@ -83,9 +79,6 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             if @dispatcher.update_attributes(params[:dispatcher])
-
-                notify @dispatcher
-
                 format.html { redirect_to @dispatcher, notice: 'Dispatcher was successfully updated.' }
                 format.json { head :no_content }
             else

@@ -64,7 +64,7 @@ class CommentsController < ApplicationController
         respond_to do |format|
             if @comment.save
 
-                notify commentable, action: 'commented on',
+                notify commentable, action: :commented,
                        text: truncate_html( m( @comment.text ) )
 
                 format.js { redirect_to polymorphic_url( [@commentable.family, Comment].flatten, format: :js ) }

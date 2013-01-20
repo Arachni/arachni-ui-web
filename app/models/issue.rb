@@ -1,4 +1,6 @@
 class Issue < ActiveRecord::Base
+    include Extensions::Notifier
+
     belongs_to :scan
 
     has_many :comments, as: :commentable, dependent: :destroy
@@ -179,6 +181,19 @@ class Issue < ActiveRecord::Base
 
     def family
         [scan, self]
+    end
+
+    def describe_notification( action )
+        case action
+            when :destroy
+                'was deleted'
+            when :update, :reviewed
+                'was reviewed'
+            when :verified
+                'was verified'
+            when :commented
+                'has a new comment'
+        end
     end
 
     def self.digests_for_scan( scan )

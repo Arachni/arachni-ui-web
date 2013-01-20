@@ -38,8 +38,8 @@ class User < ActiveRecord::Base
         name
     end
 
-    def notifications( all = false )
-        super.where( 'actor_id != ?', id ).order( 'id desc' )
+    def notifications
+        super.where( 'actor_id IS NULL OR actor_id != ?', id ).order( 'id desc' )
     end
 
     def activities

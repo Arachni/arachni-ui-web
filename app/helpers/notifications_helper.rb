@@ -17,24 +17,12 @@
 module NotificationsHelper
 
     def notify( model, opts = {} )
-        if model.respond_to?( :subscribers )
-            model.subscribers.each do |subscriber|
-                Notification.create(
-                    actor:  current_user,
-                    model:  model,
-                    user:   subscriber,
-                    action: opts[:action] || params[:action],
-                    text:   opts[:text]
-                )
-            end
-        else
-            Notification.create(
-                actor:  current_user,
-                model:  model,
-                action: opts[:action] || params[:action],
-                text:   opts[:text]
-            )
-        end
+        opts = (opts || {}).dup
+
+        opts[:actor]  ||= current_user
+        opts[:action] ||= params[:action]
+
+        model.notify( opts )
     end
 
 end
