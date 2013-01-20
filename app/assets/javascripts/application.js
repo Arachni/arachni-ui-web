@@ -248,7 +248,7 @@ $(document).ready( function( $ ) {
         //
         // Since the navbar gets refreshed via AJAX we can't figure this out on
         // the server-side because the controller will always be irrelevant.
-        $('ul.nav > li > a' ).each( function( i, e ){
+        $('#navigation-top ul.nav > li > a' ).each( function( i, e ){
             if( window.location.pathname.split( '/' )[1] == $(e).attr( 'href' ).split( '/' )[1] ){
                 $(e).parent().addClass( 'active' );
             }
@@ -256,7 +256,7 @@ $(document).ready( function( $ ) {
 
         // Hack to maintain dropdown menu state when they get refreshed
         // during a hover.
-        $('.dropdown-menu' ).each( function( i, e ){
+        $('#navigation-top .dropdown-menu' ).each( function( i, e ){
             if( visibleDropdowns.contains( $(e).attr( 'id' ) ) ){
                 $(e).show();
                 $(e).parent().hover( function(){
