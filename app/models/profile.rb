@@ -283,7 +283,7 @@ class Profile < ActiveRecord::Base
             plugins.each do |plugin, options|
                 begin
                     f.plugins.prep_opts( plugin, f.plugins[plugin], options )
-                rescue Arachni::Component::Manager::Options::Error::Invalid => e
+                rescue Arachni::Component::Options::Error::Invalid => e
                     errors.add :plugins, e.to_s
                 end
             end
