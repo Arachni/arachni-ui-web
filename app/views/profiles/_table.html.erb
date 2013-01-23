@@ -29,7 +29,7 @@
                 <% end %>
 
                 <% if can? :create, Profile %>
-                    <%= link_to new_profile_path + '/' + profile.id.to_s,
+                    <%= link_to new_profile_path( profile ),
                                 title: "Create a new profile based on '#{profile.name}'",
                                 method: :post,
                                 class: 'btn btn-primary' do %>
