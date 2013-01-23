@@ -70,31 +70,51 @@ footer {
     border-top: 0 none;
     margin-top: 19px;
     padding-top: 19px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+
+    display: block;
+}
+footer a {
+    color: #999999;
+}
+footer a:hover {
+    color: #ccc;
+    text-decoration: none;
 }
 footer h4 {
-    color: #999999;
-    font-size: 16px;
+    color: #CCCCCC;
+    font-size: 18px;
+    font-weight: normal;
 }
 footer p {
     color: #999999;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
-footer a {
-    color: #FFFFFF;
+footer ul {
+    border-top: 1px solid #222222;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
 }
-footer a:hover {
-    color: #FFFFFF;
-    text-decoration: underline;
-}
-footer #footer-floor {
-    background: none repeat scroll 0 0 #1B1B1B;
-    padding: 5px;
-}
-footer #footer-floor h3, footer #footer-floor h4 {
-    color: #FFFFFF;
-}
-
 footer ul li {
-    padding-top: 5px;
+    padding: 0;
+}
+footer ul li a {
+    display: inline-block;
+    border-bottom: 1px solid #222222;
+    display: block;
+    font-size: 11px;
+    padding: 7px 10px;
+    text-decoration: none;
+}
+footer ul li a:hover {
+    color: #999;
+    background-color: #222222;
+    transition: all 0.2s ease-in-out 0s;
 }
 
 .subnav {
