@@ -33,6 +33,12 @@ be a mockup, partially or not at all working.
     - Remote (using a Dispatcher) -- From the machine of the Dispatcher to the webapp.
     - Grid (using multiple Dispatchers) -- Using multiple machines to perform
         super-fast, distributed scans.
+    - Repeat/Revision
+        - Repeats a finished scan to identify fixed or new issues.
+        - Can use sitemaps of previous revisions to:
+            - Avoid crawling
+            - Extend a new crawl
+    - Overview -- Combines the results of multiple revisions for easy review/management.
  - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
  - Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 
