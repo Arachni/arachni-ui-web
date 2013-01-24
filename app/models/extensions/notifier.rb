@@ -47,7 +47,8 @@ module Notifier
                 actor:  opts[:actor],
                 model:  self,
                 user:   subscriber,
-                action: opts[:action].to_s
+                action: opts[:action].to_s,
+                text: opts[:text]
             )
         end
     end
