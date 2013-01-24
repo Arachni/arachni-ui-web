@@ -438,8 +438,8 @@ class Scan < ActiveRecord::Base
 
                             previous_issues.each do |i|
                                 i.notify action: :fixed,
-                                         text: "Set to fixed as it did not " +
-                                                     "appear in Revision ##{revision_index}."
+                                         text: "Marked as fixed as it did not " +
+                                                 "appear in Revision ##{revision_index}."
                             end
 
                             # Mark issues that didn't appear in this scan as fixed.
