@@ -20,9 +20,10 @@ be a mockup, partially or not at all working.
     - Manage, comment, share and export reports of their Scans.
     - Discuss and Review Issues:
         - Mark them as false positives
+        - Mark them as fixed
         - Mark them as requiring manual verification
-        - Mark them as verified
-        - Add verification steps
+            - Add verification steps
+            - Mark them as verified
     - Receive notifications for:
         - Shared scans -- Started, paused, resumed, aborted, commented
         - Issues of shared scans -- Reviewed, verified, commented
