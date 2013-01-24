@@ -27,6 +27,12 @@ ArachniWebui::Application.routes.draw do
             resources :comments
         end
 
+        get :new_revision, on: :member
+        get :overview,     on: :member
+
+        post :repeat,   on: :member
+
+        put :share,    on: :member
         put :pause,    on: :member
         put :resume,   on: :member
         put :abort,    on: :member

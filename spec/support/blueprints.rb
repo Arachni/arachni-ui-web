@@ -35,3 +35,7 @@ end
 Notification.blueprint do
   # Attributes here
 end
+
+Report.blueprint do
+  # Attributes here
+end

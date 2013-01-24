@@ -1,0 +1,38 @@
+<ul class="nav nav-list">
+    <li class="divider"></li>
+
+    <li class="nav-header">
+        Revisions
+    </li>
+
+    <li class="<%= 'active' if @scan.overview? %>">
+        <%= link_to overview_scan_url( @scan ) do %>
+            <i class="icon-eye-open"></i>
+            Overview &ndash; <%= @scan.overview.issue_count %> issues
+        <% end %>
+    </li>
+
+    <li class="divider"></li>
+
+    <li class="<%= 'active' if !@scan.overview? && @scan.root? %>">
+
+        <%
+           txt = "Root &ndash; #{@scan.root_revision.issues.count} issues, " +
+                   (@scan.root_revision.running? ? 'so far...' :
+                           "#{@scan.root_revision.issues.fixed.count} fixed")
+        %>
+
+        <%= link_to txt.html_safe, scan_url( @scan.root_revision ) %>
+    </li>
+
+    <% @scan.root_revision.revisions.light.each.with_index do |revision, i| %>
+        <li class="<%= 'active' if !@scan.overview? && revision.id == @scan.id %>">
+            <%
+               txt = "#{i+1} &ndash; #{revision.issues.count} new, " +
+                       (revision.running? ? 'so far...' :
+                               "#{revision.issues.fixed.count} fixed")
+            %>
+            <%= link_to txt.html_safe, scan_url( revision ) %>
+        </li>
+    <% end %>
+</ul>

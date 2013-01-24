@@ -68,6 +68,22 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             format.html( &html_block )
+            format.js { render '_scan.js' }
+            format.json { render json: @scan }
+        end
+    end
+
+    def overview
+        @scan = find_scan( params[:id], false ).root_revision
+
+        html_block = if render_partial?
+                         proc { render @scan }
+                     else
+                         proc { render 'scans/show' }
+                     end
+
+        respond_to do |format|
+            format.html( &html_block )
             format.json { render json: @scan }
         end
     end
@@ -80,21 +96,40 @@ class ScansController < ApplicationController
         format = URI( request.url ).path.split( '.' ).last
         render layout: false,
                text: FrameworkHelper.
-                           framework { |f| f.report_as format, @scan.report }
+                           framework { |f| f.report_as format, @scan.report.object }
     end
 
     # GET /scans/new
     # GET /scans/new.json
     def new
         @profiles = Profile.all
-        @scan     = Scan.new
+
+        html_proc = nil
+        if params[:id]
+            html_proc = proc { render '_revision_form' }
+            @scan = find_scan( params[:id] )
+        else
+            @scan = Scan.new
+        end
 
         @dispatchers      = Dispatcher.alive
         @grid_dispatchers = @dispatchers.grid_members
 
         respond_to do |format|
-            format.html # new.html.erb
+            format.html( &html_proc )
             format.json { render json: @scan }
+        end
+    end
+
+    # GET /scans/new/1
+    def new_revision
+        @scan = find_scan( params[:id] )
+
+        @dispatchers      = Dispatcher.alive
+        @grid_dispatchers = @dispatchers.grid_members
+
+        respond_to do |format|
+            format.html
         end
     end
 
@@ -130,22 +165,62 @@ class ScansController < ApplicationController
         end
     end
 
-    # PUT /scans/1
-    # PUT /scans/1.json
-    def update
-        @scan = find_scan( params[:id] )
+    # POST /scans/1/repeat
+    def repeat
+        opts = params[:scan].dup
 
-        if params[:scan][:user_ids]
-            params[:scan][:user_ids] |= [@scan.owner.id]
+        if sitemap_option = opts.delete( :sitemap_option )
+            opts[sitemap_option] = true
         end
 
+        @scan = find_scan( params[:id] ).new_revision
+
         respond_to do |format|
-            if @scan.update_attributes( params[:scan] )
+            if @scan.repeat( opts )
+                notify @scan
 
-                notify @scan, action: params[:scan].include?( :user_ids ) ?
-                                        'shared' : params[:action]
+                format.html { redirect_to @scan, notice: 'Repeating the scan.' }
+                format.json { render json: @scan, status: :created, location: @scan }
+            else
+                format.html { render action: "new" }
+                format.json { render json: @scan.errors, status: :unprocessable_entity }
+            end
+        end
+    end
 
-                format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
+    # PUT /scans/1
+    # PUT /scans/1.json
+    #def update
+    #    @scan = find_scan( params[:id] )
+    #
+    #    if params[:scan][:user_ids]
+    #        params[:scan][:user_ids] |= [@scan.owner.id]
+    #    end
+    #
+    #    respond_to do |format|
+    #        if @scan.update_attributes( params[:scan] )
+    #
+    #            notify @scan, action: params[:scan].include?( :user_ids ) ?
+    #                                    'shared' : params[:action]
+    #
+    #            format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
+    #            format.json { head :no_content }
+    #        else
+    #            format.html { render action: "edit" }
+    #            format.json { render json: @scan.errors, status: :unprocessable_entity }
+    #        end
+    #    end
+    #end
+
+    def share
+        @scan = find_scan( params[:id] )
+
+        respond_to do |format|
+            if @scan.share( params[:scan][:user_ids] )
+
+                notify @scan
+
+                format.html { redirect_to :back, notice: 'Scan was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }

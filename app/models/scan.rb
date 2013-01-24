@@ -5,16 +5,22 @@ class Scan < ActiveRecord::Base
 
     set_inheritance_column 'inheritance_column'
 
+    has_and_belongs_to_many :users
+
     belongs_to :dispatcher
     belongs_to :profile
-    belongs_to :owner, class_name: 'User', foreign_key: :owner_id
-    has_and_belongs_to_many :users
+    belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
+    belongs_to :root,   class_name: 'Scan'
+
+    has_one :report
 
     has_many :issues,        dependent: :destroy
     has_many :comments, as: :commentable, dependent: :destroy
+    has_many :revisions, class_name: 'Scan', foreign_key: :root_id
 
     attr_accessible :url, :description, :type, :instance_count, :profile_id,
-                    :user_ids, :dispatcher_id
+                    :user_ids, :dispatcher_id, :restrict_to_revision_sitemaps,
+                    :extend_from_revision_sitemaps
 
     validates_presence_of :url
     validate :validate_url
@@ -30,8 +36,8 @@ class Scan < ActiveRecord::Base
     # update their progress and other details at regular intervals.
     after_create ScanManager.instance
 
-    serialize :report,     Arachni::AuditStore
-    serialize :statistics, Hash
+    serialize :statistics,    Hash
+    serialize :issue_digests, Array
 
     SENSITIVE = [ :instance_token ]
 
@@ -71,6 +77,116 @@ class Scan < ActiveRecord::Base
 
     def self.light
         select( column_names - %w(report) )
+    end
+
+    def issues
+        overview? ? @overview.issues : super
+    end
+
+    def sitemap
+        overview? ? @overview.sitemap : super
+    end
+
+    def issue_digests
+        overview? ? @overview.issue_digests : super
+    end
+
+    def issue_count
+        overview? ? @overview.issue_count : issues.size
+    end
+
+    def overview?
+        !!@overview
+    end
+
+    def act_as_overview
+        @overview = ScanOverview.new( self )
+        self
+    end
+
+    def overview
+        ScanOverview.new( self )
+    end
+
+    def act_as_revision
+        @overview = nil
+        self
+    end
+
+    def previous_revisions
+        return if root?
+        root_revision.revisions.where( 'id < ?', id )
+    end
+
+    def previous_revisions_with_root
+        return if root?
+        Scan.where( 'id = ? OR (root_id = ? AND id < ?)', root_revision.id,
+                    root_revision.id, id ).
+            order( 'id asc' )
+    end
+
+    def next_revisions
+        return if root?
+        root_revision.revisions.where( 'id > ?', id )
+    end
+
+    def next_revisions_with_root
+        return if root?
+        Scan.where( 'id = ? OR (root_id = ? AND id > ?)', root_revision.id,
+                    root_revision.id, id ).
+            order( 'id asc' )
+    end
+
+    def revisions
+        super.order( 'id asc' )
+    end
+
+    def revisions_with_root
+        Scan.where( 'id = ? OR root_id = ?', root_revision.id, root_revision.id ).
+            order( 'id asc' )
+    end
+
+    def revisions_issues
+        Issue.where( scan_id: [revisions_with_root.select( :id ).map( &:id )] )
+    end
+
+    def revisions_sitemap
+        return if root?
+
+        Report.select( [:sitemap, :scan_id] ).
+            where( scan_id: [revisions_with_root.select( :id ).map( &:id ) - [id]] ).
+            map( &:sitemap ).flatten.uniq
+    end
+
+    def revisions_issue_count
+        i = issues.count
+        revisions.light.each { |r| i += r.issues.count }
+        i
+    end
+
+    def revisions_issue_digests
+        return issue_digests if root?
+        revisions_with_root.light.map( &:issue_digests ).flatten
+    end
+
+    def has_revisions?
+        revisions.any?
+    end
+
+    def root_revision
+        root? ? self : root
+    end
+
+    def revision_member?
+        has_revisions? || revision?
+    end
+
+    def root?
+        !root
+    end
+
+    def revision?
+        !root?
     end
 
     def parsed_url
@@ -113,14 +229,6 @@ class Scan < ActiveRecord::Base
         type == :grid
     end
 
-    def issue_count
-        issues.size
-    end
-
-    def issue_digests
-        Issue.digests_for_scan( self ).map { |i| i.digest }
-    end
-
     def eta
         statistics['eta']
     end
@@ -139,18 +247,6 @@ class Scan < ActiveRecord::Base
 
     def sitemap_size
         statistics['sitemap_size']
-    end
-
-    def report=( r )
-        super( r )
-
-        push_framework_issues( r.issues )
-        r.issues.each { |issue| issues.update_from_framework_issue( issue ) }
-
-        r
-    rescue => e
-        ap e
-        ap e.backtrace
     end
 
     def type
@@ -174,8 +270,7 @@ class Scan < ActiveRecord::Base
 
         instance.service.abort_and_report :auditstore  do |auditstore|
             if !auditstore.rpc_exception?
-                self.report = auditstore
-                save
+                create_report( auditstore )
                 instance.service.shutdown {}
             end
 
@@ -219,8 +314,10 @@ class Scan < ActiveRecord::Base
                 'started'
             when :commented
                 'has a new comment'
-            when :shared
+            when :share
                 'was shared with you'
+            when :repeat
+                'was repeated'
             else
                 action.to_s
         end
@@ -231,11 +328,61 @@ class Scan < ActiveRecord::Base
         self.active = true
         save
 
+        sitemap_opts = {}
+
+        if revision?
+            if extend_from_revision_sitemaps?
+                sitemap_opts[:extend_paths] = revisions_sitemap
+            elsif restrict_to_revision_sitemaps?
+                sitemap_opts[:restrict_paths] = revisions_sitemap
+            end
+        end
+
         instance.service.scan( profile.to_rpc_options.merge(
             url:    url,
             spawns: spawns,
             grid:   grid?
-        )) { refresh }
+        ).merge( sitemap_opts )) { refresh }
+
+        self
+    rescue => e
+        ap e
+        ap e.backtrace
+    end
+
+    def share( user_id_list )
+        user_id_list |= [root_revision.owner.id] if root_revision.owner
+        user_id_list = user_id_list.flatten.reject { |i| i.to_s.empty? }.map( &:to_i )
+
+        revisions_with_root.each do |rev|
+            rev.update_attribute( :user_ids, user_id_list )
+        end
+    end
+
+    def new_revision( opts = {} )
+        new = root_revision.dup
+
+        new.root   = self
+        new.active = nil
+        new.status = nil
+        new.report = nil
+        new.finished_at    = nil
+        new.statistics     = {}
+        new.issue_digests  = []
+        new.error_messages = ''
+
+        new.owner_id = self.owner_id
+        new.user_ids = self.user_ids
+
+        new.save
+        new
+    end
+
+    def repeat( opts = {} )
+        return false if !update_attributes( opts )
+
+        ScanManager.instance.after_create( self )
+        true
     end
 
     def refresh( &block )
@@ -274,11 +421,21 @@ class Scan < ActiveRecord::Base
                     finish
 
                     # Grab the report, we're all done. :)
-                    update_report do
+                    save_report_and_shutdown do
                         # Set as completed in order for this scan to be skipped by
                         # the next ScanManager#refresh_scans iteration.
                         self.status = :completed
                         save
+
+                        if revision?
+                            previous_issues = Issue.
+                                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+
+                            # Mark issues that didn't appear in this scan as fixed.
+                            previous_issues.
+                                where( 'digest NOT IN (?)', issue_digests ).
+                                update_all( fixed: true )
+                        end
 
                         notify action: self.status
 
@@ -297,18 +454,59 @@ class Scan < ActiveRecord::Base
     private
 
     def push_framework_issues( a_issues )
-        [a_issues].compact.flatten.each do |i|
-            next if issue_digests.include? i.digest
+        if revision?
+            previous_issues = Issue.
+                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+        end
+
+        [a_issues].flatten.compact.each do |i|
+
+            if revision?
+                # Mark issue as not fixed for all revisions.
+                previous_issues.update_all( { fixed: false }, { digest: i.digest } )
+            end
+
+            skip = revisions_issue_digests.include?( i.digest )
+
+            if !issue_digests.include?( i.digest )
+                issue_digests << i.digest
+                save
+            end
+
+            next if skip
+
             issues.create_from_framework_issue i
         end
     end
 
-    def update_report( &block )
+    def update_from_framework_issues( a_issues )
+        [a_issues].flatten.compact.each do |i|
+            issues.update_from_framework_issue( i, [:remarks, :requires_verification] )
+        end
+    end
+
+    def save_report_and_shutdown( &block )
         # Grab the report and save the scan, we're all done now. :)
-        instance.service.auditstore do |auditstore|
-            self.report = auditstore
-            save
+        instance.service.abort_and_report :auditstore do |auditstore|
+            create_report( auditstore )
+            instance.service.shutdown {}
+
             block.call if block_given?
+        end
+    end
+
+    def create_report( auditstore )
+        begin
+            self.report = Report.create( object: auditstore, scan_id: id )
+            save
+
+            push_framework_issues( auditstore.issues )
+            update_from_framework_issues( auditstore.issues )
+
+            auditstore
+        rescue => e
+            ap e
+            ap e.backtrace
         end
     end
 

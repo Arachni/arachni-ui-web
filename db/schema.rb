@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114002808) do
+ActiveRecord::Schema.define(:version => 20130121042140) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
     t.text     "references"
     t.text     "remedy_code"
     t.text     "remedy_guidance"
+    t.text     "remarks"
     t.string   "severity"
     t.string   "digest"
     t.boolean  "false_positive",        :default => false
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
     t.text     "verification_steps"
     t.integer  "verified_by"
     t.integer  "verification_steps_by"
+    t.boolean  "fixed",                 :default => false
     t.integer  "scan_id"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
@@ -122,6 +124,14 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
 
   add_index "profiles", ["name"], :name => "index_profiles_on_name"
 
+  create_table "reports", :force => true do |t|
+    t.text     "object"
+    t.text     "sitemap"
+    t.integer  "scan_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -135,8 +145,10 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
 
   create_table "scans", :force => true do |t|
     t.string   "type"
-    t.boolean  "active",         :default => false
-    t.integer  "instance_count", :default => 1
+    t.boolean  "active",                        :default => false
+    t.boolean  "extend_from_revision_sitemaps"
+    t.boolean  "restrict_to_revision_sitemaps"
+    t.integer  "instance_count",                :default => 1
     t.integer  "dispatcher_id"
     t.string   "instance_url"
     t.string   "instance_token"
@@ -146,11 +158,13 @@ ActiveRecord::Schema.define(:version => 20130114002808) do
     t.text     "report"
     t.string   "status"
     t.text     "statistics"
-    t.text     "error_messages", :default => ""
+    t.text     "issue_digests"
+    t.text     "error_messages",                :default => ""
     t.integer  "owner_id"
     t.datetime "finished_at"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.integer  "root_id"
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
   create_table "scans_users", :id => false, :force => true do |t|

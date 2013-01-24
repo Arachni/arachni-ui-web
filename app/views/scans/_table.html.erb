@@ -1,7 +1,7 @@
 <%
    treat_as_running = local_assigns[:treat_as_running].nil? ? true : false
-   show_aborted_legend = false
-   show_error_legend   = false
+
+   show_revision_legend, show_error_legend, show_aborted_legend = false
 
    type = (treat_as_running ? 'active' : 'finished')
    filter = "filter_#{type}"
@@ -131,127 +131,32 @@
         </thead>
 
         <% scans.each do |scan| %>
-            <tr <%= if scan.paused?
-                        'class="warning" title="Scan is paused."'.html_safe
-                    elsif scan.aborted?
+            <% next if !treat_as_running && scan.revision? %>
+
+            <tr <%= if scan.aborted?
                         show_aborted_legend = true
-                        'class="warning" title="Scan was aborted."'.html_safe
                     elsif scan.error?
                         show_error_legend = true
-                        'class="error" title="Scan encountered a fatal error."'.html_safe
                     end
                 %>
             >
-                <td>
-                    <% if can? :read, scan %>
-                        <% if !scan.error_messages.to_s.empty? %>
-                            <%= link_to errors_scan_url( scan, format: :txt ),
-                                        title: 'This scan has encountered errors.',
-                                        class: 'label label-important',
-                                        rel: 'tooltip', data: { placement: 'left' } do %>
-                                <i class="icon-exclamation-sign icon-white"></i>
-                            <% end %>
-                        <% end %>
-                    <% end %>
 
-                    <%= scan.url %>
-                </td>
-                <td class="hidden-phone"><%= link_to scan.profile.name, scan.profile %></td>
-                <td class="hidden-phone">
-                    <%= scan.type.to_s.capitalize %>
-                    <% if scan.dispatcher %>
-                    (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
-                    <% end %>
-                </td>
-
-                <% if treat_as_running %>
-                <td class="hidden-phone"><%= scan.status.to_s.capitalize %></td>
-                <td><%= scan.progress.to_f %>%</td>
-                <% end %>
-
-                <td><%= scan.issue_count %></td>
-
-                <% if treat_as_running %>
-                <td class="hidden-phone"><%= scan.sitemap_size %></td>
-                <td class="hidden-phone"><%= scan.runtime %></td>
-                <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-                    <%= scan.eta %>
-                </td>
-                <% else %>
-                <td class="hidden-phone"><%= l scan.created_at %></td>
-                <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-                    <%= scan.finished_at ? l( scan.finished_at ) : 'N/A' %>
-                </td>
-                <% end %>
-
-                <% if !yours %>
-                <td>
-                    <% if scan.owner == current_user %>
-                        <span class="label">You</span>
-                    <% else %>
-                        <span class="label label-info"><%= scan.owner.name %></span>
-                    <% end %>
-                </td>
-                <% end %>
-
-                <td class="hidden-phone"><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
-
-                <td>
-                    <% if can? :read, scan %>
-                    <%= link_to scan, title: 'Show scan', class: 'btn btn-info' do %>
-                        <i class="icon-eye-open"></i>
-                    <% end %>
-                    <% end %>
-
-                    <% if scan.active? %>
-                        <% if can? :pause, scan %>
-                            <% if scan.paused? %>
-                                <%= link_to resume_scan_url( scan ), title: 'Resume scan',
-                                            method: :put, class: 'btn btn-success',
-                                            data: { confirm: 'Are you sure you want to resume the scan?' } do %>
-                                    <i class="icon-play-circle"></i>
-                                <% end %>
-
-                            <% else %>
-                                <%= link_to pause_scan_url( scan ), title: 'Pause scan',
-                                            method: :put, class: 'btn btn-warning',
-                                            data: { confirm: 'Are you sure you want to pause the scan?' } do %>
-                                    <i class="icon-pause"></i>
-                                <% end %>
-                            <% end  %>
-                        <% end  %>
-
-                        <% if can? :abort, scan %>
-                            <%= link_to abort_scan_url( scan ), title: 'Abort scan',
-                                        method: :put, class: 'btn btn-danger',
-                                        data: { confirm: 'Are you sure you want to abort the scan?' } do %>
-                                <i class="icon-stop"></i>
-
-                            <% end %>
-
-                            <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-
-                        <% end %>
-                    <% else %>
-                        <% if can? :delete, scan %>
-                            <%= link_to scan, title: 'Delete scan', method: :delete, class: 'btn btn-danger',
-                                        data: { confirm: 'Are you sure you want to delete this scan?' } do %>
-                                <i class="icon-trash"></i>
-                            <% end %>
-                            <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-                        <% end %>
-                <% end %>
-                </td>
-            </tr>
+            <%= render partial: 'table_row',
+                       locals: { scan: scan, treat_as_running: treat_as_running } %>
         <% end %>
     </table>
 
     <% if show_aborted_legend || show_error_legend %>
         <div class="alert alert-info">
             <ul>
+                <% if show_revision_legend %>
+                    <li>Blue rows indicate repeated/revised scans.</li>
+                <% end %>
+
                 <% if show_aborted_legend %>
                 <li>Yellow rows indicate aborted scans.</li>
                 <% end %>
+
                 <% if show_error_legend %>
                 <li>Red rows indicate scans which have stopped due to a fatal
                     error (i.e. the scan Instance suddenly died).</li>

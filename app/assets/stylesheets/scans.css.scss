@@ -94,4 +94,12 @@
         max-height: 200px;
         overflow: auto;
     }
+
+    #finished-table-container table tr.revision td:first-child {
+        padding-left: 20px;
+    }
+
+    label {
+        display: inline;
+    }
 }

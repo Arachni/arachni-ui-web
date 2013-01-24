@@ -1,84 +1,100 @@
 <% title @scan.url %>
 <% breadcrumb_add 'Scans', scans_path %>
 
+<%
+   overview = params[:action] == 'overview'
+%>
+
 <% add_to_sidebar do %>
-    <ul class="nav nav-list hide" id="scan-sidebar">
-        <li class="nav-header">
-            Toggle visibility of
-        </li>
-        <li>
-            <a class="toggle-comments" data-toggle="collapse"
-               href="#comments">
-                <i class="icon-comment"></i>
+    <div id="scan-sidebar" class="hide">
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                Toggle visibility of
+            </li>
+            <li>
+                <a class="toggle-comments" data-toggle="collapse"
+                   href="#comments">
+                    <i class="icon-comments"></i>
 
-                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                      class="label hide total-comments-counter">
-                    <%= @scan.comments.size %>
-                </span>
+                    <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                          class="label hide total-comments-counter">
+                        <%= @scan.comments.size %>
+                    </span>
 
-                <span title="The scan has new comments."
-                      class="hide label label-info new-comments-counter">
-                </span>
+                    <span title="The scan has new comments."
+                          class="hide label label-info new-comments-counter">
+                    </span>
 
-                Comments
-            </a>
-        </li>
+                    Comments
+                </a>
+            </li>
 
-        <li id="toggle-statistics" class="hide">
-            <a href="#statistics" data-toggle="collapse"
-               title="Toggle statistics visibility" role="button">
-                <i class="icon-list-alt"></i>
+            <li id="toggle-statistics" class="hide">
+                <a href="#statistics" data-toggle="collapse"
+                   title="Toggle statistics visibility" role="button">
+                    <i class="icon-list-alt"></i>
 
-                Statistics
-            </a>
-        </li>
+                    Statistics
+                </a>
+            </li>
 
-        <li id="toggle-charts" class="hide">
-            <a href="#graphs" onclick="toggleCharts();"
-               title="Toggle chart visibility" role="button">
-                <i class="icon-bar-chart"></i>
+            <li id="toggle-charts" class="hide">
+                <a href="#graphs" onclick="toggleCharts();"
+                   title="Toggle chart visibility" role="button">
+                    <i class="icon-bar-chart"></i>
 
-                Charts
-            </a>
-        </li>
+                    Charts
+                </a>
+            </li>
+        </ul>
 
-        <li class="divider"></li>
-
-        <li class="nav-header">
-            Actions
-        </li>
-
-        <% if User.count > 1 && can?( :share, @scan ) %>
-        <li>
-            <a href="#shareScan_<%= @scan.id %>" title="Share scan"
-               role="button" data-toggle="modal">
-                <i class="icon-share"></i>
-
-                <% if (shared_with = @scan.users.size - 1) > 0 %>
-                  <span title="Shared with <%= pluralize shared_with, 'more user' %>."
-                  class="label"><%= shared_with %></span>
-                <% end %>
-
-                Share
-            </a>
-        </li>
+        <% if @scan.root_revision.has_revisions? %>
+            <div id="revisions-nav-list">
+                <%= render 'revisions_nav_list' %>
+            </div>
         <% end %>
 
-        <li id="download-report" class="hide">
-            <i class="icon-download-alt"></i>
-            Download report as:
+        <ul class="nav nav-list">
+            <li class="divider"></li>
 
-            <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+            <li class="nav-header">
+                Actions
+            </li>
 
-            <ul>
-                <% reports_links.each do |l| %>
-                <li>
-                    <%= l %>
+            <% if User.count > 1 && can?( :share, @scan ) %>
+            <li>
+                <a href="#shareScan_<%= @scan.id %>" title="Share scan"
+                   role="button" data-toggle="modal">
+                    <i class="icon-share"></i>
+
+                    <% if (shared_with = @scan.users.size - 1) > 0 %>
+                      <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+                      class="label"><%= shared_with %></span>
+                    <% end %>
+
+                    Share
+                </a>
+            </li>
+            <% end %>
+
+            <% if !@scan.overview? %>
+                <li id="download-report" class="hide">
+                    <i class="icon-download-alt"></i>
+                    Download report as:
+
+                    <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+
+                    <ul class="nav nav-list">
+                        <% reports_links.each do |l| %>
+                        <li>
+                            <%= l %>
+                        </li>
+                        <% end %>
+                    </ul>
                 </li>
-                <% end %>
-            </ul>
-        </li>
-    </ul>
+            <% end %>
+        </ul>
+    </div>
 <% end %>
 
 <script type="text/javascript">
@@ -93,7 +109,9 @@
         <% end %>
 
         <% purl = @scan.parsed_url %>
-        <h1><%= "#{purl.scheme}://#{purl.host}" %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small></h1>
+        <h1>
+            <%= "#{purl.scheme}://#{purl.host}" %><%= ":#{purl.port}" if purl.port %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small>
+        </h1>
 
         <% if !@scan.description.to_s.empty? %>
         <div class="lead"><%= m @scan.description %></div>
@@ -106,8 +124,8 @@
 
     <div class="hidden-desktop">
         <a class="toggle-comments btn" data-toggle="collapse"
-           href="#comments-list">
-            <i class="icon-comment"></i>
+           href="#comments">
+            <i class="icon-comments"></i>
 
             <% if @scan.comments.any? %>
                 <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
@@ -137,8 +155,10 @@
     </div>
 
     <div id="issues" class="hide"
-         data-refresh-url="<%= scan_issues_url( @scan, partial: true ) %>"
-         data-refresh-rate=<%= Settings.scan_refresh_rate %>>
+         data-refresh-url="<%= scan_issues_url( @scan, format: :js,
+                                                overview: params[:action] == 'overview',
+                                                partial: true ) %>"
+         data-refresh-rate="<%= Settings.scan_refresh_rate %>" data-refresh-type="js">
     </div>
 </div>
 

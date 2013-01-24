@@ -38,51 +38,34 @@
 
     <hr/>
 
-    <% if @issue.false_positive? %>
-        <p class="alert alert-error">
+    <% if @issue.remarks.any? %>
+        <div class="alert alert-warning">
             <i class="icon-exclamation-sign"></i>
-            Marked as a false-positive.
-        </p>
+            Remarks:
+
+            <ul class="unstyled">
+                <% @issue.remarks.values.flatten.each do |remark| %>
+                    <li><%= remark %></li>
+                <% end %>
+            </ul>
+        </div>
     <% end %>
 
-    <% if @issue.pending_verification? %>
-    <p class="alert alert-warning">
-        <i class="icon-exclamation-sign"></i>
-
-        Pending manual verification.
-
-        <% if @issue.has_verification_steps? %>
-            <br/>
-            Verification steps are available, please consider following them
-            and flagging the issue accordingly.
-        <% end %>
-    </p>
-    <% end %>
-
-    <% if @issue.verified? %>
-        <p class="alert alert-success">
-            <i class="icon-ok"></i>
-            Verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
-        </p>
-    <% end %>
-
-    <% if @issue.pending_review? %>
-    <p class="alert alert-info">
-        <i class="icon-question-sign"></i>
-        Awaiting review.
-    </p>
-<% end %>
+    <hr/>
+    <%= render 'status_messages' %>
 
     <ul class="nav nav-tabs" id="issue-tabs"
         data-table-container="table-container">
         <li class="active">
             <a href="#issue-<%= @issue.digest %>-technical-details" data-toggle="tab">
+                <i class="icon-file-alt"></i>
                 Technical details
             </a>
         </li>
 
         <li>
             <a href="#issue-<%= @issue.digest %>-discussion" data-toggle="tab">
+                <i class="icon-comments"></i>
                 Discussion <small>[<%= @issue.comments.count %>]</small>
             </a>
         </li>
@@ -90,6 +73,7 @@
         <% if @issue.has_verification_steps? %>
             <li>
                 <a href="#issue-<%= @issue.digest %>-verification" data-toggle="tab">
+                    <i class="icon-check"></i>
                     Verification
                 </a>
             </li>
@@ -97,6 +81,7 @@
 
         <li>
             <a href="#issue-<%= @issue.digest %>-review" data-toggle="tab">
+                <i class="icon-edit"></i>
                 Review
             </a>
         </li>

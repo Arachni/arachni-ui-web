@@ -1,0 +1,41 @@
+<% if @issue.false_positive? %>
+    <p class="alert alert-error">
+        <i class="icon-exclamation-sign"></i>
+        Marked as a false-positive.
+    </p>
+<% end %>
+
+<% if @issue.pending_verification? %>
+    <p class="alert alert-warning">
+        <i class="icon-exclamation-sign"></i>
+
+        Pending manual verification.
+
+        <% if @issue.has_verification_steps? %>
+            <br/>
+            Verification steps are available, please consider following them
+            and flagging the issue accordingly.
+        <% end %>
+    </p>
+<% end %>
+
+<% if @issue.fixed? %>
+    <p class="alert alert-success">
+        <i class="icon-ok"></i>
+        This issues has been fixed.
+    </p>
+<% end %>
+
+<% if @issue.verified? %>
+    <p class="alert alert-success">
+        <i class="icon-ok"></i>
+        Verified by <%= @issue.verified_by %> on <%= l @issue.verified_at %>.
+    </p>
+<% end %>
+
+<% if @issue.pending_review? %>
+    <p class="alert alert-info">
+        <i class="icon-question-sign"></i>
+        Awaiting review.
+    </p>
+<% end %>

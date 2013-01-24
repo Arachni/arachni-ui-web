@@ -18,7 +18,7 @@ class Ability
     include CanCan::Ability
 
     def initialize( user )
-        alias_action :errors, :report, to: :read
+        alias_action :errors, :report, :overview, to: :read
         alias_action :mark_read, to: :update
 
         user ||= User.new # guest user (not logged in)
@@ -28,7 +28,8 @@ class Ability
             can :read, [Profile, Dispatcher]
 
             can :read, Scan do |scan|
-                scan.user_ids.include? user.id
+                scan.root_revision.owner_id == user.id ||
+                    scan.root_revision.user_ids.include?( user.id )
             end
 
             can :manage, Scan, owner_id: user.id

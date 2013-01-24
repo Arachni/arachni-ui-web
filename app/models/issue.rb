@@ -10,12 +10,13 @@ class Issue < ActiveRecord::Base
 
     # These can contain lots of junk characters which may blow up the SQL
     # statement (like null-bytes) so let the serializer deal with them.
-    serialize :url,           String
-    serialize :seed,          String
-    serialize :proof,         String
-    serialize :response_body, String
+    #serialize :url,           String
+    #serialize :seed,          String
+    #serialize :proof,         String
+    #serialize :response_body, String
 
     serialize :references,    Hash
+    serialize :remarks,       Hash
     serialize :tags,          Array
     serialize :headers,       Hash
     serialize :audit_options, Hash
@@ -41,12 +42,13 @@ class Issue < ActiveRecord::Base
         remedy_code:     :remedy_code,
         remedy_guidance: :remedy_guidance,
         severity:        :severity,
+        remarks:         :remarks,
         digest:          :digest
     }
 
     attr_accessible *FRAMEWORK_ISSUE_MAP.values
     attr_accessible :false_positive, :verified, :verification_steps,
-                    :verified_by, :verification_steps_by
+                    :verified_by, :verification_steps_by, :fixed
 
     ORDERED_SEVERITIES = [
         Arachni::Issue::Severity::HIGH,
@@ -55,7 +57,7 @@ class Issue < ActiveRecord::Base
         Arachni::Issue::Severity::INFORMATIONAL
     ]
 
-    PROTECTED = [ :verified_at, :verified_by, :verification_steps_by,
+    PROTECTED = [:verified_at, :verified_by, :verification_steps_by,
                   :verification_steps, :false_positive]
 
     def self.order_by_severity
@@ -70,6 +72,10 @@ class Issue < ActiveRecord::Base
 
     def self.light
         select( column_names - %w(response_body references) )
+    end
+
+    def self.fixed
+        where fixed: true
     end
 
     def url
@@ -120,11 +126,13 @@ class Issue < ActiveRecord::Base
     end
 
     def self.verified
-        where( 'requires_verification = ? AND verified = ? AND false_positive = ?', true, true, false )
+        where( 'requires_verification = ? AND verified = ? AND ' +
+                   'false_positive = ? AND fixed = ?', true, true, false, false )
     end
 
     def self.pending_verification
-        where( 'requires_verification = ? AND verified = ? AND false_positive = ?', true, false, false )
+        where( 'requires_verification = ? AND verified = ? AND '+
+                   ' false_positive = ? AND fixed = ?', true, false, false, false )
     end
 
     def self.false_positives
@@ -136,11 +144,11 @@ class Issue < ActiveRecord::Base
     end
 
     def pending_verification?
-        requires_verification? && !verified? && !false_positive?
+        requires_verification? && !verified? && !false_positive? && !fixed?
     end
 
     def pending_review?
-        !verified && !false_positive && !requires_verification
+        !verified && !false_positive && !requires_verification && !fixed?
     end
 
     def requires_verification_and_verified?
@@ -196,18 +204,20 @@ class Issue < ActiveRecord::Base
         end
     end
 
-    def self.digests_for_scan( scan )
-        select( [ :digest, :scan_id ] ).where( scan_id: scan.id )
-    end
-
     def self.create_from_framework_issue( issue )
         create translate_framework_issue( issue )
     end
 
-    def self.update_from_framework_issue( issue )
+    def self.update_from_framework_issue( issue, update_only = [] )
         h = translate_framework_issue( issue )
-        h.delete( :requires_verification )
-        where( digest: issue.digest ).first.update_attributes( h )
+
+        return if !(i = where( digest: issue.digest ).first)
+
+        h.delete( :requires_verification ) if i.requires_verification?
+
+        h.reject! { |k| !update_only.include? k } if update_only.any?
+
+        i.update_attributes( h )
     end
 
     def self.translate_framework_issue( issue )
@@ -217,7 +227,7 @@ class Issue < ActiveRecord::Base
                         iv
                     else issue.variations.first &&
                         !(iv = issue.variations.first.send( k )).nil?
-                        iv
+                    iv
                     end
         end
 

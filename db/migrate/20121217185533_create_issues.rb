@@ -30,6 +30,7 @@ class CreateIssues < ActiveRecord::Migration
       t.text :references
       t.text :remedy_code
       t.text :remedy_guidance
+      t.text :remarks
       t.string :severity
       t.string :digest
 
@@ -41,6 +42,8 @@ class CreateIssues < ActiveRecord::Migration
 
       t.integer :verified_by
       t.integer :verification_steps_by
+
+      t.boolean :fixed, default: false
 
       t.integer :scan_id
 

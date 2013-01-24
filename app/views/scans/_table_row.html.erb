@@ -1,0 +1,162 @@
+<%
+   show_as_revision ||= false
+
+   type = (treat_as_running ? 'active' : 'finished')
+   filter = "filter_#{type}"
+
+   yours = (params[filter] == 'yours')
+
+   class_if_revision = !treat_as_running && (show_as_revision || scan.revision?) ? 'revision' : ''
+%>
+
+<tr <%= if scan.paused?
+            "class=\"warning #{class_if_revision}\" title=\"Scan is paused.\"".html_safe
+        elsif scan.aborted?
+            "class=\"warning #{class_if_revision}\" title=\"Scan was aborted.\"".html_safe
+        elsif scan.error?
+            "class=\"error #{class_if_revision}\" title=\"Scan encountered a fatal error.\"".html_safe
+        else
+            "class=\"#{class_if_revision}\"".html_safe
+        end
+    %>
+>
+    <td>
+        <% if can? :read, scan %>
+            <% if !scan.error_messages.to_s.empty? %>
+                <%= link_to errors_scan_url( scan, format: :txt ),
+                            title: 'This scan has encountered errors.',
+                            class: 'label label-important',
+                            rel: 'tooltip', data: { placement: 'left' } do %>
+                    <i class="icon-exclamation-sign icon-white"></i>
+                <% end %>
+            <% end %>
+        <% end %>
+
+        <% if show_as_revision || scan.revision? %>
+            <a href="#" rel="tooltip" class="label label-success"
+               data-original-title="This scan is a revision.">
+                <i class="icon-repeat"></i>
+            </a>
+        <% end %>
+
+        <% if !show_as_revision && scan.has_revisions? %>
+            <a href="#" rel="tooltip" class="label label-info"
+               data-original-title="This scan has revisions.">
+                <i class="icon-info-sign"></i>
+            </a>
+        <% end %>
+
+
+        <%= scan.url %>
+    </td>
+    <td class="hidden-phone"><%= link_to scan.profile.name, scan.profile %></td>
+    <td class="hidden-phone">
+        <%= scan.type.to_s.capitalize %>
+        <% if scan.dispatcher %>
+            (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
+        <% end %>
+    </td>
+
+    <% if treat_as_running %>
+        <td class="hidden-phone"><%= scan.status.to_s.capitalize %></td>
+        <td><%= scan.progress.to_f %>%</td>
+    <% end %>
+
+    <td>
+        <%= !show_as_revision && scan.has_revisions? ? scan.revisions_issue_count : scan.issue_count %>
+    </td>
+
+    <% if treat_as_running %>
+        <td class="hidden-phone"><%= scan.sitemap_size %></td>
+        <td class="hidden-phone"><%= scan.runtime %></td>
+        <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
+            <%= scan.eta %>
+        </td>
+    <% else %>
+        <td class="hidden-phone"><%= l scan.created_at %></td>
+        <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
+            <%= scan.finished_at ? l( scan.finished_at ) : 'N/A' %>
+        </td>
+    <% end %>
+
+    <% if !yours %>
+        <td>
+            <% if scan.owner == current_user %>
+                <span class="label">You</span>
+            <% else %>
+                <span class="label label-info"><%= scan.owner.name %></span>
+            <% end %>
+        </td>
+    <% end %>
+
+    <td class="hidden-phone"><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
+
+    <td>
+        <% if can? :read, scan %>
+            <%= link_to !show_as_revision && scan.has_revisions? ? overview_scan_url( scan ) : scan,
+                        title: 'Show scan', class: 'btn btn-info' do %>
+                <i class="icon-eye-open"></i>
+            <% end %>
+        <% end %>
+
+        <% if scan.active? %>
+            <% if can? :pause, scan %>
+                <% if scan.paused? %>
+                    <%= link_to resume_scan_url( scan ), title: 'Resume scan',
+                                method: :put, class: 'btn btn-success',
+                                data: { confirm: 'Are you sure you want to resume the scan?' } do %>
+                        <i class="icon-play-circle"></i>
+                    <% end %>
+
+                <% else %>
+                    <%= link_to pause_scan_url( scan ), title: 'Pause scan',
+                                method: :put, class: 'btn btn-warning',
+                                data: { confirm: 'Are you sure you want to pause the scan?' } do %>
+                        <i class="icon-pause"></i>
+                    <% end %>
+                <% end  %>
+            <% end  %>
+
+            <% if can? :abort, scan %>
+                <%= link_to abort_scan_url( scan ), title: 'Abort scan',
+                            method: :put, class: 'btn btn-danger',
+                            data: { confirm: 'Are you sure you want to abort the scan?' } do %>
+                    <i class="icon-stop"></i>
+
+                <% end %>
+
+                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+
+            <% end %>
+        <% else %>
+            <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) %>
+                <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',
+                            class: 'btn btn-success' do %>
+                    <i class="icon-repeat"></i>
+                <% end %>
+            <% end %>
+
+            <% if can? :delete, scan %>
+                <%= link_to scan, title: 'Delete scan', method: :delete, class: 'btn btn-danger',
+                            data: { confirm: 'Are you sure you want to delete this scan?' } do %>
+                    <i class="icon-trash"></i>
+                <% end %>
+            <% end %>
+
+            <% if (!show_as_revision && scan.root?) && can?( :share, scan ) %>
+                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+            <% end %>
+        <% end %>
+    </td>
+</tr>
+
+<% if !show_as_revision && scan.has_revisions? %>
+    <% scan.revisions_with_root.light.each do |revision| %>
+        <% next if !treat_as_running && revision.active?  %>
+        <%= render partial: 'table_row',
+                   locals: { scan: revision,
+                             treat_as_running: treat_as_running,
+                             show_as_revision: scan.has_revisions?
+                   } %>
+    <% end %>
+<% end %>

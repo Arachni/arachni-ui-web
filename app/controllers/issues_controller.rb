@@ -16,6 +16,7 @@
 
 class IssuesController < ApplicationController
     include ApplicationHelper
+    include IssuesHelper
     include NotificationsHelper
 
     load_and_authorize_resource
@@ -27,8 +28,9 @@ class IssuesController < ApplicationController
 
         params[:tab] ||= 'all'
 
+
         @counts = Hash.new(0)
-        %w(all verified pending-verification false-positives awaiting-review).each do |type|
+        %w(all verified pending-verification false-positives awaiting-review fixed).each do |type|
             @counts[type] = issue_filter( type ).count
         end
 
@@ -105,28 +107,6 @@ class IssuesController < ApplicationController
         respond_to do |format|
             format.html { redirect_to scans_issues_url }
             format.json { head :no_content }
-        end
-    end
-
-    private
-
-    def scan
-        current_user.scans.find( params[:scan_id] )
-    end
-
-    def issue_filter( type )
-        case type
-            when 'verified'
-                scan.issues.verified.light
-            when 'pending-verification'
-                scan.issues.pending_verification.light
-            when 'false-positives'
-                scan.issues.false_positives.light
-            when 'awaiting-review'
-                scan.issues - (scan.issues.verified +
-                        scan.issues.pending_verification + scan.issues.false_positives)
-            else
-                scan.issues.light
         end
     end
 

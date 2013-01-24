@@ -14,7 +14,18 @@ renderResponse = ( container, html ) ->
                             'src="data:text/html;base64, ' + html + '" />' ) )
 
 updateElementsVisibility = () ->
-    if $( '#issue_false_positive').is( ':checked' )
+    if $( '#issue_fixed').is( ':checked' )
+        $( '#issue_false_positive' ).prop( 'disabled', true )
+        $( '#issue_requires_verification' ).prop( 'disabled', true )
+        $( '#issue_verified' ).prop( 'disabled', true )
+        $( '#issue_verification_steps' ).prop( 'disabled', true )
+    else
+        $( '#issue_false_positive' ).prop( 'disabled', false )
+        $( '#issue_requires_verification' ).prop( 'disabled', false )
+        $( '#issue_verified' ).prop( 'disabled', false )
+        $( '#issue_verification_steps' ).prop( 'disabled', false )
+
+        if $( '#issue_false_positive').is( ':checked' )
             $( '#false-positive-report-nudge' ).show( 'fast' )
             $( '#issue_requires_verification' ).prop( 'disabled', true )
             $( '#issue_verified' ).prop( 'disabled', true )
@@ -25,12 +36,12 @@ updateElementsVisibility = () ->
             $( '#issue_verified' ).prop( 'disabled', false )
             $( '#issue_verification_steps' ).prop( 'disabled', false )
 
-    if $( '#issue_requires_verification').is( ':checked' )
-        $( '#verification-container' ).show( 'fast' )
-        $( '#issue_false_positive' ).prop( 'disabled', true )
-    else
-        $( '#verification-container' ).hide( 'fast' )
-        $( '#issue_false_positive' ).prop( 'disabled', false )
+        if $( '#issue_requires_verification').is( ':checked' )
+            $( '#verification-container' ).show( 'fast' )
+            $( '#issue_false_positive' ).prop( 'disabled', true )
+        else
+            $( '#verification-container' ).hide( 'fast' )
+            $( '#issue_false_positive' ).prop( 'disabled', false )
 
 jQuery ->
     $('#render-response-button' ).click ->
@@ -47,5 +58,7 @@ jQuery ->
     $('#issue_false_positive').change ->
         updateElementsVisibility()
     $('#issue_requires_verification').change ->
+        updateElementsVisibility()
+    $('#issue_fixed').change ->
         updateElementsVisibility()
     updateElementsVisibility()

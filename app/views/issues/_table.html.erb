@@ -46,6 +46,28 @@
                 </li>
             <% end %>
 
+            <% if @counts['fixed'] == 0 %>
+                <li class="disabled">
+                    <a href="#">
+                        Fixed <small>[<%= @counts['fixed'] %>]</small>
+                    </a>
+                </li>
+            <% else %>
+                <li
+                <% if active_tab == 'fixed' %>
+                class="active"
+                <% end %>
+                >
+                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'fixed' ) ),
+                                onclick: 'scanTableLoading();', remote: true,
+                                rel: 'tooltip',
+                                title:  issue_tab_description( 'fixed' ) do %>
+                        <i class="icon-info-sign"></i>
+                        Fixed <small>[<%= @counts['fixed'] %>]</small>
+                    <% end %>
+                </li>
+            <% end %>
+
             <% if @counts['verified'] == 0 %>
                 <li class="disabled">
                     <a href="#">
@@ -59,9 +81,12 @@
                 <% end %>
                 >
                     <%= link_to scan_issues_url( @scan, opts.merge( tab: 'verified' ) ),
-                                onclick: 'scanTableLoading();', remote: true do %>
+                                onclick: 'scanTableLoading();', remote: true,
+                                rel: 'tooltip',
+                                title:  issue_tab_description( 'verified' ) do %>
+                        <i class="icon-info-sign"></i>
                         Verified <small>[<%= @counts['verified'] %>]</small>
-                    <% end %>
+                <% end %>
                 </li>
             <% end %>
 
@@ -79,7 +104,10 @@
                 <% end %>
                 >
                     <%= link_to scan_issues_url( @scan, opts.merge( tab: 'pending-verification' ) ),
-                                onclick: 'scanTableLoading();', remote: true do %>
+                                onclick: 'scanTableLoading();', remote: true,
+                                rel: 'tooltip',
+                                title:  issue_tab_description( 'pending-verification' ) do %>
+                        <i class="icon-info-sign"></i>
                         Pending verification <small>[<%= @counts['pending-verification'] %>]</small>
                     <% end %>
                 </li>
@@ -98,7 +126,10 @@
                 <% end %>
                 >
                     <%= link_to scan_issues_url( @scan, opts.merge( tab: 'false-positives' ) ),
-                                onclick: 'scanTableLoading();', remote: true do %>
+                                onclick: 'scanTableLoading();', remote: true,
+                                rel: 'tooltip',
+                                title:  issue_tab_description( 'false-positives' ) do %>
+                        <i class="icon-info-sign"></i>
                         False positives <small>[<%= @counts['false-positives'] %>]</small>
                     <% end %>
                 </li>
@@ -117,7 +148,10 @@
                 <% end %>
                 >
                     <%= link_to scan_issues_url( @scan, opts.merge( tab: 'awaiting-review' ) ),
-                                onclick: 'scanTableLoading();', remote: true do %>
+                                onclick: 'scanTableLoading();', remote: true,
+                                rel: 'tooltip',
+                                title:  issue_tab_description( 'awaiting-review' ) do %>
+                        <i class="icon-info-sign"></i>
                         Awaiting review <small>[<%= @counts['awaiting-review'] %>]</small>
                     <% end %>
                 </li>
@@ -127,25 +161,7 @@
 
         <% if issues.any? %>
             <p class="muted hidden-phone">
-                <%=
-                   case active_tab
-                       when 'all'
-                          'Listing all issues.'
-
-                       when 'verified'
-                          'These issues have been verified by a human.'
-
-                       when 'pending-verification'
-                           'These issues require manual verification.'
-
-                       when 'false-positives'
-                           'These issues have been flagged as false-positives.'
-
-                       when 'awaiting-review'
-                           'These issues have not yet been reviewed.'
-                   end
-
-                %>
+                <%= issue_tab_description( active_tab ) %>
             </p>
 
             <table class="hidden-phone table table-striped table-hover table-condensed fixed">
@@ -177,6 +193,8 @@
                                                     [ 'remove', 'False-positive', 'error']
                                                 elsif issue.pending_verification?
                                                     [ 'exclamation-sign', 'Needs verification', 'warning']
+                                                elsif issue.fixed?
+                                                    [ 'asterisk', 'Fixed', 'info']
                                                 else
                                                     [ 'question-sign', 'Awaiting review', '']
                                                 end
