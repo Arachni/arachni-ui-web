@@ -37,11 +37,7 @@ class CreateIssues < ActiveRecord::Migration
       t.boolean :false_positive, default: false
 
       t.boolean :verified, default: false
-      t.datetime :verified_at
       t.text :verification_steps
-
-      t.integer :verified_by
-      t.integer :verification_steps_by
 
       t.boolean :fixed, default: false
 

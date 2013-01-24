@@ -67,24 +67,18 @@ class IssuesController < ApplicationController
     def update
         @issue = scan.issues.find( params[:id] )
 
-        if just_verified = (!@issue.verified? && params[:issue][:verified] != '0')
-            @issue.verified_by = current_user
-            @issue.verified_at = Time.now
-        end
-
-        if !params[:issue][:verification_steps].to_s.empty? &&
-            @issue.verification_steps != params[:issue][:verification_steps]
-
-            @issue.verification_steps_by = current_user
-        end
+        @issue.assign_attributes( params[:issue] )
+        changes = @issue.changes
 
         respond_to do |format|
-            if @issue.update_attributes( params[:issue] )
+            if @issue.save
 
-                if just_verified
-                    notify @issue, action: 'verified'
-                else
-                    notify @issue
+                changes.each do |k, v|
+                    old = v.first
+                    new = v.last
+                    next if old.to_s == new.to_s
+
+                    notify @issue, action: k.to_s, text: "#{v.first} => #{v.last}"
                 end
 
                 format.html { redirect_to [@issue.scan, @issue],

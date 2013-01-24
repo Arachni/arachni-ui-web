@@ -85,6 +85,13 @@
                 Review
             </a>
         </li>
+
+        <li>
+            <a href="#issue-<%= @issue.digest %>-timeline" data-toggle="tab">
+                <i class="icon-reorder"></i>
+                Timeline
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -294,9 +301,6 @@
         <div id="issue-<%= @issue.digest %>-verification" class="tab-pane fade">
             <h3>
                 Verification steps
-                <% if @issue.verification_steps_by %>
-                    <small> &ndash; last updated by <%= @issue.verification_steps_by %></small>
-                <% end %>
             </h3>
 
             <p>
@@ -308,6 +312,31 @@
 
         <div id="issue-<%= @issue.digest %>-review" class="tab-pane fade">
             <%= render 'form' %>
+        </div>
+
+        <div id="issue-<%= @issue.digest %>-timeline" class="tab-pane fade">
+            <ul class="unstyled">
+
+            <% @issue.timeline.each do |t| %>
+                <li>
+                    <%= t.action_description.capitalize %>
+
+                    <% if t.actor %>
+                        by <%= t.actor %>
+                    <% end %>
+
+                    <small class="muted">&ndash; <%= l t.created_at %></small>
+
+                    <% if t.text %>
+                        <blockquote class="muted">
+                            <%= t.text %>
+                        </blockquote>
+                    <% end %>
+                </li>
+            <% end %>
+
+                <li>Created <small class="muted">&ndash; <%= l @issue.created_at %></small></li>
+            </ul>
         </div>
 
     </div>

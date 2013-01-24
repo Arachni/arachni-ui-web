@@ -47,8 +47,7 @@ class Issue < ActiveRecord::Base
     }
 
     attr_accessible *FRAMEWORK_ISSUE_MAP.values
-    attr_accessible :false_positive, :verified, :verification_steps,
-                    :verified_by, :verification_steps_by, :fixed
+    attr_accessible :false_positive, :verified, :verification_steps, :fixed
 
     ORDERED_SEVERITIES = [
         Arachni::Issue::Severity::HIGH,
@@ -57,8 +56,7 @@ class Issue < ActiveRecord::Base
         Arachni::Issue::Severity::INFORMATIONAL
     ]
 
-    PROTECTED = [:verified_at, :verified_by, :verification_steps_by,
-                  :verification_steps, :false_positive]
+    PROTECTED = [:verification_steps, :false_positive, :fixed]
 
     def self.order_by_severity
         ret = "CASE"
@@ -76,6 +74,11 @@ class Issue < ActiveRecord::Base
 
     def self.fixed
         where fixed: true
+    end
+
+    def timeline
+        Notification.where( model_id: id, model_type: self.class.to_s,
+                            user_id: scan.owner_id ).order( 'id desc' )
     end
 
     def url
@@ -101,28 +104,6 @@ class Issue < ActiveRecord::Base
     def signature
         return nil if super.to_s.empty?
         super
-    end
-
-    def verified_by=( user )
-        return if !user
-
-        super user.id
-    end
-
-    def verified_by
-        return nil if !(id = super)
-        User.find id
-    end
-
-    def verification_steps_by=( user )
-        return if !user
-
-        super user.id
-    end
-
-    def verification_steps_by
-        return nil if !(id = super)
-        User.find id
     end
 
     def self.verified
@@ -199,6 +180,14 @@ class Issue < ActiveRecord::Base
                 'was reviewed'
             when :verified
                 'was verified'
+            when :fixed
+                'has an updated fixed state'
+            when :false_positive
+                'has an updated false positive state'
+            when :requires_verification
+                'has an updated manual verification state'
+            when :verification_steps
+                'has updated verification steps'
             when :commented
                 'has a new comment'
         end

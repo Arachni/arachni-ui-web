@@ -137,6 +137,10 @@ class Scan < ActiveRecord::Base
             order( 'id asc' )
     end
 
+    def revision_index
+        revisions_with_root.index( self )
+    end
+
     def revisions
         super.order( 'id asc' )
     end
@@ -429,12 +433,17 @@ class Scan < ActiveRecord::Base
 
                         if revision?
                             previous_issues = Issue.
-                                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+                                where( scan_id: previous_revisions_with_root.pluck( :id ), fixed: false ).
+                                where( 'digest NOT IN (?)', issue_digests )
+
+                            previous_issues.each do |i|
+                                i.notify action: :fixed,
+                                         text: "Set to fixed as it did not " +
+                                                     "appear in Revision ##{revision_index}."
+                            end
 
                             # Mark issues that didn't appear in this scan as fixed.
-                            previous_issues.
-                                where( 'digest NOT IN (?)', issue_digests ).
-                                update_all( fixed: true )
+                            previous_issues.update_all( fixed: true )
                         end
 
                         notify action: self.status
@@ -460,12 +469,6 @@ class Scan < ActiveRecord::Base
         end
 
         [a_issues].flatten.compact.each do |i|
-
-            if revision?
-                # Mark issue as not fixed for all revisions.
-                previous_issues.update_all( { fixed: false }, { digest: i.digest } )
-            end
-
             skip = revisions_issue_digests.include?( i.digest )
 
             if !issue_digests.include?( i.digest )
@@ -474,6 +477,11 @@ class Scan < ActiveRecord::Base
             end
 
             next if skip
+
+            if revision?
+                # Mark issue as not fixed for all revisions since we came across it.
+                previous_issues.update_all( { fixed: false }, { digest: i.digest } )
+            end
 
             issues.create_from_framework_issue i
         end
