@@ -103,53 +103,6 @@
 
 <div id="scans">
 
-    <div class="page-header">
-        <% if @scan.owner != current_user %>
-            <span class="label label-info pull-right">Started by <%= @scan.owner.name %></span>
-        <% end %>
-
-        <% purl = @scan.parsed_url %>
-        <h1>
-            <%= "#{purl.scheme}://#{purl.host}" %><%= ":#{purl.port}" if purl.port %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small>
-        </h1>
-
-        <% if !@scan.description.to_s.empty? %>
-        <div class="lead"><%= m @scan.description %></div>
-        <% end %>
-    </div>
-
-    <div class="hidden-desktop pull-left">
-        <%= render partial: 'share_form', locals: { scan: @scan } %>
-    </div>
-
-    <div class="hidden-desktop">
-        <a class="toggle-comments btn" data-toggle="collapse"
-           href="#comments">
-            <i class="icon-comments"></i>
-
-            <% if @scan.comments.any? %>
-                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
-                      class="label total-comments-counter"><%= @scan.comments.size %></span>
-            <% end %>
-
-            <span title="The scan has new comments."
-                  class="hide label label-info new-comments-counter"></span>
-
-            Toggle comments
-        </a>
-    </div>
-
-    <div id="comments" class="accordion-body collapse">
-        <div class="well">
-            <%= render partial: 'comments/list',
-                       locals: { comments: @scan.comments,
-                                 list_url: scan_comments_url( @scan, partial: true )
-                       } %>
-
-            <%= render partial: 'comments/form', locals: { commentable: @scan } %>
-        </div>
-    </div>
-
     <div id="scan">
         <%= render @scan %>
     </div>

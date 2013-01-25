@@ -32,6 +32,15 @@ pickScanType = ( type ) ->
 window.scanTableLoading = () ->
     $('#loading').show()
 
+window.hookDescriptionFormButtons = () ->
+    $('#edit-description-btn').click ->
+        $('#scan-description').hide()
+        $('#edit-description-btn').hide()
+        $('#scan-description-form').show()
+
+    $('.edit_scan').on 'submit', () ->
+        $('#posting-form-spinner').show()
+
 jQuery ->
     $('#direct-btn').click ->
         pickScanType( 'direct' )
@@ -47,3 +56,6 @@ jQuery ->
         else
             $(this).show()
     $('#direct-btn').click()
+    window.hookDescriptionFormButtons()
+
+
