@@ -66,33 +66,37 @@
         color: #FFFFFF;
     }
 
-    .progress-container {
-        text-align: center;
-    }
-    .progress {
-        height: 20px;
-        text-align: center;
-    }
-    #progress-percentage {
-        font-weight: bold;
-        font-size: 17px;
-        color: white;
-        position: absolute;
+    #scan {
+        .progress-container {
+            text-align: center;
+        }
 
-        text-shadow:
-                -1px -1px 0 #000,
-                1px -1px 0 #000,
-                -1px 1px 0 #000,
-                1px 1px 0 #000;
+        .progress {
+            height: 20px;
+            text-align: center;
+        }
+
+        #progress-percentage {
+            font-weight: bold;
+            font-size: 17px;
+            color: white;
+            position: absolute;
+
+            text-shadow:
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000;
+        }
+
+        #error_messages {
+            max-height: 200px;
+            overflow: auto;
+        }
     }
 
     #grid_dispatcher_id, #remote_dispatcher_id {
         width: 100%;
-    }
-
-    #error_messages {
-        max-height: 200px;
-        overflow: auto;
     }
 
     #finished-table-container table tr.revision td:first-child {
