@@ -42,6 +42,14 @@ window.setupScanCallbacks = () ->
     $('.edit_scan').on 'submit', () ->
         $('#posting-form-spinner').show()
 
+    $('#scan-description-form').on 'show', () ->
+        $('#edit-description-btn').hide()
+    $('#scan-description-form').on 'hide', () ->
+        $('#edit-description-btn').show()
+    $('#cancel-description-edit-btn').click ->
+        $('#scan-description-form').hide()
+        $('#edit-description-btn').show()
+
 jQuery ->
     $('#direct-btn').click ->
         pickScanType( 'direct' )

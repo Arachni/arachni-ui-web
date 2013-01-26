@@ -31,18 +31,15 @@ $("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 
 
 $("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html', locals: { url_method_type: :scan_url } ) .force_encoding( 'utf-8' ) ) %>" );
 
-<% if @scan.active? %>
-    $("#progress").html( "<%= escape_javascript( render( partial: 'progress' ).force_encoding( 'utf-8' ) ) %>" );
-<% end %>
-
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );
 
 <% if !params['_method'] || params['_method'] == 'get' %>
     $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
 <% end %>
 
-window.setupScanCallbacks();
-window.setupComments();
+if( $('#scan-description-form').is( ':visible' ) ){
+    $('#edit-description-btn').hide();
+}
 
 <% if @scan.overview? %>
     $('#comments-link-container').hide();
@@ -51,3 +48,6 @@ window.setupComments();
     $('#comments-link-container').show();
     $('#comments').show();
 <% end %>
+
+window.setupScanCallbacks();
+window.setupComments();

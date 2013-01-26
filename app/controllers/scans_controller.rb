@@ -215,7 +215,9 @@ class ScansController < ApplicationController
 
         notify @scan
 
-        redirect_to :back, notice: 'Scan is being paused.'
+        respond_to do |format|
+            format.js { render '_scan.js' }
+        end
     end
 
     # PUT /scans/1/resume
@@ -225,7 +227,9 @@ class ScansController < ApplicationController
 
         notify @scan
 
-        redirect_to :back, notice: 'Scan is resuming.'
+        respond_to do |format|
+            format.js { render '_scan.js' }
+        end
     end
 
     # PUT /scans/1/abort
@@ -235,7 +239,9 @@ class ScansController < ApplicationController
 
         notify @scan
 
-        redirect_to :back, notice: 'Scan is being aborted.'
+        respond_to do |format|
+            format.js { render '_scan.js' }
+        end
     end
 
     # DELETE /scans/1

@@ -11,7 +11,7 @@
 
     <% errors = @scan.errors.messages.dup %>
 
-    <div id="scan-description-form" class="<%= 'hide' if !@scan.errors.messages.any? %>">
+    <div id="scan-description-form" class="hide">
         <%= simple_form_for( @scan, remote: true, method: :put ) do |f| %>
             <%= f.error_notification %>
 
@@ -23,11 +23,14 @@
                             <i class="icon-spinner icon-spin"></i>
                         </span>
             <%= f.button :submit, value: 'Save', class: 'btn btn-inverse btn-small' %>
+
+            <a href="#" class="btn btn-mini" id="cancel-description-edit-btn">
+                Cancel
+            </a>
         <% end %>
     </div>
 
-    <a href="#" class="btn btn-inverse btn-mini inline <%= 'hide' if errors.any? %>"
-       id="edit-description-btn">
+    <a href="#" class="btn btn-inverse btn-mini" id="edit-description-btn">
         Edit description
     </a>
 <% end %>
