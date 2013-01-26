@@ -8,16 +8,11 @@
                        }).force_encoding( 'utf-8' ) %>" );
 <% else %>
     $("#comments").html( "<%= escape_javascript( render partial: 'comments' ) %>" );
+    $('#editable-description' ).html( "<%= escape_javascript( render partial: 'editable_description' ) %>" );
 <% end %>
 
 <% if params[:action].to_s == 'update' %>
     $('#editable-description' ).html( "<%= escape_javascript( render partial: 'editable_description' ) %>" );
-<% else %>
-    <% if @scan.overview? %>
-        $('#scan-description' ).html( "Overview" );
-    <% else %>
-        $('#scan-description' ).html( "<%= escape_javascript( @scan.description ) %>" );
-    <% end %>
 <% end %>
 
 <% if !@scan.error_messages.empty? %>
@@ -37,17 +32,25 @@ $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisio
     $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
 <% end %>
 
-if( $('#scan-description-form').is( ':visible' ) ){
-    $('#edit-description-btn').hide();
-}
-
 <% if @scan.overview? %>
+    $('#scan').hide();
     $('#comments-link-container').hide();
+    $('#edit-description-btn').hide();
     $('#comments').hide();
+    $('#scan-description' ).html( "Overview" );
+    $('#scan-description' ).show();
+    $('#scan-description-form').hide();
 <% else %>
+    $('#edit-description-btn').show();
+    $('#scan-description' ).html( "<%= escape_javascript( @scan.description ) %>" );
+    $('#scan').show();
     $('#comments-link-container').show();
     $('#comments').show();
 <% end %>
+
+if( $('#scan-description-form').is( ':visible' ) ){
+    $('#edit-description-btn').hide();
+}
 
 window.setupScanCallbacks();
 window.setupComments();
