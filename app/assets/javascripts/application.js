@@ -176,20 +176,23 @@ function updatePage() {
     }
 }
 
-var autoRefreshedElements = [];
+var autoRefreshedElements = {};
 
 function autoRefreshElement( selector ){
-    if( autoRefreshedElements.contains( selector ) ) return;
-    autoRefreshedElements.push( selector );
-
     var elem         = $(selector);
     var refresh_rate = elem.data( 'refresh-rate' ) ?
         elem.data( 'refresh-rate' ) : 5000;
 
+    id = elem.attr( 'id' );
+
     // Initial fetch
     fetchAndFill( elem.data( 'refresh-url' ), elem );
 
-    setInterval( function( ){
+    if( autoRefreshedElements[id] != undefined ) {
+        clearInterval( autoRefreshedElements[id] );
+    }
+
+    autoRefreshedElements[id] = setInterval( function( ){
         fetchAndFill( elem.data( 'refresh-url' ), elem );
     }, refresh_rate );
 }

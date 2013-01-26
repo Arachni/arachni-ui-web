@@ -1,3 +1,3 @@
-$("#issues").data( "refresh-url", "<%= escape_javascript scan_issues_url( @scan, format: :js, params: params ) %>" );
-$("#issues").html( "<%= escape_javascript( render( partial: 'table.html', locals: { issues: issues } ).force_encoding( 'utf-8' ) ) %>" );
+$("#issues").html( "<%= escape_javascript( render( partial: 'table.html' ).force_encoding( 'utf-8' ) ) %>" );
+$("#issues").data( "refresh-url", "<%= escape_javascript scan_issues_url( @scan, params.merge( format: :js ) ) %>" );
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'scans/revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );

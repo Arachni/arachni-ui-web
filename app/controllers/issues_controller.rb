@@ -26,28 +26,16 @@ class IssuesController < ApplicationController
     def index
         @scan = scan
 
-        params[:tab] ||= 'all'
-
-
-        @counts = Hash.new(0)
-        %w(all verified pending-verification false-positives awaiting-review fixed).each do |type|
-            @counts[type] = issue_filter( type ).count
-        end
-
-        @issues = issue_filter( params[:tab] )
-
         html_block =    if render_partial?
-                            proc { render partial: 'table',
-                                          locals: { issues: @issues } }
+                            proc { render partial: 'table' }
                         else
                             proc { redirect_to @scan }
                         end
 
         respond_to do |format|
             format.html( &html_block )
-            format.js { render partial: 'table.js',
-                               locals: { issues: @issues } }
-            format.json { render json: @issues }
+            format.js { render partial: 'table.js' }
+            #format.json { render json: @issues }
         end
     end
 

@@ -1,0 +1,11 @@
+<div class="well">
+    <div id="comments-list">
+        <%= render partial: 'comments/list.html',
+                   locals: { comments: @scan.comments,
+                             list_url: scan_comments_url( @scan, partial: true ),
+                             refresh: false
+                   } %>
+    </div>
+
+    <%= render partial: 'comments/form.html', locals: { commentable: @scan } %>
+</div>

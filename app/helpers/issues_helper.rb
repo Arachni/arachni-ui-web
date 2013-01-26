@@ -11,7 +11,7 @@ module IssuesHelper
     end
 
     def scan
-        scan = current_user.scans.find( params[:scan_id] )
+        scan = Scan.find( params[:scan_id] )
         params[:overview] == 'true' ? scan.act_as_overview : scan
     end
 

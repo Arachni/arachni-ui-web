@@ -28,7 +28,6 @@ ArachniWebui::Application.routes.draw do
         end
 
         get :new_revision, on: :member
-        get :overview,     on: :member
 
         post :repeat,   on: :member
 

@@ -1,37 +1,35 @@
 <% if @scan.finished? %>
-    <script type="text/javascript">
-        scanIsActive = false;
-    </script>
-
     <% if !@scan.error? %>
 
-        <% report_type = nil %>
+        <% if !@scan.overview? %>
+            <% report_type = nil %>
 
-        <% if @scan.aborted? %>
+            <% if @scan.aborted? %>
 
-            <% report_type = 'partial' %>
-            <p class="alert alert-warning">
-            The scan was aborted after
-        <% else %>
-            <% report_type = 'full' %>
+                <% report_type = 'partial' %>
+                <p class="alert alert-warning">
+                The scan was aborted after
+            <% else %>
+                <% report_type = 'full' %>
 
-            <p class="alert alert-success">
-                The scan completed in
+                <p class="alert alert-success">
+                    The scan completed in
+            <% end %>
+
+            <%= @scan.report.delta_time %>.
+            </p>
+
+            <% reports_links = reports_with_outfile.
+                    map { |shortname, n| link_to n, report_scan_path( format: shortname ) } %>
+
+            <p class="alert alert-info hidden-desktop">
+                Download the <%= report_type %> report as
+                <%= reports_links[0...-1].join( ', ' ).html_safe %> or
+                <%= reports_links.last %>.
+            </p>
+
+            <hr/>
         <% end %>
-
-        <%= @scan.report.delta_time %>.
-        </p>
-
-        <% reports_links = reports_with_outfile.
-                map { |shortname, n| link_to n, report_scan_path( format: shortname ) } %>
-
-        <p class="alert alert-info hidden-desktop">
-            Download the <%= report_type %> report as
-            <%= reports_links[0...-1].join( ', ' ).html_safe %> or
-            <%= reports_links.last %>.
-        </p>
-
-        <hr/>
 
         <script type="text/javascript">
             $(document).ready( function( $ ) {
@@ -54,8 +52,9 @@
 
     <script type="text/javascript">
         $(document).ready( function( $ ) {
-//            autoRefreshElement( '#issues' );
+            window.setupScanCallbacks();
 
+            $( '#edit-description-btn' ).show();
             $( '#issues' ).show();
             $( '#scan-sidebar' ).show();
             $( 'li#toggle-statistics' ).fadeOut( 'slow' );
@@ -64,7 +63,6 @@
     </script>
 
 <% else %>
-
     <p class='alert alert-info'>
         <i class="icon-spinner icon-spin"></i>
 
@@ -77,6 +75,9 @@
 
     <script type="text/javascript">
         $(document).ready( function( $ ) {
+            window.setupScanCallbacks();
+
+            $( '#edit-description-btn' ).hide();
             $( '#issues' ).hide();
             $( '#scan-sidebar' ).show();
             $( 'li#toggle-statistics' ).fadeOut( 'slow' );

@@ -60,7 +60,7 @@ class ScansController < ApplicationController
     # GET /scans/1
     # GET /scans/1.json
     def show
-        @scan = find_scan( params[:id], false )
+        @scan = find_scan( params[:id] )
 
         html_block = if render_partial?
                          proc { render @scan }
@@ -69,21 +69,6 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.html( &html_block )
             format.js { render '_scan.js' }
-            format.json { render json: @scan }
-        end
-    end
-
-    def overview
-        @scan = find_scan( params[:id], false ).root_revision
-
-        html_block = if render_partial?
-                         proc { render @scan }
-                     else
-                         proc { render 'scans/show' }
-                     end
-
-        respond_to do |format|
-            format.html( &html_block )
             format.json { render json: @scan }
         end
     end
@@ -272,7 +257,9 @@ class ScansController < ApplicationController
     def find_scan( id, light = true )
         s = (current_user.admin? ? Scan : current_user.scans)
         s = s.light if light
-        s.find( params[:id] )
+        s = s.find( params[:id] )
+
+        params[:overview] == 'true' ? s.act_as_overview : s
     end
 
 end

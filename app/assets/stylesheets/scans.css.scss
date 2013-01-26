@@ -66,33 +66,31 @@
         color: #FFFFFF;
     }
 
-    #scan {
-        .progress-container {
-            text-align: center;
-        }
+    .progress-container {
+        text-align: center;
+    }
 
-        .progress {
-            height: 20px;
-            text-align: center;
-        }
+    .progress {
+        height: 20px;
+        text-align: center;
+    }
 
-        #progress-percentage {
-            font-weight: bold;
-            font-size: 17px;
-            color: white;
-            position: absolute;
+    #progress-percentage {
+        font-weight: bold;
+        font-size: 17px;
+        color: white;
+        position: absolute;
 
-            text-shadow:
-                    -1px -1px 0 #000,
-                    1px -1px 0 #000,
-                    -1px 1px 0 #000,
-                    1px 1px 0 #000;
-        }
+        text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+    }
 
-        #error_messages {
-            max-height: 200px;
-            overflow: auto;
-        }
+    #error_messages {
+        max-height: 200px;
+        overflow: auto;
     }
 
     #grid_dispatcher_id, #remote_dispatcher_id {

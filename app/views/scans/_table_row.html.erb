@@ -93,7 +93,7 @@
 
     <td>
         <% if can? :read, scan %>
-            <%= link_to !show_as_revision && scan.has_revisions? ? overview_scan_url( scan ) : scan,
+            <%= link_to !show_as_revision && scan.has_revisions? ? scan_url( scan, overview: true ) : scan,
                         title: 'Show scan', class: 'btn btn-info' do %>
                 <i class="icon-eye-open"></i>
             <% end %>

@@ -1,264 +1,268 @@
 <%
-   refresh = true if !local_assigns.include?( :refresh )
+params[:tab]      ||= 'all'
+params[:scan_id]  ||= @scan.id
+params[:overview] ||= @scan.overview?
 
-   active_tab = params[:tab]
-   opts       = params.merge( format: :js )
+active_tab = params[:tab]
+
+counts = Hash.new( 0 )
+%w(all verified pending-verification false-positives awaiting-review fixed).each do |type|
+   counts[type] = issue_filter( type ).count
+end
+
+issues = issue_filter( active_tab )
+opts   = params.merge( format: :js )
+
+url_method =    if !local_assigns.include?( :url_method_type )
+                    method( :scan_issues_url )
+                else
+                    method( url_method_type )
+                end
 %>
 
-<div class="row-fluid">
-    <div class="span12" id='issues'
-         <% if refresh %>
-         data-refresh-url="<%= scan_issues_url( @scan, opts.merge( partial: true )) %>"
-         data-refresh-rate=<%= Settings.scan_refresh_rate %>
-         <% end %>
-         >
+<%= render partial: '/issues/charts', locals: { issues: issues } %>
 
-        <%= render partial: '/issues/charts', locals: { issues: issues } %>
+<h2>Issues <small>[<%= counts['all'] %>]</small></h2>
 
-        <h2>Issues <small>[<%= @counts['all'] %>]</small></h2>
+<% if issues.any? %>
+    <p class="muted hidden-phone">
+        Click on an issue's name for details,
+        click on a row to see a quick description.
+    </p>
+<% end %>
 
-        <% if issues.any? %>
-            <p class="muted hidden-phone">
-                Click on an issue's name for details,
-                click on a row to see a quick description.
-            </p>
+<ul class="nav nav-tabs hidden-phone" id="issue-tabs"
+    data-table-container="table-container">
+
+    <% if counts['all'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                All <small>[<%= counts['all'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+            <% if active_tab == 'all' %>
+            class="active"
+            <% end %>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'all' ) ),
+                        onclick: 'scanTableLoading();', remote: true do %>
+                All <small>[<%= counts['all'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if counts['fixed'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Fixed <small>[<%= counts['fixed'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'fixed' %>
+        class="active"
         <% end %>
-
-        <ul class="nav nav-tabs hidden-phone" id="issue-tabs"
-            data-table-container="table-container">
-
-            <% if @counts['all'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        All <small>[<%= @counts['all'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                    <% if active_tab == 'all' %>
-                    class="active"
-                    <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'all' ) ),
-                                onclick: 'scanTableLoading();', remote: true do %>
-                        All <small>[<%= @counts['all'] %>]</small>
-                    <% end %>
-                </li>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'fixed' ) ),
+                        onclick: 'scanTableLoading();', remote: true,
+                        rel: 'tooltip',
+                        title:  issue_tab_description( 'fixed' ) do %>
+                <i class="icon-info-sign"></i>
+                Fixed <small>[<%= counts['fixed'] %>]</small>
             <% end %>
+        </li>
+    <% end %>
 
-            <% if @counts['fixed'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        Fixed <small>[<%= @counts['fixed'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                <% if active_tab == 'fixed' %>
-                class="active"
-                <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'fixed' ) ),
-                                onclick: 'scanTableLoading();', remote: true,
-                                rel: 'tooltip',
-                                title:  issue_tab_description( 'fixed' ) do %>
-                        <i class="icon-info-sign"></i>
-                        Fixed <small>[<%= @counts['fixed'] %>]</small>
-                    <% end %>
-                </li>
-            <% end %>
-
-            <% if @counts['verified'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        Verified <small>[<%= @counts['verified'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                <% if active_tab == 'verified' %>
-                class="active"
-                <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'verified' ) ),
-                                onclick: 'scanTableLoading();', remote: true,
-                                rel: 'tooltip',
-                                title:  issue_tab_description( 'verified' ) do %>
-                        <i class="icon-info-sign"></i>
-                        Verified <small>[<%= @counts['verified'] %>]</small>
-                <% end %>
-                </li>
-            <% end %>
-
-
-            <% if @counts['pending-verification'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        Pending verification <small>[<%= @counts['pending-verification'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                <% if active_tab == 'pending-verification' %>
-                class="active"
-                <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'pending-verification' ) ),
-                                onclick: 'scanTableLoading();', remote: true,
-                                rel: 'tooltip',
-                                title:  issue_tab_description( 'pending-verification' ) do %>
-                        <i class="icon-info-sign"></i>
-                        Pending verification <small>[<%= @counts['pending-verification'] %>]</small>
-                    <% end %>
-                </li>
-            <% end %>
-
-            <% if @counts['false-positives'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        False positives <small>[<%= @counts['false-positives'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                <% if active_tab == 'false-positives' %>
-                class="active"
-                <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'false-positives' ) ),
-                                onclick: 'scanTableLoading();', remote: true,
-                                rel: 'tooltip',
-                                title:  issue_tab_description( 'false-positives' ) do %>
-                        <i class="icon-info-sign"></i>
-                        False positives <small>[<%= @counts['false-positives'] %>]</small>
-                    <% end %>
-                </li>
-            <% end %>
-
-            <% if @counts['awaiting-review'] == 0 %>
-                <li class="disabled">
-                    <a href="#">
-                        Awaiting review <small>[<%= @counts['awaiting-review'] %>]</small>
-                    </a>
-                </li>
-            <% else %>
-                <li
-                <% if active_tab == 'awaiting-review' %>
-                class="active"
-                <% end %>
-                >
-                    <%= link_to scan_issues_url( @scan, opts.merge( tab: 'awaiting-review' ) ),
-                                onclick: 'scanTableLoading();', remote: true,
-                                rel: 'tooltip',
-                                title:  issue_tab_description( 'awaiting-review' ) do %>
-                        <i class="icon-info-sign"></i>
-                        Awaiting review <small>[<%= @counts['awaiting-review'] %>]</small>
-                    <% end %>
-                </li>
-            <% end %>
-
-        </ul>
-
-        <% if issues.any? %>
-            <p class="muted hidden-phone">
-                <%= issue_tab_description( active_tab ) %>
-            </p>
-
-            <table class="hidden-phone table table-striped table-hover table-condensed fixed">
-                <thead>
-                    <tr>
-                        <th style="width: 23%">Name</th>
-                        <th style="width: 36%">URL</th>
-                        <th style="width: 10%">Element</th>
-                        <th style="width: 15%">Input</th>
-                        <th style="width: 11%">Severity</th>
-                        <th style="width: 7%">
-                            CWE
-                            <a href="#" rel="tooltip"
-                               title="Vulnerability definitions from Common Weakness Enumeration project.">
-                                <i class="icon-info-sign"></i>
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <% issues.each do |issue| %>
-
-                <%
-                    icon, msg, row_class = nil
-
-                    if active_tab == 'all'
-                        icon, msg, row_class =  if issue.requires_verification_and_verified?
-                                                    [ 'ok', 'Verified', 'success']
-                                                elsif issue.false_positive?
-                                                    [ 'remove', 'False-positive', 'error']
-                                                elsif issue.pending_verification?
-                                                    [ 'exclamation-sign', 'Needs verification', 'warning']
-                                                elsif issue.fixed?
-                                                    [ 'asterisk', 'Fixed', 'info']
-                                                else
-                                                    [ 'question-sign', 'Awaiting review', '']
-                                                end
-                   end
-
-                %>
-
-                <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );"
-                    class="<%= row_class %>" >
-                    <td>
-                        <a href="#" rel="tooltip"
-                           title="<%= msg %>">
-                            <i class="icon-<%= icon %>"></i>
-                        </a>
-
-                        <%= link_to issue.name, scan_issue_url( issue.scan, issue ) %>
-                    </td>
-                    <td class="wrap">
-                            <%= link_to issue.url, issue.url %>
-                    </td>
-                    <td><%= issue.vector_type.capitalize %></td>
-                    <td class="wrap"><%= issue.vector_name %></td>
-                    <td>
-                        <p class="label label-<%= issue_severity_to_alert issue.severity %>">
-                            <%= issue.severity %>
-                        </p>
-                    </td>
-                    <td>
-                        <% if issue.cwe_url %>
-                            <%= link_to issue.cwe.to_s, issue.cwe_url %>
-                        <% end %>
-                    </td>
-                </tr>
-                <tr class="description">
-                    <td class="description" colspan="7">
-                        <div class="description-container collapse" id="description-<%= issue.digest %>">
-                            <blockquote>
-                                <%= issue.description %>
-                            </blockquote>
-                        </div>
-                    </td>
-                </tr>
-                <% end %>
-            </table>
-
-            <div class="visible-phone">
-                <a href="#" onclick="$('.issue').collapse( 'show' ); return false;">Expand all</a>
-                |
-                <a href="#" onclick="$('.issue').collapse( 'hide' ); return false;">Collapse all</a>
-
-                <hr/>
-
-                <%= render partial: '/issues/twin_accordion',
-                           locals: {
-                                   issues:     issues,
-                                   class_name: 'span6'
-                           }
-                %>
-            </div>
-        <% else %>
-            <p class="alert alert-info">
-                No issues discovered<%= ' yet' if @scan.active? %>.
-            </p>
+    <% if counts['verified'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Verified <small>[<%= counts['verified'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'verified' %>
+        class="active"
         <% end %>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'verified' ) ),
+                        onclick: 'scanTableLoading();', remote: true,
+                        rel: 'tooltip',
+                        title:  issue_tab_description( 'verified' ) do %>
+                <i class="icon-info-sign"></i>
+                Verified <small>[<%= counts['verified'] %>]</small>
+        <% end %>
+        </li>
+    <% end %>
 
+
+    <% if counts['pending-verification'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Pending verification <small>[<%= counts['pending-verification'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'pending-verification' %>
+        class="active"
+        <% end %>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'pending-verification' ) ),
+                        onclick: 'scanTableLoading();', remote: true,
+                        rel: 'tooltip',
+                        title:  issue_tab_description( 'pending-verification' ) do %>
+                <i class="icon-info-sign"></i>
+                Pending verification <small>[<%= counts['pending-verification'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if counts['false-positives'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                False positives <small>[<%= counts['false-positives'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'false-positives' %>
+        class="active"
+        <% end %>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'false-positives' ) ),
+                        onclick: 'scanTableLoading();', remote: true,
+                        rel: 'tooltip',
+                        title:  issue_tab_description( 'false-positives' ) do %>
+                <i class="icon-info-sign"></i>
+                False positives <small>[<%= counts['false-positives'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if counts['awaiting-review'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                Awaiting review <small>[<%= counts['awaiting-review'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'awaiting-review' %>
+        class="active"
+        <% end %>
+        >
+            <%= link_to url_method.call( @scan, opts.merge( tab: 'awaiting-review' ) ),
+                        onclick: 'scanTableLoading();', remote: true,
+                        rel: 'tooltip',
+                        title:  issue_tab_description( 'awaiting-review' ) do %>
+                <i class="icon-info-sign"></i>
+                Awaiting review <small>[<%= counts['awaiting-review'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+</ul>
+
+<% if issues.any? %>
+    <p class="muted hidden-phone">
+        <%= issue_tab_description( active_tab ) %>
+    </p>
+
+    <table class="hidden-phone table table-striped table-hover table-condensed fixed">
+        <thead>
+            <tr>
+                <th style="width: 23%">Name</th>
+                <th style="width: 36%">URL</th>
+                <th style="width: 10%">Element</th>
+                <th style="width: 15%">Input</th>
+                <th style="width: 11%">Severity</th>
+                <th style="width: 7%">
+                    CWE
+                    <a href="#" rel="tooltip"
+                       title="Vulnerability definitions from Common Weakness Enumeration project.">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <% issues.each do |issue| %>
+
+        <%
+            icon, msg, row_class = nil
+
+            if active_tab == 'all'
+                icon, msg, row_class =  if issue.requires_verification_and_verified?
+                                            [ 'ok', 'Verified', 'success']
+                                        elsif issue.false_positive?
+                                            [ 'remove', 'False-positive', 'error']
+                                        elsif issue.pending_verification?
+                                            [ 'exclamation-sign', 'Needs verification', 'warning']
+                                        elsif issue.fixed?
+                                            [ 'asterisk', 'Fixed', 'info']
+                                        else
+                                            [ 'question-sign', 'Awaiting review', '']
+                                        end
+           end
+
+        %>
+
+        <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );"
+            class="<%= row_class %>" >
+            <td>
+                <a href="#" rel="tooltip"
+                   title="<%= msg %>">
+                    <i class="icon-<%= icon %>"></i>
+                </a>
+
+                <%= link_to issue.name, scan_issue_url( issue.scan, issue ) %>
+            </td>
+            <td class="wrap">
+                    <%= link_to issue.url, issue.url %>
+            </td>
+            <td><%= issue.vector_type.capitalize %></td>
+            <td class="wrap"><%= issue.vector_name %></td>
+            <td>
+                <p class="label label-<%= issue_severity_to_alert issue.severity %>">
+                    <%= issue.severity %>
+                </p>
+            </td>
+            <td>
+                <% if issue.cwe_url %>
+                    <%= link_to issue.cwe.to_s, issue.cwe_url %>
+                <% end %>
+            </td>
+        </tr>
+        <tr class="description">
+            <td class="description" colspan="7">
+                <div class="description-container collapse" id="description-<%= issue.digest %>">
+                    <blockquote>
+                        <%= issue.description %>
+                    </blockquote>
+                </div>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+
+    <div class="visible-phone">
+        <a href="#" onclick="$('.issue').collapse( 'show' ); return false;">Expand all</a>
+        |
+        <a href="#" onclick="$('.issue').collapse( 'hide' ); return false;">Collapse all</a>
+
+        <hr/>
+
+        <%= render partial: '/issues/twin_accordion',
+                   locals: {
+                           issues:     issues,
+                           class_name: 'span6'
+                   }
+        %>
     </div>
-</div>
+<% else %>
+    <p class="alert alert-info">
+        No issues discovered<%= ' yet' if @scan.active? %>.
+    </p>
+<% end %>

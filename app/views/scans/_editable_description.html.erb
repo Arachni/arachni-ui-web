@@ -1,0 +1,33 @@
+<% if @scan.overview? %>
+    <div id="scan-description" class="lead">
+        Overview
+    </div>
+<% else %>
+    <% if @scan.errors.messages.empty? %>
+        <div id="scan-description" class="lead">
+            <%= m @scan.description %>
+        </div>
+    <% end %>
+
+    <% errors = @scan.errors.messages.dup %>
+
+    <div id="scan-description-form" class="<%= 'hide' if !@scan.errors.messages.any? %>">
+        <%= simple_form_for( @scan, remote: true, method: :put ) do |f| %>
+            <%= f.error_notification %>
+
+            <%= f.input :description, label: false,
+                        hint: 'You can use <a href="http://daringfireball.net/' +
+                              'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+
+            <span id="posting-form-spinner" class="hide">
+                            <i class="icon-spinner icon-spin"></i>
+                        </span>
+            <%= f.button :submit, value: 'Save', class: 'btn btn-inverse btn-small' %>
+        <% end %>
+    </div>
+
+    <a href="#" class="btn btn-inverse btn-mini inline <%= 'hide' if errors.any? %>"
+       id="edit-description-btn">
+        Edit description
+    </a>
+<% end %>

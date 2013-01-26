@@ -1,17 +1,13 @@
 <% title @scan.url %>
 <% breadcrumb_add 'Scans', scans_path %>
 
-<%
-   overview = params[:action] == 'overview'
-%>
-
 <% add_to_sidebar do %>
     <div id="scan-sidebar" class="hide">
         <ul class="nav nav-list">
             <li class="nav-header">
                 Toggle visibility of
             </li>
-            <li>
+            <li id="comments-link-container">
                 <a class="toggle-comments" data-toggle="collapse"
                    href="#comments">
                     <i class="icon-comments"></i>
@@ -97,35 +93,73 @@
     </div>
 <% end %>
 
-<script type="text/javascript">
-    var scanIsActive = true;
-</script>
-
 <div id="scans">
+    <div class="page-header">
+        <% if @scan.owner != current_user %>
+            <span class="label label-info pull-right">Started by <%= @scan.owner.name %></span>
+        <% end %>
+
+        <% purl = @scan.parsed_url %>
+        <h1>
+            <%= "#{purl.scheme}://#{purl.host}" %><%= ":#{purl.port}" if purl.port %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small>
+        </h1>
+
+        <div id="editable-description">
+            <%= render partial: 'editable_description' %>
+        </div>
+    </div>
+
+    <div class="hidden-desktop pull-left">
+        <%= render partial: 'share_form', locals: { scan: @scan } %>
+    </div>
+
+    <div class="hidden-desktop">
+        <a class="toggle-comments btn" data-toggle="collapse"
+           href="#comments">
+            <i class="icon-comments"></i>
+
+            <% if @scan.comments.any? %>
+                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                      class="label total-comments-counter"><%= @scan.comments.size %></span>
+            <% end %>
+
+            <span title="The scan has new comments."
+                  class="hide label label-info new-comments-counter"></span>
+
+            Toggle comments
+        </a>
+    </div>
+
+
+    <div id="comments" class="accordion-body collapse">
+        <%= render partial: 'comments' %>
+    </div>
+
+    <div id="error-messages-container" class="hide">
+        <p class="alert alert-error">
+            This scan has the logged the following
+            <%= link_to 'errors', errors_scan_url( @scan, format: :txt ) %>
+            (you may want to
+            <a href="https://github.com/Arachni/webui/issues">report them</a>):
+        </p>
+
+        <pre id="error-messages"></pre>
+    </div>
 
     <div id="scan">
-        <%= render @scan %>
+        <%= render @scan.active? ? 'show_active' : 'show_inactive' %>
     </div>
 
-    <div id="issues" class="hide"
-         data-refresh-url="<%= scan_issues_url( @scan, format: :js,
-                                                overview: params[:action] == 'overview',
-                                                partial: true ) %>"
-         data-refresh-rate="<%= Settings.scan_refresh_rate %>" data-refresh-type="js">
+    <div class="row-fluid">
+        <div class="span12" id='issues'>
+            <%= render partial: 'issues/table.html', locals: { url_method_type: :scan_url } %>
+        </div>
     </div>
+
 </div>
 
-<script type="text/javascript">
-    setInterval( function(){
-        // Active scans have to refresh the stats, graphs and issues table
-        // while finished scans only need to refresh their issues table,
-        // which can be handled by the issue table partial itself.
-        if( !scanIsActive ) return;
-
-        $.get( '<%= scan_url( @scan, partial: true ) %>', function( data ){
-                    $('#scan').html( data );
-                    updatePage();
-                },
-                'html' )
-    }, <%= Settings.scan_refresh_rate %> );
-</script>
+<div id="updater"
+     data-refresh-url="<%= scan_url( @scan, params.merge( format: :js ) ) %>"
+     data-refresh-rate="<%= Settings.scan_refresh_rate %>"
+     data-refresh-type="js">
+</div>
