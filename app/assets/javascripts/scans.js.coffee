@@ -29,9 +29,6 @@ pickScanType = ( type ) ->
             $('#dispatcher-remote').hide( 50 )
             $('#dispatcher-grid').show( 50 )
 
-window.scanTableLoading = () ->
-    $('#loading').show()
-
 window.setupScanCallbacks = () ->
     $('#edit-description-btn').click ->
         $('#scan-description').hide()

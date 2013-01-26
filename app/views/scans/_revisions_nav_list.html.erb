@@ -8,7 +8,7 @@
     <li class="<%= 'active' if @scan.overview? %>">
         <%= link_to scan_url( @scan, overview: true, format: :js,
                               change_revision: true ),
-                    remote: true, onclick: 'scanTableLoading();' do %>
+                    remote: true, onclick: 'loading();' do %>
             <i class="icon-eye-open"></i>
             Overview &ndash; <%= @scan.overview.issue_count %> issues
         <% end %>
@@ -26,7 +26,7 @@
 
         <%= link_to txt.html_safe, scan_url( @scan.root_revision,
                                              change_revision: true ),
-                    remote: true, onclick: 'scanTableLoading();' %>
+                    remote: true, onclick: 'loading();' %>
     </li>
 
     <% @scan.root_revision.revisions.light.each.with_index do |revision, i| %>
@@ -38,7 +38,7 @@
             %>
             <%= link_to txt.html_safe, scan_url( revision,
                                                  change_revision: true ),
-                        remote: true, onclick: 'scanTableLoading();' %>
+                        remote: true, onclick: 'loading();' %>
         </li>
     <% end %>
 </ul>

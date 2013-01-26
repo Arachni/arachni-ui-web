@@ -47,7 +47,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
             <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'all' ) ),
-                        onclick: 'scanTableLoading();', remote: true do %>
+                        onclick: 'loading();', remote: true do %>
                 All <small>[<%= counts['all'] %>]</small>
             <% end %>
         </li>
@@ -66,7 +66,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'fixed' ) ),
-                        onclick: 'scanTableLoading();', remote: true,
+                        onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'fixed' ) do %>
                 <i class="icon-info-sign"></i>
@@ -88,7 +88,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'verified' ) ),
-                        onclick: 'scanTableLoading();', remote: true,
+                        onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'verified' ) do %>
                 <i class="icon-info-sign"></i>
@@ -111,7 +111,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'pending-verification' ) ),
-                        onclick: 'scanTableLoading();', remote: true,
+                        onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'pending-verification' ) do %>
                 <i class="icon-info-sign"></i>
@@ -133,7 +133,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'false-positives' ) ),
-                        onclick: 'scanTableLoading();', remote: true,
+                        onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'false-positives' ) do %>
                 <i class="icon-info-sign"></i>
@@ -155,7 +155,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <% end %>
         >
             <%= link_to url_method.call( @scan, opts.merge( tab: 'awaiting-review' ) ),
-                        onclick: 'scanTableLoading();', remote: true,
+                        onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'awaiting-review' ) do %>
                 <i class="icon-info-sign"></i>

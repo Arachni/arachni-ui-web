@@ -7,5 +7,6 @@
     remote:        data-remote
 -%>
 <li class="next">
-  <%= link_to_unless current_page.last?, raw(t 'views.pagination.next'), url, :rel => 'next', :remote => remote %>
+  <%= link_to_unless current_page.last?, raw(t 'views.pagination.next'), url,
+                     rel: 'next', remote: remote, onclick: 'loading()' %>
 </li>

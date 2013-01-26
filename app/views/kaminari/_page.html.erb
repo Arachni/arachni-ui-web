@@ -8,5 +8,8 @@
     remote:        data-remote
 -%>
 <li class="<%= 'active' if page.current? %>">
-  <span><%= link_to_unless page.current?, page, url, {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %></span>
+  <span>
+      <%= link_to_unless page.current?, page, url,
+                           { remote: remote, onclick: 'loading()', :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil} %>
+  </span>
 </li>

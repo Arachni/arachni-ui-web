@@ -20,6 +20,12 @@ require 'timeout'
 module ApplicationHelper
     include ::FrameworkHelper
 
+    def my_paginate( rows, opts = {} )
+        s = paginate( rows, opts )
+        #s.gsub!( /(&amp;|\?)partial=true/, '' ) if !opts[:partial]
+        s.html_safe
+    end
+
     def render_partial?
         params[:partial] == 'true'
     end

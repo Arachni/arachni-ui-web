@@ -275,11 +275,13 @@ $(document).ready( function( $ ) {
 
 });
 
-$(document).ajaxStart( function() {
-//    $("#loading").modal();
-}).ajaxStop( function() {
-        $("#loading").hide();
-    });
+function loading(){
+    $('#loading').show();
+}
+
+$(document).ajaxStop( function() {
+    $("#loading").hide();
+});
 
 $(window).ready( function( $ ) {
     if( !$('.subnav' ) ) return;
