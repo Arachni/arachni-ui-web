@@ -33,6 +33,7 @@
         <% end %>
 
         <% if show_as_revision || scan.revision? %>
+            &mdash;
             <a href="#" rel="tooltip" class="label label-success"
                data-original-title="This scan is a revision.">
                 <i class="icon-repeat"></i>
@@ -51,9 +52,13 @@
     </td>
     <td class="hidden-phone"><%= link_to scan.profile.name, scan.profile %></td>
     <td class="hidden-phone">
-        <%= scan.type.to_s.capitalize %>
-        <% if scan.dispatcher %>
-            (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
+        <% if (!show_as_revision && scan.has_revisions?) %>
+        N/A
+        <% else %>
+            <%= scan.type.to_s.capitalize %>
+            <% if scan.dispatcher %>
+                (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
+            <% end %>
         <% end %>
     </td>
 
@@ -73,9 +78,21 @@
             <%= scan.eta %>
         </td>
     <% else %>
-        <td class="hidden-phone"><%= l scan.created_at %></td>
+        <td class="hidden-phone">
+            <% if !show_as_revision && scan.has_revisions? %>
+                N/A
+            <% else %>
+                <%= l scan.created_at %>
+            <% end %>
+        </td>
+
         <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            <%= scan.finished_at ? l( scan.finished_at ) : 'N/A' %>
+
+            <% if (!show_as_revision && scan.has_revisions?) || !scan.finished_at %>
+                N/A
+            <% else %>
+                <%= l scan.finished_at %>
+            <% end %>
         </td>
     <% end %>
 
@@ -89,7 +106,13 @@
         </td>
     <% end %>
 
-    <td class="hidden-phone"><%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %></td>
+    <td class="hidden-phone">
+        <% if !show_as_revision && scan.has_revisions? %>
+            N/A
+        <% else %>
+            <%= (cs = scan.comments.size) > 1 ? cs : 'None yet' %>
+        <% end %>
+    </td>
 
     <td>
         <% if can? :read, scan %>
