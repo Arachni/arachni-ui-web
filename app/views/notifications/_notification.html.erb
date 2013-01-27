@@ -2,24 +2,26 @@
    with ||= []
 %>
 
-<%= link_to polymorphic_path( notification.model.family ) do %>
+<% if notification.model %>
+    <%= link_to polymorphic_path( notification.model.family ) do %>
 
-    <%= notification.model.family.reverse.map do |model|
-        "#{model.class} <em>#{model}</em>"
-    end.join( ' of ' ).html_safe %>
+        <%= notification.model.family.reverse.map do |model|
+            "#{model.class} <em>#{model}</em>"
+        end.join( ' of ' ).html_safe %>
 
-<% end %>
+    <% end %>
 
-<%= notification.action_description %>
+    <%= notification.action_description %>
 
-<% if with.include?( :actor ) && notification.actor %>
-    by <%= notification.actor %>
-<% end %>
+    <% if with.include?( :actor ) && notification.actor %>
+        by <%= notification.actor %>
+    <% end %>
 
-<small class="muted">&ndash; <%= l notification.created_at %></small>
+    <small class="muted">&ndash; <%= l notification.created_at %></small>
 
-<% if !notification.text.to_s.empty? %>
-    <blockquote class="muted">
-        <%= notification.text.html_safe %>
-    </blockquote>
+    <% if !notification.text.to_s.empty? %>
+        <blockquote class="muted">
+            <%= notification.text.html_safe %>
+        </blockquote>
+    <% end %>
 <% end %>
