@@ -10,37 +10,7 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
-        params[:filter_finished] ||= params[:filter_active] ||= 'yours'
-
-        @counts = {
-            active: {},
-            finished: {}
-        }
-        %w(yours shared others).each do |type|
-            begin
-                @counts[:active][type] = scan_filter( type ).
-                    light.active.count
-
-                @counts[:active]['total'] ||= 0
-                @counts[:active]['total']  += @counts[:active][type]
-
-                @counts[:finished][type] = scan_filter( type ).
-                    light.finished.count
-
-                @counts[:finished]['total'] ||= 0
-                @counts[:finished]['total']  += @counts[:finished][type]
-            rescue
-            end
-
-        end
-
-        @active_scans = scan_filter( params[:filter_active] ).active.
-            page( params[:active_page] ).
-            per( Settings.active_scan_pagination_entries ).order( 'id DESC' )
-
-        @finished_scans = scan_filter( params[:filter_finished] ).finished.light.
-            page( params[:finished_page] ).
-            per( Settings.finished_scan_pagination_entries ).order( 'id DESC' )
+        prepare_tables_data
 
         respond_to do |format|
             format.html # index.html.erb
@@ -216,7 +186,14 @@ class ScansController < ApplicationController
         notify @scan
 
         respond_to do |format|
-            format.js { render '_scan.js' }
+            format.js {
+                if params[:render] == 'index'
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
         end
     end
 
@@ -228,7 +205,14 @@ class ScansController < ApplicationController
         notify @scan
 
         respond_to do |format|
-            format.js { render '_scan.js' }
+            format.js {
+                if params[:render] == 'index'
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
         end
     end
 
@@ -240,7 +224,14 @@ class ScansController < ApplicationController
         notify @scan
 
         respond_to do |format|
-            format.js { render '_scan.js' }
+            format.js {
+                if params[:render] == 'index'
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
         end
     end
 
@@ -254,7 +245,10 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             format.html { redirect_to scans_url }
-            format.json { head :no_content }
+            format.js {
+                prepare_tables_data
+                render '_tables.js'
+            }
         end
     end
 
