@@ -45,6 +45,7 @@ window.setupScanCallbacks = () ->
         $('#edit-description-btn').show()
     $('#cancel-description-edit-btn').click ->
         $('#scan-description-form').hide()
+        $('#scan-description').show()
         $('#edit-description-btn').show()
 
 jQuery ->
