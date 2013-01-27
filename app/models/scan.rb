@@ -163,9 +163,7 @@ class Scan < ActiveRecord::Base
     end
 
     def revisions_issue_count
-        i = issues.count
-        revisions.light.each { |r| i += r.issues.count }
-        i
+        revisions_issues.count
     end
 
     def revisions_issue_digests
