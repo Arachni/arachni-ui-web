@@ -111,7 +111,7 @@ class ScansController < ApplicationController
             if @scan.save
                 notify @scan
 
-                format.html { redirect_to @scan, notice: 'Scan was successfully created.' }
+                format.html { redirect_to @scan }
                 format.json { render json: @scan, status: :created, location: @scan }
             else
                 format.html { render action: "new" }
