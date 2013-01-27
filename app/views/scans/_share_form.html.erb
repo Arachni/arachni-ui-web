@@ -1,6 +1,6 @@
 <% if User.count > 1 && can?( :share, scan ) %>
     <a href="#shareScan_<%= scan.id %>" title="Share scan"
-       role="button" class="btn" data-toggle="modal">
+       role="button" class="btn btn-small" data-toggle="modal">
         <i class="icon-share"></i>
 
         <% if (shared_with = scan.users.size - 1) > 0 %>
@@ -28,8 +28,8 @@
 
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <%= f.button :submit, class: 'btn btn-primary', value: 'Share' %>
+            <%= f.button :submit, class: 'btn btn-small btn-primary', value: 'Share' %>
+            <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
         <% end %>
     </div>

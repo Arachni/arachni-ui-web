@@ -17,13 +17,14 @@
             </td>
             <td>
                 <% if can? :read, Profile %>
-                    <%= link_to profile, title: 'Show', class: 'btn btn-info' do %>
+                    <%= link_to profile, title: 'Show', class: 'btn btn-small btn-info' do %>
                         <i class="icon-eye-open icon-muted"></i>
                     <% end %>
                 <% end %>
 
                 <% if can? :edit, Profile %>
-                    <%= link_to edit_profile_path( profile ), title: 'Edit', class: 'btn btn-warning' do %>
+                    <%= link_to edit_profile_path( profile ), title: 'Edit',
+                                class: 'btn btn-small btn-warning' do %>
                         <i class="icon-pencil"></i>
                     <% end %>
                 <% end %>
@@ -32,13 +33,14 @@
                     <%= link_to new_profile_path( profile ),
                                 title: "Create a new profile based on '#{profile.name}'",
                                 method: :post,
-                                class: 'btn btn-primary' do %>
+                                class: 'btn btn-small btn-primary' do %>
                         <i class="icon-copy"></i>
                     <% end %>
                 <% end %>
 
                 <% if can?( :delete, Profile ) && !profile.default? %>
-                    <%= link_to profile, title: 'Delete', method: :delete, class: 'btn btn-danger',
+                    <%= link_to profile, title: 'Delete',
+                                method: :delete, class: 'btn btn-small btn-danger',
                                 data: { confirm: 'Are you sure?' } do %>
                         <i class="icon-trash"></i>
                     <% end %>

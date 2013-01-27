@@ -36,21 +36,22 @@
                 </td>
                 <td>
                     <% if can? :show, user %>
-                        <%= link_to user, title: 'Show user', class: 'btn btn-info' do %>
+                        <%= link_to user, title: 'Show user',
+                                    class: 'btn btn-small btn-info' do %>
                             <i class="icon-eye-open"></i>
                         <% end %>
                     <% end %>
 
                     <% if can? :edit, user %>
                         <%= link_to edit_user_path( user ), title: 'Edit user',
-                                    class: 'btn btn-warning' do %>
+                                    class: 'btn btn-small btn-warning' do %>
                             <i class="icon-pencil"></i>
                         <% end %>
                     <% end %>
 
                     <% if can? :destroy, user %>
                         <%= link_to user, title: 'Delete user',
-                                    class: 'btn btn-danger', method: :delete,
+                                    class: 'btn btn-small btn-danger', method: :delete,
                                     data: { confirm: 'Are you sure?' } do %>
                             <i class="icon-trash"></i>
                         <% end %>
