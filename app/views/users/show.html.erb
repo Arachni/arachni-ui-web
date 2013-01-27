@@ -45,7 +45,7 @@
 
             <% if (scans = @user.own_scans).any? %>
                 <h2>Scans <small>[<%= scans.size %>]</small></h2>
-                <ul>
+                <ul class="unstyled">
                     <% scans.each do |scan| %>
                         <li><%= link_to scan, scan_path( scan ) %></li>
                     <% end %>

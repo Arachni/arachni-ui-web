@@ -10,18 +10,22 @@
         end.join( ' of ' ).html_safe %>
 
     <% end %>
-
-    <%= notification.action_description %>
-
-    <% if with.include?( :actor ) && notification.actor %>
-        by <%= notification.actor %>
-    <% end %>
-
-    <small class="muted">&ndash; <%= l notification.created_at %></small>
-
-    <% if !notification.text.to_s.empty? %>
-        <blockquote class="muted">
-            <%= notification.text.html_safe %>
-        </blockquote>
-    <% end %>
+<% else %>
+    <em>(Now deleted)</em>
+    <%= notification.model_type %> #<%= notification.model_id %>
 <% end %>
+
+<%= notification.action_description %>
+
+<% if with.include?( :actor ) && notification.actor %>
+    by <%= notification.actor %>
+<% end %>
+
+<small class="muted">&ndash; <%= l notification.created_at %></small>
+
+<% if !notification.text.to_s.empty? %>
+    <blockquote class="muted">
+        <%= notification.text.html_safe %>
+    </blockquote>
+<% end %>
+

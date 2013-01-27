@@ -47,7 +47,11 @@ class Notification < ActiveRecord::Base
     end
 
     def model
-        model_type.classify.constantize.find( model_id ) rescue nil
+        model_class.find( model_id ) rescue nil
+    end
+
+    def model_class
+        model_type.classify.constantize
     end
 
     def action
@@ -55,13 +59,17 @@ class Notification < ActiveRecord::Base
     end
 
     def action_description
-        model.describe_notification action
+        model_class.describe_notification action
     end
 
     def to_s
-        s = model.family.reverse.map do |model|
-            "#{model.class} <em>#{model}</em>"
-        end.join( ' of ' )
+        s = if model
+                model.family.reverse.map do |model|
+                "#{model.class} <em>#{model}</em>"
+                end.join( ' of ' )
+            else
+                "(Now deleted) #{model_type} ##{model_id}"
+            end
 
         s << " #{action_description}"
         s << " by #{actor}" if actor

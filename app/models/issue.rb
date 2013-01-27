@@ -172,7 +172,7 @@ class Issue < ActiveRecord::Base
         [scan, self]
     end
 
-    def describe_notification( action )
+    def self.describe_notification( action )
         case action
             when :destroy
                 'was deleted'

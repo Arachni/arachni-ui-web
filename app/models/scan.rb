@@ -302,7 +302,7 @@ class Scan < ActiveRecord::Base
         instance_count - 1
     end
 
-    def describe_notification( action )
+    def self.describe_notification( action )
         case action
             when :completed
                 action

@@ -18,7 +18,7 @@ module Extensions
 module Notifier
     extend ActiveSupport::Concern
 
-    def describe_notification( action )
+    def self.describe_notification( action )
     end
 
     #
