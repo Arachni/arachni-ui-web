@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     end
 
     def own_scans
-        scans.where( owner_id: id )
+        scans.where( owner_id: id ).order( 'id desc' )
     end
 
     def ability
