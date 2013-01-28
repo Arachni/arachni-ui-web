@@ -36,6 +36,7 @@
                 <div id="content" class="content">
                     <div class="row-fluid">
                         <div class="span2 sidebar hidden-phone">
+                            <% if show_sidebar? %>
                             <div id="sidebar-affix" class="affix">
 
                                 <% if has_subnav? %>
@@ -51,7 +52,7 @@
                                         <%= sidebar.html_safe %>
                                     </div>
                                 </div>
-
+                                <% end %>
                             </div>
                         </div>
 

@@ -32,6 +32,8 @@
 //= require ./jqplot/jquery.jqplot.js
 //= require_tree .
 
+jQuery.fn.exists = function(){ return this.length > 0; }
+
 if( typeof Array.prototype.contains != 'function' ) {
     Array.prototype.contains = function(obj) {
         var i = this.length;
@@ -204,6 +206,31 @@ function autoRefreshElements( selector ){
     });
 }
 
+function responsiveAdjust(){
+    if( window.innerWidth < 979 && window.innerWidth > 768 ){
+
+        console.log( $('#sidebar-affix').exists() );
+
+        if( $('#sidebar-affix').exists() ) {
+            $('#sidebar').show();
+            $('#main-content').attr( 'class', 'span9 offset3' )
+        } else {
+            $('#sidebar').hide();
+            $('#main-content').attr( 'class', 'span12' )
+        }
+    }
+
+    if( window.innerWidth >= 979 ){
+        $('#sidebar').show();
+
+        if( $('#sidebar-affix').exists() ) {
+            $('#main-content').attr( 'class', 'span8' )
+        } else {
+            $('#main-content').attr( 'class', 'span12 offset3' )
+        }
+    }
+}
+
 $(document).ready( function( $ ) {
     updatePage();
 
@@ -218,6 +245,11 @@ $(document).ready( function( $ ) {
     // Fade-out flash messages after a while.
     $( '#flash' ).delay( 500 ).fadeIn( 'normal', function() {
         $( this ).delay( 2500 ).fadeOut();
+    });
+
+    responsiveAdjust();
+    $(window).resize( function(){
+        responsiveAdjust();
     });
 
     // Perform AJAX refreshes on elements with a 'data-refresh-url' attribute
