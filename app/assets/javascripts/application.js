@@ -209,11 +209,9 @@ function autoRefreshElements( selector ){
 function responsiveAdjust(){
     if( window.innerWidth < 979 && window.innerWidth > 768 ){
 
-        console.log( $('#sidebar-affix').exists() );
-
         if( $('#sidebar-affix').exists() ) {
             $('#sidebar').show();
-            $('#main-content').attr( 'class', 'span9 offset3' )
+            $('#main-content').attr( 'class', 'span8 offset3' )
         } else {
             $('#sidebar').hide();
             $('#main-content').attr( 'class', 'span12' )
