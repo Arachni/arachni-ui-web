@@ -109,11 +109,11 @@
         </div>
     </div>
 
-    <div class="hidden-desktop pull-left">
+    <div class="visible-phone pull-left">
         <%= render partial: 'share_form', locals: { scan: @scan } %>
     </div>
 
-    <div class="hidden-desktop">
+    <div class="visible-phone">
         <a class="toggle-comments btn btn-small" data-toggle="collapse"
            href="#comments">
             <i class="icon-comments"></i>
@@ -128,6 +128,8 @@
 
             Toggle comments
         </a>
+
+        <hr/>
     </div>
 
     <div id="comments" class="accordion-body collapse">
