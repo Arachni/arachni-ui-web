@@ -87,7 +87,7 @@
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :include, input_html: { value: @profile.exclude.join( "\n" ) } %>
+                    <%= f.input :include, input_html: { value: @profile.include.join( "\n" ) } %>
                     <%=  messages_for( :include ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
