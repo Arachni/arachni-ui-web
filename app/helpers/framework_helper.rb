@@ -45,8 +45,11 @@ module FrameworkHelper
     def reports_with_outfile
         h = {}
         reports.
-            reject { |_, info| !info[:options] || !info[:options].map { |o| o.name  }.include?( 'outfile' ) }.
-            map { |name, info| h[name] = info[:name] }
+            reject { |_, info| !info[:options] || !info[:options].
+                map { |o| o.name  }.include?( 'outfile' ) }.
+            map do |name, info|
+                h[info[:extension]] = [info[:name], info[:description]]
+            end
         h
     end
 
@@ -57,8 +60,12 @@ module FrameworkHelper
             components = framework do |f|
                 (manager = f.send( type )).send( list ).inject( {} ) do |h, name|
                     h[name] = manager[name].info.merge( path: manager.name_to_path( name ) )
-                    h[name][:author] = [ h[name][:author] ].flatten
-                    h[name][:authors] = h[name][:author]
+                    h[name][:author]    = [ h[name][:author] ].flatten
+                    h[name][:authors]   = h[name][:author]
+
+                    if manager[name].has_outfile?
+                        h[name][:extension] = manager[name].outfile_option.default.split( '.' ).last
+                    end
                     h
                 end
             end

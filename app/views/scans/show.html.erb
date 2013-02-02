@@ -78,7 +78,12 @@
                     <i class="icon-download-alt"></i>
                     Download report as:
 
-                    <% reports_links = reports_with_outfile.map { |shortname, n| link_to n, report_scan_path( format: shortname) } %>
+                    <%
+                       reports_links = reports_with_outfile.map do |shortname, (name, desc)|
+                           link_to name, report_scan_path( format: shortname ),
+                                   rel: 'tooltip', title:  desc
+                       end
+                    %>
 
                     <ul class="nav nav-list">
                         <% reports_links.each do |l| %>
