@@ -219,13 +219,13 @@ function responsiveAdjust(){
     }
 
     if( window.innerWidth >= 979 ){
-        $('#sidebar').show();
-
-        if( $('#sidebar-affix').exists() ) {
-            $('#main-content').attr( 'class', 'span8' )
-        } else {
-            $('#main-content').attr( 'class', 'span12 offset3' )
-        }
+//        $('#sidebar').show();
+//
+//        if( $('#sidebar-affix').exists() ) {
+            $('#main-content').attr( 'class', 'span8' );
+//        } else {
+//            $('#main-content').attr( 'class', 'span8' )
+//        }
     }
 }
 
