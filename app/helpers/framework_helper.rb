@@ -63,7 +63,7 @@ module FrameworkHelper
                     h[name][:author]    = [ h[name][:author] ].flatten
                     h[name][:authors]   = h[name][:author]
 
-                    if manager[name] <= Arachni::Report::Base
+                    if manager[name] <= Arachni::Report::Base && manager[name].has_outfile?
                         h[name][:extension] = manager[name].outfile_option.default.split( '.' ).last
                     end
                     h
