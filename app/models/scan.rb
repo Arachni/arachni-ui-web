@@ -436,7 +436,7 @@ class Scan < ActiveRecord::Base
 
                             previous_issues.each do |i|
                                 i.notify action: :fixed,
-                                         text: "Marked as fixed as it did not " +
+                                         text: 'Marked as fixed as it did not ' <<
                                                  "appear in Revision ##{revision_index}."
                             end
 
@@ -462,8 +462,7 @@ class Scan < ActiveRecord::Base
 
     def push_framework_issues( a_issues )
         if revision?
-            previous_issues = Issue.
-                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+            previous_rev_ids = previous_revisions_with_root.pluck( :id )
         end
 
         [a_issues].flatten.compact.each do |i|
@@ -474,13 +473,23 @@ class Scan < ActiveRecord::Base
                 save
             end
 
-            next if skip
-
             if revision?
+                previously_fixed_issue =
+                    Issue.where( scan_id: previous_rev_ids,
+                                 digest: i.digest, fixed: true ).first
+
+                if previously_fixed_issue
+                    previously_fixed_issue.notify action: :fixed,
+                             text: 'Marked as unfixed as it re-appeared in ' <<
+                                    "Revision ##{revision_index}."
+                end
+
                 # Mark issue as not fixed for all revisions since we came across it.
-                previous_issues.update_all( { fixed: false }, { digest: i.digest } )
+                Issue.where( scan_id: previous_rev_ids, digest: i.digest )
+                    .update_all( { fixed: false } )
             end
 
+            next if skip
             issues.create_from_framework_issue i
         end
     end
