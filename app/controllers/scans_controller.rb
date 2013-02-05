@@ -239,8 +239,12 @@ class ScansController < ApplicationController
     # DELETE /scans/1.json
     def destroy
         @scan = find_scan( params[:id] )
-        @scan.destroy
 
+        if @scan.active?
+            fail 'Cannot delete an active scan, please abort it first.'
+        end
+
+        @scan.destroy
         notify @scan
 
         respond_to do |format|
