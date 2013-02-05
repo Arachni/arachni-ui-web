@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni.webui/../arachni/.git
-  revision: 597ad84bcbe9bf71a3ff23234e48c44dd816bae0
+  revision: 397466416c54bc065615babc4c0851fdb58287ea
   branch: no-webui
   specs:
     arachni (1.0dev)
@@ -72,12 +72,12 @@ GEM
       rack (>= 1.4.1)
       sinatra (>= 1.3.2)
     awesome_print (1.1.0)
-    backports (2.7.1)
+    backports (2.8.2)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
     builder (3.0.4)
-    cancan (1.6.8)
+    cancan (1.6.9)
     capybara (2.0.2)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -190,7 +190,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.19)
+    mime-types (1.20.1)
     multi_json (1.5.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -217,7 +217,7 @@ GEM
       activesupport (= 3.2.11)
       bundler (~> 1.0)
       railties (= 3.2.11)
-    rails-footnotes (3.7.9)
+    rails-footnotes (3.7.8)
       rails (>= 3.0.0)
     rails-settings-cached (0.2.4)
       rails (>= 3.0.0)
@@ -230,7 +230,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     rake (10.0.3)
     rb-readline (0.4.2)
-    rdiscount (1.6.8)
+    rdiscount (2.0.7)
     rdoc (3.12)
       json (~> 1.4)
     ref (1.0.2)
