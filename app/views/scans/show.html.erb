@@ -141,7 +141,7 @@
         <%= render partial: 'comments' %>
     </div>
 
-    <div id="error-messages-container" class="hide">
+    <div id="error-messages-container" <%= 'class="hide"'.html_safe if @scan.error_messages.empty? %> >
         <p class="alert alert-error">
             This scan has the logged the following
             <%= link_to 'errors', errors_scan_url( @scan, format: :txt ) %>

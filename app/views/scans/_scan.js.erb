@@ -17,8 +17,9 @@
 
 <% if !@scan.error_messages.empty? %>
     $("#error-messages").html( "<%= escape_javascript( @scan.error_messages ).force_encoding( 'utf-8' ) %>" );
+    $("#error-messages-container" ).show();
 
-    objDiv = document.getElementById( "error_messages" );
+    objDiv = document.getElementById( 'error-messages' );
     objDiv.scrollTop = objDiv.scrollHeight;
 <% end %>
 
