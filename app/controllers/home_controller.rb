@@ -27,6 +27,9 @@ class HomeController < ApplicationController
         @notifications = current_user.notifications.page( params[:notifications_page] ).
             per( Settings.notifications_pagination_entries ).order( 'id DESC' )
 
+        @issues_per_scan = {}
+        current_user.scans.each { |s| @issues_per_scan[s.id] = s.issues.count }
+
         html_block = if render_partial?
                          proc { render partial: 'dashboard' }
                      end
