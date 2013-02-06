@@ -45,9 +45,9 @@ ArachniWebui::Application.routes.draw do
         put :make_default, on: :member
     end
 
-    match 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
+    get 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
 
-    match '/navigation', :to => 'home#navigation'
+    get '/navigation', :to => 'home#navigation'
 
     authenticated :user do
         root to: 'home#index'
