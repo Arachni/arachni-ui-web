@@ -3,13 +3,15 @@
         Overview
     </div>
 <% else %>
+
+    <% has_errors = true %>
     <% if @scan.errors.messages.empty? %>
         <div id="scan-description" class="lead">
             <%= m @scan.description %>
         </div>
-    <% end %>
 
-    <% errors = @scan.errors.messages.dup %>
+        <% has_errors = false %>
+    <% end %>
 
     <div id="scan-description-form" class="hide">
         <%= simple_form_for( @scan, remote: true, method: :put ) do |f| %>
@@ -29,6 +31,12 @@
             </a>
         <% end %>
     </div>
+
+    <% if has_errors %>
+        <script type="text/javascript">
+            $('#scan-description-form' ).show();
+        </script>
+    <% end %>
 
     <a href="#" class="btn btn-inverse btn-mini" id="edit-description-btn">
         Edit description
