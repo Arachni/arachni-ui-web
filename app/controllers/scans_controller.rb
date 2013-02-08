@@ -280,12 +280,10 @@ class ScansController < ApplicationController
         params.delete( 'grid_dispatcher_id' )
         params.delete( 'remote_dispatcher_id' )
 
-        ap params
-
         params.require( :scan ).
             permit( :url, :description, :type, :instance_count, :profile_id,
                     { user_ids: [] }, :dispatcher_id, :restrict_to_revision_sitemaps,
-                    :extend_from_revision_sitemaps ).tap { |t| ap t }
+                    :extend_from_revision_sitemaps )
     end
 
     def find_scan( id, light = true )
