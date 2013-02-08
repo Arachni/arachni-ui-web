@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     load_and_authorize_resource
 
     def index
-        @users = User.all
+        @users = User.order( 'id desc' ).all
     end
 
     def show
@@ -45,13 +45,6 @@ class UsersController < ApplicationController
     end
 
     def create
-        if params[:user][:password].blank?
-            params[:user].delete(:password)
-            params[:user].delete(:password_confirmation)
-        end
-
-        params[:user].delete( :role_ids ) if !current_user.admin?
-
         respond_to do |format|
             if @user.save
                 format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -64,13 +57,6 @@ class UsersController < ApplicationController
     end
 
     def update
-        if params[:user][:password].blank?
-            params[:user].delete( :password )
-            params[:user].delete( :password_confirmation )
-        end
-
-        params[:user].delete( :role_ids ) if !current_user.admin?
-
         @user = User.find( params.require( :id ) )
 
         respond_to do |format|
@@ -102,6 +88,11 @@ class UsersController < ApplicationController
     end
 
     def strong_params
+        if params[:user][:password].blank?
+            params[:user].delete(:password)
+            params[:user].delete(:password_confirmation)
+        end
+
         if current_user.admin?
             params.require( :user ).
                 permit( :name, :email, :password, :password_confirmation,
