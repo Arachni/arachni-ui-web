@@ -29,11 +29,22 @@
     <div class="row-fluid">
         <div class="span6">
             <h2>Activities</h2>
-            <div id="dashboard"
-                 data-refresh-url="<%= root_url( format: :js, render: 'activities' ) %>"
-                 data-refresh-type="js">
-                <div id="activities"></div>
-            </div>
+            <% if @activities.any? %>
+                <%= my_paginate @activities, param_name: 'activities_page', remote: true,
+                                params: { render: 'activities' } %>
+
+                <ul class="notifications unstyled">
+                    <% @activities.each do |activity| %>
+                        <li>
+                            <%= render activity %>
+                        </li>
+                    <% end %>
+                </ul>
+            <% else %>
+                <p class="alert alert-info">
+                    <%= @user %> hasn't been up to anything.
+                </p>
+            <% end %>
         </div>
 
         <div class="span6">

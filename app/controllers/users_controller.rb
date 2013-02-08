@@ -25,7 +25,10 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find( params.require( :id ) )
+        @user       = User.find( params.require( :id ) )
+        @activities = @user.activities.page( params[:activities_page] ).
+                        per( Settings.activities_pagination_entries ).
+                        order( 'id DESC' )
     end
 
     def new
