@@ -18,6 +18,7 @@ class DispatchersController < ApplicationController
     include ApplicationHelper
 
     before_filter :authenticate_user!
+    before_filter :new_dispatcher, only: [ :create ]
 
     load_and_authorize_resource
 
@@ -71,8 +72,6 @@ class DispatchersController < ApplicationController
     # POST /dispatchers
     # POST /dispatchers.json
     def create
-        @dispatcher = Dispatcher.new( strong_params )
-
         respond_to do |format|
             if @dispatcher.save
                 format.html do
@@ -120,6 +119,10 @@ class DispatchersController < ApplicationController
     end
 
     private
+
+    def new_dispatcher
+        @dispatcher = Dispatcher.new( strong_params )
+    end
 
     def strong_params
         params.require( :dispatcher ).permit( :address, :port, :description )
