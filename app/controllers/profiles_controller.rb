@@ -17,6 +17,7 @@
 class ProfilesController < ApplicationController
     before_filter :authenticate_user!
     before_filter :prepare_plugin_params
+    before_filter :new_profile, only: [ :create ]
 
     load_and_authorize_resource
 
@@ -81,8 +82,6 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
-        @profile = Profile.new( strong_params )
-
         respond_to do |format|
             if @profile.save
                 format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
@@ -125,6 +124,10 @@ class ProfilesController < ApplicationController
     end
 
     private
+
+    def new_profile
+        @profile = Profile.new( strong_params )
+    end
 
     def strong_params
         params.require( :profile ).

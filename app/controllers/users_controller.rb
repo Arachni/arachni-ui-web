@@ -16,6 +16,7 @@
 
 class UsersController < ApplicationController
     before_filter :authenticate_user!
+    before_filter :new_user, only: [ :create ]
 
     load_and_authorize_resource
 
@@ -41,8 +42,6 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.new( strong_params )
-
         if params[:user][:password].blank?
             params[:user].delete(:password)
             params[:user].delete(:password_confirmation)
@@ -94,6 +93,10 @@ class UsersController < ApplicationController
     end
 
     private
+
+    def new_user
+        @user = User.new( strong_params )
+    end
 
     def strong_params
         if current_user.admin?

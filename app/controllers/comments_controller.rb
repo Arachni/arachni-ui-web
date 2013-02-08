@@ -19,6 +19,7 @@ class CommentsController < ApplicationController
     include NotificationsHelper
 
     before_filter :authenticate_user!
+    before_filter :new_comment, only: [ :create ]
 
     load_and_authorize_resource :scan
     load_and_authorize_resource :comment, through: [:scan]
@@ -73,8 +74,6 @@ class CommentsController < ApplicationController
     # POST /scan/comments.json
     def create
         @commentable = commentable
-
-        @comment      = @commentable.comments.new( strong_params )
         @comment.user = current_user
 
         respond_to do |format|
@@ -124,6 +123,10 @@ class CommentsController < ApplicationController
     end
 
     private
+
+    def new_comment
+        @comment = commentable.comments.new( strong_params )
+    end
 
     def strong_params
         params.require( :comment ).permit( :user_id, :text )
