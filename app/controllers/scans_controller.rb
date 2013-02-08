@@ -66,7 +66,7 @@ class ScansController < ApplicationController
     # GET /scans/1/report.html
     # GET /scans/1/report.json
     def report
-        @scan = find_scan( params.require( :id ), false )
+        @scan = find_scan( params.require( :id ) )
 
         format = URI( request.url ).path.split( '.' ).last
         render layout: false,
@@ -288,11 +288,8 @@ class ScansController < ApplicationController
                     :extend_from_revision_sitemaps )
     end
 
-    def find_scan( id, light = true )
-        s = (current_user.admin? ? Scan : current_user.scans)
-        s = s.light if light
-        s = s.find( params[:id] )
-
+    def find_scan( id )
+        s = Scan.find( params[:id] )
         params[:overview] == 'true' ? s.act_as_overview : s
     end
 

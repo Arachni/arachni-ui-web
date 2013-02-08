@@ -25,14 +25,12 @@ module ScansHelper
         }
         %w(yours shared others).each do |type|
             begin
-                @counts[:active][type] = scan_filter( type ).
-                    light.active.count
+                @counts[:active][type] = scan_filter( type ).active.count
 
                 @counts[:active]['total'] ||= 0
                 @counts[:active]['total']  += @counts[:active][type]
 
-                @counts[:finished][type] = scan_filter( type ).
-                    light.finished.count
+                @counts[:finished][type] = scan_filter( type ).finished.count
 
                 @counts[:finished]['total'] ||= 0
                 @counts[:finished]['total']  += @counts[:finished][type]
@@ -42,12 +40,14 @@ module ScansHelper
         end
 
         @active_scans = scan_filter( params[:filter_active] ).active.
-            page( params[:active_page] ).
-            per( Settings.active_scan_pagination_entries ).order( 'id DESC' )
+                            page( params[:active_page] ).
+                            per( Settings.active_scan_pagination_entries ).
+                            order( 'id DESC' )
 
-        @finished_scans = scan_filter( params[:filter_finished] ).finished.light.
-            page( params[:finished_page] ).
-            per( Settings.finished_scan_pagination_entries ).order( 'id DESC' )
+        @finished_scans = scan_filter( params[:filter_finished] ).finished.
+                            page( params[:finished_page] ).
+                            per( Settings.finished_scan_pagination_entries ).
+                            order( 'id DESC' )
 
     end
 
@@ -56,9 +56,9 @@ module ScansHelper
 
         case filter
             when 'yours'
-                current_user.scans.light.where( "owner_id == ?", current_user.id )
+                current_user.scans.where( "owner_id == ?", current_user.id )
             when 'shared'
-                current_user.scans.light.where( "owner_id != ?", current_user.id )
+                current_user.scans.where( "owner_id != ?", current_user.id )
             when 'others'
                 raise 'Unauthorised!' if !current_user.admin?
 

@@ -51,7 +51,6 @@ class Scan < ActiveRecord::Base
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
-    scope :light,    -> { select( column_names - %w(report) ) }
     scope :active,   -> { where active: true }
     scope :inactive, -> { where active: false }
     scope :finished, -> { where( "status = 'completed' OR status = 'aborted'" +
@@ -66,7 +65,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.recent( limit = 5 )
-        light.limit( limit ).order( "id desc" )
+        limit( limit ).order( "id desc" )
     end
 
     def subscribers
@@ -170,7 +169,7 @@ class Scan < ActiveRecord::Base
 
     def revisions_issue_digests
         return issue_digests if root?
-        revisions_with_root.light.map( &:issue_digests ).flatten
+        revisions_with_root.map( &:issue_digests ).flatten
     end
 
     def has_revisions?

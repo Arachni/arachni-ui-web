@@ -29,7 +29,7 @@
                     remote: true, onclick: 'loading();' %>
     </li>
 
-    <% @scan.root_revision.revisions.light.each.with_index do |revision, i| %>
+    <% @scan.root_revision.revisions.each.with_index do |revision, i| %>
         <li class="<%= 'active' if !@scan.overview? && revision.id == @scan.id %>">
             <%
                txt = "#{i+1} &ndash; #{revision.issues.count} new, " +

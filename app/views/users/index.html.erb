@@ -30,8 +30,8 @@
                 <td><%= user.name %></td>
                 <td><%= user.email %></td>
                 <td>
-                    <% if user.own_scans.light.any? %>
-                        <%= user.own_scans.light.map { |scan| link_to scan.url, scan_path( scan ) }.join( ', ' ).html_safe %>
+                    <% if user.own_scans.any? %>
+                        <%= user.own_scans.map { |scan| link_to scan.url, scan_path( scan ) }.join( ', ' ).html_safe %>
                     <% else %>
                         None yet...
                     <% end %>
