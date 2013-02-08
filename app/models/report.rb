@@ -33,8 +33,4 @@ class Report < ActiveRecord::Base
         end
     end
 
-    def respond_to?( *args )
-        self[:object].respond_to?( *args ) || super( *args )
-    end
-
 end
