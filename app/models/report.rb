@@ -1,7 +1,21 @@
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
 class Report < ActiveRecord::Base
     belongs_to :scan
-
-    attr_accessible :object, :scan_id
 
     serialize :object,  Arachni::AuditStore
     serialize :sitemap, Array
@@ -12,15 +26,15 @@ class Report < ActiveRecord::Base
     end
 
     def method_missing( name, *args, &block )
-        if object.respond_to?( name )
-            object.send( name, *args, &block )
+        if self[:object].respond_to?( name )
+            self[:object].send( name, *args, &block )
         else
             super( name, *args, &block )
         end
     end
 
-    def responds_to( name )
-        object.respond_to?( name ) || super( name )
+    def respond_to?( *args )
+        self[:object].respond_to?( *args ) || super( *args )
     end
 
 end

@@ -1,3 +1,19 @@
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
 class Issue < ActiveRecord::Base
     include Extensions::Notifier
 
@@ -46,9 +62,6 @@ class Issue < ActiveRecord::Base
         digest:          :digest
     }
 
-    attr_accessible *FRAMEWORK_ISSUE_MAP.values
-    attr_accessible :false_positive, :verified, :verification_steps, :fixed
-
     ORDERED_SEVERITIES = [
         Arachni::Issue::Severity::HIGH,
         Arachni::Issue::Severity::MEDIUM,
@@ -57,6 +70,18 @@ class Issue < ActiveRecord::Base
     ]
 
     PROTECTED = [:verification_steps, :false_positive, :fixed]
+
+    scope :fixed, -> { where fixed: true }
+    scope :light, -> { select( column_names - %w(response_body references) ) }
+    scope :false_positives, -> { where( 'false_positive = ?', true ) }
+    scope :verified, -> do
+        where( 'requires_verification = ? AND verified = ? AND ' +
+                   'false_positive = ? AND fixed = ?', true, true, false, false )
+    end
+    scope :pending_verification, -> do
+        where( 'requires_verification = ? AND verified = ? AND '+
+                   ' false_positive = ? AND fixed = ?', true, false, false, false )
+    end
 
     def self.order_by_severity
         ret = "CASE"
@@ -67,14 +92,6 @@ class Issue < ActiveRecord::Base
     end
     scope :by_severity, order: order_by_severity
     default_scope by_severity
-
-    def self.light
-        select( column_names - %w(response_body references) )
-    end
-
-    def self.fixed
-        where fixed: true
-    end
 
     def timeline
         Notification.where( model_id: id, model_type: self.class.to_s,
@@ -104,20 +121,6 @@ class Issue < ActiveRecord::Base
     def signature
         return nil if super.to_s.empty?
         super
-    end
-
-    def self.verified
-        where( 'requires_verification = ? AND verified = ? AND ' +
-                   'false_positive = ? AND fixed = ?', true, true, false, false )
-    end
-
-    def self.pending_verification
-        where( 'requires_verification = ? AND verified = ? AND '+
-                   ' false_positive = ? AND fixed = ?', true, false, false, false )
-    end
-
-    def self.false_positives
-        where( 'false_positive = ?', true )
     end
 
     def verified?

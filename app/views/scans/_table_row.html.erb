@@ -127,7 +127,7 @@
             <% if can? :pause, scan %>
                 <% if scan.paused? %>
                     <%= link_to resume_scan_url( scan, render: :index ), title: 'Resume scan',
-                                method: :put, class: 'btn btn-small btn-success',
+                                method: :patch, class: 'btn btn-small btn-success',
                                 remote: true,
                                 data: { confirm: 'Are you sure you want to resume the scan?' } do %>
                         <i class="icon-play-circle"></i>
@@ -135,7 +135,7 @@
 
                 <% else %>
                     <%= link_to pause_scan_url( scan, render: :index ), title: 'Pause scan',
-                                method: :put, class: 'btn btn-small btn-warning',
+                                method: :patch, class: 'btn btn-small btn-warning',
                                 remote: true,
                                 data: { confirm: 'Are you sure you want to pause the scan?' } do %>
                         <i class="icon-pause"></i>
@@ -145,7 +145,7 @@
 
             <% if can? :abort, scan %>
                 <%= link_to abort_scan_url( scan, render: :index ), title: 'Abort scan',
-                            method: :put, class: 'btn btn-small btn-danger',
+                            method: :patch, class: 'btn btn-small btn-danger',
                             remote: true,
                             data: { confirm: 'Are you sure you want to abort the scan?' } do %>
                     <i class="icon-stop"></i>

@@ -3,7 +3,7 @@
     <% if @notifications.unread.any? %>
         <p>
             <%= link_to mark_read_notifications_url, class: 'btn btn-inverse',
-                        method: :put do %>
+                        method: :patch do %>
                 <i class="icon-ok"></i>
                 Mark all read
             <% end %>

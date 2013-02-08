@@ -1,3 +1,19 @@
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
 require 'arachni/rpc/client'
 
 class Dispatcher < ActiveRecord::Base
@@ -13,11 +29,12 @@ class Dispatcher < ActiveRecord::Base
     validate :server_reachability
     validate :validate_description
 
-    attr_accessible :address, :port, :description
-
     after_create  DispatcherManager.instance
 
     serialize :statistics, Hash
+
+    scope :alive,       -> { where alive: true }
+    scope :unreachable, -> { where alive: false }
 
     # Exclude sensitive info.
     def to_json( options = {} )
@@ -30,20 +47,13 @@ class Dispatcher < ActiveRecord::Base
         self.statistics = stats
     end
 
-    def self.alive
-        where( alive: true )
-    end
-
-    def self.unreachable
-        where( alive: false )
-    end
-
     def family
         [self]
     end
 
     def self.find_by_url( url )
-        find_by_address_and_port( *url.split( ':' ) )
+        url, port = *url.split( ':' )
+        where url: url, port: port
     end
 
     def self.grid_members
@@ -59,7 +69,7 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def self.recent( limit = 5 )
-        find( :all, order: "id desc", limit: limit )
+        limit( limit ).order( "id desc" )
     end
 
     def to_label

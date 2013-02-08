@@ -34,7 +34,7 @@ class ProfilesController < ApplicationController
     # GET /profiles/1
     # GET /profiles/1.json
     def show
-        @profile = Profile.find( params[:id] )
+        @profile = Profile.find( params.require( :id ) )
 
         respond_to do |format|
             format.html # show.html.erb
@@ -46,7 +46,7 @@ class ProfilesController < ApplicationController
     # GET /profiles/new
     # GET /profiles/new.json
     def new
-        @profile = params[:id] ? Profile.find( params[:id] ).dup : Profile.new
+        @profile = Profile.new
 
         respond_to do |format|
             format.html # new.html.erb
@@ -54,14 +54,24 @@ class ProfilesController < ApplicationController
         end
     end
 
+    # GET /profiles/1/copy
+    def copy
+        @profile = Profile.find( params.require( :id ) ).dup
+
+        respond_to do |format|
+            format.html { render 'new' }
+        end
+    end
+
+
     # GET /profiles/1/edit
     def edit
-        @profile = Profile.find( params[:id] )
+        @profile = Profile.find( params.require( :id ) )
     end
 
     # PUT /profiles/1/make_default
     def make_default
-        Profile.find( params[:id] ).make_default
+        Profile.find( params.require( :id ) ).make_default
 
         @profiles = Profile.all
 
@@ -71,7 +81,7 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
-        @profile = Profile.new( params[:profile] )
+        @profile = Profile.new( strong_params )
 
         respond_to do |format|
             if @profile.save
@@ -87,10 +97,10 @@ class ProfilesController < ApplicationController
     # PUT /profiles/1
     # PUT /profiles/1.json
     def update
-        @profile = Profile.find( params[:id] )
+        @profile = Profile.find( params.require( :id ) )
 
         respond_to do |format|
-            if @profile.update_attributes( params[:profile] )
+            if @profile.update_attributes( strong_params )
                 format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -103,7 +113,7 @@ class ProfilesController < ApplicationController
     # DELETE /profiles/1
     # DELETE /profiles/1.json
     def destroy
-        @profile = Profile.find( params[:id] )
+        @profile = Profile.find( params.require( :id ) )
         fail 'Cannot delete default profile.' if @profile.default?
 
         @profile.destroy
@@ -115,6 +125,21 @@ class ProfilesController < ApplicationController
     end
 
     private
+
+    def strong_params
+        params.require( :profile ).
+            permit( :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
+                    :audit_headers, :audit_links, :authed_by, :auto_redundant,
+                    :cookies, :custom_headers, :depth_limit, :exclude,
+                    :exclude_binaries, :exclude_cookies, :exclude_vectors,
+                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
+                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
+                    :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
+                    :proxy_password, :proxy_port, :proxy_type, :proxy_username,
+                    :redirect_limit, :redundant, :restrict_paths, :user_agent,
+                    :http_timeout, :description )
+    end
+
     def prepare_plugin_params
         return if !params[:profile]
 

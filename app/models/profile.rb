@@ -44,16 +44,16 @@ class Profile < ActiveRecord::Base
     serialize :plugins, Hash
     serialize :redundant, Hash
 
-    attr_accessible :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
-                    :audit_headers, :audit_links, :authed_by, :auto_redundant,
-                    :cookies, :custom_headers, :depth_limit, :exclude,
-                    :exclude_binaries, :exclude_cookies, :exclude_vectors,
-                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
-                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                    :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
-                    :proxy_password, :proxy_port, :proxy_type, :proxy_username,
-                    :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                    :http_timeout, :description, :default
+    RPC_OPTS = [ :audit_cookies, :audit_cookies_extensively, :audit_forms,
+                 :audit_headers, :audit_links, :authed_by, :auto_redundant,
+                 :cookies, :custom_headers, :depth_limit, :exclude,
+                 :exclude_binaries, :exclude_cookies, :exclude_vectors,
+                 :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
+                 :include, :link_count_limit, :login_check_pattern, :login_check_url,
+                 :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
+                 :proxy_password, :proxy_port, :proxy_type, :proxy_username,
+                 :redirect_limit, :redundant, :restrict_paths, :user_agent,
+                 :http_timeout ]
 
     def self.default
         self.where( default: true ).first
@@ -89,12 +89,10 @@ class Profile < ActiveRecord::Base
     end
 
     def to_rpc_options
-        ignore  = Profile.protected_attributes
-        ignore |= %w(created_at updated_at name description default)
-
         opts = {}
-        attributes.reject do |k, v|
-            next if v.nil? || (v.respond_to?( :empty? ) ? v.empty? : false) || ignore.include?( k )
+        attributes.each do |k, v|
+            next if !RPC_OPTS.include?( k.to_sym ) || v.nil? ||
+                (v.respond_to?( :empty? ) ? v.empty? : false)
             opts[k.to_sym] = v
         end
         opts

@@ -16,7 +16,7 @@
 
 ArachniWebui::Application.routes.draw do
     resources :notifications, only: [:mark_all_read, :destroy] do
-        put :mark_read, on: :collection
+        patch :mark_read, on: :collection
     end
 
     resources :dispatchers
@@ -31,10 +31,10 @@ ArachniWebui::Application.routes.draw do
 
         post :repeat,   on: :member
 
-        put :share,    on: :member
-        put :pause,    on: :member
-        put :resume,   on: :member
-        put :abort,    on: :member
+        patch :share,    on: :member
+        patch :pause,    on: :member
+        patch :resume,   on: :member
+        patch :abort,    on: :member
         get :report,   on: :member
         get :comments, on: :member
         get :errors,   on: :member
@@ -42,10 +42,9 @@ ArachniWebui::Application.routes.draw do
     end
 
     resources :profiles do
-        put :make_default, on: :member
+        patch :make_default, on: :member
+        get   :copy,         on: :member
     end
-
-    get 'profiles/new(/:id)' => 'profiles#new', as: :new_profile
 
     get '/navigation', :to => 'home#navigation'
 
@@ -57,7 +56,7 @@ ArachniWebui::Application.routes.draw do
     devise_for :users, :skip => [:registrations], path_prefix: 'd'
     as :user do
         get 'users/edit' => 'devise/registrations#edit', as: 'edit_user_registration'
-        put 'users' => 'devise/registrations#update', as: 'user_registration'
+        patch 'users' => 'devise/registrations#update', as: 'user_registration'
     end
     resources :users
 end

@@ -20,7 +20,11 @@
             </p>
 
             <% reports_links = reports_with_outfile.
-                    map { |shortname, n| link_to n, report_scan_path( format: shortname ) } %>
+                    map do |shortname, (n, desc)|
+                        link_to n, report_scan_path( format: shortname ),
+                                rel: 'tooltip', title: desc
+                    end
+            %>
 
             <p class="alert alert-info visible-phone">
                 Download the <%= report_type %> report as
@@ -32,9 +36,7 @@
         <% end %>
 
         <script type="text/javascript">
-            $(document).ready( function( $ ) {
-                $( 'li#download-report' ).fadeIn( 'slow' );
-            });
+            $( 'li#download-report' ).fadeIn( 'slow' );
         </script>
 
     <% else %>
@@ -44,22 +46,18 @@
         </p>
 
         <script type="text/javascript">
-            $(document).ready( function( $ ) {
-                $( 'li#download-report' ).fadeOut( 'slow' );
-            });
+            $( 'li#download-report' ).fadeOut( 'slow' );
         </script>
     <% end %>
 
     <script type="text/javascript">
-        $(document).ready( function( $ ) {
-            window.setupScanCallbacks();
+        window.setupScanCallbacks();
 
-            $( '#edit-description-btn' ).show();
-            $( '#issues' ).show();
-            $( '#scan-sidebar' ).show();
-            $( 'li#toggle-statistics' ).fadeOut( 'slow' );
-            $( 'li#toggle-charts' ).fadeIn( 'slow' );
-        });
+        $( '#edit-description-btn' ).show();
+        $( '#issues' ).show();
+        $( '#scan-sidebar' ).show();
+        $( 'li#toggle-statistics' ).fadeOut( 'slow' );
+        $( 'li#toggle-charts' ).fadeIn( 'slow' );
     </script>
 
 <% else %>
@@ -74,14 +72,12 @@
     </p>
 
     <script type="text/javascript">
-        $(document).ready( function( $ ) {
-            window.setupScanCallbacks();
+        window.setupScanCallbacks();
 
-            $( '#edit-description-btn' ).hide();
-            $( '#issues' ).hide();
-            $( '#scan-sidebar' ).show();
-            $( 'li#toggle-statistics' ).fadeOut( 'slow' );
-            $( 'li#toggle-charts' ).fadeOut( 'slow' );
-        });
+        $( '#edit-description-btn' ).hide();
+        $( '#issues' ).hide();
+        $( '#scan-sidebar' ).show();
+        $( 'li#toggle-statistics' ).fadeOut( 'slow' );
+        $( 'li#toggle-charts' ).fadeOut( 'slow' );
     </script>
 <% end %>

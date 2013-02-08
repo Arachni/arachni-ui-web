@@ -28,6 +28,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.turbolinks
+//= require turbolinks
 //= require bootstrap
 //= require ./jqplot/jquery.jqplot.js
 //= require_tree .
@@ -195,6 +197,12 @@ function autoRefreshElement( selector ){
     }
 
     autoRefreshedElements[id] = setInterval( function( ){
+        // If the element no longer exists remove the refresher for it.
+        if( !$('#' + elem.attr( 'id' )).exists() ) {
+            clearInterval( autoRefreshedElements[elem.attr( 'id' )] );
+            return;
+        }
+
         fetchAndFill( elem.data( 'refresh-url' ), elem );
     }, refresh_rate );
 }
@@ -236,6 +244,10 @@ function responsiveAdjust(){
     $('#main-content').attr( 'class', 'span8' );
 }
 
+$(document).on( 'page:fetch', function( $ ) {
+    loading();
+});
+
 $(document).ready( function( $ ) {
     updatePage();
 
@@ -260,6 +272,14 @@ $(document).ready( function( $ ) {
     // Perform AJAX refreshes on elements with a 'data-refresh-url' attribute
     // at set intervals.
     autoRefreshElements('div, span');
+
+    // Disable turbolinks for fragments.
+    $('a').each( function( i, e ){
+        if( $(e).attr('href') == '#' ){
+//            $(e).data( 'no-turbolink', '' );
+            $(e).attr( 'href', 'javascript:void(0);' );
+        }
+    });
 
     var visibleDropdowns = [];
     var phoneMenuShown = false;

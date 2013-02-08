@@ -51,14 +51,14 @@
         <% if can? :pause, @scan %>
             <% if @scan.paused? %>
                 <%= link_to resume_scan_url( @scan ), remote: true,
-                            title: 'Resume scan', method: :put, class: 'btn btn-small btn-success',
+                            title: 'Resume scan', method: :patch, class: 'btn btn-small btn-success',
                             data: { confirm: 'Are you sure you want to resume the scan?' } do %>
                     <i class=" icon-play-circle"></i>
                 <% end %>
 
             <% else %>
                 <%= link_to pause_scan_url( @scan ), remote: true,
-                            title: 'Pause scan', method: :put, class: 'btn btn-small btn-warning',
+                            title: 'Pause scan', method: :patch, class: 'btn btn-small btn-warning',
                             data: { confirm: 'Are you sure you want to pause the scan?' } do %>
                     <i class="icon-pause"></i>
                 <% end %>
@@ -67,7 +67,7 @@
 
         <% if can? :abort, @scan %>
             <%= link_to abort_scan_url( @scan ), remote: true,
-                        title: 'Abort scan', method: :put, class: 'btn btn-small btn-danger',
+                        title: 'Abort scan', method: :patch, class: 'btn btn-small btn-danger',
                         data: { confirm: 'Are you sure you want to abort the scan?' } do %>
                 <i class="icon-stop"></i>
             <% end %>
@@ -133,14 +133,12 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready( function( $ ) {
-        window.setupScanCallbacks();
+    window.setupScanCallbacks();
 
-        $( '#edit-description-btn' ).show();
-        $( '#issues' ).show();
-        $( '#scan-sidebar' ).show( 'slow' );
-        $( 'li#toggle-statistics' ).fadeIn( 'slow' );
-        $( 'li#toggle-charts' ).fadeIn( 'slow' );
-        $( 'li#download-report' ).hide();
-    });
+    $( '#edit-description-btn' ).show();
+    $( '#issues' ).show();
+    $( '#scan-sidebar' ).show( 'slow' );
+    $( 'li#toggle-statistics' ).fadeIn( 'slow' );
+    $( 'li#toggle-charts' ).fadeIn( 'slow' );
+    $( 'li#download-report' ).hide();
 </script>

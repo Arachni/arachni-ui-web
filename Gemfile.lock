@@ -35,48 +35,113 @@ GIT
       em-synchrony (>= 1.0.0)
       eventmachine (~> 1.0.0)
 
+GIT
+  remote: git://github.com/idl3/devise.git
+  revision: 5a96778c678f2bce91bcdd63b16206a516002649
+  branch: rails4
+  specs:
+    devise (2.1.3)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (> 3.1)
+      warden (~> 1.2.1)
+
+GIT
+  remote: git://github.com/plataformatec/simple_form.git
+  revision: 779a009027e4fceed8dfbc0943e8bfc1fdd242d3
+  specs:
+    simple_form (3.0.0.dev)
+      actionpack (>= 4.0.0.beta, < 4.1)
+      activemodel (>= 4.0.0.beta, < 4.1)
+
+GIT
+  remote: git://github.com/rack/rack.git
+  revision: 5497fd2dfc560ac2c4e33e263e6c29c2ec6b4816
+  specs:
+    rack (1.5.1)
+
+GIT
+  remote: git://github.com/rails/arel.git
+  revision: 80f11e342d00a2177dd8e5684914855b87771c5b
+  specs:
+    arel (3.0.2.20120819075748)
+
+GIT
+  remote: git://github.com/rails/coffee-rails.git
+  revision: 052634e6d02d4800d7b021201cc8d5829775b3cd
+  specs:
+    coffee-rails (4.0.0.beta)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0.beta, < 5.0)
+
+GIT
+  remote: git://github.com/rails/rails.git
+  revision: dca0b57d03deffc933763482e615c3cf0b9a1d97
+  specs:
+    actionmailer (4.0.0.beta)
+      actionpack (= 4.0.0.beta)
+      mail (~> 2.5.3)
+    actionpack (4.0.0.beta)
+      activesupport (= 4.0.0.beta)
+      builder (~> 3.1.0)
+      erubis (~> 2.7.0)
+      rack (~> 1.5.0)
+      rack-test (~> 0.6.1)
+    activemodel (4.0.0.beta)
+      activesupport (= 4.0.0.beta)
+      builder (~> 3.1.0)
+    activerecord (4.0.0.beta)
+      activemodel (= 4.0.0.beta)
+      activerecord-deprecated_finders (~> 0.0.3)
+      activesupport (= 4.0.0.beta)
+      arel (~> 3.0.2)
+    activesupport (4.0.0.beta)
+      i18n (~> 0.6)
+      minitest (~> 4.1)
+      multi_json (~> 1.3)
+      thread_safe (~> 0.1)
+      tzinfo (~> 0.3.33)
+    rails (4.0.0.beta)
+      actionmailer (= 4.0.0.beta)
+      actionpack (= 4.0.0.beta)
+      activerecord (= 4.0.0.beta)
+      activesupport (= 4.0.0.beta)
+      bundler (>= 1.2.2, < 2.0)
+      railties (= 4.0.0.beta)
+      sprockets-rails (~> 2.0.0.rc1)
+    railties (4.0.0.beta)
+      actionpack (= 4.0.0.beta)
+      activesupport (= 4.0.0.beta)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.17.0, < 2.0)
+
+GIT
+  remote: git://github.com/rails/sass-rails.git
+  revision: f6431cf032e1beaff243b95151fdb13cae60562e
+  specs:
+    sass-rails (4.0.0.beta)
+      railties (>= 4.0.0.beta, < 5.0)
+      sass (>= 3.1.10)
+      sprockets-rails (~> 2.0.0.rc0)
+      tilt (~> 1.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (3.2.11)
-      actionpack (= 3.2.11)
-      mail (~> 2.4.4)
-    actionpack (3.2.11)
-      activemodel (= 3.2.11)
-      activesupport (= 3.2.11)
-      builder (~> 3.0.0)
-      erubis (~> 2.7.0)
-      journey (~> 1.0.4)
-      rack (~> 1.4.0)
-      rack-cache (~> 1.2)
-      rack-test (~> 0.6.1)
-      sprockets (~> 2.2.1)
-    activemodel (3.2.11)
-      activesupport (= 3.2.11)
-      builder (~> 3.0.0)
-    activerecord (3.2.11)
-      activemodel (= 3.2.11)
-      activesupport (= 3.2.11)
-      arel (~> 3.0.2)
-      tzinfo (~> 0.3.29)
-    activeresource (3.2.11)
-      activemodel (= 3.2.11)
-      activesupport (= 3.2.11)
-    activesupport (3.2.11)
-      i18n (~> 0.6)
-      multi_json (~> 1.0)
+    activerecord-deprecated_finders (0.0.3)
     addressable (2.2.8)
     arachni-rpc (0.1.3)
-    arel (3.0.2)
     async_sinatra (1.0.0)
       rack (>= 1.4.1)
       sinatra (>= 1.3.2)
+    atomic (1.0.1)
     awesome_print (1.1.0)
     backports (2.8.2)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
-    builder (3.0.4)
+    builder (3.1.4)
     cancan (1.6.9)
     capybara (2.0.2)
       mime-types (>= 1.16)
@@ -87,9 +152,6 @@ GEM
       xpath (~> 1.0.0)
     childprocess (0.3.7)
       ffi (~> 1.0, >= 1.0.6)
-    coffee-rails (3.2.2)
-      coffee-script (>= 2.2.0)
-      railties (~> 3.2.0)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -117,11 +179,6 @@ GEM
       dm-transactions (~> 1.2.0)
       dm-types (~> 1.2.0)
       dm-validations (~> 1.2.0)
-    devise (2.2.3)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (~> 3.1)
-      warden (~> 1.2.1)
     diff-lcs (1.2.0)
     dm-aggregates (1.2.0)
       dm-core (~> 1.2.0)
@@ -173,10 +230,11 @@ GEM
       json (>= 1.7.6)
     hike (1.2.1)
     i18n (0.6.1)
-    journey (1.0.4)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-turbolinks (0.2.1)
+      rails (>= 3.1.0)
     json (1.7.6)
     json_pure (1.7.6)
     kaminari (0.14.1)
@@ -186,69 +244,39 @@ GEM
       addressable (~> 2.2.6)
     libv8 (3.11.8.13)
     machinist (2.0)
-    mail (2.4.4)
+    mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.20.1)
+    minitest (4.5.0)
     multi_json (1.5.0)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-ssh (2.6.3)
+    net-scp (1.1.0)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.5)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     pony (1.4)
       mail (> 2.0)
-    rack (1.4.4)
-    rack-cache (1.2)
-      rack (>= 0.4)
     rack-protection (1.3.2)
-      rack
-    rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (3.2.11)
-      actionmailer (= 3.2.11)
-      actionpack (= 3.2.11)
-      activerecord (= 3.2.11)
-      activeresource (= 3.2.11)
-      activesupport (= 3.2.11)
-      bundler (~> 1.0)
-      railties (= 3.2.11)
-    rails-footnotes (3.7.8)
-      rails (>= 3.0.0)
-    rails-settings-cached (0.2.4)
-      rails (>= 3.0.0)
-    railties (3.2.11)
-      actionpack (= 3.2.11)
-      activesupport (= 3.2.11)
-      rack-ssl (~> 1.3.2)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (>= 0.14.6, < 2.0)
     rake (10.0.3)
     rb-readline (0.4.2)
     rdiscount (2.0.7)
-    rdoc (3.12)
+    rdoc (3.12.1)
       json (~> 1.4)
     ref (1.0.2)
     rolify (3.2.0)
     rubyzip (0.9.9)
     sass (3.2.5)
-    sass-rails (3.2.6)
-      railties (~> 3.2.0)
-      sass (>= 3.1.10)
-      tilt (~> 1.3)
     selenium-webdriver (2.29.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
-    simple_form (2.0.4)
-      actionpack (~> 3.0)
-      activemodel (~> 3.0)
     sinatra (1.3.4)
       rack (~> 1.4)
       rack-protection (~> 1.3)
@@ -262,11 +290,15 @@ GEM
       tilt (~> 1.3)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
-    sprockets (2.2.2)
+    sprockets (2.8.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sprockets-rails (2.0.0.rc2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      sprockets (~> 2.8)
     sqlite3 (1.3.7)
     stringex (1.5.1)
     sys-proctable (0.9.2)
@@ -279,10 +311,14 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.17.0)
+    thread_safe (0.1.0)
+      atomic
     tilt (1.3.3)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    turbolinks (1.0.0)
+      coffee-rails
     typhoeus (0.3.3)
       mime-types
     tzinfo (0.3.35)
@@ -302,27 +338,29 @@ PLATFORMS
 DEPENDENCIES
   arachni!
   arachni-rpc-em!
+  arel!
   bootstrap-sass (>= 2.2.1.1)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)
-  coffee-rails (~> 3.2.1)
+  coffee-rails!
   cucumber-rails (>= 1.3.0)
   database_cleaner (>= 0.8.0)
-  devise (>= 2.1.2)
+  devise!
   factory_girl
   jquery-rails (= 2.1.4)
+  jquery-turbolinks
   kaminari
   launchy (>= 2.1.0)
   libv8 (~> 3.11.8)
   machinist
-  rails (= 3.2.11)
-  rails-footnotes (>= 3.7.5.rc4)
-  rails-settings-cached
+  rack!
+  rails!
   rdiscount
   rolify (>= 3.1.0)
-  sass-rails (~> 3.2.3)
-  simple_form
+  sass-rails!
+  simple_form!
   sqlite3
   therubyracer
   thin
+  turbolinks
   uglifier (>= 1.0.3)

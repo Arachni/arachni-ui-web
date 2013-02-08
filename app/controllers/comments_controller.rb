@@ -1,3 +1,19 @@
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
 class CommentsController < ApplicationController
     include ApplicationHelper
     include NotificationsHelper
@@ -58,7 +74,7 @@ class CommentsController < ApplicationController
     def create
         @commentable = commentable
 
-        @comment      = @commentable.comments.new( params[:comment] )
+        @comment      = @commentable.comments.new( strong_params )
         @comment.user = current_user
 
         respond_to do |format|
@@ -82,10 +98,10 @@ class CommentsController < ApplicationController
     # PUT /scan/comments/1
     # PUT /scan/comments/1.json
     def update
-        @comment = commentable.comments.find( params[:id] )
+        @comment = commentable.comments.find( params.require( :id ) )
 
         respond_to do |format|
-            if @comment.update_attributes( params[:comment] )
+            if @comment.update_attributes( params.require( :comment ).permit( :text ) )
                 format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -98,7 +114,7 @@ class CommentsController < ApplicationController
     # DELETE /scan/comments/1
     # DELETE /scan/comments/1.json
     def destroy
-        @comment = commentable.comments.find( params[:id] )
+        @comment = commentable.comments.find( params.require( :id ) )
         @comment.destroy
 
         respond_to do |format|
@@ -108,6 +124,10 @@ class CommentsController < ApplicationController
     end
 
     private
+
+    def strong_params
+        params.require( :comment ).permit( :user_id, :text )
+    end
 
     def commentable
         if id = params[:issue_id]

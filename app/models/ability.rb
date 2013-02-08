@@ -20,6 +20,7 @@ class Ability
     def initialize( user )
         alias_action :errors, :report, :overview, to: :read
         alias_action :mark_read, to: :update
+        alias_action :copy, to: :create
 
         user ||= User.new # guest user (not logged in)
         if user.has_role? :admin

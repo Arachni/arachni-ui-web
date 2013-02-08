@@ -14,10 +14,9 @@
             <% end %>
         <% end %>
 
-        <% if can? :create, Profile %>
-            <%= link_to new_profile_path + '/' + profile.id.to_s,
+        <% if can? :copy, Profile %>
+            <%= link_to copy_profile_path( profile ),
                         title: "Create a new profile based on '#{profile.name}'",
-                        method: :post,
                         class: 'btn btn-small btn-primary' do %>
                 <i class="icon-copy"></i>
             <% end %>

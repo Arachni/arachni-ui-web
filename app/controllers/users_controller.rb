@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find( params[:id] )
+        @user = User.find( params.require( :id ) )
     end
 
     def new
@@ -37,11 +37,11 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user = User.find(params[:id])
+        @user = User.find( params.require( :id ) )
     end
 
     def create
-        @user = User.new(params[:user])
+        @user = User.new( strong_params )
 
         if params[:user][:password].blank?
             params[:user].delete(:password)
@@ -69,10 +69,10 @@ class UsersController < ApplicationController
 
         params[:user].delete( :role_ids ) if !current_user.admin?
 
-        @user = User.find(params[:id])
+        @user = User.find( params.require( :id ) )
 
         respond_to do |format|
-            if @user.update_attributes(params[:user])
+            if @user.update_attributes( strong_params )
                 format.html { redirect_to :back, notice: 'User was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -83,13 +83,27 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        @user = User.find( params[:id] )
+        @user = User.find( params.require( :id ) )
 
         @user.destroy
 
         respond_to do |format|
             format.html { redirect_to users_url }
             format.json { head :no_content }
+        end
+    end
+
+    private
+
+    def strong_params
+        if current_user.admin?
+            params.require( :user ).
+                permit( :name, :email, :password, :password_confirmation,
+                        :remember_me, { role_ids: [] } )
+        else
+            params.require( :user ).
+                permit( :name, :email, :password, :password_confirmation,
+                        :remember_me )
         end
     end
 

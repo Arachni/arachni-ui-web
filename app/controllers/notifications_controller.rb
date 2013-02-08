@@ -52,7 +52,7 @@ class NotificationsController < ApplicationController
     # DELETE /notifications/1
     # DELETE /notifications/1.json
     def destroy
-        @notification = current_user.notifications.find( params[:id] )
+        @notification = current_user.notifications.find( params.require( :id ) )
         @notification.destroy
 
         respond_to do |format|

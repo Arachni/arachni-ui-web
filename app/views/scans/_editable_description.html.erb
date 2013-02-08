@@ -14,7 +14,7 @@
     <% end %>
 
     <div id="scan-description-form" class="hide">
-        <%= simple_form_for( @scan, remote: true, method: :put ) do |f| %>
+        <%= simple_form_for( @scan, remote: true ) do |f| %>
             <%= f.error_notification %>
 
             <%= f.input :description, label: false,

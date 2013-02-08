@@ -9,7 +9,7 @@
                     <% else %>
                         <% if can? :edit, Profile %>
                             <%= link_to 'Make default', make_default_profile_path( profile ),
-                                        class: 'make-default', method: :put, remote: true
+                                        class: 'make-default', method: :patch, remote: true
                             %>
                             <% end %>
                         <% end %>
@@ -29,10 +29,9 @@
                     <% end %>
                 <% end %>
 
-                <% if can? :create, Profile %>
-                    <%= link_to new_profile_path( profile ),
+                <% if can? :copy, Profile %>
+                    <%= link_to copy_profile_path( profile ),
                                 title: "Create a new profile based on '#{profile.name}'",
-                                method: :get,
                                 class: 'btn btn-small btn-primary' do %>
                         <i class="icon-copy"></i>
                     <% end %>

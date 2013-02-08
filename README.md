@@ -50,7 +50,7 @@ be a mockup, partially or not at all working.
 This application is being developed on:
 
 * Ruby version 1.9.3
-* Rails version 3.2.8
+* Rails version 4.0
 
 ### Database
 

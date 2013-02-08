@@ -42,7 +42,7 @@ class IssuesController < ApplicationController
     # GET /issues/1
     # GET /issues/1.json
     def show
-        @issue = scan.issues.find( params[:id] )
+        @issue = scan.issues.find( params.require( :id ) )
 
         respond_to do |format|
             format.html # show.html.erb
@@ -53,9 +53,9 @@ class IssuesController < ApplicationController
     # PUT /issues/1
     # PUT /issues/1.json
     def update
-        @issue = scan.issues.find( params[:id] )
+        @issue = scan.issues.find( params.require( :id ) )
 
-        @issue.assign_attributes( params[:issue] )
+        @issue.assign_attributes( strong_params )
         changes = @issue.changes
 
         respond_to do |format|
@@ -83,13 +83,21 @@ class IssuesController < ApplicationController
     # DELETE /issues/1
     # DELETE /issues/1.json
     def destroy
-        @issue = scan.issues.find( params[:id] )
+        @issue = scan.issues.find( params.require( :id ) )
         @issue.destroy
 
         respond_to do |format|
             format.html { redirect_to scans_issues_url }
             format.json { head :no_content }
         end
+    end
+
+    private
+
+    def strong_params
+        params.require( :issue ).
+            permit( :false_positive, :requires_verification,
+                    :verified, :verification_steps, :fixed )
     end
 
 end

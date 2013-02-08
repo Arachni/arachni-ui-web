@@ -200,7 +200,7 @@
 
             <ul id="notification-dropdown" class="dropdown-menu hidden-phone">
                 <li>
-                    <%= link_to mark_read_notifications_url, method: :put, remote: true do %>
+                    <%= link_to mark_read_notifications_url, method: :patch, remote: true do %>
                         <i class="icon-ok"></i>
                         Mark all read
                     <% end %>

@@ -1,9 +1,25 @@
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
 require 'arachni/rpc/client'
 
 class Scan < ActiveRecord::Base
     include Extensions::Notifier
 
-    set_inheritance_column 'inheritance_column'
+    self.inheritance_column = 'inheritance_column'
 
     has_and_belongs_to_many :users
 
@@ -17,10 +33,6 @@ class Scan < ActiveRecord::Base
     has_many :issues,        dependent: :destroy
     has_many :comments, as: :commentable, dependent: :destroy
     has_many :revisions, class_name: 'Scan', foreign_key: :root_id
-
-    attr_accessible :url, :description, :type, :instance_count, :profile_id,
-                    :user_ids, :dispatcher_id, :restrict_to_revision_sitemaps,
-                    :extend_from_revision_sitemaps
 
     validates_presence_of :url
     validate :validate_url
@@ -39,6 +51,12 @@ class Scan < ActiveRecord::Base
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
+    scope :light,    -> { select( column_names - %w(report) ) }
+    scope :active,   -> { where active: true }
+    scope :inactive, -> { where active: false }
+    scope :finished, -> { where( "status = 'completed' OR status = 'aborted'" +
+                                     " OR status = 'error'" ) }
+
     SENSITIVE = [ :instance_token ]
 
     # Exclude SENSITIVE info.
@@ -48,7 +66,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.recent( limit = 5 )
-        light.find( :all, order: "id desc", limit: limit )
+        light.limit( limit ).order( "id desc" )
     end
 
     def subscribers
@@ -61,22 +79,6 @@ class Scan < ActiveRecord::Base
 
     def to_s
         s = "#{url} (#{profile} profile)"
-    end
-
-    def self.active
-        where( active: true )
-    end
-
-    def self.inactive
-        where( active: false )
-    end
-
-    def self.finished
-        where( "status = 'completed' OR status = 'aborted' OR status = 'error'" )
-    end
-
-    def self.light
-        select( column_names - %w(report) )
     end
 
     def issues
