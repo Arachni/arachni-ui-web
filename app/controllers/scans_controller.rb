@@ -171,7 +171,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params.require( :id ) )
 
         respond_to do |format|
-            if @scan.share( params.require( :scan ).permit( user_ids: [] ) )
+            if @scan.share( params.require( :scan ).permit( user_ids: [] )[:user_ids] )
 
                 notify @scan
 
