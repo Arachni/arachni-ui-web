@@ -61,19 +61,6 @@
                 {
                     seriesColors: [ "#4572A7" ],
                     title: '<%= issues.size %> issues of <%= graph_data[:issues].keys.size %> different types',
-                    highlighter: {
-                        lineWidthAdjust: 2.5,
-                        sizeAdjust: 5,
-                        showTooltip: true,
-                        tooltipLocation: 'nw',
-                        fadeTooltip: true,
-                        tooltipFadeSpeed: "fast",
-                        tooltipOffset: 2,
-                        tooltipAxes: 'both',
-                        tooltipSeparator: ', ',
-                        useAxesFormatters: true,
-                        tooltipFormatString: '%.5P'
-                    },
                     stackSeries: true,
                     seriesDefaults:{
                         renderer:$.jqplot.BarRenderer,
@@ -120,7 +107,8 @@
                         shadowWidth: 3,
                         shadowDepth: 3,
                         shadowAlpha: 0.07,
-                        drawBorder: false
+                        drawBorder: false,
+                        background: '#ffffff',
                     },
                     series: [
                         {

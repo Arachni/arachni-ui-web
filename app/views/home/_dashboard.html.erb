@@ -8,6 +8,12 @@
 
             <script type="text/javascript">
                 $.jqplot('trend-charts', [<%= @issues_per_scan.values %>], {
+                    highlighter: {
+                        show: true,
+                        sizeAdjust: 7.5,
+                        tooltipAxes: 'y',
+                        formatString: '%s issues'
+                    },
                     // Give the plot a title.
                     // You can specify options for all axes on the plot at once with
                     // the axesDefaults object.  Here, we're using a canvas renderer
@@ -28,8 +34,18 @@
                             pad: 0
                         },
                         yaxis: {
-                            label: "Issues"
+                            label: "Issues",
+                            min:    0
                         }
+                    },
+                    grid: {
+                        drawBorder: false,
+                        background: '#ffffff',
+                        shadow: false
+                    },
+                    seriesDefaults: {
+                        color: '#4572A7',
+                        smooth: true
                     }
                 });
 
