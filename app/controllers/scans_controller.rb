@@ -134,16 +134,10 @@ class ScansController < ApplicationController
 
     # POST /scans/1/repeat
     def repeat
-        opts = params[:scan].dup
-
-        if sitemap_option = opts.delete( :sitemap_option )
-            opts[sitemap_option] = true
-        end
-
         @scan = find_scan( params.require( :id ) ).new_revision
 
         respond_to do |format|
-            if @scan.repeat( opts )
+            if @scan.repeat( strong_params )
                 notify @scan
 
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }
@@ -271,21 +265,27 @@ class ScansController < ApplicationController
     private
 
     def new_scan
+        @scan = Scan.new( strong_params )
+    end
+
+    def strong_params
         if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
             params[:scan][:dispatcher_id] = params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
+        end
+
+        if sitemap_option = params[:scan].delete( :sitemap_option )
+            params[:scan][sitemap_option] = true
         end
 
         params.delete( 'grid_dispatcher_id' )
         params.delete( 'remote_dispatcher_id' )
 
-        @scan = Scan.new( strong_params )
-    end
+        ap params
 
-    def strong_params
         params.require( :scan ).
             permit( :url, :description, :type, :instance_count, :profile_id,
                     { user_ids: [] }, :dispatcher_id, :restrict_to_revision_sitemaps,
-                    :extend_from_revision_sitemaps )
+                    :extend_from_revision_sitemaps ).tap { |t| ap t }
     end
 
     def find_scan( id, light = true )
