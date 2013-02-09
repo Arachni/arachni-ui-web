@@ -77,7 +77,7 @@ sudo apt-get install build-essential libxml2-dev libxslt1-dev libcurl4-openssl-d
 sudo gem install bundler
 sudo gem install therubyracer -v '0.11.2'
 
-git clone git://github.com/Arachni/webui.git
+git clone https://github.com/Arachni/arachni-ui-web
 cd webui
 bundle install
 rake db:migrate
@@ -104,7 +104,7 @@ For the time being, this is the only documentation.
 ### Issues
 
 Please send your feedback using Github's issue system at
-[http://github.com/Arachni/webui/issues](http://github.com/Arachni/webui/issues).
+[http://github.com/Arachni/arachni-ui-web/issues](http://github.com/Arachni/arachni-ui-web/issues).
 
 ## Contributing
 
