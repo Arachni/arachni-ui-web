@@ -133,7 +133,7 @@
                     </tr>
                 </thead>
                 <tr>
-                    <td class="wrap"><%= @issue.seed || not_available %></td>
+                    <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
                     <td class="wrap"><%= @issue.proof || not_available %></td>
                 </tr>
@@ -143,7 +143,25 @@
 
             <h3 id="http_data">HTTP data</h3>
 
-            <h4 id="request">Request</h4>
+            <h4 class="pull-left" id="request">Request</h4>
+            <% request_params = @issue.audit_options[:params] %>
+
+            <% if (@issue.vector_type.downcase == 'form' || @issue.vector_type.downcase == 'link') &&
+                    (@issue.http_method.downcase == 'get' || @issue.http_method.downcase == 'post')  %>
+                <form class="pull-left" action="<%= @issue.url %>"
+                      target="_blank" method="<%= @issue.http_method.downcase %>">
+                    <% if request_params %>
+                        <% request_params.each_pair do |name, value|%>
+                            <input type="hidden" name="<%= name %>" value="<%= value.gsub( "\0", "&#00;" ).html_safe %>" />
+                        <%end%>
+                    <%end%>
+                    <button title="Replay the request" type="submit"
+                            class="btn btn-mini btn-inverse repeat-request-btn">
+                        <i class="icon-repeat"></i>
+                    </button>
+                </form>
+            <%end%>
+
             <table class="table">
                 <thead>
                 <tr>
@@ -159,7 +177,7 @@
                         </a>
                     </th>
 
-                    <% if params = @issue.audit_options[:params] %>
+                    <% if request_params %>
                         <th colspan="2">
                             Parameters
 
@@ -173,18 +191,22 @@
                 </thead>
                 <tr>
                     <td class="wrap"><%= @issue.http_method || not_available %></td>
-                    <td class="wrap"><%= @issue.url || not_available %></td>
+                    <td class="wrap">
+                        <%= @issue.url ?
+                                    link_to( @issue.url, @issue.url ) :
+                                    not_available %>
+                    </td>
 
-                    <% if params %>
+                    <% if request_params %>
                     <td>
                         <table id="parameters" class="table key-values">
-                            <% params.each do |k, v| %>
+                            <% request_params.each do |k, v| %>
                                 <tr>
                                     <th>
-                                        <%= k %>
+                                        <%= u k %>
                                     </th>
                                     <td>
-                                        <%= v %>
+                                        <%= u v %>
                                     </td>
                                 </tr>
                             <% end %>
@@ -229,8 +251,10 @@
                 parent = $('#response_body_container');
                 proof  = $('#response_body_container .proof');
 
-                parent.scrollTop( parent.scrollTop() + proof.position().top
-                        - parent.height() / 2 + proof.height() / 2 );
+                if( proof.exists() ){
+                    parent.scrollTop( parent.scrollTop() + proof.position().top
+                            - parent.height() / 2 + proof.height() / 2 );
+                }
             </script>
             <% else %>
                 <p class="alert alert-info">
