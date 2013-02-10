@@ -78,7 +78,7 @@ sudo gem install bundler
 sudo gem install therubyracer -v '0.11.2'
 
 git clone https://github.com/Arachni/arachni-ui-web
-cd webui
+cd arachni-ui-web
 bundle install
 rake db:migrate
 rake db:setup
