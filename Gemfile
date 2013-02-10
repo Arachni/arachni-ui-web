@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', git: 'git://github.com/rails/rails.git'
 gem 'arel',  git: 'git://github.com/rails/arel.git'
-gem "rack",  git: "git://github.com/rack/rack.git", tag: '1.5.2'
 
 gem 'thin'
 

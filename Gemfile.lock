@@ -45,13 +45,6 @@ GIT
       activemodel (>= 4.0.0.beta, < 4.1)
 
 GIT
-  remote: git://github.com/rack/rack.git
-  revision: 325aca8a7b7ace4a4122aea90863d033c5f57221
-  tag: 1.5.2
-  specs:
-    rack (1.5.2)
-
-GIT
   remote: git://github.com/rails/arel.git
   revision: 80f11e342d00a2177dd8e5684914855b87771c5b
   specs:
@@ -193,6 +186,7 @@ GEM
     polyglot (0.3.3)
     pony (1.4)
       mail (> 2.0)
+    rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
     rake (10.0.3)
@@ -270,7 +264,6 @@ DEPENDENCIES
   launchy (>= 2.1.0)
   libv8 (~> 3.11.8)
   machinist
-  rack!
   rails!
   rdiscount
   rolify (>= 3.1.0)
