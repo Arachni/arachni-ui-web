@@ -1,3 +1,15 @@
+<% if @issue.scan.running? %>
+    <p class="alert alert-info">
+        <i class="icon-info-sign"></i>
+
+        This issue may be missing some context because the scan is still running.
+        <br/>
+        You better wait until the scan is over to review it as the meta-analysis
+        phase will flag probable false-positives and other untrusted issues as
+        requiring manual verification.
+    </p>
+<% end %>
+
 <% if @issue.false_positive? %>
     <p class="alert alert-error">
         <i class="icon-exclamation-sign"></i>

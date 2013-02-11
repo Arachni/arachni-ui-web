@@ -25,6 +25,15 @@ url_method =    if !local_assigns.include?( :url_method_type )
 <h2>Issues <small>[<%= counts['all'] %>]</small></h2>
 
 <% if issues.any? %>
+    <% if issues.first.scan.running? %>
+        <p class="alert alert-info">
+            Issues may be missing some context while the scan is running.<br/>
+            You better wait until the scan is over to review them as the meta-analysis
+            phase will flag probable false-positives and other untrusted issues
+            as requiring manual verification.
+        </p>
+    <% end %>
+
     <p class="muted hidden-phone">
         Click on an issue's name for details,
         click on a row to see a quick description.
