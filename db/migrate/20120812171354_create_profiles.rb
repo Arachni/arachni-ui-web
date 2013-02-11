@@ -20,6 +20,7 @@ class CreateProfiles < ActiveRecord::Migration
       t.text :cookies
       t.text :user_agent
       t.text :exclude
+      t.text :exclude_pages
       t.text :exclude_cookies
       t.text :exclude_vectors
       t.text :include
@@ -34,6 +35,7 @@ class CreateProfiles < ActiveRecord::Migration
       t.boolean :audit_cookies_extensively
       t.boolean :exclude_binaries
       t.boolean :auto_redundant
+      t.boolean :https_only
       t.text :login_check_url
       t.text :login_check_pattern
 

@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 24ae7c3a2c80da247be4dbb9be497bc29428cd33
+  revision: a70a8960a832216b6ae73f52e6a7a52c81883b6d
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -60,7 +60,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: a0380e808d3dbd2462df17f5d3b7fcd8bd812496
+  revision: 67444ba1cb237939a8244e980387fe035436e1e5
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -130,8 +130,8 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 1.0.0)
-    childprocess (0.3.7)
-      ffi (~> 1.0, >= 1.0.6)
+    childprocess (0.3.8)
+      ffi (~> 1.0, >= 1.0.11)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -166,7 +166,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-turbolinks (0.2.1)
       rails (>= 3.1.0)
-    json (1.7.6)
+    json (1.7.7)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -180,7 +180,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.21)
     minitest (4.6.0)
-    multi_json (1.5.0)
+    multi_json (1.5.1)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     polyglot (0.3.3)

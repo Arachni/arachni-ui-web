@@ -125,6 +125,17 @@
             <%= messages_for :exclude_binaries %>
         </div>
         <% end %>
+        <% if profile.https_only %>
+            <div class="span6">
+                <p>
+                    <b>HTTPS only:</b>
+                    <input <%= 'checked' if profile.https_only %>
+                           disabled type="checkbox">
+                </p>
+                <%= messages_for :https_only %>
+            </div>
+        <% end %>
+
     </div>
     <div class="row-fluid">
         <% if profile.exclude.any? %>
@@ -170,6 +181,18 @@
             </p>
             <%= messages_for :extend_paths %>
         </div>
+        <% end %>
+    </div>
+    <div class="row-fluid">
+        <% if profile.exclude_pages.any? %>
+            <div class="span6">
+                <p>
+                    <b>Exclude pages:</b> <br/>
+                    <textarea disabled
+                              id="profile_exclude_pages"><%= profile.exclude_pages.join( "\n" ) %></textarea>
+                </p>
+                <%= messages_for :exclude_pages %>
+            </div>
         <% end %>
     </div>
 </section>

@@ -140,7 +140,7 @@ class ProfilesController < ApplicationController
                     :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
                     :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                     :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                    :http_timeout, :description )
+                    :http_timeout, :description, :https_only, :exclude_pages )
     end
 
     def prepare_plugin_params

@@ -35,6 +35,7 @@ class Profile < ActiveRecord::Base
     serialize :cookies, Hash
     serialize :custom_headers, Hash
     serialize :exclude, Array
+    serialize :exclude_pages, Array
     serialize :include, Array
     serialize :exclude_cookies, Array
     serialize :exclude_vectors, Array
@@ -53,7 +54,7 @@ class Profile < ActiveRecord::Base
                  :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
                  :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                  :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                 :http_timeout ]
+                 :http_timeout, :https_only, :exclude_pages ]
 
     def self.default
         self.where( default: true ).first
@@ -115,6 +116,10 @@ class Profile < ActiveRecord::Base
     end
 
     def exclude=( string_or_array )
+        super self.class.string_list_to_array( string_or_array )
+    end
+
+    def exclude_pages=( string_or_array )
         super self.class.string_list_to_array( string_or_array )
     end
 
