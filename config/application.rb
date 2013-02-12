@@ -26,6 +26,7 @@ if defined?( Bundler )
 end
 
 module ArachniWebui
+
     class Application < Rails::Application
 
         # don't generate RSpec tests for views and helpers
@@ -86,3 +87,9 @@ module ArachniWebui
 end
 
 require File.expand_path( '../version', __FILE__ )
+
+module ArachniWebui
+    class Application
+        FULL_VERSION = "#{Arachni::VERSION}-#{ArachniWebui::Application::VERSION}"
+    end
+end
