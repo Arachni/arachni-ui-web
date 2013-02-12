@@ -13,6 +13,7 @@
 # bundler state
 /.bundle
 /vendor/bundle/
+/bin/
 
 # minimal Rails specific artifacts
 db/*.sqlite3
