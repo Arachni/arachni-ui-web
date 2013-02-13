@@ -79,7 +79,11 @@ sudo gem install therubyracer -v '0.11.2'
 
 git clone https://github.com/Arachni/arachni-ui-web
 cd arachni-ui-web
-bundle install
+
+# This will make the executables of the Framework available under 'bin/',
+# so that you'll be able to run the CLI if needed.
+bundle install --binstubs
+
 rake db:migrate
 rake db:setup
 rails s thin
