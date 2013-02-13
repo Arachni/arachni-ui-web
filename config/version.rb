@@ -16,6 +16,6 @@
 
 module ArachniWebui
     class Application
-        VERSION = IO.read( File.expand_path( '../VERSION', File.basename( __FILE__ ) ) ).strip
+        VERSION = IO.read( File.expand_path( '../VERSION', File.dirname( __FILE__ ) ) ).strip
     end
 end
