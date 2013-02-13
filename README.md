@@ -85,6 +85,8 @@ rake db:setup
 rails s thin
 ```
 
+For seed data (default user accounts etc) take a look in ```db/seeds.rb```.
+
 Also, the DB schema is pretty fluid during development so migrate after each
 ```git pull``` and don't be surprised if you'll have to remove the existing schema
 and DBs for things to work again:
