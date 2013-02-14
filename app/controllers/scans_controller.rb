@@ -111,8 +111,7 @@ class ScansController < ApplicationController
     # POST /scans
     # POST /scans.json
     def create
-        @profiles = Profile.all
-
+        @profiles         = current_user.available_profiles
         @dispatchers      = Dispatcher.alive
         @grid_dispatchers = @dispatchers.grid_members
 
