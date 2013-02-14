@@ -19,7 +19,7 @@
 
     <div id="tables"
          data-refresh-url="<%= dispatchers_url( params: params, partial: true ) %>"
-         data-refresh-rate="<%= Settings.dispatcher_refresh_rate %>"
+         data-refresh-rate="<%= HardSettings.dispatcher_refresh_rate %>"
      >
         <%=  render 'tables' %>
     </div>

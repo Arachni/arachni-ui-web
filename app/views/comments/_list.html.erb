@@ -6,7 +6,7 @@ refresh = true if !local_assigns.include?( :refresh )
 <div id="comments-list"
 
      data-refresh-url="<%= list_url %>"
-     data-refresh-rate="<%= Settings.comments_refresh_rate %>"
+     data-refresh-rate="<%= HardSettings.comments_refresh_rate %>"
 
 >
 <% end %>

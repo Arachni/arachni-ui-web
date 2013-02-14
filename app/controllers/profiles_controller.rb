@@ -203,7 +203,7 @@ class ProfilesController < ApplicationController
 
     def prepare_table_data
         @profiles = profile_filter( params[:tab] ).page( params[:page] ).
-            per( Settings.profile_pagination_entries ).
+            per( HardSettings.profile_pagination_entries ).
             order( 'id DESC' )
 
         @counts = {}

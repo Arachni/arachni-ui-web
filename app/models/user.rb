@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
            :rememberable, :trackable, :validatable
 
     def scan_limit_exceeded?
-        Settings.max_running_scans_per_user >= own_scans.size
+        HardSettings.max_running_scans_per_user >= own_scans.size
     end
 
     def available_profiles

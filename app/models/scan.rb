@@ -67,7 +67,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.limit_exceeded?
-        Settings.max_running_scans >= active.size
+        HardSettings.max_running_scans >= active.size
     end
 
     def self.recent( limit = 5 )

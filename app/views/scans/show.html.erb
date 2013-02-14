@@ -166,6 +166,6 @@
 
 <div id="updater"
      data-refresh-url="<%= scan_url( @scan, params.merge( format: :js ) ) %>"
-     data-refresh-rate="<%= Settings.scan_refresh_rate %>"
+     data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
      data-refresh-type="js">
 </div>

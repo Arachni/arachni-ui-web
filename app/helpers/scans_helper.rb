@@ -41,12 +41,12 @@ module ScansHelper
 
         @active_scans = scan_filter( params[:filter_active] ).active.
                             page( params[:active_page] ).
-                            per( Settings.active_scan_pagination_entries ).
+                            per( HardSettings.active_scan_pagination_entries ).
                             order( 'id DESC' )
 
         @finished_scans = scan_filter( params[:filter_finished] ).finished.
                             page( params[:finished_page] ).
-                            per( Settings.finished_scan_pagination_entries ).
+                            per( HardSettings.finished_scan_pagination_entries ).
                             order( 'id DESC' )
 
     end

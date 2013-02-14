@@ -6,7 +6,7 @@
 
 <div id="dashboard"
      data-refresh-url="<%= root_url( params.merge( partial: true ) ) %>"
-     data-refresh-rate="<%= Settings.dashboard_refresh_rate %>"
+     data-refresh-rate="<%= HardSettings.dashboard_refresh_rate %>"
 >
 
     <%= render 'dashboard' %>

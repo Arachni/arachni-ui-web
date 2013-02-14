@@ -23,7 +23,7 @@ class DispatcherManager
 
     def monitor
         @timer ||= ::EM.
-            add_periodic_timer( Settings.dispatcher_refresh_rate / 1000 ){ refresh }
+            add_periodic_timer( HardSettings.dispatcher_refresh_rate / 1000 ){ refresh }
     end
 
     def after_create( dispatcher )
