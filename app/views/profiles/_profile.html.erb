@@ -7,6 +7,12 @@
     </div>
 
     <div class="span2">
+        <% if profile.global? %>
+            <p class="label label-info">
+                Global
+            </p>
+        <% end %>
+
         <% if can? :edit, Profile %>
             <%= link_to edit_profile_path( profile ), title: 'Edit',
                         class: 'btn btn-small btn-warning' do %>

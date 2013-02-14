@@ -14,6 +14,8 @@ user = User.create! name:                  'Administrator',
 user.add_role :admin
 puts 'Admin user created: ' << user.name
 
+admin_id = user.id
+
 user = User.create! name:                  'Regular User',
                     email:                 'user@user.user',
                     password:              'regular_user',
@@ -33,6 +35,9 @@ end
 arachni_defaults.merge!(
     name:          'Default',
     description:   'Sensible, default settings.',
+    global:        true,
+    owner_id:      admin_id,
+    user_ids:      [admin_id],
     audit_links:   true,
     audit_forms:   true,
     audit_cookies: true,

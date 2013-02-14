@@ -12,11 +12,13 @@ be a mockup, partially or not at all working.
  - Administrators can manage all:
     - Users
     - Scan configuration Profiles
+        - And set Global Profiles which are available to everyone.
     - Scans
     - Scan Issues
     - Dispatchers
  - Users can:
-    - Start Scans using one of the admin-defined Profiles and Dispatchers.
+    - Manage, create and share Scan configuration Profiles with each other.
+    - Start Scans using one of the available Profiles (and optionally Dispatchers).
     - Manage, comment, share and export reports of their Scans.
     - Discuss and Review Issues:
         - Mark them as false positives
@@ -24,11 +26,12 @@ be a mockup, partially or not at all working.
         - Mark them as requiring manual verification
             - Add verification steps
             - Mark them as verified
-    - Receive notifications for:
-        - Shared scans -- Started, paused, resumed, aborted, commented
-        - Issues of shared scans -- Reviewed, verified, commented
-    - Review their Activity
-    - See, comment and export reports of Scans which have been shared with them by other users.
+    - Receive Notifications for:
+        - Shared Profiles -- Created, updated, shared, deleted.
+        - Shared Scans -- Started, paused, resumed, aborted, commented.
+        - Issues of shared Scans -- Reviewed, verified, commented.
+    - Review their Activity.
+    - Export reports, review and comment on Scans which have been shared with them by other users.
  - Available Scan types:
     - Direct -- From the WebUI machine to the webapp, no need to setup anything else.
     - Remote (using a Dispatcher) -- From the machine of the Dispatcher to the webapp.

@@ -1,7 +1,11 @@
 <% breadcrumb_add 'Profiles', profiles_path %>
 <% breadcrumb_add 'New', new_profile_path %>
-<% subnav spider: 'Spider', http: 'HTTP', auditor: 'Auditor',
-          modules: 'Modules', plugins: 'Plugins', login: 'Login' %>
+<% subnav spider: 'Spider <small>&mdash; Crawler and scope settings</small>',
+          http: 'HTTP <small>&mdash; Network settings</small>',
+          auditor: 'Auditor <small>&mdash; Fuzzing settings</small>',
+          modules: 'Modules <small>&mdash; Security checks</small>',
+          plugins: 'Plugins <small>&mdash; Extra functionality</small>',
+          login: 'Login <small>&mdash; Session settings</small>' %>
 
 <div class="page-header">
     <h1>Create a profile</h1>

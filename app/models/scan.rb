@@ -44,6 +44,8 @@ class Scan < ActiveRecord::Base
     validate :validate_instance_count
     validate :validate_description
 
+    before_save :add_owner_to_subscribers
+
     # The manager will start the scans when they are created and monitor and
     # update their progress and other details at regular intervals.
     after_create ScanManager.instance
@@ -559,6 +561,13 @@ class Scan < ActiveRecord::Base
     def validate_description
         return if ActionController::Base.helpers.strip_tags( description ) == description
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
+    end
+
+    private
+
+    def add_owner_to_subscribers
+        self.user_ids |= [owner.id]
+        true
     end
 
 end

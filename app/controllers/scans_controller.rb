@@ -77,7 +77,7 @@ class ScansController < ApplicationController
     # GET /scans/new
     # GET /scans/new.json
     def new
-        @profiles = Profile.all
+        @profiles = current_user.available_profiles
 
         html_proc = nil
         if params[:id]

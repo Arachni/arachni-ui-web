@@ -15,11 +15,15 @@
 =end
 
 class Profile < ActiveRecord::Base
+    include Extensions::Notifier
+
+    has_and_belongs_to_many :users
+    belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
 
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
     validates_presence_of   :name
-    validates_uniqueness_of :name
+    validates_uniqueness_of :name, scope: :owner_id
 
     validates_presence_of   :description
 
@@ -32,18 +36,20 @@ class Profile < ActiveRecord::Base
     validate :validate_custom_headers
     validate :validate_login_check
 
-    serialize :cookies, Hash
-    serialize :custom_headers, Hash
-    serialize :exclude, Array
-    serialize :exclude_pages, Array
-    serialize :include, Array
+    serialize :cookies,         Hash
+    serialize :custom_headers,  Hash
+    serialize :exclude,         Array
+    serialize :exclude_pages,   Array
+    serialize :include,         Array
     serialize :exclude_cookies, Array
     serialize :exclude_vectors, Array
-    serialize :extend_paths, Array
-    serialize :restrict_paths, Array
-    serialize :modules, Array
-    serialize :plugins, Hash
-    serialize :redundant, Hash
+    serialize :extend_paths,    Array
+    serialize :restrict_paths,  Array
+    serialize :modules,         Array
+    serialize :plugins,         Hash
+    serialize :redundant,       Hash
+
+    before_save :add_owner_to_subscribers
 
     RPC_OPTS = [ :audit_cookies, :audit_cookies_extensively, :audit_forms,
                  :audit_headers, :audit_links, :authed_by, :auto_redundant,
@@ -56,15 +62,31 @@ class Profile < ActiveRecord::Base
                  :redirect_limit, :redundant, :restrict_paths, :user_agent,
                  :http_timeout, :https_only, :exclude_pages ]
 
+    scope :global, -> { where global: true }
+
+    def self.describe_notification( action )
+        case action
+            when :destroy
+                'was deleted'
+            when :create
+                'created'
+            when :update
+                'was updated'
+            when :share
+                'was shared with you'
+            when :make_default
+                'was set as the system default'
+            else
+                action.to_s
+        end
+    end
+
     def self.default
         self.where( default: true ).first
     end
 
     def self.unmake_default
-        if p = self.default
-            p.default = false
-            p.save
-        end
+        update_all default: false
     end
 
     def self.recent( limit = 5 )
@@ -73,6 +95,14 @@ class Profile < ActiveRecord::Base
 
     def self.light
         select( [:id, :name] )
+    end
+
+    def subscribers
+        users | [owner]
+    end
+
+    def family
+        [self]
     end
 
     def to_s
@@ -97,10 +127,6 @@ class Profile < ActiveRecord::Base
             opts[k.to_sym] = v
         end
         opts
-    end
-
-    def family
-        [self]
     end
 
     def html_description
@@ -293,4 +319,10 @@ class Profile < ActiveRecord::Base
         end
     end
 
+    private
+
+    def add_owner_to_subscribers
+        self.user_ids |= [owner.id]
+        true
+    end
 end

@@ -12,3 +12,4 @@ Settings.finished_scan_pagination_entries = 15
 
 Settings.activities_pagination_entries    = 20
 Settings.notifications_pagination_entries = 20
+Settings.profile_pagination_entries       = 20

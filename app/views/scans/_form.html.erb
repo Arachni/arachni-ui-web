@@ -16,6 +16,12 @@
                         <% @profiles.each do |p| %>
                             <option <%= 'selected' if (params[:scan] || {})[:profile_id].to_i == p.id || p.default? %> value="<%= p.id %>">
                                 <%= p.name %>
+
+                                <% if p.global? %>
+                                 (Global)
+                                <% elsif p.owner != current_user %>
+                                  (by <%= p.owner %>)
+                                <% end %>
                             </option>
                         <%end%>
                     </select>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130121042140) do
+ActiveRecord::Schema.define(version: 20130213214155) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -77,6 +77,11 @@ ActiveRecord::Schema.define(version: 20130121042140) do
   end
 
   create_table "profiles", force: true do |t|
+    t.integer  "owner_id"
+    t.boolean  "global"
+    t.boolean  "default"
+    t.string   "name"
+    t.text     "description"
     t.text     "redundant"
     t.integer  "depth_limit"
     t.integer  "link_count_limit"
@@ -113,15 +118,15 @@ ActiveRecord::Schema.define(version: 20130121042140) do
     t.boolean  "https_only"
     t.text     "login_check_url"
     t.text     "login_check_pattern"
+    t.integer  "http_timeout"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.text     "description"
-    t.boolean  "default"
-    t.integer  "http_timeout"
   end
 
-  add_index "profiles", ["name"], name: "index_profiles_on_name"
+  create_table "profiles_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "profile_id"
+  end
 
   create_table "reports", force: true do |t|
     t.text     "object"
@@ -172,6 +177,7 @@ ActiveRecord::Schema.define(version: 20130121042140) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "name"
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -184,7 +190,6 @@ ActiveRecord::Schema.define(version: 20130121042140) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

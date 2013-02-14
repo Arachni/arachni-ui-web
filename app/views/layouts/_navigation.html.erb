@@ -109,7 +109,7 @@
                 </li>
                 <% end %>
 
-                <% if (recent_profiles = Profile.light.recent).any? %>
+                <% if (recent_profiles = current_user.available_profiles.light.recent).any? %>
                     <li class="divider"></li>
                     <li class="nav-header">Recently added</li>
                     <% recent_profiles.each do |profile| %>

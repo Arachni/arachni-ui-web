@@ -16,6 +16,7 @@
 
 class User < ActiveRecord::Base
     has_and_belongs_to_many :scans
+    has_and_belongs_to_many :profiles
     has_many :comments
     has_many :notifications, dependent: :destroy
 
@@ -25,6 +26,10 @@ class User < ActiveRecord::Base
     # :lockable, :timeoutable and :omniauthable
     devise :database_authenticatable, :registerable,
            :rememberable, :trackable, :validatable
+
+    def available_profiles
+        Profile.where( id: profiles.pluck( :id ) + Profile.global.pluck( :id ) )
+    end
 
     def admin?
         has_role? :admin

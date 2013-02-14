@@ -26,25 +26,70 @@ class Ability
         if user.has_role? :admin
             can :manage, :all
         else
-            can :read, [Profile, Dispatcher]
 
-            can :read, Scan do |scan|
-                scan.root_revision.owner_id == user.id ||
-                    scan.root_revision.user_ids.include?( user.id )
+            #
+            # Dispatcher access rules
+            #
+
+            # Can use the admin-defined ones to perform scans but can't
+            # edit or create any.
+            can :read, Dispatcher
+
+            #
+            # Profile access rules
+            #
+
+            # Can see/use global Profiles or Profiles which have been shared with them.
+            can :read, Profile do |profile|
+                profile.global? || profile.user_ids.include?( user.id )
             end
 
+            # Can create personal Profiles -- controller assigns the User/Owner ID.
+            can :create, Profile
+
+            # Can manage Profiles they created.
+            can :manage, Profile, owner_id: user.id
+
+            cannot :make_default, Profile
+
+            #
+            # Scan access rules
+            #
+
+            # Can see/use Scans which have been shared with them.
+            can :read, Scan do |scan|
+                scan.root_revision.user_ids.include?( user.id )
+            end
+
+            # Can manage Scans they created.
             can :manage, Scan, owner_id: user.id
 
+            # Can create personal Scans -- controller assigns the User/Owner ID.
             can :create, Scan
 
+            #
+            # Comment access rules
+            #
+
+            # Can read/create Comments if they can see the commentable model.
             can [:read, :create], Comment do |comment|
                 can? :read, comment.commentable
             end
 
+            #
+            # Issue access rules
+            #
+
+            # Can see/update Issues is they can see the Scan.
             can [:read, :update], Issue do |issue|
                 can? :read, issue.scan
             end
 
+            #
+            # Notification access rules
+            #
+
+            # Can manage notifications they fired.
             can :manage, Notification, user_id: user.id
         end
 

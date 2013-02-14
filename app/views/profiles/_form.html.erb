@@ -16,15 +16,36 @@
     <% end %>
 
     <header class="jumbotron subhead" id="overview">
-        <%= f.input :name %>
+        <div class="row-fluid">
+            <div class="span6">
+                <%= f.input :name %>
+            </div>
 
-        <div class="span12">
+        <% if current_user.admin? %>
+            <div class="span6">
+                <%= f.input :global %>
+                <p class="help-block">
+                    Make this profile globally available.
+                </p>
+            </div>
+        <% end %>
         </div>
 
-        <%= f.input :description,
-                    hint: 'You can use <a href="http://daringfireball.net/' +
-                              'projects/markdown/syntax">Markdown</a> for text formatting.',
-                    input_html: { rows: 5, cols: 100 } %>
+        <div class="row-fluid">
+            <div class="span6">
+                <%= f.input :description,
+                            hint: 'You can use <a href="http://daringfireball.net/' +
+                                      'projects/markdown/syntax">Markdown</a> for text formatting.',
+                            input_html: { rows: 5, cols: 100 } %>
+            </div>
+            <div class="span6">
+                <% if User.count > 1 %>
+                    <%= f.association :users, label: 'Share profile with:',
+                                      collection: User.all - [current_user, @profile.owner] %>
+                <% end %>
+            </div>
+
+        </div>
     </header>
 
     <section id="spider">

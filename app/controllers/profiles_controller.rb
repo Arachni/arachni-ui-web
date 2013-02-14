@@ -15,6 +15,9 @@
 =end
 
 class ProfilesController < ApplicationController
+    include ProfilesHelper
+    include NotificationsHelper
+
     before_filter :authenticate_user!
     before_filter :prepare_plugin_params
     before_filter :new_profile, only: [ :create ]
@@ -24,10 +27,11 @@ class ProfilesController < ApplicationController
     # GET /profiles
     # GET /profiles.json
     def index
-        @profiles = Profile.all
+        prepare_table_data
 
         respond_to do |format|
             format.html # index.html.erb
+            format.js { render '_table.js' }
             format.json { render json: @profiles }
         end
     end
@@ -58,6 +62,8 @@ class ProfilesController < ApplicationController
     # GET /profiles/1/copy
     def copy
         @profile = Profile.find( params.require( :id ) ).dup
+        @profile.owner_id = nil
+        @profile.global   = false
 
         respond_to do |format|
             format.html { render 'new' }
@@ -72,9 +78,16 @@ class ProfilesController < ApplicationController
 
     # PUT /profiles/1/make_default
     def make_default
-        Profile.find( params.require( :id ) ).make_default
+        profile = Profile.find( params.require( :id ) )
 
-        @profiles = Profile.all
+        fail 'Cannot make a non-global profile the default one.' if !profile.global?
+
+        profile.make_default
+        params.delete( :id )
+
+        notify profile
+
+        prepare_table_data
 
         render partial: 'table', formats: :js
     end
@@ -82,8 +95,13 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
+        @profile.owner  = current_user
+        @profile.users |= [current_user]
+
         respond_to do |format|
             if @profile.save
+                notify @profile
+
                 format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
                 format.json { render json: @profile, status: :created, location: @profile }
             else
@@ -100,7 +118,26 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.update_attributes( strong_params )
+                notify @profile
+
                 format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
+                format.json { head :no_content }
+            else
+                format.html { render action: "edit" }
+                format.json { render json: @profile.errors, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    def share
+        @profile = Profile.find( params.require( :id ) )
+
+        respond_to do |format|
+            if @profile.update_attributes( params.require( :profile ).permit( user_ids: [] ) )
+
+                notify @profile
+
+                format.html { redirect_to :back, notice: 'Profile was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
@@ -115,6 +152,7 @@ class ProfilesController < ApplicationController
         @profile = Profile.find( params.require( :id ) )
         fail 'Cannot delete default profile.' if @profile.default?
 
+        notify @profile
         @profile.destroy
 
         respond_to do |format|
@@ -130,17 +168,21 @@ class ProfilesController < ApplicationController
     end
 
     def strong_params
-        params.require( :profile ).
-            permit( :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
-                    :audit_headers, :audit_links, :authed_by, :auto_redundant,
-                    :cookies, :custom_headers, :depth_limit, :exclude,
-                    :exclude_binaries, :exclude_cookies, :exclude_vectors,
-                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
-                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                    :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
-                    :proxy_password, :proxy_port, :proxy_type, :proxy_username,
-                    :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                    :http_timeout, :description, :https_only, :exclude_pages )
+        allowed = [:name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
+                   :audit_headers, :audit_links, :authed_by, :auto_redundant,
+                   :cookies, :custom_headers, :depth_limit, :exclude,
+                   :exclude_binaries, :exclude_cookies, :exclude_vectors,
+                   :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
+                   :include, :link_count_limit, :login_check_pattern, :login_check_url,
+                   :max_slaves, :min_pages_per_instance, { modules: [] }, { selected_plugins: []},
+                   { plugins: {}}, :proxy_host, :proxy_password, :proxy_port,
+                   :proxy_type, :proxy_username, :redirect_limit, :redundant,
+                   :restrict_paths, :user_agent, :http_timeout, :description,
+                   :https_only, :exclude_pages, { user_ids: [] }]
+
+        allowed << :global if current_user.admin?
+
+        params.require( :profile ).permit( *allowed )
     end
 
     def prepare_plugin_params
@@ -157,6 +199,19 @@ class ProfilesController < ApplicationController
         else
             params[:profile][:plugins] = {}
         end
+    end
+
+    def prepare_table_data
+        @profiles = profile_filter( params[:tab] ).page( params[:page] ).
+            per( Settings.profile_pagination_entries ).
+            order( 'id DESC' )
+
+        @counts = {}
+        %w(yours shared global).each do |type|
+            @counts[type] = profile_filter( type ).count
+        end
+
+        @counts['others'] = profile_filter( 'others' ).count if current_user.admin?
     end
 
 end

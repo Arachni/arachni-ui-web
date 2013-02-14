@@ -1,55 +1,224 @@
-<table class="table table-striped table-condensed">
-    <% profiles.each do |profile| %>
+<%
+   params[:tab] ||= 'yours'
+   active_tab     = params[:tab]
+
+   opts = params.merge( format: :js )
+%>
+
+<ul class="nav nav-tabs" id="profile-table-tab"
+    data-table-container="table-container">
+
+    <% if @counts['yours'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                <i class="icon-user"></i>
+                Yours <small>[<%= @counts['yours'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'yours' %>
+        class="active"
+        <% end %>
+        >
+
+            <%= link_to profiles_url( opts.merge( 'tab' => 'yours' ) ),
+                        onclick: 'loading();', remote: true do %>
+                <i class="icon-user"></i>
+                Yours <small>[<%= @counts['yours'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if @counts['shared'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                <i class="icon-share-alt"></i>
+                Shared <small>[<%= @counts['shared'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+
+        <li
+        <% if active_tab == 'shared' %>
+        class="active"
+        <% end %>
+
+        >
+            <%= link_to profiles_url( opts.merge( 'tab' => 'shared' ) ),
+                        onclick: 'loading();', remote: true do %>
+                <i class="icon-share-alt"></i>
+                Shared <small>[<%= @counts['shared'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if @counts['global'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                <i class="icon-globe"></i>
+                Global <small>[<%= @counts['global'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if active_tab == 'global' %>
+        class="active"
+        <% end %>
+        >
+            <%= link_to profiles_url( opts.merge( 'tab' => 'global' ) ),
+                        onclick: 'loading();', remote: true do %>
+                <i class="icon-globe"></i>
+                Global <small>[<%= @counts['global'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if current_user.admin? %>
+        <% if @counts['others'] == 0 %>
+            <li class="disabled">
+                <a href="#">
+                    <i class="icon-group"></i>
+                    Others <small>[<%= @counts['others'] %>]</small>
+                </a>
+            </li>
+        <% else %>
+            <li
+            <% if active_tab == 'others' %>
+            class="active"
+            <% end %>
+            >
+                <%= link_to profiles_url( opts.merge( 'tab' => 'others' ) ),
+                            onclick: 'loading();', remote: true do %>
+                    <i class="icon-group"></i>
+                    Others <small>[<%= @counts['others'] %>]</small>
+                <% end %>
+            </li>
+        <% end %>
+    <% end %>
+
+</ul>
+
+<p class="muted">
+    <%=
+        case active_tab
+            when 'yours'
+                "You are seeing profiles you've created."
+            when 'shared'
+                "You are seeing profiles others have shared with you."
+            when 'global'
+                "You are seeing globally available profiles."
+            when 'others'
+                "You are seeing all others' profiles -- you can see them because you're an administrator."
+        end
+    %>
+</p>
+
+<% if profiles.any? %>
+    <%= my_paginate profiles, remote: true %>
+
+    <table class="table table-striped table-condensed">
+        <thead>
         <tr>
-            <th><%= profile.name %></th>
-            <td>
-                <em>
-                    <% if profile.default? %>
-                        Default
-                    <% else %>
-                        <% if can? :edit, Profile %>
-                            <%= link_to 'Make default', make_default_profile_path( profile ),
-                                        class: 'make-default', method: :patch, remote: true
-                            %>
+            <th>
+                Default?
+            </th>
+            <th>
+                Name
+            </th>
+
+            <% if active_tab != 'yours' %>
+                <th>
+                    Owner
+                </th>
+            <% end %>
+
+            <th>
+                Last update
+            </th>
+            <th>
+                Created at
+            </th>
+        </tr>
+        </thead>
+        <% profiles.each do |profile| %>
+            <tr>
+                <td>
+                    <em>
+                        <% if profile.default? %>
+                            <i class="icon-check"></i>
+                        <% else %>
+                            <i class="icon-check-empty"></i>
+
+                            <% if can?( :make_default, profile ) && profile.global? %>
+                                <%= link_to 'Make default', make_default_profile_path( profile, opts ),
+                                            onclick: 'loading();', class: 'make-default',
+                                            method: :patch, remote: true
+                                %>
                             <% end %>
                         <% end %>
-                </em>
-            </td>
-            <td>
-                <% if can? :read, Profile %>
-                    <%= link_to profile, title: 'Show', class: 'btn btn-small btn-info' do %>
-                        <i class="icon-eye-open icon-muted"></i>
-                    <% end %>
+                    </em>
+                </td>
+
+                <td><%= profile.name %></td>
+
+                <% if active_tab != 'yours' %>
+                    <td>
+                        <% if profile.owner == current_user %>
+                            <span class="label">You</span>
+                        <% else %>
+                            <span class="label label-info"><%= profile.owner %></span>
+                        <% end %>
+                    </td>
                 <% end %>
 
-                <% if can? :edit, Profile %>
-                    <%= link_to edit_profile_path( profile ), title: 'Edit',
-                                class: 'btn btn-small btn-warning' do %>
-                        <i class="icon-pencil"></i>
+                <td><%= l profile.updated_at %></td>
+                <td><%= l profile.created_at %></td>
+                <td>
+                    <% if can? :read, profile %>
+                        <%= link_to profile, title: 'Show', class: 'btn btn-small btn-info' do %>
+                            <i class="icon-eye-open icon-muted"></i>
+                        <% end %>
                     <% end %>
-                <% end %>
 
-                <% if can? :copy, Profile %>
-                    <%= link_to copy_profile_path( profile ),
-                                title: "Create a new profile based on '#{profile.name}'",
-                                class: 'btn btn-small btn-primary' do %>
-                        <i class="icon-copy"></i>
+                    <% if can? :edit, profile %>
+                        <%= link_to edit_profile_path( profile ), title: 'Edit',
+                                    class: 'btn btn-small btn-warning' do %>
+                            <i class="icon-pencil"></i>
+                        <% end %>
                     <% end %>
-                <% end %>
 
-                <% if can?( :delete, Profile ) && !profile.default? %>
-                    <%= link_to profile, title: 'Delete',
-                                method: :delete, class: 'btn btn-small btn-danger',
-                                data: { confirm: 'Are you sure?' } do %>
-                        <i class="icon-trash"></i>
+                    <% if can? :copy, profile %>
+                        <%= link_to copy_profile_path( profile ),
+                                    title: "Create a new profile based on '#{profile.name}'",
+                                    class: 'btn btn-small btn-primary' do %>
+                            <i class="icon-copy"></i>
+                        <% end %>
                     <% end %>
-                <% end %>
-            </td>
-        </tr>
-        <tr>
-            <td class="description" colspan='3'>
-                <blockquote><%= profile.html_description_excerpt %></blockquote>
-            </td>
-        </tr>
-    <% end %>
+
+                    <% if can?( :delete, profile ) && !profile.default? %>
+                        <%= link_to profile, title: 'Delete',
+                                    method: :delete, class: 'btn btn-small btn-danger',
+                                    data: { confirm: 'Are you sure?' } do %>
+                            <i class="icon-trash"></i>
+                        <% end %>
+                    <% end %>
+
+                    <% if can? :share, profile %>
+                        <%= render partial: 'share_form', locals: { profile: profile, nolabel: true } %>
+                    <% end %>
+                </td>
+            </tr>
+            <tr>
+                <td class="description" colspan='5'>
+                    <blockquote><%= profile.html_description_excerpt %></blockquote>
+                </td>
+            </tr>
+        <% end %>
+<% else %>
+    <p class="alert alert-info">
+        No such profiles.
+    </p>
+<% end %>
 </table>
+

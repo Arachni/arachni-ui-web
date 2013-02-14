@@ -43,6 +43,7 @@ ArachniWebui::Application.routes.draw do
 
     resources :profiles do
         patch :make_default, on: :member
+        patch :share,        on: :member
         get   :copy,         on: :member
     end
 
