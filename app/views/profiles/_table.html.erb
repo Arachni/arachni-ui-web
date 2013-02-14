@@ -147,19 +147,16 @@
             <tr>
                 <% if active_tab == 'global' %>
                     <td>
-                        <em>
-                            <% if profile.default? %>
-                                <i class="icon-check"></i>
-                            <% else %>
-                                <i class="icon-check-empty"></i>
-                                <% if can?( :make_default, profile ) %>
-                                    <%= link_to 'Make default', make_default_profile_path( profile, opts ),
-                                                onclick: 'loading();', class: 'make-default',
-                                                method: :patch, remote: true
-                                    %>
-                                <% end %>
-                            <% end %>
-                        </em>
+                        <%= simple_form_for profile,
+                                           url: make_default_profile_path( profile, opts ),
+                                           method: :patch, remote: true,
+                                           html: { onsubmit: 'loading();' } do %>
+                            <input type="radio"
+                                   class="make-default"
+                                    onclick="$(this).submit()"
+                                   <%= 'checked="checked"'.html_safe if profile.default? %>
+                            >
+                        <% end %>
                     </td>
                 <% end %>
 
