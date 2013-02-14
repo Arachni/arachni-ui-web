@@ -16,6 +16,7 @@
     <% if @counts[type.to_sym]['yours'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-user"></i>
                 Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
             </a>
         </li>
@@ -28,6 +29,7 @@
 
         <%= link_to scans_url( opts.merge( filter => 'yours' ) ),
                     onclick: 'loading();', remote: true do %>
+            <i class="icon-user"></i>
             Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
         <% end %>
     </li>
@@ -36,6 +38,7 @@
     <% if @counts[type.to_sym]['shared'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-share-alt"></i>
                 Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
             </a>
         </li>
@@ -49,7 +52,8 @@
         >
         <%= link_to scans_url( opts.merge( filter => 'shared' ) ),
                     onclick: 'loading();', remote: true do %>
-                    Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
+            <i class="icon-share-alt"></i>
+            Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
             <% end %>
         </li>
     <% end %>
@@ -59,6 +63,7 @@
         <% if @counts[type.to_sym]['others'] == 0 %>
             <li class="disabled">
                 <a href="#">
+                    <i class="icon-group"></i>
                     Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
                 </a>
             </li>
@@ -70,6 +75,7 @@
             >
                 <%= link_to scans_url( opts.merge( filter => 'others' ) ),
                             onclick: 'loading();', remote: true do %>
+                    <i class="icon-group"></i>
                     Others <small>[<%= @counts[type.to_sym]['others'] %>]</small>
             <% end %>
             </li>
