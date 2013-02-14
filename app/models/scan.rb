@@ -66,6 +66,10 @@ class Scan < ActiveRecord::Base
         super( options )
     end
 
+    def self.limit_exceeded?
+        Settings.max_running_scans >= active.size
+    end
+
     def self.recent( limit = 5 )
         limit( limit ).order( "id desc" )
     end

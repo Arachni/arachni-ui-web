@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
     devise :database_authenticatable, :registerable,
            :rememberable, :trackable, :validatable
 
+    def scan_limit_exceeded?
+        Settings.max_running_scans_per_user >= own_scans.size
+    end
+
     def available_profiles
         Profile.where( id: profiles.pluck( :id ) + Profile.global.pluck( :id ) )
     end

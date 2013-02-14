@@ -20,6 +20,14 @@ require 'timeout'
 module ApplicationHelper
     include ::FrameworkHelper
 
+    def fade_out_messages?
+        !@do_not_fade_out_messages
+    end
+
+    def do_not_fade_out_messages
+        @do_not_fade_out_messages = true
+    end
+
     def my_paginate( rows, opts = {} )
         s = paginate( rows, opts )
         #s.gsub!( /(&amp;|\?)partial=true/, '' ) if !opts[:partial]

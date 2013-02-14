@@ -77,6 +77,8 @@ class ScansController < ApplicationController
     # GET /scans/new
     # GET /scans/new.json
     def new
+        show_scan_limit_errors
+
         @profiles = current_user.available_profiles
 
         html_proc = nil
@@ -111,6 +113,8 @@ class ScansController < ApplicationController
     # POST /scans
     # POST /scans.json
     def create
+        show_scan_limit_errors
+
         @profiles         = current_user.available_profiles
         @dispatchers      = Dispatcher.alive
         @grid_dispatchers = @dispatchers.grid_members
@@ -119,7 +123,7 @@ class ScansController < ApplicationController
         @scan.users |= [current_user]
 
         respond_to do |format|
-            if @scan.save
+            if !Scan.limit_exceeded? && @scan.save
                 notify @scan
 
                 format.html { redirect_to @scan }
@@ -290,6 +294,18 @@ class ScansController < ApplicationController
     def find_scan( id )
         s = Scan.find( params[:id] )
         params[:overview] == 'true' ? s.act_as_overview : s
+    end
+
+    def show_scan_limit_errors
+        if Scan.limit_exceeded?
+            do_not_fade_out_messages
+            flash[:error] = 'Maximum scan limit has been reached, please try again later.'
+        end
+
+        if current_user.scan_limit_exceeded?
+            do_not_fade_out_messages
+            flash[:error] = 'Your scan limit has been reached, please try again later.'
+        end
     end
 
 end
