@@ -120,9 +120,11 @@
     <table class="table table-striped table-condensed">
         <thead>
         <tr>
+            <% if active_tab == 'global' %>
             <th>
                 Default?
             </th>
+            <% end %>
             <th>
                 Name
             </th>
@@ -143,22 +145,23 @@
         </thead>
         <% profiles.each do |profile| %>
             <tr>
-                <td>
-                    <em>
-                        <% if profile.default? %>
-                            <i class="icon-check"></i>
-                        <% else %>
-                            <i class="icon-check-empty"></i>
-
-                            <% if can?( :make_default, profile ) && profile.global? %>
-                                <%= link_to 'Make default', make_default_profile_path( profile, opts ),
-                                            onclick: 'loading();', class: 'make-default',
-                                            method: :patch, remote: true
-                                %>
+                <% if active_tab == 'global' %>
+                    <td>
+                        <em>
+                            <% if profile.default? %>
+                                <i class="icon-check"></i>
+                            <% else %>
+                                <i class="icon-check-empty"></i>
+                                <% if can?( :make_default, profile ) %>
+                                    <%= link_to 'Make default', make_default_profile_path( profile, opts ),
+                                                onclick: 'loading();', class: 'make-default',
+                                                method: :patch, remote: true
+                                    %>
+                                <% end %>
                             <% end %>
-                        <% end %>
-                    </em>
-                </td>
+                        </em>
+                    </td>
+                <% end %>
 
                 <td><%= profile.name %></td>
 
