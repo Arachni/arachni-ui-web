@@ -15,6 +15,8 @@
 =end
 
 ArachniWebui::Application.routes.draw do
+    resources :settings
+
     resources :notifications, only: [:mark_all_read, :destroy] do
         patch :mark_read, on: :collection
     end

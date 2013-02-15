@@ -16,6 +16,11 @@ be a mockup, partially or not at all working.
     - Scans
     - Scan Issues
     - Dispatchers
+    - Settings
+        - Target whitelist using regular expressions.
+        - Target blacklist using regular expressions.
+        - Global scan limit -- Amount of active scans at any given time.
+        - Per scan limit -- Amount of active scans at any given time per user.
  - Users can:
     - Manage, create and share Scan configuration Profiles with each other.
     - Start Scans using one of the available Profiles (and optionally Dispatchers).

@@ -36,6 +36,9 @@
                     <% end %>
                 </li>
             <% end %>
+            <% if can? :read, Setting %>
+                <li><%= link_to 'Settings', settings_path %></li>
+            <% end %>
         </ul>
     </div>
 
@@ -233,11 +236,16 @@
             </a>
             <ul id="current-user-dropdown" class="dropdown-menu">
                 <li>
+                    <%= link_to settings_path do %>
+                        <i class="icon-cog"></i> Settings
+                    <% end %>
+                </li>
+                <li class="divider"></li>
+                <li>
                   <%= link_to edit_user_registration_path do %>
                       <i class="icon-pencil"></i> Edit account
                   <% end %>
                 </li>
-                <li class="divider"></li>
                 <li>
                 <%= link_to destroy_user_session_path, method: 'delete' do %>
                     <i class="icon-off"></i> Sign out

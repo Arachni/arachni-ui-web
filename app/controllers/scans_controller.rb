@@ -137,6 +137,9 @@ class ScansController < ApplicationController
 
     # POST /scans/1/repeat
     def repeat
+        @dispatchers      = Dispatcher.alive
+        @grid_dispatchers = @dispatchers.grid_members
+
         @scan = find_scan( params.require( :id ) ).new_revision
 
         respond_to do |format|
@@ -146,7 +149,10 @@ class ScansController < ApplicationController
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }
                 format.json { render json: @scan, status: :created, location: @scan }
             else
-                format.html { render action: "new" }
+                if errors = @scan.errors.delete( :url )
+                    flash[:error] = "URL #{errors.first}."
+                end
+                format.html { redirect_to new_revision_scan_url( Scan.find( params[:id] ) ) }
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
         end

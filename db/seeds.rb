@@ -6,6 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+puts 'SETTING UP EMPTY SETTINGS'
+Setting.create!
+
 puts 'SETTING UP DEFAULT USERS'
 user = User.create! name:                  'Administrator',
                     email:                 'admin@admin.admin',

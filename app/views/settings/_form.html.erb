@@ -1,0 +1,43 @@
+<%= simple_form_for( @setting ) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+        <div class="row-fluid">
+            <div class="span6">
+                <%= f.input :global_scan_limit %>
+                <p class="help-block">
+                    How many active scans to allow at any given time.
+                </p>
+            </div>
+            <div class="span6">
+                <%= f.input :per_user_scan_limit %>
+                <p class="help-block">
+                    How many active scans to allow at any given time per user.
+                </p>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span6">
+                <%= f.input :target_whitelist_patterns,
+                            input_html: { value: @setting.target_whitelist_patterns.join( "\n" ) } %>
+                <p class="help-block">
+                    Only allow scans against target URLs which match any of
+                    these patterns.
+                </p>
+            </div>
+            <div class="span6">
+                <%= f.input :target_blacklist_patterns,
+                            input_html: { value: @setting.target_blacklist_patterns.join( "\n" ) } %>
+                <p class="help-block">
+                    Do not allow scans against target URLs which match any of
+                    these patterns.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <%= f.button :submit, value: 'Update' %>
+    </div>
+<% end %>

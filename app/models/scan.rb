@@ -67,7 +67,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.limit_exceeded?
-        active.size >= HardSettings.max_running_scans
+        active.size >= Settings.global_scan_limit
     end
 
     def self.recent( limit = 5 )
@@ -541,7 +541,19 @@ class Scan < ActiveRecord::Base
     def validate_url
         if url.to_s.empty? ||
             (purl = Arachni::URI( url )).to_s.empty? || !purl.absolute?
-            errors.add :url, "not a valid absolute URL"
+            errors.add :url, 'not a valid absolute URL'
+        end
+
+        if !url.to_s.empty? && !Settings.target_allowed?( url )
+            if Settings.target_whitelist_patterns.any? &&
+                !Settings.target_in_whitelist?( url )
+                errors.add :url, 'not in the whitelist'
+            end
+
+            if Settings.target_blacklist_patterns.any? &&
+                Settings.target_in_blacklist?( url )
+                errors.add :url, 'is blacklisted'
+            end
         end
     end
 
