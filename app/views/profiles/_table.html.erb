@@ -79,7 +79,7 @@
             <li class="disabled">
                 <a href="#">
                     <i class="icon-group"></i>
-                    Others <small>[<%= @counts['others'] %>]</small>
+                    Others' <small>[<%= @counts['others'] %>]</small>
                 </a>
             </li>
         <% else %>
@@ -91,7 +91,7 @@
                 <%= link_to profiles_url( opts.merge( 'tab' => 'others' ) ),
                             onclick: 'loading();', remote: true do %>
                     <i class="icon-group"></i>
-                    Others <small>[<%= @counts['others'] %>]</small>
+                    Others' <small>[<%= @counts['others'] %>]</small>
                 <% end %>
             </li>
         <% end %>
