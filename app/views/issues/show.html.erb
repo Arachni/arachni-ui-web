@@ -95,7 +95,7 @@
     </ul>
 
     <div class="tab-content">
-        <div id="issue-<%= @issue.digest %>-technical-details" class="tab-pane fade active in">
+        <div id="issue-<%= @issue.digest %>-technical-details" class="tab-pane active in">
 
             <h3 id="identification_data">Identification data</h3>
             <table class="table fixed">
@@ -313,7 +313,7 @@
             </table>
         </div>
 
-        <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane fade">
+        <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane">
             <%= render partial: 'comments/list',
                        locals: { comments: @issue.comments,
                                  list_url: scan_issue_comments_url( @issue.scan, @issue, partial: true )
@@ -323,7 +323,7 @@
         </div>
 
         <% if @issue.has_verification_steps? %>
-        <div id="issue-<%= @issue.digest %>-verification" class="tab-pane fade">
+        <div id="issue-<%= @issue.digest %>-verification" class="tab-pane">
             <h3>
                 Verification steps
             </h3>
@@ -335,11 +335,11 @@
         </div>
         <% end %>
 
-        <div id="issue-<%= @issue.digest %>-review" class="tab-pane fade">
+        <div id="issue-<%= @issue.digest %>-review" class="tab-pane">
             <%= render 'form' %>
         </div>
 
-        <div id="issue-<%= @issue.digest %>-timeline" class="tab-pane fade">
+        <div id="issue-<%= @issue.digest %>-timeline" class="tab-pane">
             <ul class="unstyled">
 
             <% @issue.timeline.each do |t| %>
