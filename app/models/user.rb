@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
            :rememberable, :trackable, :validatable
 
     def scan_limit_exceeded?
-        !admin? && own_scans.active.size >= Settings.max_running_scans_per_user
+        !admin? && own_scans.active.size >= Settings.per_user_scan_limit
     end
 
     def available_profiles
@@ -63,5 +63,5 @@ class User < ActiveRecord::Base
     def ability
         @ability ||= Ability.new( self )
     end
-    delegate :can?, :cannot?, :to => :ability
+    delegate :can?, :cannot?, to: :ability
 end
