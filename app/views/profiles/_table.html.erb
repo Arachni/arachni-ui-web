@@ -155,6 +155,7 @@
                                    class="make-default"
                                     onclick="$(this).submit()"
                                    <%= 'checked="checked"'.html_safe if profile.default? %>
+                                   <%= 'disabled' if !current_user.admin? %>
                             >
                         <% end %>
                     </td>
@@ -167,8 +168,8 @@
                         <% if profile.owner == current_user %>
                             <span class="label">You</span>
                         <% else %>
-                            <span class="label label-info"><%= profile.owner %></span>
-                        <% end %>
+                            <%= link_to profile.owner, user_path( profile.owner ) %>
+                    <% end %>
                     </td>
                 <% end %>
 

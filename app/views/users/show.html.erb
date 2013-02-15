@@ -27,25 +27,27 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span6">
-            <h2>Activities</h2>
-            <% if @activities.any? %>
-                <%= my_paginate @activities, param_name: 'activities_page', remote: true,
-                                params: { render: 'activities' } %>
+        <% if current_user.admin? || current_user == @user %>
+            <div class="span6">
+                <h2>Activities</h2>
+                <% if @activities.any? %>
+                    <%= my_paginate @activities, param_name: 'activities_page', remote: true,
+                                    params: { render: 'activities' } %>
 
-                <ul class="notifications unstyled">
-                    <% @activities.each do |activity| %>
-                        <li>
-                            <%= render activity %>
-                        </li>
-                    <% end %>
-                </ul>
-            <% else %>
-                <p class="alert alert-info">
-                    <%= @user %> hasn't been up to anything.
-                </p>
-            <% end %>
-        </div>
+                    <ul class="notifications unstyled">
+                        <% @activities.each do |activity| %>
+                            <li>
+                                <%= render activity %>
+                            </li>
+                        <% end %>
+                    </ul>
+                <% else %>
+                    <p class="alert alert-info">
+                        <%= @user %> hasn't been up to anything.
+                    </p>
+                <% end %>
+            </div>
+        <% end %>
 
         <div class="span6">
             <% if (roles = @user.roles).any? %>
@@ -57,10 +59,10 @@
                 </ul>
             <% end %>
 
-            <% if (scans = @user.own_scans).any? %>
-                <h2>Scans <small>[<%= scans.size %>]</small></h2>
+            <% if @scans.any? %>
+                <h2>Scans <small>[<%= @scans.size %>]</small></h2>
                 <ul class="unstyled">
-                    <% scans.each do |scan| %>
+                    <% @scans.each do |scan| %>
                         <li><%= link_to scan, scan_path( scan ) %></li>
                     <% end %>
                 </ul>

@@ -18,7 +18,7 @@
 <%= notification.action_description %>
 
 <% if with.include?( :actor ) && notification.actor %>
-    by <%= notification.actor %>
+    by <%= link_to notification.actor, user_path( notification.actor ) %>
 <% end %>
 
 <small class="muted">&ndash; <%= l notification.created_at %></small>

@@ -101,7 +101,9 @@
 <div id="scans">
     <div class="page-header">
         <% if @scan.owner != current_user %>
-            <span class="label label-info pull-right">Started by <%= @scan.owner.name %></span>
+            <span class="pull-right muted">
+                Started by <%= link_to @scan.owner, user_path( @scan.owner ) %>
+            </span>
         <% end %>
 
         <% purl = @scan.parsed_url %>

@@ -102,7 +102,7 @@
             <% if scan.owner == current_user %>
                 <span class="label">You</span>
             <% else %>
-                <span class="label label-info"><%= scan.owner.name %></span>
+                <%= link_to scan.owner, user_path( scan.owner ) %>
             <% end %>
         </td>
     <% end %>

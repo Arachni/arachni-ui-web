@@ -18,9 +18,7 @@ refresh = true if !local_assigns.include?( :refresh )
                 <% if comment.user == current_user %>
                     <span class="label">You:</span>
                 <% else %>
-                    <span class="label label-info">
-                        <%= comment.user.name %>:
-                    </span>
+                    <%= link_to comment.user, user_path( comment.user ) %>:
                 <% end %>
             </p>
 

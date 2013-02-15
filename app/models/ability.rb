@@ -26,6 +26,12 @@ class Ability
         if user.has_role? :admin
             can :manage, :all
         else
+            #
+            # User access rules
+            #
+
+            # Let users see profiles of other users
+            can :read, User
 
             #
             # Dispatcher access rules
@@ -88,6 +94,10 @@ class Ability
             #
             # Notification access rules
             #
+
+            can :read, Notification do |notification|
+                notification.model && can?( :read, notification.model )
+            end
 
             # Can manage notifications they fired.
             can :manage, Notification, user_id: user.id

@@ -26,6 +26,7 @@ class UsersController < ApplicationController
 
     def show
         @user       = User.find( params.require( :id ) )
+        @scans      = @user.own_scans.select { |s| can? :read, s }
         @activities = @user.activities.page( params[:activities_page] ).
                         per( HardSettings.activities_pagination_entries ).
                         order( 'id DESC' )
