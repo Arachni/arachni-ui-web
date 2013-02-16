@@ -1,4 +1,4 @@
-<% if current_user.scan_groups.size > 1 && can?( :update, scan ) %>
+<% if current_user.scan_groups.any? && can?( :update, scan ) %>
     <script type="text/javascript">
         modal = $( '#updateScanGroup_<%= scan.id %>' );
 
