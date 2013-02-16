@@ -152,8 +152,10 @@
                 <% end %>
             <% end %>
 
-            <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-            <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
+            <% if show_as_revision %>
+                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+                <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
+            <% end %>
         <% else %>
             <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) %>
                 <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',

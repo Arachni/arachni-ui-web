@@ -45,6 +45,7 @@ class Scan < ActiveRecord::Base
     validate :validate_instance_count
     validate :validate_description
 
+    before_save :propagate_to_revisions
     before_save :add_owner_to_subscribers
 
     # The manager will start the scans when they are created and monitor and
@@ -361,11 +362,21 @@ class Scan < ActiveRecord::Base
     end
 
     def share( user_id_list )
-        user_id_list |= [root_revision.owner.id] if root_revision.owner
-        user_id_list = user_id_list.flatten.reject { |i| i.to_s.empty? }.map( &:to_i )
+        user_id_list |= [root_revision.owner_id]
+        user_id_list = user_id_list.flatten.
+                            reject { |i| i.to_s.empty? }.map( &:to_i )
 
         revisions_with_root.each do |rev|
             rev.update_attribute( :user_ids, user_id_list )
+        end
+    end
+
+    def update_memberships( group_id_list )
+        group_id_list = group_id_list.flatten.
+                            reject { |i| i.to_s.empty? }.map( &:to_i )
+
+        revisions_with_root.each do |rev|
+            rev.update_attribute( :scan_group_ids, group_id_list )
         end
     end
 
@@ -582,6 +593,10 @@ class Scan < ActiveRecord::Base
     end
 
     private
+
+    def propagate_to_revisions
+
+    end
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]

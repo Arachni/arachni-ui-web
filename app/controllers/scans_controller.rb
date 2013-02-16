@@ -166,7 +166,7 @@ class ScansController < ApplicationController
     def update
         @scan = find_scan( params.require( :id ) )
 
-        update_params = params.require( :scan ).permit( :description, { scan_group_ids: [] } )
+        update_params = params.require( :scan ).permit( :description )
 
         respond_to do |format|
             if @scan.update_attributes( update_params )
@@ -176,6 +176,26 @@ class ScansController < ApplicationController
             else
                 format.html { render action: "edit" }
                 format.js { render '_scan.js' }
+                format.json { render json: @scan.errors, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    def update_memberships
+        @scan = find_scan( params.require( :id ) )
+
+        scan_group_ids = params.require( :scan ).
+            permit( scan_group_ids: [] )[:scan_group_ids]
+
+        respond_to do |format|
+            if @scan.update_memberships( scan_group_ids )
+
+                notify @scan
+
+                format.html { redirect_to :back, notice: 'Scan was successfully shared.' }
+                format.json { head :no_content }
+            else
+                format.html { render action: "edit" }
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
         end

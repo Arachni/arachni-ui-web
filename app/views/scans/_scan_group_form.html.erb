@@ -26,7 +26,7 @@
             <h3>Join:</h3>
         </div>
 
-        <%= simple_form_for( scan ) do |f| %>
+        <%= simple_form_for( scan, url: update_memberships_scan_path( scan ) ) do |f| %>
             <div class="modal-body">
                 <%= f.error_notification %>
                 <%= f.association :scan_groups, collection: current_user.scan_groups,
@@ -53,7 +53,7 @@
 
         if( refreshModal ) {
             // Move the new one out of the table.
-            $( '#scans' ).parent().before( modal );
+            $( '#scans' ).parent().before( $( '#updateScanGroup_<%= scan.id %>' ) );
         }
     </script>
 <% end %>

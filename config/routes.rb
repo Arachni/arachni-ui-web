@@ -34,14 +34,15 @@ ArachniWebui::Application.routes.draw do
             resources :comments
         end
 
-        get :new_revision, on: :member
-
         post :repeat,   on: :member
 
+        patch :update_memberships,    on: :member
         patch :share,    on: :member
         patch :pause,    on: :member
         patch :resume,   on: :member
         patch :abort,    on: :member
+
+        get :new_revision, on: :member
         get :report,   on: :member
         get :comments, on: :member
         get :errors,   on: :member

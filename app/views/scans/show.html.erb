@@ -73,7 +73,7 @@
             </li>
             <% end %>
 
-            <% if current_user.scan_groups.size > 1 && can?( :update, @scan ) %>
+            <% if current_user.scan_groups.any? && can?( :update, @scan ) %>
                 <li>
                     <a href="#updateScanGroup_<%= @scan.id %>"
                        title="Update group memberships"
