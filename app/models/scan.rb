@@ -383,6 +383,7 @@ class Scan < ActiveRecord::Base
 
         new.owner_id = self.owner_id
         new.user_ids = self.user_ids
+        new.scan_group_ids = self.scan_group_ids
 
         new.save
         new
