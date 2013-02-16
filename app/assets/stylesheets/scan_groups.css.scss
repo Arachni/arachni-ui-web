@@ -23,6 +23,11 @@
     clear: both;
 }
 
+.scan-groups-list {
+    max-height: 200px;
+    overflow:  auto;
+}
+
 #scan-groups-sidebar {
     ul {
         padding: 0;
@@ -33,11 +38,17 @@
     }
 
     ul.group li {
-        line-height: 25px;
+        line-height: 26px;
     }
 
     ul a:hover i {
         text-decoration: none;
+    }
+
+    ul.nav li {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     .btn-clear {
