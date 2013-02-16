@@ -30,7 +30,13 @@
             <div class="modal-body">
                 <%= f.error_notification %>
                 <%= f.association :scan_groups, collection: current_user.scan_groups,
-                                  label: '', as: :check_boxes %>
+                                  label: '', as: :check_boxes,
+                                  label_method: lambda { |grp|
+                                      s  = "#{grp.name}"
+                                      s += " (by #{grp.owner})" if current_user != grp.owner
+                                      s
+                                  }
+                %>
 
             </div>
             <div class="modal-footer">
