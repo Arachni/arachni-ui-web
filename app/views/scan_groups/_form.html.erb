@@ -1,0 +1,27 @@
+<%= simple_form_for( @scan_group, remote: true ) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+        <%= f.input :name, label: false, placeholder: 'Name' %>
+        <%= f.input :description, label: false, placeholder: 'Description' %>
+    </div>
+
+    <button type="submit" class="btn btn-small btn-inverse">
+        <% if @scan_group.id %>
+            Update group
+        <% else %>
+            <i class="icon-plus"></i>
+            New group
+        <% end %>
+    </button>
+
+    <input type="hidden" id="selected_group_id" name="selected_group_id"
+           value="<%= @group.try( :id ) %>"/>
+
+    <% if @scan_group.errors.any? || @scan_group.id %>
+        <%= link_to new_scan_group_path( selected_group_id: @group.try( :id ) ),
+                    class: 'btn btn-small', remote: true, onclick: 'loading();' do %>
+            Cancel
+        <% end %>
+    <% end %>
+<% end %>

@@ -59,6 +59,21 @@ class Ability
             cannot :make_default, Profile
 
             #
+            # ScanGroup access rules
+            #
+
+            # Can see/use Scans which have been shared with them.
+            can :read, ScanGroup do |sg|
+                sg.user_ids.include?( user.id )
+            end
+
+            # Can manage ScanGroups they created.
+            can :manage, ScanGroup, owner_id: user.id
+
+            # Can create personal ScanGroups -- controller assigns the User/Owner ID.
+            can :create, ScanGroup
+
+            #
             # Scan access rules
             #
 

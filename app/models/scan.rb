@@ -22,6 +22,7 @@ class Scan < ActiveRecord::Base
     self.inheritance_column = 'inheritance_column'
 
     has_and_belongs_to_many :users
+    has_and_belongs_to_many :scan_groups
 
     belongs_to :dispatcher
     belongs_to :profile
@@ -67,7 +68,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.limit_exceeded?
-        active.size >= Settings.global_scan_limit
+        Settings.global_scan_limit && active.size >= Settings.global_scan_limit
     end
 
     def self.recent( limit = 5 )

@@ -1,0 +1,47 @@
+<% if @group %>
+    <p>
+        <%= link_to scans_path( group_id: false ), onclick: 'loading();',
+                    class: 'btn btn-small btn-info btn-clear', remote: true do %>
+            Clear filter
+        <% end %>
+    </p>
+<% end %>
+
+<div class="row-fluid">
+    <div class="span3">
+        <ul class="unstyled group">
+
+            <% current_user.scan_groups.each do |group| %>
+                <li>
+                    <%= link_to scan_group_path( group,
+                                                 selected_group_id: @group.try( :id ) ),
+                                method: :delete, remote: true,
+                                onclick: 'loading();', confirm: 'Delete this group?' do %>
+                        <i class="icon-remove"></i>
+                    <% end %>
+
+                    <%= link_to edit_scan_group_path( group,
+                                                      selected_group_id: @group.try( :id ) ),
+                                remote: true, onclick: 'loading();' do %>
+                        <i class="icon-pencil"></i>
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+
+    <div class="span6">
+        <ul class="nav nav-list">
+            <% current_user.scan_groups.each do |group| %>
+                <li
+                <%= 'class="active"'.html_safe if group == @group %>
+                >
+                    <%= link_to scans_path( params.merge( group_id: group.id ) ),
+                                onclick: 'loading();', remote: true do %>
+                        <%= group %> (<%= group.scans.size %>)
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </div>
+</div>

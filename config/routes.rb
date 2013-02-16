@@ -23,6 +23,11 @@ ArachniWebui::Application.routes.draw do
 
     resources :dispatchers
 
+    scope 'scans' do
+        resources :scan_groups, path: 'groups',
+                  only: [ :new, :edit, :create, :update, :destroy ]
+    end
+
     resources :scans, except: [:edit] do
         resources :comments
         resources :issues, only: [ :index, :show, :update ] do

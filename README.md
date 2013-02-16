@@ -15,6 +15,7 @@ be a mockup, partially or not at all working.
         - And set Global Profiles which are available to everyone.
     - Scans
     - Scan Issues
+    - Scan Groups
     - Dispatchers
     - Settings
         - Target whitelist using regular expressions.
@@ -24,6 +25,7 @@ be a mockup, partially or not at all working.
  - Users can:
     - Manage, create and share Scan configuration Profiles with each other.
     - Start Scans using one of the available Profiles (and optionally Dispatchers).
+    - Organize Scans into Scan Groups for easier management and share their Groups with each other.
     - Manage, comment, share and export reports of their Scans.
     - Discuss and Review Issues:
         - Mark them as false positives

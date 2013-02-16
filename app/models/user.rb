@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
     has_and_belongs_to_many :profiles
     has_many :comments
     has_many :notifications, dependent: :destroy
+    has_and_belongs_to_many :scan_groups
 
     rolify
     # Include default devise modules. Others available are:
@@ -28,7 +29,8 @@ class User < ActiveRecord::Base
            :rememberable, :trackable, :validatable
 
     def scan_limit_exceeded?
-        !admin? && own_scans.active.size >= Settings.per_user_scan_limit
+        !admin? &&
+            Settings.per_user_scan_limit && own_scans.active.size >= Settings.per_user_scan_limit
     end
 
     def available_profiles

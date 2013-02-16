@@ -60,11 +60,17 @@
         width: 20px;
     }
 
-    #scan_profile, #scan_user_ids {
+    #scan_profile,
+    #scan_scan_group_ids,
+    #scan_user_ids {
         width: 100%;
     }
 
     #scan_user_ids {
+        height: 110px;
+    }
+
+    #scan_scan_group_ids {
         height: 110px;
     }
 

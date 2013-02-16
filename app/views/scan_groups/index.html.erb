@@ -1,0 +1,31 @@
+<h1>Listing scan_groups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Owner</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scan_groups.each do |scan_group| %>
+    <tr>
+      <td><%= scan_group.name %></td>
+      <td><%= scan_group.description %></td>
+      <td><%= scan_group.owner_id %></td>
+      <td><%= link_to 'Show', scan_group %></td>
+      <td><%= link_to 'Edit', edit_scan_group_path(scan_group) %></td>
+      <td><%= link_to 'Destroy', scan_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Scan group', new_scan_group_path %>

@@ -1,5 +1,19 @@
 <% title "Scans" %>
 
+<% add_to_sidebar do %>
+    <p>
+        <%= link_to new_scan_path, class: 'btn btn-primary' do %>
+            <i class="icon-plus"></i> New Scan
+        <% end %>
+    </p>
+
+    <hr/>
+
+    <div id="scan-groups-sidebar">
+        <%= render 'scan_groups/form_with_list' %>
+    </div>
+<% end %>
+
 <div id="scans">
     <div class="page-header">
         <h1>Scans</h1>
@@ -8,12 +22,6 @@
             Start, manage and stay up to date on your scans.
         </div>
     </div>
-
-    <p>
-        <%= link_to new_scan_path, class: 'btn btn-primary' do %>
-            <i class="icon-plus"></i> New Scan
-        <% end %>
-    </p>
 
     <div id="revision-form-modal" class="modal hide fade"
          tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

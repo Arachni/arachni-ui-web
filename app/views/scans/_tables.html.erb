@@ -1,3 +1,15 @@
+<% if @group %>
+    <p>
+        You are seeing scans of the <strong><%= @group.name %></strong> group:
+    </p>
+
+    <blockquote>
+        <%= m @group.description %>
+    </blockquote>
+
+    <hr/>
+<% end %>
+
 <h2>Active
     <small>[<%= @counts[:active]['total'] %>]</small>
 </h2>

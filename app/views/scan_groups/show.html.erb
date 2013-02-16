@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @scan_group.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @scan_group.description %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @scan_group.owner_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_scan_group_path(@scan_group) %> |
+<%= link_to 'Back', scan_groups_path %>

@@ -30,6 +30,7 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
+        @scan_group = ScanGroup.new
         prepare_tables_data
 
         respond_to do |format|
@@ -293,8 +294,8 @@ class ScansController < ApplicationController
 
         params.require( :scan ).
             permit( :url, :description, :type, :instance_count, :profile_id,
-                    { user_ids: [] }, :dispatcher_id, :restrict_to_revision_sitemaps,
-                    :extend_from_revision_sitemaps )
+                    { user_ids: [] }, { scan_group_ids: [] }, :dispatcher_id,
+                    :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps )
     end
 
     def find_scan( id )
