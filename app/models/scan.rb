@@ -329,6 +329,8 @@ class Scan < ActiveRecord::Base
                 'was shared with you'
             when :repeat
                 'was repeated'
+            when :update_memberships
+                'has updated group memberships'
             else
                 action.to_s
         end

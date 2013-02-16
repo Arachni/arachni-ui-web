@@ -190,7 +190,14 @@ class ScansController < ApplicationController
         respond_to do |format|
             if @scan.update_memberships( scan_group_ids )
 
-                notify @scan
+                text = ''
+                if !(group_names = @scan.scan_groups.pluck( :name ).join( ', ')).empty?
+                    text = "Member of: #{group_names}"
+                else
+                    text = 'Left all groups.'
+                end
+
+                notify @scan, text: text
 
                 format.html { redirect_to :back, notice: 'Scan was successfully shared.' }
                 format.json { head :no_content }
