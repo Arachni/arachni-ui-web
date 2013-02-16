@@ -16,6 +16,7 @@
 
 class ScansController < ApplicationController
     include ScansHelper
+    include ScanGroupsHelper
     include ApplicationHelper
     include NotificationsHelper
 
@@ -31,6 +32,7 @@ class ScansController < ApplicationController
     # GET /scans.json
     def index
         @scan_group = ScanGroup.new
+        prepare_scan_group_tab_data
         prepare_tables_data
 
         respond_to do |format|
@@ -164,8 +166,10 @@ class ScansController < ApplicationController
     def update
         @scan = find_scan( params.require( :id ) )
 
+        update_params = params.require( :scan ).permit( :description, { scan_group_ids: [] } )
+
         respond_to do |format|
-            if @scan.update_attributes( params.require( :scan ).permit( :description ) )
+            if @scan.update_attributes( update_params )
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.js { render '_scan.js' }
                 format.json { head :no_content }

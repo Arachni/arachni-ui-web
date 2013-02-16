@@ -62,6 +62,22 @@ class User < ActiveRecord::Base
         scans.where( owner_id: id ).order( 'id desc' )
     end
 
+    def own_scan_groups
+        scan_groups.where( owner_id: id ).order( 'id desc' )
+    end
+
+    def shared_scan_groups
+        scan_groups.where( 'owner_id != ?', id ).order( 'id desc' )
+    end
+
+    def others_scan_groups
+        return none if !admin?
+
+        ScanGroup.where( 'owner_id != ?', id ).
+            where( 'id not in (?)', scan_group_ids ).
+            order( 'id desc' )
+    end
+
     def ability
         @ability ||= Ability.new( self )
     end

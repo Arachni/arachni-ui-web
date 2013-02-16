@@ -151,10 +151,10 @@
                     <i class="icon-stop"></i>
 
                 <% end %>
-
-                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
-
             <% end %>
+
+            <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+            <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
         <% else %>
             <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) %>
                 <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',
@@ -173,6 +173,7 @@
 
             <% if (!show_as_revision && scan.root?) && can?( :share, scan ) %>
                 <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+                <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
             <% end %>
         <% end %>
     </td>

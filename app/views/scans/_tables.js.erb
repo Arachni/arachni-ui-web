@@ -1,7 +1,7 @@
 $("#scans #tables").data( "refresh-url", "<%= escape_javascript scans_url( format: :js, params: params ) %>" );
 $("#scans #tables").html( "<%= escape_javascript( render( 'tables.html' ).force_encoding( 'utf-8' ) ) %>" );
 
-$("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list.html' ) %>" );
+$("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_with_tabs.html' ) %>" );
 
 <% if @group %>
 $("#selected_group_id").val( <%= @group.id %> );

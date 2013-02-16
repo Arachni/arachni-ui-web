@@ -77,9 +77,11 @@ class Ability
             # Scan access rules
             #
 
-            # Can see/use Scans which have been shared with them.
+            # Can see Scans which have been shared with them or are members
+            # of a shared group.
             can :read, Scan do |scan|
-                scan.root_revision.user_ids.include?( user.id )
+                scan.root_revision.user_ids.include?( user.id ) ||
+                    scan.root_revision.scan_groups.where( 'user_ids in (?)', user.id )
             end
 
             # Can manage Scans they created.

@@ -1,4 +1,17 @@
 <% if User.count > 1 && can?( :share, scan ) %>
+    <script type="text/javascript">
+        modal = $( '#shareScan_<%= scan.id %>' );
+
+        if( !modal.exists() || !modal.is( ':visible' ) ) {
+            refreshModal = true;
+
+            // Remove old modal unless it's open.
+            modal.remove();
+        } else {
+            refreshModal = false;
+        }
+    </script>
+
     <a href="#shareScan_<%= scan.id %>" title="Share scan"
        role="button" class="btn btn-small" data-toggle="modal">
         <i class="icon-share"></i>
@@ -24,7 +37,7 @@
             <%= f.error_notification %>
                 <%= f.association :users, label: '',
                                   collection: User.all - [scan.owner],
-                                  as: :check_boxes, html_input: { id: 'ff' } %>
+                                  as: :check_boxes %>
 
         </div>
         <div class="modal-footer">
@@ -38,8 +51,10 @@
         // If we have a scan table then we're probably inside it and since
         // the table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-        $( '#shareScan_<%= scan.id %>' ).each( function() {
-            $( '#scans' ).parent().before( this );
-        })
+
+        if( refreshModal ) {
+            // Move the new one out of the table.
+            $( '#scans' ).parent().before( $( '#shareScan_<%= scan.id %>' ) );
+        }
     </script>
 <% end %>

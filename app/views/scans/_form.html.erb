@@ -43,7 +43,14 @@
 
         <% if current_user.scan_groups.any? %>
             <div class="span3">
-                <%= f.association :scan_groups, collection: current_user.scan_groups %>
+                <%= f.association :scan_groups,
+                                  collection: current_user.scan_groups,
+                                  label_method: lambda { |grp|
+                                      s  = "#{grp.name}"
+                                      s += " (by #{grp.owner})" if current_user != grp.owner
+                                      s
+                                  }
+                %>
             </div>
         <% end %>
 

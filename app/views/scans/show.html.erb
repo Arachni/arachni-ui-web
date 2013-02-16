@@ -73,6 +73,17 @@
             </li>
             <% end %>
 
+            <% if current_user.scan_groups.size > 1 && can?( :update, @scan ) %>
+                <li>
+                    <a href="#updateScanGroup_<%= @scan.id %>"
+                       title="Update group memberships"
+                       role="button" data-toggle="modal">
+                        <i class="icon-folder-close-alt"></i>
+                        Edit group memberships
+                    </a>
+                </li>
+            <% end %>
+
             <% if !@scan.overview? %>
                 <li id="download-report" class="hide">
                     <i class="icon-download-alt"></i>
@@ -118,6 +129,7 @@
 
     <div class="visible-phone pull-left">
         <%= render partial: 'share_form', locals: { scan: @scan } %>
+        <%= render partial: 'scan_group_form', locals: { scan: @scan } %>
     </div>
 
     <div class="visible-phone">

@@ -55,10 +55,18 @@ module ScansHelper
         filter ||= 'yours'
 
         group_scans =   if (group_id = params[:group_id].to_i) > 0
-                            if @group = current_user.scan_groups.find_by_id( params[:group_id] )
-                                @group.scans
+                            if current_user.admin?
+                                if @group = ScanGroup.find_by_id( params[:group_id] )
+                                    @group.scans
+                                else
+                                    current_user.scans
+                                end
                             else
-                                current_user.scans
+                                if @group = current_user.scan_groups.find_by_id( params[:group_id] )
+                                    @group.scans
+                                else
+                                    current_user.scans
+                                end
                             end
                         else
                             current_user.scans
@@ -68,12 +76,13 @@ module ScansHelper
             when 'yours'
                 group_scans.where( owner_id: current_user.id )
             when 'shared'
-                group_scans.where( "owner_id != ?", current_user.id )
+                group_scans.where( 'owner_id != ?', current_user.id ).
+                    where( 'id in (?)', current_user.scans.pluck( :id ) )
             when 'others'
                 raise 'Unauthorised!' if !current_user.admin?
 
-                ids = group_scans.select( :id ).
-                        where( "owner_id != ?", current_user.id ) +
+                ids = group_scans.where( 'owner_id != ?', current_user.id ).
+                        where( 'id in (?)', current_user.scans.pluck( :id ) ) +
                     group_scans.select( :id ).
                         where( owner_id: current_user.id )
 

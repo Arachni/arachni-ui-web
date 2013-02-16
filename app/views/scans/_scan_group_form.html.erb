@@ -1,0 +1,53 @@
+<% if current_user.scan_groups.size > 1 && can?( :update, scan ) %>
+    <script type="text/javascript">
+        modal = $( '#updateScanGroup_<%= scan.id %>' );
+
+        if( !modal.exists() || !modal.is( ':visible' ) ) {
+            refreshModal = true;
+
+            // Remove old modal unless it's open.
+            modal.remove();
+        } else {
+            refreshModal = false;
+        }
+    </script>
+
+    <a href="#updateScanGroup_<%= scan.id %>" title="Update group memberships"
+       role="button" class="btn btn-small btn-inverse" data-toggle="modal">
+        <i class="icon-folder-close-alt"></i>
+        <%= 'Update group memberships' if !local_assigns[:nolabel] %>
+    </a>
+
+    <div id="updateScanGroup_<%= scan.id %>" class="modal hide fade"
+         tabindex="-1" role="dialog">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&#10006;</button>
+            <h3>Join:</h3>
+        </div>
+
+        <%= simple_form_for( scan ) do |f| %>
+            <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.association :scan_groups, collection: current_user.scan_groups,
+                                  label: '', as: :check_boxes %>
+
+            </div>
+            <div class="modal-footer">
+                <%= f.button :submit, class: 'btn btn-small btn-primary', value: 'Share' %>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        <% end %>
+    </div>
+
+    <script type="text/javascript">
+        // If we have a scan table then we're probably inside it and since
+        // the table will keep being updated by AJAX we must move the modal dialog
+        // out of it otherwise it'll keep vanishing with each AJAX refresh.
+
+        if( refreshModal ) {
+            // Move the new one out of the table.
+            $( '#scans' ).parent().before( modal );
+        }
+    </script>
+<% end %>

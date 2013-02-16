@@ -1,38 +1,39 @@
-<% if @group %>
-    <p>
-        <%= link_to scans_path( group_id: false ), onclick: 'loading();',
-                    class: 'btn btn-small btn-info btn-clear', remote: true do %>
-            Clear filter
-        <% end %>
-    </p>
-<% end %>
+<%
+   show_owner = !!local_assigns[:show_owner]
+%>
 
 <div class="row-fluid">
-    <div class="span3">
-        <ul class="unstyled group">
+    <% if can? :manage, groups.first %>
+        <div class="span3">
+            <ul class="unstyled group">
 
-            <% current_user.scan_groups.each do |group| %>
-                <li>
-                    <%= link_to scan_group_path( group,
-                                                 selected_group_id: @group.try( :id ) ),
-                                method: :delete, remote: true,
-                                onclick: 'loading();', confirm: 'Delete this group?' do %>
-                        <i class="icon-remove"></i>
-                    <% end %>
+                <% groups.each do |group| %>
+                    <li>
+                        <%= link_to scan_group_path( group,
+                                                     selected_group_id: @group.try( :id ) ),
+                                    method: :delete, remote: true,
+                                    onclick: 'loading();', confirm: 'Delete this group?' do %>
+                            <i class="icon-remove"></i>
+                        <% end %>
 
-                    <%= link_to edit_scan_group_path( group,
-                                                      selected_group_id: @group.try( :id ) ),
-                                remote: true, onclick: 'loading();' do %>
-                        <i class="icon-pencil"></i>
+                        <%= link_to edit_scan_group_path( group,
+                                                          selected_group_id: @group.try( :id ) ),
+                                    remote: true, onclick: 'loading();' do %>
+                            <i class="icon-pencil"></i>
+                        <% end %>
+                    </li>
+
+                    <% if show_owner %>
+                        <li>&nbsp;</li>
                     <% end %>
-                </li>
-            <% end %>
-        </ul>
-    </div>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
 
     <div class="span6">
         <ul class="nav nav-list">
-            <% current_user.scan_groups.each do |group| %>
+            <% groups.each do |group| %>
                 <li
                 <%= 'class="active"'.html_safe if group == @group %>
                 >
@@ -41,6 +42,12 @@
                         <%= group %> (<%= group.scans.size %>)
                     <% end %>
                 </li>
+
+                <% if show_owner %>
+                    <li class="muted">
+                        <small>By <%= group.owner %></small>
+                    </li>
+                <% end %>
             <% end %>
         </ul>
     </div>

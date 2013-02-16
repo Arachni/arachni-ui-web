@@ -5,6 +5,10 @@
 
     <blockquote>
         <%= m @group.description %>
+
+        <% if @group.owner != current_user %>
+            <small><%= @group.owner %></small>
+        <% end %>
     </blockquote>
 
     <hr/>

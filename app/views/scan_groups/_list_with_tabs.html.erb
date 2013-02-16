@@ -1,0 +1,100 @@
+<% if @group %>
+    <p>
+        <%= link_to scans_path( group_id: false ), onclick: 'loading();',
+                    class: 'btn btn-small btn-info btn-clear', remote: true do %>
+            Clear filter
+        <% end %>
+    </p>
+<% end %>
+
+<ul class="nav nav-tabs" id="setting-tabs"
+    data-table-container="table-container">
+
+    <% if @scan_groups['yours'].size == 0 %>
+        <li class="disabled">
+            <a href="#" onclick="return false;" title="Yours">
+                <i class="icon-user"></i>
+                [<%= @scan_groups['yours'].size %>]
+            </a>
+        </li>
+    <% else %>
+        <li class="active">
+            <a href="#scan-groups-yours" data-toggle="tab" title="Yours">
+                <i class="icon-user"></i>
+                [<%= @scan_groups['yours'].size %>]
+            </a>
+        </li>
+    <% end %>
+
+
+    <% if @scan_groups['shared'].size == 0 %>
+        <li class="disabled">
+            <a href="#" onclick="return false;" title="Shared">
+                <i class="icon-share-alt"></i>
+                [<%= @scan_groups['shared'].size %>]
+            </a>
+        </li>
+    <% else %>
+        <li>
+            <a href="#scan-groups-shared" data-toggle="tab"  title="Shared">
+                <i class="icon-share-alt"></i>
+                [<%= @scan_groups['shared'].size %>]
+            </a>
+        </li>
+    <% end %>
+
+    <% if current_user.admin? %>
+        <% if @scan_groups['others'].size == 0 %>
+            <li class="disabled">
+                <a href="#" onclick="return false;" title="Others'">
+                    <i class="icon-group"></i>
+                    [<%= @scan_groups['others'].size %>]
+                </a>
+            </li>
+        <% else %>
+            <li>
+                <a href="#scan-groups-others" data-toggle="tab"  title="Others'">
+                    <i class="icon-group"></i>
+                    [<%= @scan_groups['others'].size %>]
+                </a>
+            </li>
+        <% end %>
+    <% end %>
+</ul>
+
+<div class="tab-content">
+    <div id="scan-groups-yours" class="tab-pane active in">
+        <% if @scan_groups['yours'].any? %>
+            <p class="muted">Your groups.</p>
+
+            <%= render partial: 'scan_groups/list',
+                       locals: { groups: @scan_groups['yours'] } %>
+        <% else %>
+            <p class="alert alert-info">
+                You haven't created any groups.
+            </p>
+        <% end %>
+    </div>
+
+    <div id="scan-groups-shared" class="tab-pane">
+        <p class="muted">Groups others have shared with you.</p>
+
+        <%= render partial: 'scan_groups/list',
+                   locals: { groups: @scan_groups['shared'], show_owner: true } %>
+    </div>
+
+    <% if current_user.admin? %>
+        <div id="scan-groups-others" class="tab-pane">
+            <p class="muted">Everyone else's groups.</p>
+
+            <%= render partial: 'scan_groups/list',
+                       locals: { groups: @scan_groups['others'], show_owner: true } %>
+        </div>
+    <% end %>
+</div>
+
+<script type="text/javascript">
+    // The tabs will be restored when the document is ready anyways but the
+    // slight delay makes it look bad.
+    restoreTabs();
+</script>

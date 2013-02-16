@@ -4,6 +4,19 @@
     <div class="form-inputs">
         <%= f.input :name, label: false, placeholder: 'Name' %>
         <%= f.input :description, label: false, placeholder: 'Description' %>
+
+        <% if User.count > 1 %>
+
+            <%=
+                if @scan_group.id
+                    exclude = [@scan_group.owner]
+                else
+                    exclude = [current_user]
+                end
+                f.association :users, label: 'Share with:',
+                              collection: User.all - exclude
+            %>
+        <% end %>
     </div>
 
     <button type="submit" class="btn btn-small btn-inverse">
