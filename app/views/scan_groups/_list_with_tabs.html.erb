@@ -1,5 +1,23 @@
 <% if @group %>
     <p>
+        You are seeing scans of the <strong><%= @group.name %></strong> group:
+    </p>
+
+    <blockquote>
+        <%= m @group.description %>
+
+        <% if @group.owner != current_user %>
+            <small><%= @group.owner %></small>
+        <% end %>
+    </blockquote>
+
+    <p>
+        Members:
+        <%= @group.users.map { |u| link_to u, user_path( u ) }.join( ', ' ).html_safe %>
+    </p>
+    <hr/>
+
+    <p>
         <%= link_to scans_path( group_id: false ), onclick: 'loading();',
                     class: 'btn btn-small btn-info btn-clear', remote: true do %>
             Clear filter
