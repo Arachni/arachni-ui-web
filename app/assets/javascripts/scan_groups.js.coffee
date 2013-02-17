@@ -2,8 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+window.userScrolled = 0
+
 window.scrollToSelectedGroup = () ->
-    scrollToChild( '.scan-groups-list', '.scan-groups-list li.active' )
+    $('.scan-groups-list').scrollTop( window.userScrolled )
+
+window.setupScanGroupHooks = () ->
+    window.scrollToSelectedGroup()
+    $('.scan-groups-list').scroll ->
+        window.userScrolled = $('.scan-groups-list').scrollTop()
 
 jQuery ->
-    window.scrollToSelectedGroup()
+    window.setupScanGroupHooks()

@@ -3,6 +3,9 @@ $("#scans #tables").html( "<%= escape_javascript( render( 'tables.html' ).force_
 
 $("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_with_tabs.html' ) %>" );
 
+window.setupScanGroupHooks()
+
 <% if @group %>
 $("#selected_group_id").val( <%= @group.id %> );
 <% end %>
+
