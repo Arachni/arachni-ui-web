@@ -44,8 +44,12 @@ module NavigationHelper
         'class="active"'.html_safe if active_controller?( controller )
     end
 
+    def show_affixed_sidebar?
+        has_subnav? || !affixed_sidebar.to_s.empty?
+    end
+
     def show_sidebar?
-        has_subnav? || !sidebar.to_s.empty?
+        !sidebar.to_s.empty?
     end
 
     def subnav( sections, opts = {} )
@@ -56,9 +60,19 @@ module NavigationHelper
         @sidebar ||= ''
     end
 
+    def affixed_sidebar
+        @affixed_sidebar ||= ''
+    end
+
     def add_to_sidebar( &block )
         s = capture( &block )
         sidebar << s
+        s
+    end
+
+    def add_to_affixed_sidebar( &block )
+        s = capture( &block )
+        affixed_sidebar << s
         s
     end
 

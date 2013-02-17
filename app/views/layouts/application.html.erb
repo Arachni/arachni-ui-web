@@ -35,26 +35,36 @@
             <div class="container-fluid">
                 <div id="content" class="content">
                     <div class="row-fluid">
-                        <div class="span2 sidebar hidden-phone">
-                            <% if show_sidebar? %>
-                            <div id="sidebar-affix" class="affix">
 
-                                <% if has_subnav? %>
-                                <div class="row-fluid">
-                                    <div class="span3 spy">
-                                        <%= render_subnav %>
+                        <% if show_affixed_sidebar? || show_sidebar? %>
+                            <div id="left-sidebar" class="span2 sidebar hidden-phone">
+
+                                <% if show_affixed_sidebar? %>
+                                    <div id="sidebar-affix" class="hidden-phone affix">
+
+                                        <% if has_subnav? %>
+                                        <div class="spy">
+                                            <%= render_subnav %>
+                                        </div>
+                                        <% end %>
+
+                                        <div class="row-fluid">
+                                            <div>
+                                                <%= affixed_sidebar.html_safe %>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
                                 <% end %>
 
-                                <div class="row-fluid">
-                                    <div>
-                                        <%= sidebar.html_safe %>
+                                <% if show_sidebar? %>
+                                    <div class="row-fluid">
+                                        <div>
+                                            <%= sidebar.html_safe %>
+                                        </div>
                                     </div>
-                                </div>
+                                <% end %>
                             </div>
-                            <% end %>
-                        </div>
+                        <% end %>
 
                         <div id="main-content" class="span8">
                             <%= render 'layouts/messages' %>
