@@ -1,12 +1,7 @@
 <% if User.count > 1 && can?( :share, scan ) %>
     <script type="text/javascript">
-        modal = $( '#shareScan_<%= scan.id %>' );
-
-        if( !modal.exists() || !modal.is( ':visible' ) ) {
+        if( !$( '#shareScan_<%= scan.id %>' ).is( ':visible' ) ) {
             refreshModal = true;
-
-            // Remove old modal unless it's open.
-            modal.remove();
         } else {
             refreshModal = false;
         }

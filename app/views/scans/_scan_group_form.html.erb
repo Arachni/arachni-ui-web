@@ -1,12 +1,7 @@
 <% if current_user.scan_groups.any? && can?( :update, scan ) %>
     <script type="text/javascript">
-        modal = $( '#updateScanGroup_<%= scan.id %>' );
-
-        if( !modal.exists() || !modal.is( ':visible' ) ) {
+        if( !$( '#updateScanGroup_<%= scan.id %>' ).is( ':visible' ) ) {
             refreshModal = true;
-
-            // Remove old modal unless it's open.
-            modal.remove();
         } else {
             refreshModal = false;
         }
@@ -20,7 +15,6 @@
 
     <div id="updateScanGroup_<%= scan.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
-
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&#10006;</button>
             <h3>Join:</h3>
@@ -50,10 +44,9 @@
         // If we have a scan table then we're probably inside it and since
         // the table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-
         if( refreshModal ) {
             // Move the new one out of the table.
-            $( '#scans' ).parent().before( $( '#updateScanGroup_<%= scan.id %>' ) );
+            $('#scans').parent().before( $( '#updateScanGroup_<%= scan.id %>' ) );
         }
     </script>
 <% end %>
