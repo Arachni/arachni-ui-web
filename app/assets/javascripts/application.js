@@ -170,13 +170,13 @@ function updatePage() {
 
     // Set the container's height to be at least as high as the affix'ed sidebar
     min_height  =
-        $( '#sidebar-affix' ).height() > $( '#main-content' ).height() ?
-            $( '#sidebar-affix' ).height() : $( '#main-content' ).height();
+        $('#sidebar-affix').height() > $('#main-content').height() ?
+            $('#sidebar-affix').height() : $('#main-content').height();
 
-    curr_height = $( '#content' ).height();
+    curr_height = $('#content').height();
 
     if( curr_height < min_height ) {
-        $( '#content' ).height( min_height );
+        $('#content').height( min_height );
     }
 }
 
@@ -220,19 +220,6 @@ function responsiveAdjust(){
         if( $('#sidebar-affix').is(':visible') ) {
             $('#sidebar').show();
             $('#main-content').attr( 'class', 'span10' )
-        } else {
-            $('#sidebar').hide();
-            $('#main-content').attr( 'class', 'span11' )
-        }
-
-        return;
-    }
-
-    if( window.innerWidth > 1260 ){
-
-        if( $('#sidebar-affix').is(':visible') ) {
-            $('#sidebar').show();
-            $('#main-content').attr( 'class', 'span9' )
         } else {
             $('#sidebar').hide();
             $('#main-content').attr( 'class', 'span11' )
