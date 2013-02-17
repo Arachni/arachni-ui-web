@@ -215,8 +215,6 @@ function autoRefreshElements( selector ){
 }
 
 function responsiveAdjust(){
-    console.log(window.innerWidth );
-
     if( window.innerWidth <= 1260 ){
 
         if( $('#sidebar-affix').is(':visible') ) {
