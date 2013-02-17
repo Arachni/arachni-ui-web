@@ -6,3 +6,5 @@ $("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_wi
 <% if @group %>
 $("#selected_group_id").val( <%= @group.id %> );
 <% end %>
+
+window.scrollToSelectedGroup();

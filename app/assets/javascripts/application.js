@@ -60,6 +60,7 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
+// Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
     parent = $(parent);
     child  = $(child);
