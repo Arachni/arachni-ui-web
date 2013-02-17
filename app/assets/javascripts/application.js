@@ -218,7 +218,7 @@ function responsiveAdjust(){
     if( window.innerWidth <= 1000 ){
 
         if( $('#left-sidebar').exists() ) {
-            $('#left-sidebar').show();
+            $('#left-sidebar').attr( 'class', 'span2' );
             $('#main-content').attr( 'class', 'span10' )
         } else {
             $('#main-content').attr( 'class', 'span9' )
@@ -227,10 +227,9 @@ function responsiveAdjust(){
         return;
     }
 
-    if( window.innerWidth <= 1124 ){
+    if( window.innerWidth <= 1450 ){
 
         if( $('#left-sidebar').exists() ) {
-            $('#left-sidebar').show();
             $('#left-sidebar').attr( 'class', 'span3' );
             $('#main-content').attr( 'class', 'span9' );
         } else {
