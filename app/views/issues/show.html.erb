@@ -247,15 +247,6 @@
                 <%= highlight_issue_response_body( @issue, 'proof' ).html_safe %>
             </pre>
 
-            <script type="text/javascript">
-                parent = $('#response_body_container');
-                proof  = $('#response_body_container .proof');
-
-                if( proof.exists() ){
-                    parent.scrollTop( parent.scrollTop() + proof.position().top
-                            - parent.height() / 2 + proof.height() / 2 );
-                }
-            </script>
             <% else %>
                 <p class="alert alert-info">
                     Response is not available

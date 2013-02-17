@@ -80,3 +80,4 @@ jQuery ->
     $('#issue_fixed').change ->
         updateElementsVisibility()
     updateElementsVisibility()
+    scrollToChild( '#response_body_container', '#response_body_container .proof' )

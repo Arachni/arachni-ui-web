@@ -60,6 +60,17 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
+function scrollToChild( parent, child ){
+    parent = $(parent);
+    child  = $(child);
+
+    if( !child.exists() ) return;
+
+    parent.scrollTop( parent.scrollTop() + child.position().top -
+        parent.height() / 2 + child.height() / 2 );
+
+}
+
 // Request the given url and place the response body as HTML inside the
 // given element.
 function fetchAndFill( url, element ){
