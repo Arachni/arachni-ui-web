@@ -6,7 +6,7 @@
     </li>
 
     <li class="<%= 'active' if @scan.overview? %>">
-        <%= link_to scan_url( @scan, overview: true, format: :js,
+        <%= link_to scan_url( @scan, overview: true,
                               change_revision: true ),
                     remote: true, onclick: 'loading();' do %>
             <i class="icon-eye-open"></i>

@@ -11,7 +11,8 @@ counts = Hash.new( 0 )
 end
 
 issues = issue_filter( active_tab )
-opts   = params.merge( format: :js )
+opts   = params.dup
+opts.delete( :format )
 
 url_method =    if !local_assigns.include?( :url_method_type )
                     method( :scan_issues_url )

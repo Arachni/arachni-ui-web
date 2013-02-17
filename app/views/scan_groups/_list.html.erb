@@ -37,7 +37,7 @@
                 <li
                 <%= 'class="active"'.html_safe if group == @group %>
                 >
-                    <%= link_to scans_path( params.merge( group_id: group.id ) ),
+                    <%= link_to scans_path( params.merge( format: nil, group_id: group.id ) ),
                                 onclick: 'loading();', remote: true do %>
                         <%= group %> (<%= group.scans.size %>)
                     <% end %>

@@ -5,7 +5,8 @@
 
    type = (treat_as_running ? 'active' : 'finished')
    filter = "filter_#{type}"
-   opts = params.merge( format: :js )
+   opts = params.dup
+   opts.delete( :format )
 
    yours = (params[filter] == 'yours')
 %>

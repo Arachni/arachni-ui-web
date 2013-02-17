@@ -177,6 +177,15 @@ function updatePage() {
     // Init all tooltips.
     $("[rel=tooltip]").tooltip();
 
+    $('a[data-remote="true"]').each( function() {
+        if( $(this).data( 'method' ) == undefined ){
+            $(this).on( 'click', function () {
+                history.pushState( null, document.title, this.href );
+                return true;
+            });
+        }
+    });
+
     restoreAccordions();
     restoreTabs();
 
@@ -351,8 +360,15 @@ function loading(){
     $('#loading').show();
 }
 
+$(window).bind( "popstate", function () {
+    $.getScript( location.href );
+});
+
 $(document).ajaxStop( function() {
     $("#loading").hide();
+});
+$(document).ajaxSuccess( function() {
+    updatePage();
 });
 
 $(window).ready( function( $ ) {
