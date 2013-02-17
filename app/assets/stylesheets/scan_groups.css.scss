@@ -19,13 +19,19 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #scan_group_name,
-#scan_group_description {
+#scan_group_description,
+#scan_group_user_ids {
     clear: both;
+    width:  190px;
 }
 
 .scan-groups-list {
     max-height: 200px;
     overflow:  auto;
+}
+
+ul#scan-group-tabs li {
+    font-size: 12px;
 }
 
 #scan-groups-sidebar {
@@ -55,5 +61,5 @@
         width:  90%;
     }
 
-    width:  250px;
+    width:  200px;
 }

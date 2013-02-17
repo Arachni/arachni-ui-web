@@ -215,9 +215,11 @@ function autoRefreshElements( selector ){
 }
 
 function responsiveAdjust(){
-    if( window.innerWidth <= 1000 ){
+    console.log(window.innerWidth );
 
-        if( $('#sidebar-affix').exists() ) {
+    if( window.innerWidth <= 1260 ){
+
+        if( $('#sidebar-affix').is(':visible') ) {
             $('#sidebar').show();
             $('#main-content').attr( 'class', 'span10' )
         } else {
@@ -228,9 +230,9 @@ function responsiveAdjust(){
         return;
     }
 
-    if( window.innerWidth <= 1124 ){
+    if( window.innerWidth > 1260 ){
 
-        if( $('#sidebar-affix').exists() ) {
+        if( $('#sidebar-affix').is(':visible') ) {
             $('#sidebar').show();
             $('#main-content').attr( 'class', 'span9' )
         } else {
