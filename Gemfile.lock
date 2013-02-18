@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: a70a8960a832216b6ae73f52e6a7a52c81883b6d
+  revision: 55941960b3061f2527dc3f7ad67937006d051d9b
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: 779a009027e4fceed8dfbc0943e8bfc1fdd242d3
+  revision: cdfc1a98004cac1d0aaec313192f79862aad43fd
   specs:
     simple_form (3.0.0.dev)
       actionpack (>= 4.0.0.beta, < 4.1)
@@ -60,7 +60,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 67444ba1cb237939a8244e980387fe035436e1e5
+  revision: a2322a5026641c8eb25a6c179ac1225d2abb128a
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -70,7 +70,7 @@ GIT
       builder (~> 3.1.0)
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
-      rack-test (~> 0.6.1)
+      rack-test (~> 0.6.2)
     activemodel (4.0.0.beta)
       activesupport (= 4.0.0.beta)
       builder (~> 3.1.0)
@@ -81,7 +81,7 @@ GIT
       arel (~> 3.0.2)
     activesupport (4.0.0.beta)
       i18n (~> 0.6)
-      minitest (~> 4.1)
+      minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.33)
@@ -119,7 +119,7 @@ GEM
     atomic (1.0.1)
     awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
-    bootstrap-sass (2.2.2.0)
+    bootstrap-sass (2.3.0.0)
       sass (~> 3.2)
     builder (3.1.4)
     cancan (1.6.9)
@@ -156,7 +156,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
-    ffi (1.3.1)
+    ffi (1.4.0)
     gherkin (2.11.6)
       json (>= 1.7.6)
     hike (1.2.1)
@@ -179,8 +179,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
-    minitest (4.6.0)
-    multi_json (1.5.1)
+    minitest (4.6.1)
+    multi_json (1.6.1)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
@@ -250,7 +250,7 @@ DEPENDENCIES
   arachni!
   arachni-rpc-em!
   arel!
-  bootstrap-sass (>= 2.2.1.1)
+  bootstrap-sass (>= 2.3.0.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)
   coffee-rails!
@@ -261,7 +261,7 @@ DEPENDENCIES
   jquery-rails (= 2.1.4)
   jquery-turbolinks
   kaminari
-  launchy (>= 2.1.0)
+  launchy (>= 2.2.0)
   libv8 (~> 3.11.8)
   machinist
   rails!
