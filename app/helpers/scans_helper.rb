@@ -76,8 +76,13 @@ module ScansHelper
             when 'yours'
                 group_scans.where( owner_id: current_user.id )
             when 'shared'
-                group_scans.where( 'owner_id != ?', current_user.id ).
-                    where( 'id in (?)', current_user.scans.pluck( :id ) )
+                s = group_scans.where( 'owner_id != ?', current_user.id )
+
+                if current_user.admin?
+                    s.where( 'id in (?)', current_user.scans.pluck( :id ) )
+                else
+                    s
+                end
             when 'others'
                 raise 'Unauthorised!' if !current_user.admin?
 
