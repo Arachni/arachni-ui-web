@@ -138,7 +138,7 @@ class CommentsController < ApplicationController
         end
 
         if id = params[:scan_id]
-            return current_user.scans.find( id )
+            return Scan.find( id )
         end
 
         nil
