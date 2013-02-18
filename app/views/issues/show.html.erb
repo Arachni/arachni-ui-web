@@ -338,7 +338,7 @@
                     <%= t.action_description.capitalize %>
 
                     <% if t.actor %>
-                        by <%= t.actor %>
+                        by <%= link_to t.actor, user_path( t.actor ) %>
                     <% end %>
 
                     <small class="muted">&ndash; <%= l t.created_at %></small>
