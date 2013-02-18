@@ -81,7 +81,7 @@ class Ability
             # of a shared group.
             can :read, Scan do |scan|
                 scan.root_revision.user_ids.include?( user.id ) ||
-                    scan.root_revision.scan_groups.where( 'user_ids in (?)', user.id )
+                    (user.scan_groups.pluck( :id ) & scan.root_revision.scan_groups.pluck( :id )).any?
             end
 
             # Can manage Scans they created.
