@@ -66,6 +66,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     <% if counts['fixed'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-asterisk"></i>
                 Fixed <small>[<%= counts['fixed'] %>]</small>
             </a>
         </li>
@@ -79,7 +80,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'fixed' ) do %>
-                <i class="icon-info-sign"></i>
+                <i class="icon-asterisk"></i>
                 Fixed <small>[<%= counts['fixed'] %>]</small>
             <% end %>
         </li>
@@ -88,6 +89,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     <% if counts['verified'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-ok"></i>
                 Verified <small>[<%= counts['verified'] %>]</small>
             </a>
         </li>
@@ -101,7 +103,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'verified' ) do %>
-                <i class="icon-info-sign"></i>
+                <i class="icon-ok"></i>
                 Verified <small>[<%= counts['verified'] %>]</small>
         <% end %>
         </li>
@@ -111,6 +113,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     <% if counts['pending-verification'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-exclamation-sign"></i>
                 Pending verification <small>[<%= counts['pending-verification'] %>]</small>
             </a>
         </li>
@@ -124,7 +127,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'pending-verification' ) do %>
-                <i class="icon-info-sign"></i>
+                <i class="icon-exclamation-sign"></i>
                 Pending verification <small>[<%= counts['pending-verification'] %>]</small>
             <% end %>
         </li>
@@ -133,6 +136,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     <% if counts['false-positives'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-remove"></i>
                 False positives <small>[<%= counts['false-positives'] %>]</small>
             </a>
         </li>
@@ -146,7 +150,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'false-positives' ) do %>
-                <i class="icon-info-sign"></i>
+                <i class="icon-remove"></i>
                 False positives <small>[<%= counts['false-positives'] %>]</small>
             <% end %>
         </li>
