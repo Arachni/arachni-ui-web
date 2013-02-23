@@ -96,7 +96,7 @@ bundle install --binstubs
 
 rake db:migrate
 rake db:setup
-rails s thin
+script/rails s thin
 ```
 
 For seed data (default user accounts etc) take a look in ```db/seeds.rb```.
