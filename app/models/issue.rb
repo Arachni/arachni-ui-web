@@ -215,12 +215,14 @@ class Issue < ActiveRecord::Base
     def self.translate_framework_issue( issue )
         h  = {}
         FRAMEWORK_ISSUE_MAP.each do |k, v|
-            h[v] =  if !(iv = issue.send( k )).nil?
+            val =  if !(iv = issue.send( k )).nil?
                         iv
                     else issue.variations.first &&
                         !(iv = issue.variations.first.send( k )).nil?
                     iv
                     end
+
+            h[v] = val.is_a?( String ) ? val.recode : val
         end
 
         h.reject!{ |k, v| PROTECTED.include? k }
