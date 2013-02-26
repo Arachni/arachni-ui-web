@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails', git: 'git://github.com/rails/rails.git'
 gem 'arel',  git: 'git://github.com/rails/arel.git'

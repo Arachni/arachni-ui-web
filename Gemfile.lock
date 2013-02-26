@@ -111,7 +111,7 @@ GIT
       tilt (~> 1.3)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     activerecord-deprecated_finders (0.0.3)
     addressable (2.3.3)
