@@ -135,7 +135,7 @@
                 <tr>
                     <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
-                    <td class="wrap"><%= @issue.proof || not_available %></td>
+                    <td class="wrap"><%= @issue.proof.recode || not_available %></td>
                 </tr>
             </table>
 
@@ -246,7 +246,7 @@
             </div>
 
             <pre id="response_body_container">
-                <%= highlight_issue_response_body( @issue, 'proof' ).html_safe %>
+                <%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %>
             </pre>
 
             <% else %>
