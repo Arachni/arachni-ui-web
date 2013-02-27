@@ -44,6 +44,9 @@ ArachniWebui::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+  # Raise an error on page load if there are pending migrations
+  config.active_record.migration_error = :page_load
+
   # Do not compress assets
   config.assets.compress = false
 
