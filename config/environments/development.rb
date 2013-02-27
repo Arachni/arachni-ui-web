@@ -40,10 +40,6 @@ ArachniWebui::Application.configure do
   # Raise exception on mass assignment protection for Active Record models
   #config.active_record.mass_assignment_sanitizer = :strict
 
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
-
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
 
