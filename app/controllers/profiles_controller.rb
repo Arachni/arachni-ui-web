@@ -168,6 +168,16 @@ class ProfilesController < ApplicationController
     end
 
     def strong_params
+        plugin__with_options = []
+        plugins_with_info = ::FrameworkHelper.plugins
+        plugins_with_info.each do |name, info|
+            plugin__with_options << if opts = info[:options]
+                                        { name => info[:options].map( &:name ) }
+                                    else
+                                        name
+                                    end
+        end
+
         allowed = [:name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
                    :audit_headers, :audit_links, :authed_by, :auto_redundant,
                    :cookies, :custom_headers, :depth_limit, :exclude,
@@ -175,7 +185,7 @@ class ProfilesController < ApplicationController
                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
                    :max_slaves, :min_pages_per_instance, { modules: [] }, { selected_plugins: []},
-                   { plugins: {}}, :proxy_host, :proxy_password, :proxy_port,
+                   { plugins: plugin__with_options }, :proxy_host, :proxy_password, :proxy_port,
                    :proxy_type, :proxy_username, :redirect_limit, :redundant,
                    :restrict_paths, :user_agent, :http_timeout, :description,
                    :https_only, :exclude_pages, { user_ids: [] }]
