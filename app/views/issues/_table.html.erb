@@ -159,6 +159,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     <% if counts['awaiting-review'] == 0 %>
         <li class="disabled">
             <a href="#">
+                <i class="icon-info-sign"></i>
                 Awaiting review <small>[<%= counts['awaiting-review'] %>]</small>
             </a>
         </li>
