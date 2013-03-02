@@ -12,17 +12,21 @@ be a mockup, partially or not at all working.
  - Administrators can manage all:
     - Users
     - Scan configuration Profiles
-        - And set Global Profiles which are available to everyone.
+        - Can set Global Profiles which are available to everyone.
+        - Can set the system-wide default Profile.
     - Scans
     - Scan Issues
     - Scan Groups
     - Dispatchers
+        - Can set Global Dispatchers which are available to everyone.
+        - Can set the system-wide default Dispatcher.
     - Settings
         - Target whitelist using regular expressions.
         - Target blacklist using regular expressions.
         - Global scan limit -- Amount of active scans at any given time.
         - Per scan limit -- Amount of active scans at any given time per user.
  - Users can:
+    - Manage, create and share Dispatchers with each other.
     - Manage, create and share Scan configuration Profiles with each other.
     - Start Scans using one of the available Profiles (and optionally Dispatchers).
     - Organize Scans into Scan Groups for easier management and share their Groups with each other.

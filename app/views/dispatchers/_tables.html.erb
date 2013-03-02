@@ -1,21 +1,7 @@
-<h2>Available <small>[<%= @alive_dispatchers.size %>]</small></h2>
+<h2>Available <small>[<%= @counts[:alive]['total'] %>]</small></h2>
+<%= render partial: 'table', locals: { dispatchers: @alive_dispatchers } %>
 
-<% if @alive_dispatchers.any? %>
-    <%= render partial: 'table', locals: { dispatchers: @alive_dispatchers } %>
-<% else %>
-    <p class="alert alert-info">
-        There are no available Dispatchers at the moment
-        <% if can? :create, Dispatcher %>
-            ,
-        <a href="<%= new_dispatcher_path %>">add one now</a>
-        <% end %>
-        .
-    </p>
-<% end %>
-
-<% if @unreachable_dispatchers.any? %>
-    <h2>Unreachable <small>[<%= @unreachable_dispatchers.size %>]</small></h2>
-    <%= render partial: 'table',
-               locals: { dispatchers: @unreachable_dispatchers,
-                         treat_as_alive: false } %>
-<% end %>
+<h2>Unreachable <small>[<%= @counts[:unreachable]['total'] %>]</small></h2>
+<%= render partial: 'table',
+           locals: { dispatchers: @unreachable_dispatchers,
+                     treat_as_alive: false } %>

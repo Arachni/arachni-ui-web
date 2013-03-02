@@ -17,6 +17,7 @@
 class User < ActiveRecord::Base
     has_and_belongs_to_many :scans
     has_and_belongs_to_many :profiles
+    has_and_belongs_to_many :dispatchers
     has_many :comments
     has_many :notifications, dependent: :destroy
     has_and_belongs_to_many :scan_groups
@@ -35,6 +36,10 @@ class User < ActiveRecord::Base
 
     def available_profiles
         Profile.where( id: profiles.pluck( :id ) + Profile.global.pluck( :id ) )
+    end
+
+    def available_dispatchers
+        Dispatcher.where( id: dispatchers.pluck( :id ) + Dispatcher.global.pluck( :id ) )
     end
 
     def admin?
@@ -75,6 +80,22 @@ class User < ActiveRecord::Base
 
         ScanGroup.where( 'owner_id != ?', id ).
             where( 'id not in (?)', scan_group_ids ).
+            order( 'id desc' )
+    end
+
+    def own_dispatchers
+        dispatchers.where( owner_id: id ).order( 'id desc' )
+    end
+
+    def shared_dispatchers
+        dispatchers.where( 'owner_id != ?', id ).order( 'id desc' )
+    end
+
+    def others_dispatchers
+        return none if !admin?
+
+        Dispatcher.where( 'owner_id != ?', id ).
+            where( 'id not in (?)', dispatcher_ids ).
             order( 'id desc' )
     end
 

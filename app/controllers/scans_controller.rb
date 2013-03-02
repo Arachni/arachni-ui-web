@@ -22,6 +22,9 @@ class ScansController < ApplicationController
 
     before_filter :authenticate_user!
 
+    before_filter :prepare_associations,
+                  only: [ :new, :new_revision, :create, :repeat ]
+
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
     before_filter :new_scan, only: [ :create ]
@@ -82,8 +85,6 @@ class ScansController < ApplicationController
     def new
         show_scan_limit_errors
 
-        @profiles = current_user.available_profiles
-
         html_proc = nil
         if params[:id]
             html_proc = proc { render '_revision_form' }
@@ -91,9 +92,6 @@ class ScansController < ApplicationController
         else
             @scan = Scan.new
         end
-
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
 
         respond_to do |format|
             format.html( &html_proc )
@@ -105,9 +103,6 @@ class ScansController < ApplicationController
     def new_revision
         @scan = find_scan( params.require( :id ) )
 
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
-
         respond_to do |format|
             format.html
         end
@@ -118,12 +113,7 @@ class ScansController < ApplicationController
     def create
         show_scan_limit_errors
 
-        @profiles         = current_user.available_profiles
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
-
         @scan.owner = current_user
-        @scan.users |= [current_user]
 
         respond_to do |format|
             if !Scan.limit_exceeded? && @scan.save
@@ -140,9 +130,6 @@ class ScansController < ApplicationController
 
     # POST /scans/1/repeat
     def repeat
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
-
         @scan = find_scan( params.require( :id ) ).new_revision
 
         respond_to do |format|
@@ -304,6 +291,12 @@ class ScansController < ApplicationController
     end
 
     private
+
+    def prepare_associations
+        @profiles         = current_user.available_profiles
+        @dispatchers      = current_user.available_dispatchers.alive
+        @grid_dispatchers = @dispatchers.grid_members
+    end
 
     def new_scan
         @scan = Scan.new( strong_params )

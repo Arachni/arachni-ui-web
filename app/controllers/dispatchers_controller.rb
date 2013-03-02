@@ -16,6 +16,8 @@
 
 class DispatchersController < ApplicationController
     include ApplicationHelper
+    include NotificationsHelper
+    include DispatchersHelper
 
     before_filter :authenticate_user!
     before_filter :new_dispatcher, only: [ :create ]
@@ -25,8 +27,7 @@ class DispatchersController < ApplicationController
     # GET /dispatchers
     # GET /dispatchers.json
     def index
-        @alive_dispatchers       = Dispatcher.alive
-        @unreachable_dispatchers = Dispatcher.unreachable
+        prepare_table_data
 
         html_block = if render_partial?
                          proc { render partial: 'tables' }
@@ -34,6 +35,7 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             format.html( &html_block )
+            format.js { render '_tables.js' }
             format.json { render json: @dispatchers }
         end
     end
@@ -72,8 +74,12 @@ class DispatchersController < ApplicationController
     # POST /dispatchers
     # POST /dispatchers.json
     def create
+        @dispatcher.owner = current_user
+
         respond_to do |format|
             if @dispatcher.save
+                notify @dispatcher
+
                 format.html do
                     redirect_to @dispatcher,
                                 notice: 'Dispatcher was successfully created and ' +
@@ -87,6 +93,21 @@ class DispatchersController < ApplicationController
         end
     end
 
+    # PUT /profiles/1/make_default
+    def make_default
+        dispatcher = Dispatcher.find( params.require( :id ) )
+
+        fail 'Cannot make a non-global dispatcher the default one.' if !dispatcher.global?
+
+        dispatcher.make_default
+        params.delete( :id )
+
+        notify dispatcher
+
+        prepare_table_data
+        render partial: 'tables', formats: :js
+    end
+
     # PUT /dispatchers/1
     # PUT /dispatchers/1.json
     def update
@@ -94,7 +115,25 @@ class DispatchersController < ApplicationController
 
         respond_to do |format|
             if @dispatcher.update_attributes( strong_params )
+                notify @dispatcher
+
                 format.html { redirect_to @dispatcher, notice: 'Dispatcher was successfully updated.' }
+                format.json { head :no_content }
+            else
+                format.html { render action: "edit" }
+                format.json { render json: @dispatcher.errors, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    def share
+        @dispatcher = Dispatcher.find( params.require( :id ) )
+
+        respond_to do |format|
+            if @dispatcher.update_attributes( params.require( :dispatcher ).permit( user_ids: [] ) )
+                notify @dispatcher
+
+                format.html { redirect_to :back, notice: 'Dispatcher was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
@@ -125,6 +164,45 @@ class DispatchersController < ApplicationController
     end
 
     def strong_params
-        params.require( :dispatcher ).permit( :address, :port, :description )
+        allowed = [ :address, :port, :description, { user_ids: [] } ]
+        allowed << :global if current_user.admin?
+
+        params.require( :dispatcher ).permit( *allowed )
     end
+
+    def prepare_table_data
+        params[:alive_tab] ||= params[:unreachable_tab] ||= 'yours'
+
+        @counts = {
+            alive:       {},
+            unreachable: {}
+        }
+        %w(yours shared others global).each do |type|
+            begin
+                @counts[:alive][type] = dispatcher_filter( type ).alive.count
+
+                @counts[:alive]['total'] ||= 0
+                @counts[:alive]['total']  += @counts[:alive][type]
+
+                @counts[:unreachable][type] = dispatcher_filter( type ).unreachable.count
+
+                @counts[:unreachable]['total'] ||= 0
+                @counts[:unreachable]['total']  += @counts[:unreachable][type]
+            rescue
+            end
+        end
+
+        @alive_dispatchers = dispatcher_filter( params[:alive_tab] ).
+            page( params[:page] ).
+            per( HardSettings.dispatcher_pagination_entries ).
+            alive.
+            order( 'id DESC' )
+
+        @unreachable_dispatchers = dispatcher_filter( params[:unreachable_tab] ).
+            page( params[:page] ).
+            per( HardSettings.dispatcher_pagination_entries ).
+            unreachable.
+            order( 'id DESC' )
+    end
+
 end

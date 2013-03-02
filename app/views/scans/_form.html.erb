@@ -3,14 +3,14 @@
 
     <div class="row-fluid">
         <div class="span6">
-            <%= f.input :url, as: :url, label: 'Target URL', hint: 'Full URL of the targeted web application (must
+            <%= f.input :url, as: :url, label: false, placeholder: 'Target URL',
+                        hint: 'Full URL of the targeted web application (must
                         include the appropriate protocol --
                         <i>http</i> or <i>https</i>).' %>
         </div>
 
         <div class="span6">
             <div class="control-group">
-                <label class="control-label" for="scan_profile">Profile</label>
                 <div class="controls">
                     <select class="span2" name="scan[profile_id]" id="scan_profile">
                         <% @profiles.each do |p| %>
@@ -36,9 +36,9 @@
 
     <div class="row-fluid">
         <div class="span6">
-            <%= f.input :description,
+            <%= f.input :description, label: false, placeholder: 'Description',
                         hint: 'You can use <a href="http://daringfireball.net/' +
-                                      'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+                              'projects/markdown/syntax">Markdown</a> for text formatting.' %>
         </div>
 
         <% if current_user.scan_groups.any? %>

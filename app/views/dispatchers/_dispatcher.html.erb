@@ -15,14 +15,14 @@
         </div>
     </div>
     <div class="span2">
-        <% if can? :edit, Dispatcher %>
+        <% if can? :edit, @dispatcher %>
             <%= link_to edit_dispatcher_path( @dispatcher ), title: 'Edit Dispatcher',
                         class: 'btn btn-small btn-warning' do %>
                 <i class="icon-pencil"></i>
             <% end %>
         <% end %>
 
-        <% if can? :delete, Dispatcher %>
+        <% if can? :delete, @dispatcher %>
             <%= link_to @dispatcher, title: 'Delete Dispatcher',
                         method: :delete, class: 'btn btn-small btn-danger',
                         data: { confirm: 'Are you sure you want to delete this Dispatcher?' } do %>
@@ -37,16 +37,46 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Pipe-ID</th>
+            <th>
+                Pipe-ID
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="Identification for the bandwidth pipe to which
+                   the Dispatcher is connected.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
             <th>Grid member?</th>
 
             <% if @dispatcher.grid_member? %>
                 <th>Neighbours</th>
             <% end %>
 
-            <th>Desired pool size</th>
-            <th>Current pool size</th>
-            <th>Consumed PIDs</th>
+            <th>
+                Desired pool size
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="Amount of Instances which should be available
+                   for dispatch at any given moment.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
+            <th>
+                Current pool size
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="Amount of Instances which are available for dispatch.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
+            <th>
+                Consumed PIDs
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="OS process IDs used up by the Dispatcher.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
         </tr>
         </thead>
         <tr>

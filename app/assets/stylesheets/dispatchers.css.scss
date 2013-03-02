@@ -20,6 +20,17 @@
 
 #dispatchers {
 
+    .help-block {
+        display: block;
+        clear: both;
+    }
+
+    #dispatcher_user_ids,
+    #dispatcher_address,
+    #dispatcher_port {
+        width:  100%;
+    }
+
     #dispatcher_description {
         width:  100%;
         height: 100px;
@@ -28,4 +39,15 @@
     .form-actions input.btn {
         float: left;
     }
+
+    label {
+        float: left;
+        display: inline;
+        padding-right: 10px;
+    }
+
+    .checkbox {
+        float: right;
+    }
+
 }

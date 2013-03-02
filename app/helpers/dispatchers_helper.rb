@@ -15,4 +15,22 @@
 =end
 
 module DispatchersHelper
+
+    def dispatcher_filter( filter )
+        filter ||= 'yours'
+
+        case filter
+            when 'yours'
+                current_user.own_dispatchers
+            when 'shared'
+                current_user.shared_dispatchers
+            when 'global'
+                Dispatcher.global
+
+            when 'others'
+                raise 'Unauthorised!' if !current_user.admin?
+                current_user.others_dispatchers
+        end
+    end
+
 end
