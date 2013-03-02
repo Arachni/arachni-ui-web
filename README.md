@@ -1,3 +1,10 @@
+# Attention
+
+Please use the ```experimental``` branch to follow the progress of the project
+while its first version is being developed.
+
+This ```master``` branch is here as a placeholder and serves no purpose yet.
+
 # Arachni WebUI
 
 This is the new Web User Interface for [Arachni](https://github.com/Arachni/arachni).
