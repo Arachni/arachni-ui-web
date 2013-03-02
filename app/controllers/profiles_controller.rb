@@ -96,7 +96,6 @@ class ProfilesController < ApplicationController
     # POST /profiles.json
     def create
         @profile.owner  = current_user
-        @profile.users |= [current_user]
 
         respond_to do |format|
             if @profile.save
@@ -134,7 +133,6 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.update_attributes( params.require( :profile ).permit( user_ids: [] ) )
-
                 notify @profile
 
                 format.html { redirect_to :back, notice: 'Profile was successfully shared.' }
