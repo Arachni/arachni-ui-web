@@ -136,7 +136,7 @@
             <% if has_dropdown %>
             <ul id="dispatcher-dropdown" class="dropdown-menu">
 
-                <% if current_user.admin? %>
+                <% if can? :create, Dispatcher %>
                 <li>
                     <%= link_to new_dispatcher_url do %>
                         <i class="icon-plus"></i>
