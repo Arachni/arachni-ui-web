@@ -43,7 +43,7 @@
 
         <% if current_user.scan_groups.any? %>
             <div class="span3">
-                <%= f.association :scan_groups,
+                <%= f.association :scan_groups, label: false, prompt: 'Place in groups:',
                                   collection: current_user.scan_groups,
                                   label_method: lambda { |grp|
                                       s  = "#{grp.name}"
@@ -56,8 +56,8 @@
 
         <div class="span3">
             <% if User.count > 1 %>
-                <%= f.association :users, label: 'Share scan with:',
-                                  collection: User.all - [current_user] %>
+                <%= f.association :users, label: false, prompt: 'Share with:',
+                    collection: User.all - [current_user] %>
             <% end %>
         </div>
     </div>
