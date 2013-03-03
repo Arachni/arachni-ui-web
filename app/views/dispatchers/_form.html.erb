@@ -28,7 +28,7 @@
                         <div class="span12">
                             <%= f.input :global %>
                             <p class="help-block">
-                                Make this profile globally available.
+                                Make this dispatcher globally available.
                             </p>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
 
                 <div class="row-fluid">
                     <div class="span12">
-                        <%= f.association :users, label: 'Share with:',
+                        <%= f.association :users, label: false, prompt: 'Share with:',
                                           collection: User.all - [current_user] %>
                     </div>
                 </div>
