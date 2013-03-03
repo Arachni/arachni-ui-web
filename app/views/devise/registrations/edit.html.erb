@@ -1,21 +1,46 @@
 <h2>Edit your account</h2>
 
-<%= form_for( resource, as: resource_name, url: registration_path( resource_name ), html: { method: :patch } ) do |f| %>
+<%= form_for( resource, as: resource_name, url: registration_path( resource_name ),
+              html: { method: :patch } ) do |f| %>
     <%= devise_error_messages! %>
 
-    <div><%= f.label :email %><br />
-        <%= f.email_field :email %></div>
+    <div class="form-inputs">
+        <div class="fluid-row">
+            <div class="span6">
+                <%= f.email_field :email, placeholder: 'E-mail address' %>
+            </div>
 
-    <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-        <%= f.password_field :password, autocomplete: 'off' %></div>
+            <div class="span6">
+                <%= f.password_field :password, placeholder: 'Password',
+                                     autocomplete: 'off' %>
 
-    <div><%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation %></div>
+                <div class="help-block">
+                    <i>Leave blank if you don't want to change it.</i>
+                </div>
+            </div>
+        </div>
 
-    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-        <%= f.password_field :current_password %></div>
+        <div class="fluid-row">
+            <div class="span6">
+                <%= f.password_field :current_password, autocomplete: 'off',
+                                     placeholder: 'Current password' %>
 
-    <div><%= f.submit 'Update' %></div>
+                <div class="help-block">
+                    <i>We need your current password to confirm your changes.</i>
+                </div>
+            </div>
+
+            <div class="span6">
+                <%= f.password_field :password_confirmation, autocomplete: 'off',
+                                     placeholder: 'Password confirmation' %>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fluid-row">
+        <div class="span12 form-actions">
+            <%= f.submit 'Update' %>
+        </div>
+    </div>
 <% end %>
-
-<%= link_to "Back", :back %>
