@@ -1,4 +1,4 @@
-<%= simple_form_for( @profile ) do |f| %>
+﻿<%= simple_form_for( @profile ) do |f| %>
     <%= f.error_notification %>
 
     <% if f.error_notification %>
@@ -18,7 +18,7 @@
     <header class="jumbotron subhead" id="overview">
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :name %>
+                <%= f.input :name, label: false, placeholder: 'Name' %>
             </div>
 
         <% if current_user.admin? %>
@@ -33,14 +33,14 @@
 
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :description,
+                <%= f.input :description, label: false, placeholder: 'Description',
                             hint: 'You can use <a href="http://daringfireball.net/' +
                                       'projects/markdown/syntax">Markdown</a> for text formatting.',
                             input_html: { rows: 5, cols: 100 } %>
             </div>
             <div class="span6">
                 <% if User.count > 1 %>
-                    <%= f.association :users, label: 'Share profile with:',
+                    <%= f.association :users, label: false, prompt: 'Share with:',
                                       collection: User.all - [current_user, @profile.owner] %>
                 <% end %>
             </div>
@@ -348,11 +348,13 @@
 
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :login_check_url, as: :string %>
+                    <%= f.input :login_check_url, as: :string, label: false,
+                        placeholder: 'Login check URL' %>
                     <%= messages_for( :login_check_url ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :login_check_pattern, as: :string %>
+                    <%= f.input :login_check_pattern, as: :string, label: false,
+                                placeholder: 'Login check pattern' %>
                     <%= messages_for( :login_check_pattern ) %>
                 </div>
             </div>
