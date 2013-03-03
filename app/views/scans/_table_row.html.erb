@@ -152,7 +152,7 @@
                 <% end %>
             <% end %>
 
-            <% if show_as_revision %>
+            <% if !show_as_revision %>
                 <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
                 <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
             <% end %>
