@@ -15,6 +15,12 @@
         </div>
     </div>
     <div class="span2">
+        <% if @dispatcher.global? %>
+            <p class="label label-info">
+                Global
+            </p>
+        <% end %>
+
         <% if can? :edit, @dispatcher %>
             <%= link_to edit_dispatcher_path( @dispatcher ), title: 'Edit Dispatcher',
                         class: 'btn btn-small btn-warning' do %>
