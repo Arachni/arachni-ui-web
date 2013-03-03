@@ -205,7 +205,7 @@
                     <% end %>
 
                     <% if can? :share, profile %>
-                        <%= render partial: 'share_form', locals: { profile: profile, nolabel: true } %>
+                        <%= render partial: 'shared/share_form', locals: { model: profile, nolabel: true } %>
                     <% end %>
                 </td>
             </tr>

@@ -153,7 +153,7 @@
             <% end %>
 
             <% if show_as_revision %>
-                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+                <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
                 <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
             <% end %>
         <% else %>
@@ -173,7 +173,7 @@
             <% end %>
 
             <% if (!show_as_revision && scan.root?) && can?( :share, scan ) %>
-                <%= render partial: 'share_form', locals: { scan: scan, nolabel: true } %>
+                <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
                 <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
             <% end %>
         <% end %>

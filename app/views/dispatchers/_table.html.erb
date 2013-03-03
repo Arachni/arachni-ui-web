@@ -194,7 +194,7 @@
                     <% end %>
 
                     <% if can? :share, dispatcher %>
-                        <%= render partial: 'share_form', locals: { dispatcher: dispatcher, nolabel: true } %>
+                        <%= render partial: 'shared/share_form', locals: { model: dispatcher, nolabel: true } %>
                     <% end %>
                 </td>
             </tr>
