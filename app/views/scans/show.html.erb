@@ -92,7 +92,7 @@
                     <%
                        reports_links = reports_with_outfile.map do |shortname, (name, desc)|
                            link_to name, report_scan_path( format: shortname ),
-                                   rel: 'tooltip', title:  desc
+                                   rel: 'tooltip', title:  desc, data: { 'no-turbolink' => true }
                        end
                     %>
 
