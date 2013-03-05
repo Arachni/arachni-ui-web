@@ -41,7 +41,10 @@
                               'projects/markdown/syntax">Markdown</a> for text formatting.' %>
         </div>
 
+        <% span = 'span6' %>
         <% if current_user.scan_groups.any? %>
+            <% span = 'span3' %>
+
             <div class="span3">
                 <%= f.association :scan_groups, label: false, prompt: 'Place in groups:',
                                   collection: current_user.scan_groups,
@@ -54,7 +57,7 @@
             </div>
         <% end %>
 
-        <div class="span3">
+        <div class="<%= span %>">
             <% if User.count > 1 %>
                 <%= f.association :users, label: false, prompt: 'Share with:',
                     collection: User.all - [current_user] %>
