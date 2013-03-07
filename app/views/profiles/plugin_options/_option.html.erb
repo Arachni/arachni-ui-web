@@ -1,0 +1,12 @@
+<%= render partial: 'profiles/plugin_options/option_label', locals: {
+        plugin_name: plugin_name,
+        option:      option,
+        value:       value
+} %>
+
+<%= render partial: 'profiles/plugin_options/option_input', locals: {
+        plugin_name: plugin_name,
+        option:      option,
+        value:       value,
+        disabled:    disabled
+} %>

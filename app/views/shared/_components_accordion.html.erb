@@ -43,14 +43,15 @@
                     <% if info[:options] %>
                         <div>
                             <strong>Options</strong>
-
-                            <%= render partial: 'plugin_options',
-                                       locals: {
-                                               info:       info,
-                                               shortname:  shortname,
-                                               options:    @profile.plugins[shortname] || {},
-                                               disabled:   true
-                                       } %>
+                            <div class="plugin-options">
+                                <%= render partial: 'plugin_options',
+                                           locals: {
+                                                   plugin_info:   info,
+                                                   plugin_name:   shortname,
+                                                   configuration: @profile.plugins[shortname] || {},
+                                                   disabled:      true
+                                           } %>
+                            </div>
                         </div>
                     <%end%>
                 </div>
