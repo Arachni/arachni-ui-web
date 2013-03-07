@@ -42,17 +42,17 @@
                                 <% if show_affixed_sidebar? %>
                                     <div id="sidebar-affix" class="hidden-phone affix">
 
-                                        <% if has_subnav? %>
-                                        <div class="spy">
-                                            <%= render_subnav %>
-                                        </div>
-                                        <% end %>
-
                                         <div class="row-fluid">
                                             <div>
                                                 <%= affixed_sidebar.html_safe %>
                                             </div>
                                         </div>
+
+                                        <% if has_subnav? %>
+                                            <div class="spy">
+                                                <%= render_subnav %>
+                                            </div>
+                                        <% end %>
                                     </div>
                                 <% end %>
 
