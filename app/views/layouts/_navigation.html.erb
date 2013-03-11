@@ -123,7 +123,7 @@
             </ul>
         </li>
 
-        <% has_dropdown = (recent_dispatchers = current_user.dispatchers.recent).any? || can?( :create, Dispatcher ) %>
+        <% has_dropdown = (recent_dispatchers = current_user.available_dispatchers.recent).any? || can?( :create, Dispatcher ) %>
 
         <li class="dropdown">
             <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
