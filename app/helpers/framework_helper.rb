@@ -70,6 +70,8 @@ module FrameworkHelper
                 end
             end
 
+            components = Hash[components.sort]
+
             File.open( path, 'w' ) do |f|
                 f.write components.to_yaml
             end
