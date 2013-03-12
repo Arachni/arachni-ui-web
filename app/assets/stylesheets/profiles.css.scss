@@ -43,6 +43,11 @@
         float: right;
     }
 
+    input#search {
+        float: none;
+        width: 240px;
+    }
+
     input#profile_plugins, input#profile_modules {
         float: left;
         margin-right: 10px;

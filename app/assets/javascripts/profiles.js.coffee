@@ -15,3 +15,22 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+searchModules = ( val ) ->
+    $(".profile-modules").show()
+
+    if( val != '' )
+        $(".profile-modules:not(:icontains(" + val + "))").hide()
+    else
+        $(".profile-modules").show()
+
+jQuery ->
+    $('input#search').keyup ->
+        searchModules $(this).val()
+
+    $('button.check').toggle ->
+        $('.profile-modules input:visible:checkbox').attr('checked','checked');
+        $(this).html('Uncheck all');
+    , ->
+        $('.profile-modules input:visible:checkbox').removeAttr('checked');
+        $(this).html('Check all');
