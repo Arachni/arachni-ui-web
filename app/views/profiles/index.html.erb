@@ -22,6 +22,8 @@
 </p>
 <% end %>
 
-<div id='profiles'>
-    <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+<div id="profiles">
+    <div id="table">
+        <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+    </div>
 </div>
