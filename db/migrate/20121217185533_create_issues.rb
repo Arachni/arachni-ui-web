@@ -38,6 +38,7 @@ class CreateIssues < ActiveRecord::Migration
 
       t.boolean :verified, default: false
       t.text :verification_steps
+      t.text :remediation_steps
 
       t.boolean :fixed, default: false
 

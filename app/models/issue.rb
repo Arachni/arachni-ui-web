@@ -191,6 +191,8 @@ class Issue < ActiveRecord::Base
                 'has an updated manual verification state'
             when :verification_steps
                 'has updated verification steps'
+            when :remediation_steps
+                'has updated remediation steps'
             when :commented
                 'has a new comment'
         end

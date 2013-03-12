@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20130302162250) do
     t.boolean  "false_positive",        default: false
     t.boolean  "verified",              default: false
     t.text     "verification_steps"
+    t.text     "remediation_steps"
     t.boolean  "fixed",                 default: false
     t.integer  "scan_id"
     t.datetime "created_at"
