@@ -2,10 +2,10 @@ class CreateSettings < ActiveRecord::Migration
   def change
     create_table :settings do |t|
       t.string :name
-      t.integer :global_scan_limit
-      t.integer :per_user_scan_limit
-      t.text :target_whitelist_patterns
-      t.text :target_blacklist_patterns
+      t.integer :scan_global_limit
+      t.integer :scan_per_user_limit
+      t.text :scan_target_whitelist_patterns
+      t.text :scan_target_blacklist_patterns
 
       t.timestamps
     end

@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
     def scan_limit_exceeded?
         !admin? &&
-            Settings.per_user_scan_limit && own_scans.active.size >= Settings.per_user_scan_limit
+            Settings.scan_per_user_limit && own_scans.active.size >= Settings.scan_per_user_limit
     end
 
     def available_profiles

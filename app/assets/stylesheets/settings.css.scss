@@ -18,13 +18,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#setting_per_user_scan_limit,
-#setting_global_scan_limit {
+#setting_scan_per_user_limit,
+#setting_scan_global_limit {
     width: 30px;
 }
 
-#setting_target_blacklist_patterns,
-#setting_target_whitelist_patterns {
+#setting_scan_target_blacklist_patterns,
+#setting_scan_target_whitelist_patterns {
     width:  100%;
     height: 150px;
 }

@@ -235,12 +235,15 @@
               <span class="caret"></span>
             </a>
             <ul id="current-user-dropdown" class="dropdown-menu">
-                <li>
-                    <%= link_to settings_path do %>
-                        <i class="icon-cog"></i> Settings
-                    <% end %>
-                </li>
-                <li class="divider"></li>
+                <% if can? :read, Setting %>
+                    <li>
+                        <%= link_to settings_path do %>
+                            <i class="icon-cog"></i> Settings
+                        <% end %>
+                    </li>
+                    <li class="divider"></li>
+                <% end %>
+
                 <li>
                   <%= link_to edit_user_registration_path do %>
                       <i class="icon-pencil"></i> Edit account

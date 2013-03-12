@@ -3,24 +3,26 @@
 
     <ul class="nav nav-tabs" id="setting-tabs"
         data-table-container="table-container">
+
         <li class="active">
             <a href="#scans" data-toggle="tab">
                 Scans
             </a>
         </li>
+
     </ul>
 
     <div class="tab-content">
         <div id="scans" class="tab-pane active in">
             <div class="row-fluid">
                 <div class="span5">
-                    <%= f.input :global_scan_limit %>
+                    <%= f.input :scan_global_limit, label: 'Global limit' %>
                     <p class="help-block">
                         How many active scans to allow at any given time.
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :per_user_scan_limit %>
+                    <%= f.input :scan_per_user_limit, label: 'Per user limit'  %>
                     <p class="help-block">
                         How many active scans to allow at any given time per user.
                     </p>
@@ -29,16 +31,16 @@
 
             <div class="row-fluid">
                 <div class="span5">
-                    <%= f.input :target_whitelist_patterns,
-                                input_html: { value: @setting.target_whitelist_patterns.join( "\n" ) } %>
+                    <%= f.input :scan_target_whitelist_patterns, label: 'Target URL whitelist patterns',
+                        input_html: { value: @setting.scan_target_whitelist_patterns.join( "\n" ) } %>
                     <p class="help-block">
                         Only allow scans against target URLs which match any of
                         these patterns.
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :target_blacklist_patterns,
-                                input_html: { value: @setting.target_blacklist_patterns.join( "\n" ) } %>
+                    <%= f.input :scan_target_blacklist_patterns, label: 'Target URL blacklist patterns',
+                                input_html: { value: @setting.scan_target_blacklist_patterns.join( "\n" ) } %>
                     <p class="help-block">
                         Do not allow scans against target URLs which match any of
                         these patterns.
@@ -46,6 +48,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="form-actions">

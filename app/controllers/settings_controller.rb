@@ -47,7 +47,7 @@ class SettingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def strong_params
         params.require( :setting ).
-            permit( :global_scan_limit, :per_user_scan_limit,
-                    :target_whitelist_patterns, :target_blacklist_patterns )
+            permit( :scan_global_limit, :scan_per_user_limit,
+                    :scan_target_whitelist_patterns, :scan_target_blacklist_patterns )
     end
 end

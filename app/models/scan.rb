@@ -69,7 +69,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.limit_exceeded?
-        Settings.global_scan_limit && active.size >= Settings.global_scan_limit
+        Settings.scan_global_limit && active.size >= Settings.scan_global_limit
     end
 
     def self.recent( limit = 5 )
@@ -559,14 +559,14 @@ class Scan < ActiveRecord::Base
             errors.add :url, 'not a valid absolute URL'
         end
 
-        if !url.to_s.empty? && !Settings.target_allowed?( url )
-            if Settings.target_whitelist_patterns.any? &&
-                !Settings.target_in_whitelist?( url )
+        if !url.to_s.empty? && !Settings.scan_target_allowed?( url )
+            if Settings.scan_target_whitelist_patterns.any? &&
+                !Settings.scan_target_in_whitelist?( url )
                 errors.add :url, 'not in the whitelist'
             end
 
-            if Settings.target_blacklist_patterns.any? &&
-                Settings.target_in_blacklist?( url )
+            if Settings.scan_target_blacklist_patterns.any? &&
+                Settings.scan_target_in_blacklist?( url )
                 errors.add :url, 'is blacklisted'
             end
         end
