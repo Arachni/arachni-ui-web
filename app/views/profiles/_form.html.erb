@@ -18,7 +18,7 @@
     <header class="jumbotron subhead" id="overview">
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :name, label: false, placeholder: 'Name' %>
+                <%= f.input :name, label: false, placeholder: '(Required) Name' %>
             </div>
 
         <% if current_user.admin? %>
@@ -33,7 +33,7 @@
 
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :description, label: false, placeholder: 'Description',
+                <%= f.input :description, label: false, placeholder: '(Required) Description',
                             hint: 'You can use <a href="http://daringfireball.net/' +
                                       'projects/markdown/syntax">Markdown</a> for text formatting.',
                             input_html: { rows: 5, cols: 100 } %>
