@@ -241,6 +241,7 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def add_owner_to_subscribers
+        return if !owner
         self.user_ids |= [owner.id]
         true
     end
