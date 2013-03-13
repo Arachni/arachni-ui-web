@@ -89,6 +89,8 @@
                 <label class="control-label" for="scan[remote_dispatcher_id]">Dispatcher</label>
                 <div class="controls">
                     <select class="span2" name="remote_dispatcher_id" id="remote_dispatcher_id">
+                        <option value="load_balance">Load balance</option>
+
                         <% @dispatchers.each do |d| %>
                             <option value="<%= d.id %>"><%= d.to_label %></option>
                         <% end %>
@@ -120,6 +122,8 @@
                 <div class="controls">
 
                     <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
+                        <option value="load_balance">Load balance</option>
+
                         <% @grid_dispatchers.each do |d| %>
                             <option value="<%= d.id %>"><%= d.to_label %></option>
                         <% end %>

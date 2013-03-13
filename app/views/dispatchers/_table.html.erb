@@ -128,6 +128,7 @@
             <% end %>
 
             <th>URL</th>
+            <th>Workload score</th>
 
             <% if treat_as_alive %>
                 <th>Alive Instances</th>
@@ -160,6 +161,7 @@
                 <% end %>
 
                 <td><%= dispatcher.url %></td>
+                <td><%= dispatcher.score %></td>
 
                 <% if treat_as_alive %>
                     <td><%= (ss = dispatcher.jobs.size) > 1 ? ss : 'None yet' %></td>

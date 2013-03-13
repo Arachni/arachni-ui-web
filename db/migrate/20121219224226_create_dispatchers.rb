@@ -6,6 +6,7 @@ class CreateDispatchers < ActiveRecord::Migration
             t.boolean :default
             t.string :address
             t.integer :port
+            t.float :score
             t.text :description
             t.text :statistics
             t.boolean :alive, default: nil

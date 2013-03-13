@@ -311,6 +311,10 @@ class ScansController < ApplicationController
             params[:scan][:dispatcher_id] = params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
         end
 
+        if params[:scan][:dispatcher_id] == 'load_balance'
+            params[:scan][:dispatcher_id] = current_user.available_dispatchers.preferred.id
+        end
+
         allowed = [ :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
         if (sitemap_option = params[:scan].delete( :sitemap_option )) &&
             allowed.include?( sitemap_option.to_sym )

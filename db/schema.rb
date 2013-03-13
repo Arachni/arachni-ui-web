@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20130302162250) do
     t.boolean  "default"
     t.string   "address"
     t.integer  "port"
+    t.float    "score"
     t.text     "description"
     t.text     "statistics"
     t.boolean  "alive"

@@ -43,6 +43,16 @@
         <thead>
         <tr>
             <th>Name</th>
+
+            <th>
+                Workload score
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="Signifies the Dispatcher's workload.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
+
             <th>
                 Pipe-ID
 
@@ -52,6 +62,7 @@
                     <i class="icon-info-sign"></i>
                 </a>
             </th>
+
             <th>Grid member?</th>
 
             <% if @dispatcher.grid_member? %>
@@ -87,6 +98,7 @@
         </thead>
         <tr>
             <td><%= @dispatcher.name || '(Not set)' %></td>
+            <td><%= @dispatcher.score %></td>
             <td><%= @dispatcher.pipe_id || '(Not set)' %></td>
             <td><%= @dispatcher.grid_member? ? 'Yes' : 'No' %></td>
 

@@ -71,6 +71,10 @@ class Dispatcher < ActiveRecord::Base
         end
     end
 
+    def self.preferred
+        order( 'score ASC' ).first
+    end
+
     def subscribers
         users | [owner]
     end
@@ -163,10 +167,6 @@ class Dispatcher < ActiveRecord::Base
         statistics['node']['pipe_id']
     end
 
-    def score
-        statistics['node']['score']
-    end
-
     def neighbours
         (statistics['neighbours'] || []).map { |n| Dispatcher.find_by_url( n ) }
     end
@@ -212,6 +212,7 @@ class Dispatcher < ActiveRecord::Base
 
             self.alive      = true
             self.statistics = stats
+            self.score      = stats['node']['score']
             save
 
             stats['neighbours'].each do |neighbour|
