@@ -95,10 +95,13 @@
                             <option value="<%= d.id %>"><%= d.to_label %></option>
                         <% end %>
                     </select>
-                    <div class="alert alert-info">
-                        If the scan is configured to use more than 1 Instance,
-                        all Instances will be from the same Dispatcher.
-                    </div>
+
+                    <% if can? :perform_multi_instance, Scan %>
+                        <div class="alert alert-info">
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be from the same Dispatcher.
+                        </div>
+                    <% end %>
                 </div>
             </div>
         <% else %>
@@ -130,10 +133,16 @@
                     </select>
 
                     <div class="alert alert-info">
-                        If the scan is configured to use more than 1 Instance,
-                        all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
-                        <br/>
-                        Also, the selected Instance count option will be treated as
+                        <% if can? :perform_multi_instance, Scan %>
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
+                            <br/>
+                            Also, the
+                        <% else %>
+                            The
+                        <% end %>
+
+                        selected Instance count option will be treated as
                         a maximum value in order to satisfy Grid load-balancing and availability
                         requirements.
                     </div>
