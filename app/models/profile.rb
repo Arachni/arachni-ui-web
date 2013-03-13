@@ -23,7 +23,7 @@ class Profile < ActiveRecord::Base
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
     validates_presence_of   :name
-    validates_uniqueness_of :name, scope: :owner_id
+    validates_uniqueness_of :name, scope: :owner_id, case_sensitive: false
 
     validates_presence_of   :description
 

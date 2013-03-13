@@ -29,7 +29,7 @@ class Dispatcher < ActiveRecord::Base
     validates_presence_of :port
     validates_numericality_of :port
 
-    validates_uniqueness_of :address, scope: :port
+    validates_uniqueness_of :address, scope: :port, case_sensitive: false
 
     validate :server_reachability
     validate :validate_description
