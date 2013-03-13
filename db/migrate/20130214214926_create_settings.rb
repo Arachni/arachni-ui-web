@@ -6,6 +6,7 @@ class CreateSettings < ActiveRecord::Migration
       t.integer :scan_per_user_limit
       t.text :scan_target_whitelist_patterns
       t.text :scan_target_blacklist_patterns
+      t.text :scan_allowed_types
 
       t.timestamps
     end

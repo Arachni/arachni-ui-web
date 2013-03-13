@@ -41,13 +41,13 @@ class SettingsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_setting
-        ap @setting = Setting.first
+        @setting = Setting.first
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def strong_params
         params.require( :setting ).
-            permit( :scan_global_limit, :scan_per_user_limit,
+            permit( :scan_global_limit, :scan_per_user_limit, {scan_allowed_types: []},
                     :scan_target_whitelist_patterns, :scan_target_blacklist_patterns )
     end
 end

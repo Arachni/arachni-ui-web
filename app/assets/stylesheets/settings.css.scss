@@ -30,9 +30,18 @@
 }
 
 #settings {
+
+    .help-block {
+        clear: both;
+    }
+
     label {
         float: left;
         display: inline;
         padding-right: 10px;
     }
+}
+
+.settings_scan_allowed_types input {
+    float: none;
 }

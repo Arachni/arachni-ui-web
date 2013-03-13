@@ -19,12 +19,18 @@
 #
 class Settings
 
+    SCAN_TYPES = Setting::SCAN_TYPES
+
     class << self
         [:scan_global_limit, :scan_per_user_limit,
          :scan_target_whitelist_patterns, :scan_target_blacklist_patterns].each do |sym|
             define_method sym do
                 Setting.first.send( sym )
             end
+        end
+
+        def scan_allowed_types
+            Setting.first.scan_allowed_types.map( &:to_sym )
         end
 
         def scan_target_in_whitelist?( url )

@@ -29,6 +29,8 @@ class ScansController < ApplicationController
     # load_and_authorize_resource.
     before_filter :new_scan, only: [ :create ]
 
+    before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
+
     load_and_authorize_resource
 
     # GET /scans
@@ -130,6 +132,8 @@ class ScansController < ApplicationController
 
     # POST /scans/1/repeat
     def repeat
+        show_scan_limit_errors
+
         @scan = find_scan( params.require( :id ) ).new_revision
 
         respond_to do |format|
@@ -325,6 +329,13 @@ class ScansController < ApplicationController
     def find_scan( id )
         s = Scan.find( params[:id] )
         params[:overview] == 'true' ? s.act_as_overview : s
+    end
+
+    def check_scan_type_abilities
+        return if can? "perform_#{params[:scan][:type]}".to_sym, Scan
+
+        flash[:error] = "You don't have #{params[:scan][:type]} scan privileges."
+        redirect_to :back
     end
 
     def show_scan_limit_errors

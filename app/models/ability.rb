@@ -101,6 +101,9 @@ class Ability
             # Can create personal Scans -- controller assigns the User/Owner ID.
             can :create, Scan
 
+            Settings::SCAN_TYPES.each { |type| cannot "perform_#{type}".to_sym, Scan }
+            Settings.scan_allowed_types.each { |type| can "perform_#{type}".to_sym, Scan }
+
             #
             # Comment access rules
             #

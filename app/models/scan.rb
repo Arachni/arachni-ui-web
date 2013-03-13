@@ -21,6 +21,8 @@ class Scan < ActiveRecord::Base
 
     self.inheritance_column = 'inheritance_column'
 
+    TYPES = [:direct, :remote, :grid]
+
     has_and_belongs_to_many :users
     has_and_belongs_to_many :scan_groups
 
@@ -38,8 +40,8 @@ class Scan < ActiveRecord::Base
     validates_presence_of :url
     validate :validate_url
 
-    validates :type, inclusion: { in:      [:direct, :remote, :grid],
-                                  message: "Please select a scan type" }
+    validates :type, inclusion: { in:      TYPES,
+                                  message: 'Please select a scan type' }
     validate :validate_type
 
     validate :validate_instance_count
