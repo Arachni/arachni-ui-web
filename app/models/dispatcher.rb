@@ -217,7 +217,7 @@ class Dispatcher < ActiveRecord::Base
 
             stats['neighbours'].each do |neighbour|
                 naddress, nport = neighbour.split( ':' )
-                self.class.create( address: naddress, port: nport,
+                self.class.create( address: naddress, port: nport, owner_id: owner_id,
                                    description: "Automatically added as a neighbour of '#{url}'." )
             end
 
