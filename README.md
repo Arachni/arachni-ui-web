@@ -47,9 +47,12 @@ be a mockup, partially or not at all working.
     - Export reports, review and comment on Scans which have been shared with them by other users.
  - Available Scan types:
     - Direct -- From the WebUI machine to the webapp, no need to setup anything else.
-    - Remote (using a Dispatcher) -- From the machine of the Dispatcher to the webapp.
-    - Grid (using multiple Dispatchers) -- Using multiple machines to perform
-        super-fast, distributed scans.
+    - Remote -- Using a Dispatcher.
+        - Scan is performed from the machine of the Dispatcher to the webapp.
+        - Scan assignments can be load balanced when there are multiple Dispatchers available.
+    - Grid -- Using multiple Dispatchers.
+        - Scan is performed using multiple machines for a super-fast crawl and audit.
+        - Scan assignments can be load balanced.
     - Repeat/Revision
         - Repeats a finished scan to identify fixed or new issues.
         - Can use sitemaps of previous revisions to:
