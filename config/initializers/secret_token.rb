@@ -7,6 +7,14 @@
 # no regular words or you'll be exposed to dictionary attacks.
 # You can use `rake secret` to generate a secure secret key.
 
+# Generate a random secret on first run.
+secret_token_file = File.expand_path( '../secret_token', __FILE__ )
+
+if !File.exist?( secret_token_file )
+    token = (0...200).map{ ((0..9).to_a | ('a'..'h').to_a).to_a[rand(26)] }.join
+    File.open( secret_token_file, 'w' ) { |f| f.write token }
+end
+
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-ArachniWebui::Application.config.secret_key_base = '105e2da0ce532349b7e8030e2aef4aafe9dd41e50a87dfa05daf0fbb67bb4c2a9cc88350decff8412704587a78650108ce8b3229170ecda874ad19358a90034c'
+ArachniWebui::Application.config.secret_key_base = IO.read( secret_token_file )
