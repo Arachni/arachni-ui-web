@@ -42,7 +42,7 @@ group :test do
     gem 'machinist'
 end
 
-#gem "rspec-rails", ">= 2.11.0", group: [:development, :test]
+gem "rspec-rails", ">= 2.11.0", group: [:development, :test]
 
 gem 'arachni-rpc-em', git: 'git://github.com/Arachni/arachni-rpc-em.git'
 
