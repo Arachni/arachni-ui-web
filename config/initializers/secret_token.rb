@@ -15,6 +15,4 @@ if !File.exist?( secret_token_file )
     File.open( secret_token_file, 'w' ) { |f| f.write token }
 end
 
-# Make sure your secret_key_base is kept private
-# if you're sharing your code publicly.
 ArachniWebui::Application.config.secret_key_base = IO.read( secret_token_file )
