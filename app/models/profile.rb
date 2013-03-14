@@ -186,11 +186,10 @@ class Profile < ActiveRecord::Base
         # Only allow authorized modules.
 
         if m == :all || m == :default
-            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) ) &
-                Settings.profile_allowed_modules
+            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
         end
 
-        super m & Settings.profile_allowed_modules
+        super m & Settings.profile_allowed_modules.to_a
     end
 
     def plugins=( p )
