@@ -157,7 +157,7 @@ GEM
     mime-types (1.21)
     minitest (4.6.2)
     multi_json (1.6.1)
-    nokogiri (1.5.7.rc2)
+    nokogiri (1.5.7.rc3)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     pony (1.4)
