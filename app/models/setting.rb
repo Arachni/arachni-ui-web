@@ -2,6 +2,7 @@ class Setting < ActiveRecord::Base
     serialize :scan_target_whitelist_patterns, Array
     serialize :scan_target_blacklist_patterns, Array
     serialize :scan_allowed_types, Array
+    serialize :profile_allowed_modules, Array
 
     SCAN_TYPES = Scan::TYPES + [:multi_instance]
 
@@ -11,6 +12,10 @@ class Setting < ActiveRecord::Base
 
     def scan_target_blacklist_patterns=( string_or_hash )
         super self.class.string_list_to_array( string_or_hash )
+    end
+
+    def profile_allowed_modules_with_info
+        profile_allowed_modules.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
     end
 
     private

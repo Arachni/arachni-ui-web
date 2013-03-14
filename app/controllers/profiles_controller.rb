@@ -15,7 +15,6 @@
 =end
 
 class ProfilesController < ApplicationController
-    include ApplicationHelper
     include ProfilesHelper
     include NotificationsHelper
 

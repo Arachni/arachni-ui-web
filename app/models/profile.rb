@@ -129,6 +129,11 @@ class Profile < ActiveRecord::Base
         opts
     end
 
+    def modules
+        # Only allow authorized modules.
+        super & Settings.profile_allowed_modules
+    end
+
     def html_description
         ApplicationHelper.m description
     end
@@ -178,8 +183,14 @@ class Profile < ActiveRecord::Base
     end
 
     def modules=( m )
-        return super( ::FrameworkHelper.modules.keys.map( &:to_s ) ) if m == :all || m == :default
-        super m
+        # Only allow authorized modules.
+
+        if m == :all || m == :default
+            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) ) &
+                Settings.profile_allowed_modules
+        end
+
+        super m & Settings.profile_allowed_modules
     end
 
     def plugins=( p )

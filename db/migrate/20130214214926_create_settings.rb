@@ -8,6 +8,8 @@ class CreateSettings < ActiveRecord::Migration
       t.text :scan_target_blacklist_patterns
       t.text :scan_allowed_types
 
+      t.text :profile_allowed_modules
+
       t.timestamps
     end
   end

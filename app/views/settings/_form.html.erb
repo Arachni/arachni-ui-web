@@ -10,6 +10,12 @@
             </a>
         </li>
 
+        <li>
+            <a href="#profile" data-toggle="tab">
+                Profile
+            </a>
+        </li>
+
     </ul>
 
     <div class="tab-content">
@@ -58,6 +64,62 @@
                         these patterns.
                     </p>
                 </div>
+            </div>
+        </div>
+
+        <div id="profile" class="tab-pane">
+            <h2>
+                Modules
+                <small>Select the security checks to appear as Profile options.</small>
+            </h2>
+
+            <div class="row-fluid">
+                <div class="span3">
+                    <input id="search" type="text" class="string optional"
+                           placeholder="Filter modules by name or description">
+                </div>
+
+                <div class="span2">
+                    <button class="btn btn-small check">Check all</button>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <h3>Audit (Active)</h3>
+
+                    <div class="modules">
+                        <% FrameworkHelper.modules.
+                                   select { |n, i| i[:path].include?( '/modules/audit' ) }.
+                                   each do |shortname, info| %>
+                            <%= render partial: 'module_list', locals: {
+                                    selected:  @setting.profile_allowed_modules,
+                                    shortname: shortname,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <h3>Recon (Passive)</h3>
+
+                    <div class="modules">
+                        <% FrameworkHelper.modules.
+                                   select { |n, i| i[:path].include?( '/modules/recon' ) }.
+                                   each do |shortname, info| %>
+                            <%= render partial: 'module_list', locals: {
+                                    selected:  @setting.profile_allowed_modules,
+                                    shortname: shortname,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <input name="setting[profile_allowed_modules][]"
+                       type="hidden" checked="checked">
+
             </div>
         </div>
 

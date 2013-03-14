@@ -1,9 +1,15 @@
 <%
    lk = rk = []
-   lk, rk = *components.keys.chunk( 2 ) if components.any?
 
-   lm = components.slice( *lk )
-   rm = components.slice( *rk )
+   if components.size > 2
+       lk, rk = *components.keys.in_groups_of( (components.keys.size / 2).ceil )
+
+       lm = components.slice( *lk )
+       rm = components.slice( *rk )
+   else
+       lm = components
+       rm = []
+   end
 %>
 
 <div class="row-fluid">

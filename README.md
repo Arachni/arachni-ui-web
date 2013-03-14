@@ -27,6 +27,8 @@ be a mockup, partially or not at all working.
             - Target blacklist using regular expressions.
             - Global scan limit -- Amount of active scans at any given time.
             - Per scan limit -- Amount of active scans at any given time per user.
+        - Profile
+            - Allowed modules.
  - Users can:
     - Manage, create and share Dispatchers with each other.
     - Manage, create and share Scan configuration Profiles with each other.

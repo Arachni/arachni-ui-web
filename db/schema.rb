@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 20130302162250) do
     t.text     "scan_target_whitelist_patterns"
     t.text     "scan_target_blacklist_patterns"
     t.text     "scan_allowed_types"
+    t.text     "profile_allowed_modules"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

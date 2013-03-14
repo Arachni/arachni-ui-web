@@ -15,6 +15,13 @@
 =end
 
 module ProfilesHelper
+    include ApplicationHelper
+
+    def modules
+        allowed = Settings.profile_allowed_modules.reject { |m| m.to_s.empty?}
+        super.select { |name, _| allowed.include? name }
+    end
+
     def messages_for( attribute )
         render partial: 'attribute_messages', locals: { attribute: attribute }
     end

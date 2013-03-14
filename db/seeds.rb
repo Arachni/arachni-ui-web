@@ -7,7 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 puts 'SETTING UP EMPTY SETTINGS'
-Setting.create! scan_allowed_types: Setting::SCAN_TYPES
+Setting.create! scan_allowed_types: Setting::SCAN_TYPES,
+                profile_allowed_modules: FrameworkHelper.modules.keys
 
 puts 'SETTING UP DEFAULT USERS'
 user = User.create! name:                  'Administrator',

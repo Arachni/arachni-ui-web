@@ -25,10 +25,10 @@ searchModules = ( val ) ->
         $(".profile-modules").show()
 
 jQuery ->
-    $('input#search').keyup ->
+    $('#profiles input#search').keyup ->
         searchModules $(this).val()
 
-    $('button.check').toggle ->
+    $('#profiles button.check').toggle ->
         $('.profile-modules input:visible:checkbox').attr('checked','checked');
         $(this).html('Uncheck all');
     , ->
