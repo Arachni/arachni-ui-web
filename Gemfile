@@ -21,7 +21,11 @@ gem 'cancan', '>= 1.6.8'
 gem 'rolify', '>= 3.1.0'
 
 group :development do
-    #gem 'rails-footnotes', '>= 3.7.5.rc4'
+    gem 'factory_girl_rails'
+end
+
+group :development, :test do
+    gem "rspec-rails", ">= 2.11.0"
 end
 
 group :assets do
@@ -34,15 +38,12 @@ group :assets do
 end
 
 group :test do
-    gem 'factory_girl'
     gem 'capybara',         '>= 1.1.2'
     gem 'cucumber-rails',   '>= 1.3.0', require: false
     gem 'database_cleaner', '>= 0.8.0'
     gem 'launchy',          '>= 2.2.0'
-    gem 'machinist'
+    gem 'factory_girl'
 end
-
-gem "rspec-rails", ">= 2.11.0", group: [:development, :test]
 
 gem 'arachni-rpc-em', git: 'git://github.com/Arachni/arachni-rpc-em.git'
 
