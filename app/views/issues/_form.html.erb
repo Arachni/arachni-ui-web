@@ -4,11 +4,11 @@
     <div class="form-inputs">
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :fixed, label: 'Mark this issue as fixed' %>
+                <%= f.input :fixed, label: 'Mark as fixed' %>
             </div>
             <div class="span6">
                 <%= f.input :false_positive,
-                            label: 'Mark this issue as a false positive' %>
+                            label: 'Mark as false positive' %>
 
                 <p class="help-block" id="false-positive-report-nudge">
                     <em>You may also want to <a href="https://github.com/Arachni/arachni/issues">
@@ -48,10 +48,12 @@
 
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :remediation_steps %>
+                <%= f.input :remediation_steps,
+                            hint: '(You can use <a href="http://daringfireball.net/' +
+                              'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
 
                 <p class="help-block">
-                    Describe a way to fix the vulnerability.
+                    Describe a way to remedy this issue.
                 </p>
             </div>
         </div>
