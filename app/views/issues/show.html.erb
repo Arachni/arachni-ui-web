@@ -79,6 +79,15 @@
             </li>
         <% end %>
 
+        <% if @issue.has_remediation_steps? %>
+            <li>
+                <a href="#issue-<%= @issue.digest %>-remediation" data-toggle="tab">
+                    <i class="icon-asterisk"></i>
+                    Remediation
+                </a>
+            </li>
+        <% end %>
+
         <li>
             <a href="#issue-<%= @issue.digest %>-review" data-toggle="tab">
                 <i class="icon-edit"></i>
@@ -322,17 +331,31 @@
         </div>
 
         <% if @issue.has_verification_steps? %>
-        <div id="issue-<%= @issue.digest %>-verification" class="tab-pane">
-            <h3>
-                Verification steps
-            </h3>
+            <div id="issue-<%= @issue.digest %>-verification" class="tab-pane">
+                <h3>
+                    Verification steps
+                </h3>
 
-            <p>
-                <%= m @issue.verification_steps %>
-            </p>
+                <p>
+                    <%= m @issue.verification_steps %>
+                </p>
 
-        </div>
+            </div>
         <% end %>
+
+        <% if @issue.has_remediation_steps? %>
+            <div id="issue-<%= @issue.digest %>-remediation" class="tab-pane">
+                <h3>
+                    Remediation steps
+                </h3>
+
+                <p>
+                    <%= m @issue.remediation_steps %>
+                </p>
+
+            </div>
+        <% end %>
+
 
         <div id="issue-<%= @issue.digest %>-review" class="tab-pane">
             <%= render 'form' %>

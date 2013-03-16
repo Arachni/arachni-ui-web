@@ -143,6 +143,10 @@ class Issue < ActiveRecord::Base
         !verification_steps.to_s.empty?
     end
 
+    def has_remediation_steps?
+        !remediation_steps.to_s.empty?
+    end
+
     def base64_response_body
         Base64.encode64( response_body ).gsub( /\n/, '' )
     end
