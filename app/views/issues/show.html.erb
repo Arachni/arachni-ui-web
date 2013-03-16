@@ -135,7 +135,13 @@
                 <tr>
                     <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
-                    <td class="wrap"><%= @issue.proof.recode || not_available %></td>
+                    <td class="wrap">
+                        <% if @issue.proof %>
+                            <%= @issue.proof.recode %>
+                        <% else %>
+                            <%= not_available %>
+                        <% end %>
+                    </td>
                 </tr>
             </table>
 
