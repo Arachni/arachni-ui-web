@@ -43,6 +43,7 @@ group :test do
     gem 'database_cleaner', '>= 0.8.0'
     gem 'launchy',          '>= 2.2.0'
     gem 'factory_girl'
+    gem 'faker'
 end
 
 gem 'arachni-rpc-em', git: 'git://github.com/Arachni/arachni-rpc-em.git'
