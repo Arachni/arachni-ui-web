@@ -7,12 +7,16 @@ describe Comment do
     end
 
     describe 'validation' do
-        it 'is invalid without :text String' do
+        it 'is invalid without :text' do
             FactoryGirl.build( :comment, text: nil ).should be_invalid
         end
 
-        it 'is invalid with empty :text String' do
+        it 'is invalid with empty :text' do
             FactoryGirl.build( :comment, text: '' ).should be_invalid
+        end
+
+        it 'is invalid with HTML in :text' do
+            FactoryGirl.build( :comment, text: '<em>Stuff...<em>' ).should be_invalid
         end
     end
 
