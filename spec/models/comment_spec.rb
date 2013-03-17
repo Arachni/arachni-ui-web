@@ -1,16 +1,19 @@
 require 'spec_helper'
 
 describe Comment do
+
     it 'should have a valid factory' do
         FactoryGirl.create(:comment).should be_valid
     end
 
-    it 'is invalid without :text String' do
-        FactoryGirl.build( :comment, text: nil ).should be_invalid
-    end
+    describe 'validation' do
+        it 'is invalid without :text String' do
+            FactoryGirl.build( :comment, text: nil ).should be_invalid
+        end
 
-    it 'is invalid with empty :text String' do
-        FactoryGirl.build( :comment, text: '' ).should be_invalid
+        it 'is invalid with empty :text String' do
+            FactoryGirl.build( :comment, text: '' ).should be_invalid
+        end
     end
 
     describe '#text' do
@@ -25,8 +28,8 @@ describe Comment do
 
     describe '#commentable' do
         it 'returns the parent object' do
-            comment = FactoryGirl.create( :comment )
-            comment.commentable.should be_a_kind_of( Issue )
+            comment = FactoryGirl.create(:comment)
+            comment.commentable.should be_a_kind_of(Issue)
         end
     end
 
