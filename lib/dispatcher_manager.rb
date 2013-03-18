@@ -28,7 +28,7 @@ class DispatcherManager
 
     def after_create( dispatcher )
         # Avoid having this called multiple times for the same Dispatcher.
-        return if dispatcher.statistics.any?
+        return if dispatcher.statistics['node'].any?
         dispatcher.refresh
     end
 
