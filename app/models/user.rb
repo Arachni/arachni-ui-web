@@ -55,7 +55,9 @@ class User < ActiveRecord::Base
     end
 
     def activities
-        Notification.group( %w(model_type model_id action text id)).
+        # NOTE: PostgreSQL requires the 'id' in the group clause, which makes
+        # this useless.
+        Notification.group( %w(model_type model_id action text)).
             where( 'actor_id = ?', id ).order( 'id desc' )
     end
 
