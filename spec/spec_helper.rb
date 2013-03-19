@@ -27,6 +27,15 @@ RSpec.configure do |config|
     # config.mock_with :flexmock
     # config.mock_with :rr
 
+    config.before( :all ) do
+        ProcessHelper.instance.killall
+        Arachni::Options.reset
+    end
+
+    config.after( :suite ) do
+        ProcessHelper.instance.killall
+    end
+
     config.include ValidUserHelper, type: :controller
     config.include ValidUserRequestHelper, type: :request
 
