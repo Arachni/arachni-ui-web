@@ -165,7 +165,6 @@ GEM
     multi_json (1.7.0)
     nokogiri (1.5.7.rc3)
     orm_adapter (0.4.0)
-    pg (0.14.1)
     polyglot (0.3.3)
     pony (1.4)
       mail (> 2.0)
@@ -220,6 +219,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sqlite3 (1.3.7)
     sys-proctable (0.9.3)
     terminal-table (1.4.5)
     therubyracer (0.11.4)
@@ -271,13 +271,13 @@ DEPENDENCIES
   kaminari
   launchy (>= 2.2.0)
   libv8 (~> 3.11.8)
-  pg
   rails (= 4.0.0.beta1)
   rdiscount
   rolify (>= 3.1.0)
   rspec-rails (>= 2.11.0)
   sass-rails!
   simple_form!
+  sqlite3
   therubyracer
   thin
   turbolinks

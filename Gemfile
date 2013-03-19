@@ -4,8 +4,7 @@ gem 'rails', '4.0.0.beta1'
 
 gem 'thin'
 
-#gem 'sqlite3'
-gem "pg"
+gem 'sqlite3'
 
 
 gem 'jquery-rails', '2.1.4'
