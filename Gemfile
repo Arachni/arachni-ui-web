@@ -4,7 +4,9 @@ gem 'rails', '4.0.0.beta1'
 
 gem 'thin'
 
-gem 'sqlite3'
+#gem 'sqlite3'
+gem "pg"
+
 
 gem 'jquery-rails', '2.1.4'
 gem 'turbolinks'
