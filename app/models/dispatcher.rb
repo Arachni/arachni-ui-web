@@ -22,7 +22,7 @@ class Dispatcher < ActiveRecord::Base
     has_many :scans
 
     has_and_belongs_to_many :users
-    belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
+    belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
     validates_presence_of :address
 
@@ -102,8 +102,8 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def self.find_by_url( url )
-        url, port = *url.split( ':' )
-        where url: url, port: port
+        address, port = *url.split( ':' )
+        where address: address, port: port
     end
 
     def self.grid_members
@@ -198,7 +198,6 @@ class Dispatcher < ActiveRecord::Base
 
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
-
         client.stats do |stats|
             if stats.rpc_exception?
                 if alive?
@@ -210,10 +209,7 @@ class Dispatcher < ActiveRecord::Base
                 next
             end
 
-            self.alive      = true
-            self.statistics = stats
-            self.score      = stats['node']['score']
-            save
+            update( alive: true, statistics: stats, score: stats['node']['score'] )
 
             stats['neighbours'].each do |neighbour|
                 naddress, nport = neighbour.split( ':' )
@@ -225,15 +221,15 @@ class Dispatcher < ActiveRecord::Base
         end
     end
 
-    def server_reachability
-        if !ApplicationHelper.host_reachable?( address, port )
-            err = 'does not point to a running server'
-            errors.add :address, err
-            errors.add :port, err
-        end
-    end
-
     private
+
+    def server_reachability
+        return if ApplicationHelper.host_reachable?( address, port )
+
+        err = 'does not point to a running server'
+        errors.add :address, err
+        errors.add :port, err
+    end
 
     def validate_description
         return if ActionController::Base.helpers.strip_tags( description ) == description
