@@ -40,8 +40,6 @@ FactoryGirl.define do
 
         after :create do |d|
             ProcessHelper.instance.kill_dispatcher d
-            d.refresh
-            d.reload
         end
     end
 
