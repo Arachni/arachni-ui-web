@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 88907015dbfb685f3fae6d45304dbaaa0c07929d
+  revision: 1a18096982c4eec7f4422310acd581564bd2c421
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -161,9 +161,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
-    minitest (4.6.2)
-    multi_json (1.7.0)
-    nokogiri (1.5.7.rc3)
+    minitest (4.7.0)
+    multi_json (1.7.1)
+    nokogiri (1.5.7)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     pony (1.4)
@@ -190,7 +190,7 @@ GEM
     rdiscount (2.0.7.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    ref (1.0.2)
+    ref (1.0.3)
     rolify (3.2.0)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
@@ -225,7 +225,7 @@ GEM
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
-    thin (1.5.0)
+    thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
