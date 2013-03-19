@@ -55,8 +55,8 @@ class User < ActiveRecord::Base
     end
 
     def activities
-        Notification.group( %w(model_type model_id action text)).
-            where( 'actor_id == ?', id ).order( 'id desc' )
+        Notification.group( %w(model_type model_id action text id)).
+            where( 'actor_id = ?', id ).order( 'id desc' )
     end
 
     def self.recent( limit = 5 )
