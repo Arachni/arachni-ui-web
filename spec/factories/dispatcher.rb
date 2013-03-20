@@ -6,10 +6,7 @@ FactoryGirl.define do
         end
 
         address { 'localhost' }
-        port {
-            nil while Dispatcher.where( port: (p = rand( 999 ) + 5000) ).any?
-            p
-        }
+        port { ProcessHelper.generate_port }
 
         # Fire up a real Dispatcher to pass validations.
         before( :create ) do |d, evaluator|
@@ -19,7 +16,7 @@ FactoryGirl.define do
                 merge( 'rpc_address' =>  d.address, 'rpc_port' => d.port )
 
             begin
-                ProcessHelper.instance.start_dispatcher( opts )
+                ProcessHelper.start_dispatcher( opts )
             rescue => e
                 ap e
             end
@@ -39,7 +36,7 @@ FactoryGirl.define do
         alive false
 
         after :create do |d|
-            ProcessHelper.instance.kill_dispatcher d
+            ProcessHelper.kill_dispatcher d
         end
     end
 
