@@ -13,6 +13,9 @@ class ProcessHelper
         opts = Arachni::Options.to_h.merge( opts )
         opts['pool_size'] = 1
 
+        opts['rpc_address'] ||= 'localhost'
+        opts['rpc_port']    ||= generate_port
+
         pid = fork_em {
             Arachni::RPC::Server::Dispatcher.new( Arachni::Options.merge!( opts ) )
         }
@@ -41,6 +44,19 @@ class ProcessHelper
         @dispatchers[url] = { pid: pid, client: client }
 
         client
+    end
+
+    def generate_port
+        loop do
+            port = 5555 + rand( 9999 )
+            begin
+                socket = Socket.new( :INET, :STREAM, 0 )
+                socket.bind( Addrinfo.tcp( "127.0.0.1", port ) )
+                socket.close
+                return port
+            rescue Errno::EADDRINUSE => e
+            end
+        end
     end
 
     def kill_dispatcher( url_or_model )
@@ -89,6 +105,18 @@ class ProcessHelper
         @pids << (p = ::EM.fork_reactor( *args, &wrap ))
         Process.detach( p )
         p
+    end
+
+    def self.method_missing( sym, *args, &block )
+        if instance.respond_to?( sym )
+            instance.send( sym, *args, &block )
+        elsif
+        super( sym, *args, &block )
+        end
+    end
+
+    def self.respond_to?( m )
+        super( m ) || instance.respond_to?( m )
     end
 
 end
