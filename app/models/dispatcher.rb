@@ -103,7 +103,7 @@ class Dispatcher < ActiveRecord::Base
 
     def self.find_by_url( url )
         address, port = *url.split( ':' )
-        where address: address, port: port
+        where( address: address, port: port ).first
     end
 
     def self.grid_members
