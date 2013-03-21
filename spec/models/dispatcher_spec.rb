@@ -171,7 +171,7 @@ describe Dispatcher do
             3.times { FactoryGirl.create( :dispatcher ) }
 
             d = FactoryGirl.create( :dispatcher, default: true )
-            Dispatcher.find_by_url( d.url ) == [d]
+            Dispatcher.find_by_url( d.url ) == d
         end
     end
 
@@ -252,10 +252,27 @@ describe Dispatcher do
 
     describe '#grid_member?' do
         context 'when the Dispatcher is a member of a Grid' do
-            it 'returns true'
+            it 'returns true' do
+                d = FactoryGirl.create( :alive_dispatcher,
+                                        statistics: {
+                                            'node' => { 'pipe_id' => rand(999).to_s }
+                                        }
+                )
+
+                FactoryGirl.create( :alive_dispatcher,
+                                        statistics: {
+                                            'neighbours' => [d.url],
+                                            'node' => { 'pipe_id' => rand(999).to_s }
+                                        }
+                )
+
+                d.grid_member?.should be_true
+            end
         end
         context 'when the Dispatcher is not a member of a Grid' do
-            it 'returns false'
+            it 'returns false' do
+                FactoryGirl.create(:alive_dispatcher).grid_member?.should be_false
+            end
         end
     end
 
