@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 1a18096982c4eec7f4422310acd581564bd2c421
+  revision: e6e436b9d55346b172b0fe2063376735a7f0c355
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: d64d7ddd99b8158eb4cb1abb0a729a3921eb49c8
+  revision: 7d0eeea917f4508e2df8f70b2b4b58ee808b4541
   specs:
     simple_form (3.0.0.beta1)
       actionpack (>= 4.0.0.beta, < 4.1)
@@ -112,7 +112,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.1)
+    coffee-script-source (1.6.2)
     cucumber (1.2.3)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
@@ -138,7 +138,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.1.2)
       i18n (~> 0.5)
-    ffi (1.4.0)
+    ffi (1.5.0)
     gherkin (2.11.6)
       json (>= 1.7.6)
     highline (1.6.16)
@@ -163,7 +163,7 @@ GEM
     mime-types (1.21)
     minitest (4.7.0)
     multi_json (1.7.1)
-    nokogiri (1.5.7)
+    nokogiri (1.5.9)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     pony (1.4)
@@ -190,7 +190,7 @@ GEM
     rdiscount (2.0.7.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    ref (1.0.3)
+    ref (1.0.4)
     rolify (3.2.0)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
