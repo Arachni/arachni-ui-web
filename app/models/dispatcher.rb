@@ -75,10 +75,6 @@ class Dispatcher < ActiveRecord::Base
         order( 'score ASC' ).first
     end
 
-    def subscribers
-        users | [owner]
-    end
-
     def family
         [self]
     end

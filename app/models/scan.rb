@@ -78,10 +78,6 @@ class Scan < ActiveRecord::Base
         limit( limit ).order( "id desc" )
     end
 
-    def subscribers
-        users | [owner]
-    end
-
     def family
         [self]
     end
