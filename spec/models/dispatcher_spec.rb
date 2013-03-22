@@ -138,6 +138,10 @@ describe Dispatcher do
         end
     end
 
+    describe '.describe_notification' do
+        it 'returns a description for the given notification action'
+    end
+
     describe '.preferred' do
         it 'returns the Dispatcher with the lowest workload score' do
             FactoryGirl.create( :dispatcher, score: 3 )
