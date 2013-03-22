@@ -47,7 +47,6 @@ class Scan < ActiveRecord::Base
     validate :validate_instance_count
     validate :validate_description
 
-    before_save :propagate_to_revisions
     before_save :add_owner_to_subscribers
 
     # The manager will start the scans when they are created and monitor and
@@ -593,10 +592,6 @@ class Scan < ActiveRecord::Base
     end
 
     private
-
-    def propagate_to_revisions
-
-    end
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]
