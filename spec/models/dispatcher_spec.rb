@@ -297,14 +297,27 @@ describe Dispatcher do
     end
 
     describe '#subscribers' do
-        it 'returns users which should be notified upon changes'
+        it 'returns users which should be notified upon changes' do
+            users = (0..2).map { FactoryGirl.create( :user ) }
+            FactoryGirl.create( :dispatcher, users: users ).subscribers.should == users
+        end
+
+        it 'should automatically include the owner' do
+            users = (0..2).map { FactoryGirl.create( :user ) }
+            owner = FactoryGirl.create( :user )
+
+            FactoryGirl.create( :dispatcher, owner: owner, users: users ).
+                subscribers.should == users | [owner]
+        end
     end
 
     describe '#statistics' do
         it 'returns statistics and information directly from the Dispatcher server'
 
         context 'when there are no statistics' do
-            it "returns a Hash with a 'node' key (with an empty Hash as value)"
+            it "returns a Hash with a 'node' key (with an empty Hash as value)" do
+                FactoryGirl.create( :dispatcher ).statistics.should == { 'node' => {} }
+            end
         end
     end
 
@@ -341,11 +354,17 @@ describe Dispatcher do
     end
 
     describe '#url' do
-        it 'returns address:port'
+        it 'returns address:port' do
+            d = FactoryGirl.create( :dispatcher )
+            d.url.should == "#{d.address}:#{d.port}"
+            d.url.should == d.client.url
+        end
     end
 
     describe '#client' do
-        it 'returns an RPC client'
+        it 'returns an RPC client' do
+            FactoryGirl.create( :dispatcher ).client.should be_kind_of( Arachni::RPC::Client::Dispatcher )
+        end
     end
 
     describe '#refresh' do
