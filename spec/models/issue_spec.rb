@@ -1,6 +1,50 @@
 require 'spec_helper'
 
 describe Issue do
+
+    before :each do
+        @issue_data = {
+            name: 'Module name',
+            elem: Arachni::Element::LINK,
+            method: 'GET',
+            description: 'Issue description',
+            references: {
+                'Title' => 'http://some/url'
+            },
+            cwe: '1',
+            severity: Arachni::Issue::Severity::HIGH,
+            cvssv2: '4.5',
+            remedy_guidance: 'How to fix the issue.',
+            remedy_code: 'Sample code on how to fix the issue',
+            verification: false,
+            metasploitable: 'exploit/unix/webapp/php_include',
+            opts: { 'some' => 'opts' },
+            mod_name: 'Module name',
+            internal_modname: 'module_name',
+            tags: %w(these are a few tags),
+            var: 'input name',
+            url: 'http://test.com/stuff/test.blah?query=blah',
+            headers: {
+                request: {
+                    'User-Agent' => 'UA/v1'
+                },
+                response: {
+                    'Set-Cookie' => 'name=value'
+                }
+            },
+            remarks: {
+                the_dude: ['Hey!']
+            },
+            response: 'HTML response',
+            injected: 'injected string',
+            id: 'This string was used to identify the vulnerability',
+            regexp: /some regexp/,
+            regexp_match: "string matched by '/some regexp/'"
+        }
+
+        @issue = Arachni::Issue.new( @issue_data.deep_clone )
+    end
+
     describe :factory do
         describe :issue do
             it 'creates a valid model' do
@@ -171,44 +215,57 @@ describe Issue do
     end
 
     describe '#url' do
-        it 'returns the URL'
+        it 'returns the URL' do
+            FactoryGirl.create( :issue ).url.should_not be_empty
+        end
         context 'when the URL is empty' do
-            it 'returns nil'
+            it 'returns nil' do
+                FactoryGirl.create( :issue, url: '' ).url.should be_nil
+            end
         end
     end
 
     describe '#seed' do
-        it 'returns the seed'
+        it 'returns the seed' do
+            FactoryGirl.create( :issue ).seed.should_not be_empty
+        end
         context 'when the seed is empty' do
-            it 'returns nil'
+            it 'returns nil' do
+                FactoryGirl.create( :issue, seed: '' ).seed.should be_nil
+            end
         end
     end
 
     describe '#proof' do
-        it 'returns the proof'
+        it 'returns the proof' do
+            FactoryGirl.create( :issue ).proof.should_not be_empty
+        end
         context 'when the proof is empty' do
-            it 'returns nil'
+            it 'returns nil' do
+                FactoryGirl.create( :issue, proof: '' ).proof.should be_nil
+            end
         end
     end
 
     describe '#response_body' do
-        it 'returns the response_body'
+        it 'returns the response_body' do
+            FactoryGirl.create( :issue ).response_body.should_not be_empty
+        end
         context 'when the response_body is empty' do
-            it 'returns nil'
+            it 'returns nil' do
+                FactoryGirl.create( :issue, response_body: '' ).response_body.should be_nil
+            end
         end
     end
 
     describe '#signature' do
-        it 'returns the signature'
-        context 'when the signature is empty' do
-            it 'returns nil'
+        it 'returns the signature' do
+            FactoryGirl.create( :issue ).signature.should_not be_empty
         end
-    end
-
-    describe '#signature' do
-        it 'returns the signature'
         context 'when the signature is empty' do
-            it 'returns nil'
+            it 'returns nil' do
+                FactoryGirl.create( :issue, signature: '' ).signature.should be_nil
+            end
         end
     end
 
@@ -279,15 +336,50 @@ describe Issue do
     end
 
     describe '#base64_response_body' do
-        it 'returns the response body in Base64 encoding'
+        it 'returns the response body in Base64 encoding' do
+            i = FactoryGirl.create( :issue )
+            Base64.decode64( i.base64_response_body ).should == i.response_body
+        end
     end
 
     describe '#to_s' do
-        it 'returns a string representation of the issue'
+        it 'contains the issue name' do
+            i = FactoryGirl.create( :issue )
+            i.to_s.should include( i.name )
+        end
+        it 'contains the capitalized vector type' do
+            i = FactoryGirl.create( :issue )
+            i.to_s.should include( i.vector_type.capitalize )
+        end
+
+        context 'when there is a vector name' do
+            it 'contains the vector name' do
+                i = FactoryGirl.create( :issue )
+                i.to_s.should include( i.vector_name )
+            end
+        end
+
+        context 'when there is novector name' do
+            it 'does not contain the vector name' do
+                i = FactoryGirl.create( :issue, vector_name: '' )
+                i.to_s.should include( i.vector_name )
+            end
+        end
+
     end
 
     describe '#cwe_url' do
-        it 'returns the CWE URL'
+        context 'when there is a CWE identifier' do
+            it 'returns the CWE URL' do
+                FactoryGirl.create( :issue ).cwe_url.should_not be_empty
+            end
+        end
+
+        context 'when there is no CWE identifier' do
+            it 'returns nil' do
+                FactoryGirl.create( :issue, cwe: nil ).cwe_url.should be_nil
+            end
+        end
     end
 
     describe '#subscribers' do
@@ -303,14 +395,94 @@ describe Issue do
     end
 
     describe '.create_from_framework_issue' do
-        it 'creates an Issue model from an Arachni::Issue'
+        it 'creates an Issue model from an Arachni::Issue' do
+            i = Issue.create_from_framework_issue( @issue )
+
+            i.name.should == @issue.name
+            i.url.should == @issue.url
+            i.vector_name.should == @issue.var
+            i.vector_type.should == @issue.elem
+            i.cvssv2.to_s.should == @issue.cvssv2
+            i.cwe.should == @issue.cwe.to_i
+            i.description.should == @issue.description
+            i.http_method.should == @issue.method
+            i.tags.should == @issue.tags
+            i.headers.should == @issue.headers
+            i.references.should == @issue.references
+            i.remedy_code.should == @issue.remedy_code
+            i.remedy_guidance.should == @issue.remedy_guidance
+            i.remarks.should == @issue.remarks
+            i.severity.should == @issue.severity
+            i.digest.should == @issue.digest
+        end
     end
 
     describe '.update_from_framework_issue' do
-        it 'updates an Issue model from an Arachni::Issue'
+        it 'updates an Issue model from an Arachni::Issue' do
+            i = Issue.create_from_framework_issue( @issue )
+
+            i.name.should == @issue.name
+            i.url.should == @issue.url
+            i.vector_name.should == @issue.var
+            i.vector_type.should == @issue.elem
+            i.cvssv2.to_s.should == @issue.cvssv2
+            i.cwe.should == @issue.cwe.to_i
+            i.description.should == @issue.description
+            i.http_method.should == @issue.method
+            i.tags.should == @issue.tags
+            i.headers.should == @issue.headers
+            i.references.should == @issue.references
+            i.remedy_code.should == @issue.remedy_code
+            i.remedy_guidance.should == @issue.remedy_guidance
+            i.remarks.should == @issue.remarks
+            i.severity.should == @issue.severity
+            i.digest.should == @issue.digest
+
+            updated_name = 'Updated name'
+            @issue.name = updated_name
+
+            Issue.update_from_framework_issue( @issue )
+            i.reload
+
+            i.name.should == updated_name
+            i.url.should == @issue.url
+            i.vector_name.should == @issue.var
+            i.vector_type.should == @issue.elem
+            i.cvssv2.to_s.should == @issue.cvssv2
+            i.cwe.should == @issue.cwe.to_i
+            i.description.should == @issue.description
+            i.http_method.should == @issue.method
+            i.tags.should == @issue.tags
+            i.headers.should == @issue.headers
+            i.references.should == @issue.references
+            i.remedy_code.should == @issue.remedy_code
+            i.remedy_guidance.should == @issue.remedy_guidance
+            i.remarks.should == @issue.remarks
+            i.severity.should == @issue.severity
+            i.digest.should == @issue.digest
+        end
     end
 
     describe '.translate_framework_issue' do
-        it 'translates an Arachni::Issue to an Issue model'
+        it 'translates an Arachni::Issue to a hash suitable for an Issue model' do
+            i = Issue.create( Issue.translate_framework_issue( @issue ) )
+
+            i.name.should == @issue.name
+            i.url.should == @issue.url
+            i.vector_name.should == @issue.var
+            i.vector_type.should == @issue.elem
+            i.cvssv2.to_s.should == @issue.cvssv2
+            i.cwe.should == @issue.cwe.to_i
+            i.description.should == @issue.description
+            i.http_method.should == @issue.method
+            i.tags.should == @issue.tags
+            i.headers.should == @issue.headers
+            i.references.should == @issue.references
+            i.remedy_code.should == @issue.remedy_code
+            i.remedy_guidance.should == @issue.remedy_guidance
+            i.remarks.should == @issue.remarks
+            i.severity.should == @issue.severity
+            i.digest.should == @issue.digest
+        end
     end
 end
