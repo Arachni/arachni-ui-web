@@ -2,21 +2,34 @@ require 'spec_helper'
 
 describe Comment do
 
-    it 'should have a valid factory' do
-        FactoryGirl.create(:comment).should be_valid
+    describe :factory do
+        describe :comment do
+            it 'creates a valid model' do
+                FactoryGirl.create(:comment).should be_valid
+            end
+        end
     end
 
-    describe 'validation' do
-        it 'is invalid without :text' do
-            FactoryGirl.build( :comment, text: nil ).should be_invalid
-        end
+    describe :validation do
+        describe :text do
+            context 'when nil' do
+                it 'is invalid' do
+                    FactoryGirl.build( :comment, text: nil ).should be_invalid
+                end
+            end
 
-        it 'is invalid with empty :text' do
-            FactoryGirl.build( :comment, text: '' ).should be_invalid
-        end
+            context 'when empty' do
+                it 'is invalid' do
+                    FactoryGirl.build( :comment, text: '' ).should be_invalid
+                end
+            end
 
-        it 'is invalid with HTML in :text' do
-            FactoryGirl.build( :comment, text: '<em>Stuff...<em>' ).should be_invalid
+            context 'when it contains HTML' do
+                it 'is invalid' do
+                    FactoryGirl.build( :comment, text: '<em>Stuff...<em>' ).
+                        should be_invalid
+                end
+            end
         end
     end
 
