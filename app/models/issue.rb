@@ -22,6 +22,9 @@ class Issue < ActiveRecord::Base
     has_many :comments, as: :commentable, dependent: :destroy
 
     validate :validate_review_options
+    validate :validate_verification_steps
+    validate :validate_remediation_steps
+
     validates_uniqueness_of :digest, scope: :scan_id
 
     # These can contain lots of junk characters which may blow up the SQL
@@ -243,6 +246,16 @@ class Issue < ActiveRecord::Base
         if false_positive && (requires_verification || verified)
             errors.add :false_positive, 'cannot include additional options'
         end
+    end
+
+    def validate_verification_steps
+        return if ActionController::Base.helpers.strip_tags( verification_steps ) == verification_steps
+        errors.add :verification_steps, 'cannot contain HTML, please use Markdown instead'
+    end
+
+    def validate_remediation_steps
+        return if ActionController::Base.helpers.strip_tags( remediation_steps ) == remediation_steps
+        errors.add :remediation_steps, 'cannot contain HTML, please use Markdown instead'
     end
 
 end
