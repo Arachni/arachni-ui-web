@@ -16,41 +16,17 @@
 
 class Notification < ActiveRecord::Base
     belongs_to :user
+    belongs_to :actor, class_name: 'User', foreign_key: :actor_id
+
+    scope :read,   -> { where read: true }
+    scope :unread, -> { where read: false }
 
     def self.mark_read
-        update_all( { read: true }, { read: false } )
-    end
-
-    def self.unread
-        where( read: false )
-    end
-
-    def read?
-        read
+        update_all read: true
     end
 
     def unread?
         !read?
-    end
-
-    def user=( u )
-        return if !u
-        self.user_id = u.id
-    end
-
-    def user
-        return if !user_id
-        User.find( user_id )
-    end
-
-    def actor=( u )
-        return if !u
-        self.actor_id = u.id
-    end
-
-    def actor
-        return if !actor_id
-        User.find( actor_id )
     end
 
     def model=( m )
