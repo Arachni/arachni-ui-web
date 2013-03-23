@@ -161,8 +161,7 @@ class Issue < ActiveRecord::Base
     def to_s
         s = "#{name} in #{vector_type.capitalize}"
         s << " input '#{vector_name}'" if vector_name
-        s << ""
-        s.html_safe
+        s
     end
 
     def cwe_url

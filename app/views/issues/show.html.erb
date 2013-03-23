@@ -1,4 +1,4 @@
-<% title @issue %>
+<% title @issue.to_s.html_safe %>
 
 <% breadcrumb_add 'Scans', @issue.scan %>
 <% breadcrumb_add @issue.scan, @issue.scan %>
