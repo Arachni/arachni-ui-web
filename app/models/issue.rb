@@ -93,8 +93,8 @@ class Issue < ActiveRecord::Base
         end
         ret << " END"
     end
-    scope :by_severity, order: order_by_severity
-    default_scope by_severity
+    scope :by_severity, -> { order order_by_severity }
+    default_scope { by_severity }
 
     def timeline
         Notification.where( model_id: id, model_type: self.class.to_s,
