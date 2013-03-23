@@ -72,35 +72,93 @@ describe Issue do
 
     describe :validation do
         it 'has a unique digest per Scan'
+
+        describe :verification_steps do
+            it 'should be invalid with HTML markup' do
+                FactoryGirl.build( :issue, verification_steps: '<em>stuff</em>' ).should be_invalid
+            end
+            it 'should be valid without HTML markup' do
+                FactoryGirl.build( :issue, verification_steps: 'stuff' ).should be_valid
+            end
+        end
+        describe :remediation_steps do
+            it 'should be invalid with HTML markup' do
+                FactoryGirl.build( :issue, remediation_steps: '<em>stuff</em>' ).should be_invalid
+            end
+            it 'should be valid without HTML markup' do
+                FactoryGirl.build( :issue, remediation_steps: 'stuff' ).should be_valid
+            end
+        end
     end
 
     describe :scope do
         describe :default do
-            it 'returns issues sorted by severity level'
+            it 'returns issues sorted by severity level' do
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::HIGH )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::INFORMATIONAL )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::LOW )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::MEDIUM )
+
+                Issue.all.pluck( :severity ).should == Issue::ORDERED_SEVERITIES
+            end
         end
 
         describe :by_severity do
-            it 'returns issues sorted by severity level'
+            it 'returns issues sorted by severity level' do
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::HIGH )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::INFORMATIONAL )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::LOW )
+                FactoryGirl.create( :issue, severity: Arachni::Issue::Severity::MEDIUM )
+
+                Issue.all.pluck( :severity ).should == Issue::ORDERED_SEVERITIES
+            end
         end
 
         describe :fixed do
-            it 'returns issues marked as fixed'
+            it 'returns issues marked as fixed' do
+                3.times { FactoryGirl.create( :issue ) }
+                fixed = (0..2).map { FactoryGirl.create( :issue, fixed: true ) }
+
+                Issue.fixed.should =~ fixed
+            end
         end
 
         describe :light do
-            it 'returns issues without response bodies nor references'
+            it 'returns issues without response_body nor references' do
+                FactoryGirl.create( :issue )
+                i = Issue.light.first
+
+                i.attributes.keys.should_not include( *%w(response_body references) )
+            end
         end
 
         describe :false_positives do
-            it 'returns issues marked as false positives'
+            it 'returns issues marked as false positives' do
+                3.times { FactoryGirl.create( :issue ) }
+                false_positives = (0..2).map { FactoryGirl.create( :issue, false_positive: true ) }
+
+                Issue.false_positives.should =~ false_positives
+            end
         end
 
         describe :verified do
-            it 'returns issues marked as verified'
+            it 'returns issues which require verification and have verified' do
+                3.times { FactoryGirl.create( :issue ) }
+                3.times { FactoryGirl.create( :issue_requiring_verification ) }
+                verified = (0..2).map { FactoryGirl.create( :issue_requiring_verification,
+                                                            verified: true ) }
+
+                Issue.verified.should =~ verified
+            end
         end
 
         describe :pending_verification do
-            it 'returns issues which are pending verification   '
+            it 'returns issues which are pending verification' do
+                3.times { FactoryGirl.create( :issue ) }
+                pending = (0..2).map { FactoryGirl.create( :issue_requiring_verification ) }
+
+                Issue.pending_verification.should =~ pending
+            end
         end
     end
 
