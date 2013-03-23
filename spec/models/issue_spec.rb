@@ -206,10 +206,6 @@ describe Issue do
         end
     end
 
-    describe '.describe_notification' do
-        it 'returns a description for the given notification action'
-    end
-
     describe '#timeline' do
         it 'returns a timeline of notifications for the issue'
     end
@@ -272,42 +268,128 @@ describe Issue do
     describe '#verified?' do
         context 'when the issue has been verified' do
             context 'and is not a false positive' do
-                it 'returns true'
+                it 'returns true' do
+                    FactoryGirl.create( :issue,
+                                        verified:       true,
+                                        false_positive: false ).
+                        verified?.should be_true
+                end
             end
+
+            context 'and is a false positive' do
+                it 'should be invalid' do
+                    FactoryGirl.build( :issue,
+                                        verified:       true,
+                                        false_positive: true ).should be_invalid
+                end
+            end
+        end
+
+        it 'returns false' do
+            FactoryGirl.create( :issue ).verified?.should be_false
         end
     end
 
     describe '#pending_verification?' do
+        it 'returns false' do
+            FactoryGirl.create( :issue ).pending_verification?.should be_false
+        end
+
         context 'when the issue needs manual verification' do
             context 'and is not verified' do
                 context 'and is not a false positive' do
                     context 'and is not fixed' do
-                        it 'returns true'
+                        it 'returns true' do
+                            FactoryGirl.create( :issue_requiring_verification,
+                                                verified:       false,
+                                                false_positive: false,
+                                                fixed:          false ).
+                                pending_verification?.should be_true
+                        end
                     end
+
+                    context 'and is fixed' do
+                        it 'returns false' do
+                            FactoryGirl.build( :issue_requiring_verification,
+                                               fixed: true ).
+                                pending_verification?.should be_false
+                        end
+                    end
+                end
+
+                context 'and is a false positive' do
+                    it 'returns false' do
+                        FactoryGirl.build( :issue_requiring_verification,
+                                            false_positive: true ).should be_invalid
+                    end
+                end
+            end
+
+            context 'and is verified' do
+                it 'returns false' do
+                    FactoryGirl.create( :issue_requiring_verification,
+                                        verified: true ).
+                        pending_verification?.should be_false
                 end
             end
         end
     end
 
     describe '#pending_review?' do
-        context 'when the issue needs manual verification' do
+        context 'when the issue does not need manual verification' do
             context 'and is not verified' do
                 context 'and is not a false positive' do
-                    context 'and does not require verification' do
-                        context 'and is not fixed' do
-                            it 'returns true'
+                    context 'and is not fixed' do
+                        it 'returns true' do
+                            FactoryGirl.create( :issue,
+                                                requires_verification: false,
+                                                verified:              false,
+                                                false_positive:        false,
+                                                fixed:                 false ).
+                                pending_review?.should be_true
                         end
                     end
                 end
             end
         end
+
+        context 'when the issue needs manual verification' do
+            it 'returns false' do
+                FactoryGirl.create( :issue_requiring_verification ).
+                    pending_review?.should be_false
+            end
+        end
+
+        context 'when the issue is verified' do
+            it 'returns false' do
+                FactoryGirl.create( :issue_verified ).pending_review?.should be_false
+            end
+        end
+
+        context 'when the issue is a false positive' do
+            it 'returns false' do
+                FactoryGirl.create( :issue_false_positive ).pending_review?.should be_false
+            end
+        end
+
+        context 'when the issue is fixed' do
+            it 'returns false' do
+                FactoryGirl.create( :issue_fixed ).pending_review?.should be_false
+            end
+        end
+
     end
 
     describe '#requires_verification_and_verified?' do
         context 'when the issue needs manual verification' do
             context 'and is verified' do
                 context 'and is not a false positive' do
-                    it 'returns true'
+                    it 'returns true' do
+                        FactoryGirl.create( :issue_requiring_verification,
+                                            verified:       true,
+                                            false_positive: false ).
+                            requires_verification_and_verified?.should be_true
+                    end
                 end
             end
         end
@@ -315,13 +397,33 @@ describe Issue do
 
     describe '#has_verification_steps?' do
         context 'when the issue has verification steps' do
-            it 'should return true'
+            it 'returns true' do
+                FactoryGirl.create( :issue_with_verification_steps ).
+                    has_verification_steps?.should be_true
+            end
+        end
+
+        context 'when the issue does not have verification steps' do
+            it 'returns false' do
+                FactoryGirl.create( :issue, verification_steps: nil ).
+                    has_verification_steps?.should be_false
+            end
         end
     end
 
     describe '#has_remediation_steps?' do
         context 'when the issue has remediation steps' do
-            it 'should return true'
+            it 'returns true' do
+                FactoryGirl.create( :issue_with_remediation_steps ).
+                    has_remediation_steps?.should be_true
+            end
+        end
+
+        context 'when the issue does not have remediation steps' do
+            it 'returns false' do
+                FactoryGirl.create( :issue, remediation_steps: nil ).
+                    has_remediation_steps?.should be_false
+            end
         end
     end
 
@@ -329,8 +431,39 @@ describe Issue do
         context 'when the issue has a proof' do
             context 'and a response_body' do
                 context 'and the response_body contains the proof' do
-                    it 'returns true'
+                    it 'returns true' do
+                        FactoryGirl.create( :issue,
+                                            response_body: 'stuff here!',
+                                            proof: 'stuff' ).
+                            response_body_contains_proof?.should be_true
+                    end
                 end
+                context 'and the response_body does not contain the proof' do
+                    it 'returns true' do
+                        FactoryGirl.create( :issue,
+                                            response_body: 'stuff here!',
+                                            proof: 'stufff' ).
+                            response_body_contains_proof?.should be_false
+                    end
+                end
+            end
+        end
+
+        context 'when the issue has no response body' do
+            it 'returns false' do
+                FactoryGirl.create( :issue,
+                                    response_body: nil,
+                                    proof: 'stuff' ).
+                    response_body_contains_proof?.should be_false
+            end
+        end
+
+        context 'when the issue has no proof' do
+            it 'returns false' do
+                FactoryGirl.create( :issue,
+                                    response_body: 'stuff here!',
+                                    proof: nil ).
+                    response_body_contains_proof?.should be_false
             end
         end
     end
@@ -391,7 +524,23 @@ describe Issue do
     end
 
     describe '.describe_notification' do
-        it 'returns a description for the given notification action'
+        context 'when action is' do
+            [ :destroy, :update, :reviewed, :verified, :fixed, :false_positive,
+                :requires_verification, :verification_steps, :remediation_steps,
+                :commented ].each do |action|
+                describe action do
+                    it "returns a description for the #{action} action" do
+                        Issue.describe_notification( action ).should_not be_empty
+                    end
+                end
+            end
+        end
+
+        context 'when action is unknown' do
+            it 'returns nil' do
+                Issue.describe_notification( :blahblahblah ).should be_nil
+            end
+        end
     end
 
     describe '.create_from_framework_issue' do

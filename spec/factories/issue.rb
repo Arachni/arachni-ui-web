@@ -36,7 +36,7 @@ FactoryGirl.define do
         remedy_code { Faker::Lorem.paragraph }
         remedy_guidance { Faker::Lorem.paragraph }
         severity { Issue::ORDERED_SEVERITIES.sample }
-        digest { Digest::SHA2.hexdigest rand( 9999 ).to_s }
+        digest { Digest::SHA2.hexdigest rand( 999999 ).to_s }
     end
 
     factory :issue_requiring_verification, parent: :issue do
