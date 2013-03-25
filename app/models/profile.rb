@@ -28,13 +28,16 @@ class Profile < ActiveRecord::Base
     validates_presence_of   :description
 
     validate :validate_description
-    validate :validate_modules
     validate :validate_plugins
     validate :validate_plugin_options
     validate :validate_redundant
     validate :validate_cookies
     validate :validate_custom_headers
     validate :validate_login_check
+
+    # #modules= will ignore any any modules which have not specifically been
+    # authorized so this is not strictly required.
+    validate :validate_modules
 
     serialize :cookies,         Hash
     serialize :custom_headers,  Hash
@@ -275,8 +278,8 @@ class Profile < ActiveRecord::Base
 
     def validate_redundant
         redundant.each do |pattern, counter|
-            next if !(counter.to_s =~ /[^\d]+/)
-            errors.add :redundant, "rule '#{pattern}' needs an integer counter"
+            next if counter.to_i > 0
+            errors.add :redundant, "rule '#{pattern}' needs an integer counter greater than 0"
         end
     end
 
@@ -295,10 +298,10 @@ class Profile < ActiveRecord::Base
     def validate_login_check
         return if login_check_url.to_s.empty? && login_check_pattern.to_s.empty?
         if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
-            errors.add :login_check_url, "not a valid absolute URL"
+            errors.add :login_check_url, 'not a valid absolute URL'
         end
 
-        errors.add :login_check_pattern, "cannot be blank" if login_check_pattern.empty?
+        errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
     end
 
     def validate_modules
@@ -318,8 +321,11 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_plugin_options
+        available = ::FrameworkHelper.plugins.keys.map( &:to_s )
         ::FrameworkHelper.framework do |f|
             plugins.each do |plugin, options|
+                next if !available.include? plugin.to_s
+
                 begin
                     f.plugins.prep_opts( plugin, f.plugins[plugin], options )
                 rescue Arachni::Component::Options::Error::Invalid => e

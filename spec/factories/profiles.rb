@@ -1,12 +1,15 @@
 FactoryGirl.define do
     factory :profile do
-        name        'Test Profile'
-        description 'Test profile description...'
+        name        { Faker::Lorem.sentence }
+        description { Faker::Lorem.paragraph }
+        association :owner, factory: :user
     end
 
-    factory :default_profile, class: Profile do
-        name        'Default Profile'
-        description 'Default profile description...'
-        default      true
+    factory :profile_default, parent: :profile do
+        default true
+    end
+
+    factory :profile_global, parent: :profile do
+        global true
     end
 end
