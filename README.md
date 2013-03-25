@@ -2,10 +2,15 @@
 
 This is the new Web User Interface for [Arachni](https://github.com/Arachni/arachni).
 
-The interface is under development so depending on when you read this it may just
-be a mockup, partially or not at all working.
+The interface is under development so there can be bugs that haven't been fixed
+yet or stability issues.
 
-(This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem provided by the [RailsApps Project](http://railsapps.github.com/).)
+For self-contained, nightly snapshot packages take a look at:
+http://downloads.arachni-scanner.com/nightlies/
+
+(This application was generated with the
+[rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
+provided by the [RailsApps Project](http://railsapps.github.com/).)
 
 ## Features
 
