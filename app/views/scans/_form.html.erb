@@ -59,7 +59,7 @@
 
         <div class="<%= span %>">
             <% if User.count > 1 %>
-                <%= f.association :users, label: false, prompt: 'Share with:',
+                <%= f.association :users, label: 'Share with:',
                     collection: User.all - [current_user] %>
             <% end %>
         </div>
