@@ -69,7 +69,7 @@
                 <th>Neighbours</th>
             <% end %>
 
-            <th>
+            <th class="hidden-phone">
                 Desired pool size
 
                 <a href="#" rel="tooltip" data-placement="bottom"
@@ -78,7 +78,7 @@
                     <i class="icon-info-sign"></i>
                 </a>
             </th>
-            <th>
+            <th class="hidden-phone">
                 Current pool size
 
                 <a href="#" rel="tooltip" data-placement="bottom"
@@ -86,7 +86,7 @@
                     <i class="icon-info-sign"></i>
                 </a>
             </th>
-            <th>
+            <th class="hidden-phone">
                 Consumed PIDs
 
                 <a href="#" rel="tooltip" data-placement="bottom"
@@ -110,9 +110,9 @@
                 </td>
             <% end %>
 
-            <td><%= @dispatcher.statistics['init_pool_size'] %></td>
-            <td><%= @dispatcher.statistics['curr_pool_size'] %></td>
-            <td><%= @dispatcher.consumed_pids.join( ', ' ) %></td>
+            <td class="hidden-phone"><%= @dispatcher.statistics['init_pool_size'] %></td>
+            <td class="hidden-phone"><%= @dispatcher.statistics['curr_pool_size'] %></td>
+            <td class="hidden-phone"><%= @dispatcher.consumed_pids.join( ', ' ) %></td>
         </tr>
     </table>
 </div>

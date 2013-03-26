@@ -3,7 +3,7 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>PID</th>
+            <th class="hidden-phone">PID</th>
             <th>URL</th>
             <th>Owner</th>
             <th>Dispatched at</th>
@@ -14,7 +14,7 @@
 
         <% if scan && can?( :red, scan ) %>
             <tr>
-                <td><%= job['pid'] %></td>
+                <td class="hidden-phone"><%= job['pid'] %></td>
 
                 <td>
                     <%= link_to job['url'], scan %>
