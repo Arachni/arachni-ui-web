@@ -134,10 +134,10 @@
                 </th>
             <% end %>
 
-            <th>
+            <th class="hidden-phone">
                 Last update
             </th>
-            <th>
+            <th class="hidden-phone">
                 Created at
             </th>
         </tr>
@@ -172,8 +172,8 @@
                     </td>
                 <% end %>
 
-                <td><%= l profile.updated_at %></td>
-                <td><%= l profile.created_at %></td>
+                <td class="hidden-phone"><%= l profile.updated_at %></td>
+                <td class="hidden-phone"><%= l profile.created_at %></td>
                 <td>
                     <% if can? :read, profile %>
                         <%= link_to profile, title: 'Show', class: 'btn btn-small btn-info' do %>
