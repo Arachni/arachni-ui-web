@@ -46,7 +46,7 @@
             <% span = 'span3' %>
 
             <div class="span3">
-                <%= f.association :scan_groups, label: false, prompt: 'Place in groups:',
+                <%= f.association :scan_groups, label: 'Place in groups:',
                                   collection: current_user.scan_groups,
                                   label_method: lambda { |grp|
                                       s  = "#{grp.name}"
