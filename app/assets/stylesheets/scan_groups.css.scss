@@ -36,6 +36,10 @@ ul#scan-group-tabs li {
 }
 
 #scan-groups-sidebar {
+    blockquote p {
+        font-size: inherit;
+    }
+
     ul {
         padding: 0;
     }
