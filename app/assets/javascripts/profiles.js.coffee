@@ -28,9 +28,9 @@ jQuery ->
     $('#profiles input#search').keyup ->
         searchModules $(this).val()
 
-    $('#profiles button.check').toggle ->
-        $('.profile-modules input:visible:checkbox').attr('checked','checked');
-        $(this).html('Uncheck all');
-    , ->
-        $('.profile-modules input:visible:checkbox').removeAttr('checked');
-        $(this).html('Check all');
+    $('#profiles button.check').click ->
+        $('.profile-modules input:visible:checkbox').attr('checked','checked')
+        false
+    $('#profiles button.uncheck').click ->
+        $('.profile-modules input:visible:checkbox').removeAttr('checked')
+        false
