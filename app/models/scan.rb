@@ -450,7 +450,7 @@ class Scan < ActiveRecord::Base
 
                         if revision?
                             previous_issues = Issue.
-                                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+                                where( scan_id: previous_revisions_with_root.pluck( :id ), fixed: false )
 
                             if issue_digests.any?
                                 previous_issues = previous_issues.
