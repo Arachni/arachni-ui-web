@@ -450,8 +450,12 @@ class Scan < ActiveRecord::Base
 
                         if revision?
                             previous_issues = Issue.
-                                where( scan_id: previous_revisions_with_root.pluck( :id ), fixed: false ).
-                                where( 'digest NOT IN (?)', issue_digests )
+                                where( scan_id: previous_revisions_with_root.pluck( :id ) )
+
+                            if issue_digests.any?
+                                previous_issues = previous_issues.
+                                    where( 'digest NOT IN (?)', issue_digests )
+                            end
 
                             previous_issues.each do |i|
                                 i.notify action: :fixed,
