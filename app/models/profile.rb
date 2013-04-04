@@ -137,6 +137,11 @@ class Profile < ActiveRecord::Base
         super & Settings.profile_allowed_modules
     end
 
+    def plugins
+        # Only allow authorized plugins.
+        super.select { |k, _| Settings.profile_allowed_plugins.include? k }
+    end
+
     def html_description
         ApplicationHelper.m description
     end
@@ -196,11 +201,14 @@ class Profile < ActiveRecord::Base
     end
 
     def plugins=( p )
+        # Only allow authorized plugins.
+
         if p == :default
             c = ::FrameworkHelper.default_plugins.keys.inject( {} ) { |h, name| h[name] = {}; h }
             return super c
         end
-        super p
+
+        super p.select { |k, _| Settings.profile_allowed_plugins.include? k }
     end
 
     def modules_with_info

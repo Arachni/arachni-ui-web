@@ -1,10 +1,11 @@
 <% is_selected = selected.include?( shortname ) %>
 
-<p class="module">
-    <input id="setting_module_<%= shortname %>" name="setting[profile_allowed_modules][]"
+<p class="<%= type %>">
+    <input id="setting_<%= type %>_<%= shortname %>"
+           name="setting[profile_allowed_<%= type %>s][]"
        <%= 'checked' if is_selected %> type="checkbox" value="<%= shortname %>">
 
-    <label for="setting_module_<%= shortname %>">
+    <label for="setting_<%= type %>_<%= shortname %>">
 
         <%= '<strong>'.html_safe if is_selected %>
         <%= info[:name] %> <em>(<%= shortname %>)</em>

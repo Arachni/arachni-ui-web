@@ -22,6 +22,11 @@ module ProfilesHelper
         super.select { |name, _| allowed.include? name }
     end
 
+    def plugins
+        allowed = Settings.profile_allowed_plugins.reject { |m| m.to_s.empty?}
+        super.select { |name, _| allowed.include? name }
+    end
+
     def messages_for( attribute )
         render partial: 'attribute_messages', locals: { attribute: attribute }
     end

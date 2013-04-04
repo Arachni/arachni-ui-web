@@ -93,9 +93,10 @@
                         <% FrameworkHelper.modules.
                                    select { |n, i| i[:path].include?( '/modules/audit' ) }.
                                    each do |shortname, info| %>
-                            <%= render partial: 'module_list', locals: {
+                            <%= render partial: 'component_list', locals: {
                                     selected:  @setting.profile_allowed_modules,
                                     shortname: shortname,
+                                    type:      :module,
                                     info:      info
                             } %>
                         <% end %>
@@ -109,9 +110,10 @@
                         <% FrameworkHelper.modules.
                                    select { |n, i| i[:path].include?( '/modules/recon' ) }.
                                    each do |shortname, info| %>
-                            <%= render partial: 'module_list', locals: {
+                            <%= render partial: 'component_list', locals: {
                                     selected:  @setting.profile_allowed_modules,
                                     shortname: shortname,
+                                    type:      :module,
                                     info:      info
                             } %>
                         <% end %>
@@ -120,10 +122,49 @@
 
                 <input name="setting[profile_allowed_modules][]"
                        type="hidden" checked="checked">
-
             </div>
-        </div>
 
+            <h2>
+                Profiles
+                <small> Assisting components to be enabled during the process.</small>
+            </h2>
+
+            <div class="row-fluid">
+                <%
+                   lk, rk = *FrameworkHelper.plugins.keys.chunk( 2 )
+
+                   lm = FrameworkHelper.plugins.slice( *lk )
+                   rm = FrameworkHelper.plugins.slice( *rk )
+                %>
+
+                <div class="span6">
+                    <div class="plugins">
+                        <% lm.each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_plugins,
+                                    shortname: shortname,
+                                    type:      :plugin,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <div class="plugins">
+                        <% rm.each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_plugins,
+                                    shortname: shortname,
+                                    type:      :plugin,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div class="form-actions">

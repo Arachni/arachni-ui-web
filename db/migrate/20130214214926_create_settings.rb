@@ -9,6 +9,7 @@ class CreateSettings < ActiveRecord::Migration
       t.text :scan_allowed_types
 
       t.text :profile_allowed_modules
+      t.text :profile_allowed_plugins
 
       t.timestamps
     end
