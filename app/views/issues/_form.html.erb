@@ -1,7 +1,7 @@
 <%= simple_form_for( [@issue.scan, @issue] ) do |f| %>
     <%= f.error_notification %>
 
-    <h2>State</h2>
+    <h3>State</h3>
 
     <div class="form-inputs">
         <div class="row-fluid">
@@ -50,10 +50,10 @@
 
         <hr/>
 
-        <h2>Remediation</h2>
+        <h3>Remediation</h3>
 
         <% if !@issue.remedy_guidance.to_s.empty? %>
-            <h3>Guidance</h3>
+            <h4>Guidance</h4>
 
             <blockquote>
                 <%= @issue.remedy_guidance %>
@@ -61,7 +61,7 @@
         <% end %>
 
         <% if !@issue.remedy_code.to_s.empty? %>
-            <h3>Sample code</h3>
+            <h4>Sample code</h4>
             <code><%= @issue.remedy_code %></code>
         <% end %>
 
