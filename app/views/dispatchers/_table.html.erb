@@ -128,12 +128,27 @@
             <% end %>
 
             <th>URL</th>
-            <th>Workload score</th>
+            <th>
+                Workload score
+
+                <a href="#" rel="tooltip" data-placement="bottom"
+                   title="Signifies the Dispatcher's scan workload.">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </th>
 
             <% if treat_as_alive %>
                 <th>Alive Instances</th>
                 <th>Name</th>
-                <th>Pipe-ID</th>
+                <th>
+                    Pipe-ID
+
+                    <a href="#" rel="tooltip" data-placement="bottom"
+                       title="Identification for the bandwidth pipe to which
+                   the Dispatcher is connected.">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                </th>
                 <th>Grid member?</th>
             <% end %>
 
