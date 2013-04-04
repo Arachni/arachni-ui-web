@@ -16,7 +16,21 @@
    )
 
    not_available = '<p class="alert alert-info">Not available</p>'.html_safe
+
 %>
+
+<% if @issue.references.any? %>
+    <% add_to_affixed_sidebar do %>
+        <h3>References</h3>
+        <div id="references">
+            <ul>
+                <% @issue.references.each do |k, v| %>
+                <li><%= link_to k, v %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+<% end %>
 
 <div id="issues">
     <div class="page-header">

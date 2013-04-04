@@ -1,6 +1,8 @@
 <%= simple_form_for( [@issue.scan, @issue] ) do |f| %>
     <%= f.error_notification %>
 
+    <h2>State</h2>
+
     <div class="form-inputs">
         <div class="row-fluid">
             <div class="span6">
@@ -46,9 +48,26 @@
                             'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
         </div>
 
+        <hr/>
+
+        <h2>Remediation</h2>
+
+        <% if !@issue.remedy_guidance.to_s.empty? %>
+            <h3>Guidance</h3>
+
+            <blockquote>
+                <%= @issue.remedy_guidance %>
+            </blockquote>
+        <% end %>
+
+        <% if !@issue.remedy_code.to_s.empty? %>
+            <h3>Sample code</h3>
+            <code><%= @issue.remedy_code %></code>
+        <% end %>
+
         <div class="row-fluid">
             <div class="span12">
-                <%= f.input :remediation_steps,
+                <%= f.input :remediation_steps, label: 'Steps',
                             hint: '(You can use <a href="http://daringfireball.net/' +
                               'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
 
