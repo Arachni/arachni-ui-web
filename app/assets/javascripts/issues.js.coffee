@@ -67,16 +67,12 @@ jQuery ->
         $('#rendered-response-container').modal( 'show' )
     $('#issue-tabs a[href$="technical-details"]').on 'shown', () ->
         $('#sidenav').show()
-        $('#references').hide()
     $('#issue-tabs a[href$="discussion"]').on 'shown', () ->
         $('#sidenav').hide()
-        $('#references').hide()
     $('#issue-tabs a[href$="verification"]').on 'shown', () ->
         $('#sidenav').hide()
-        $('#references').hide()
     $('#issue-tabs a[href$="review"]').on 'shown', () ->
         $('#sidenav').hide()
-        $('#references').show()
     $('#issue_false_positive').change ->
         updateElementsVisibility()
     $('#issue_requires_verification').change ->
