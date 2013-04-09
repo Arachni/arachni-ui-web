@@ -1,4 +1,23 @@
 GIT
+  remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
+  revision: 3bbd5f0de86518a5b09b965d824391bb35c8bcde
+  branch: experimental
+  specs:
+    arachni (1.0dev)
+      addressable (~> 2.3.2)
+      arachni-rpc-em (= 0.1.3.pre2)
+      awesome_print
+      bundler (>= 1.0.0)
+      highline
+      json
+      nokogiri (>= 1.5.7.rc1)
+      pony
+      rb-readline
+      sys-proctable (>= 0.9.1)
+      terminal-table (>= 1.4.2)
+      typhoeus (~> 0.3.3)
+
+GIT
   remote: git://github.com/Arachni/arachni-rpc-em.git
   revision: fa6678153636a5cb078b4500e47fadb41904057e
   specs:
@@ -43,23 +62,6 @@ GIT
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0.rc0)
       tilt (~> 1.3)
-
-PATH
-  remote: /home/zapotek/workspace/arachni
-  specs:
-    arachni (0.4.2)
-      addressable (~> 2.3.2)
-      arachni-rpc-em (= 0.1.3.pre2)
-      awesome_print
-      bundler (>= 1.0.0)
-      highline
-      json
-      nokogiri (>= 1.5.7.rc1)
-      pony
-      rb-readline
-      sys-proctable (>= 0.9.1)
-      terminal-table (>= 1.4.2)
-      typhoeus (~> 0.3.3)
 
 GEM
   remote: http://rubygems.org/
