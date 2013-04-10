@@ -8,7 +8,7 @@
             </div>
             <div class="span6">
                 <%= f.input :password, label: false, placeholder: 'Password',
-                            hint: "Leave blank if you don't want to change it." %>
+                            hint: @user.id.nil? ? '' : "Leave blank if you don't want to change it." %>
             </div>
         </div>
 
