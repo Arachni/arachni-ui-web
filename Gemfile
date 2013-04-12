@@ -15,7 +15,7 @@ gem 'bootstrap-sass', '>= 2.3.0.0'
 
 gem 'rdiscount'
 
-gem 'simple_form', github: 'plataformatec/simple_form'
+gem 'simple_form', '>= 3.0.0.beta1'
 gem 'devise',      github: 'idl3/devise', branch: 'rails4'
 gem 'kaminari'
 gem 'cancan', '>= 1.6.8'
@@ -30,8 +30,8 @@ group :development, :test do
 end
 
 group :assets do
-    gem 'sass-rails',   github: 'rails/sass-rails'
-    gem 'coffee-rails', github: 'rails/coffee-rails'
+    gem 'sass-rails',   '4.0.0.beta1'
+    gem 'coffee-rails', '4.0.0.beta1'
 
     gem 'uglifier', '>= 1.0.3'
     gem 'libv8',    '~> 3.11.8'
