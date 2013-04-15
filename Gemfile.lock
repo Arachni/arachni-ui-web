@@ -1,11 +1,11 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 55dc50b44fc6d72e73e0478921ea81d8dac3d8d5
+  revision: a616038b354ed6d4c06e7dd9ad7c88809aaedf3d
   branch: experimental
   specs:
     arachni (1.0dev)
       addressable (~> 2.3.2)
-      arachni-rpc-em (= 0.1.3.pre2)
+      arachni-rpc-em (~> 0.1.3)
       awesome_print
       bundler (>= 1.0.0)
       highline
@@ -16,15 +16,6 @@ GIT
       sys-proctable (>= 0.9.1)
       terminal-table (>= 1.4.2)
       typhoeus (~> 0.3.3)
-
-GIT
-  remote: git://github.com/Arachni/arachni-rpc-em.git
-  revision: fa6678153636a5cb078b4500e47fadb41904057e
-  specs:
-    arachni-rpc-em (0.1.3.pre2)
-      arachni-rpc (= 0.1.3)
-      em-synchrony (>= 1.0.0)
-      eventmachine (~> 1.0.0)
 
 GIT
   remote: git://github.com/idl3/devise.git
@@ -64,8 +55,12 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.33)
-    addressable (2.3.3)
+    addressable (2.3.4)
     arachni-rpc (0.1.3)
+    arachni-rpc-em (0.1.3)
+      arachni-rpc (= 0.1.3)
+      em-synchrony (>= 1.0.0)
+      eventmachine (~> 1.0.0)
     arel (4.0.0.beta2)
     atomic (1.1.7)
     awesome_print (1.1.0)
@@ -114,7 +109,7 @@ GEM
       i18n (~> 0.5)
     gherkin (2.11.8)
       multi_json (~> 1.3)
-    highline (1.6.16)
+    highline (1.6.18)
     hike (1.2.2)
     i18n (0.6.4)
     jquery-rails (2.1.4)
@@ -230,7 +225,6 @@ PLATFORMS
 
 DEPENDENCIES
   arachni!
-  arachni-rpc-em!
   bootstrap-sass (>= 2.3.0.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)

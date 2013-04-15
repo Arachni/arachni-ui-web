@@ -47,8 +47,6 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni-rpc-em', git: 'git://github.com/Arachni/arachni-rpc-em.git'
-
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', git: "#{p}/.git", branch: 'experimental'
 else
