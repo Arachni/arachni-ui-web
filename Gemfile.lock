@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: bab1d32143aa994ea38c3129950bae78dfcd8bc6
+  revision: 4b5984bf4e5ff1943659cd4f3c8c43c9f511f09b
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -62,7 +62,7 @@ GEM
       em-synchrony (>= 1.0.0)
       eventmachine (~> 1.0.0)
     arel (4.0.0.beta2)
-    atomic (1.1.7)
+    atomic (1.1.8)
     awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.3.1.0)
@@ -122,7 +122,7 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    launchy (2.2.0)
+    launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
     mail (2.5.3)
