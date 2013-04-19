@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: e716dab79eec436a988f682cdd8b399aaf953205
+  revision: 3a6e9db9f4861fb516a5004d95edd2697d5f8733
   branch: experimental
   specs:
     arachni (1.0dev)
