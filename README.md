@@ -141,10 +141,13 @@ Please send your feedback using Github's issue system at
 
 If you make improvements to this application, please share with others.
 
-* Fork the project on GitHub.
-* Make your feature addition or bug fix.
-* Commit with Git.
-* Send a pull request.
+* [Fork the project](https://github.com/Arachni/arachni-ui-web/fork_select)
+* Start a feature branch based on the `experimental` branch (```git checkout -b <feature-name> experimental```).
+* Add specs for your code.
+* Run the spec suite to make sure you didn't break anything (```rake spec:core```
+    for the core libs or ```rake spec``` for everything).
+* Commit and push your changes.
+* Issue a pull request and wait for your code to be reviewed.
 
 ## Credits
 
