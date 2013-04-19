@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 21ebe750af37d6864e47f5770e966c7152fac34e
+  revision: d1a294a047f03b791b4c90186e9c9c06ba3378e9
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -130,7 +130,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.22)
-    minitest (4.7.1)
+    minitest (4.7.2)
     multi_json (1.7.2)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
