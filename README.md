@@ -1,16 +1,92 @@
-# Arachni WebUI
+# Experimental/unstable branch -- used for development/integration
 
-This is the new Web User Interface for [Arachni](https://github.com/Arachni/arachni).
+This branch is where all development takes place, once its code has been tested and
+is considered stable, it is then merged into the `master` branch and released.
 
-The interface is under development so there can be bugs that haven't been fixed
-yet or stability issues.
+## Nightlies
 
 For self-contained, nightly snapshot packages take a look at:
 http://downloads.arachni-scanner.com/nightlies/
 
-(This application was generated with the
-[rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
-provided by the [RailsApps Project](http://railsapps.github.com/).)
+## Source
+
+To run from source you first need to setup a
+[development environment](https://github.com/Arachni/arachni/wiki/Development-environment).
+
+    git clone https://github.com/Arachni/arachni-ui-web
+    cd arachni-ui-web
+
+    # --binstubs will make the executables of the Framework available under 'bin/',
+    # so that you'll be able to run the CLI if needed.
+    bundle install --binstubs
+
+    rake db:migrate
+    rake db:setup
+    script/rails s thin
+
+For seed data (default user accounts etc) take a look in `db/seeds.rb`.
+
+Also, the DB schema is pretty fluid during development so migrate after each
+`git pull` and don't be surprised if you'll have to remove the existing schema
+and DBs for things to work again:
+
+    rm db/development.sqlite3
+    rm db/test.sqlite3
+    rm db/schema.rb
+    rake db:migrate
+    rake db:setup
+
+# Arachni - Web User Interface
+
+<table>
+    <tr>
+        <th>Version</th>
+        <td>0.4dev</td>
+    </tr>
+    <tr>
+        <th>Homepage</th>
+        <td><a href="http://arachni-scanner.com">http://arachni-scanner.com</a></td>
+    </tr>
+    <tr>
+        <th>Blog</th>
+        <td><a href="http://arachni-scanner.com/blog">http://arachni-scanner.com/blog</a></td>
+    <tr>
+        <th>Github</th>
+        <td><a href="http://github.com/Arachni/arachni-ui-web">http://github.com/Arachni/arachni-ui-web</a></td>
+     <tr/>
+    <tr>
+        <th>Documentation</th>
+        <td><a href="https://github.com/Arachni/arachni/wiki">https://github.com/Arachni/arachni/wiki</a></td>
+    </tr>
+    <tr>
+        <th>Support</th>
+        <td><a href="http://support.arachni-scanner.com">http://support.arachni-scanner.com</a></td>
+    </tr>
+    <tr>
+       <th>Author</th>
+       <td><a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a> (<a href="http://twitter.com/Zap0tek">@Zap0tek</a>)</td>
+    </tr>
+    <tr>
+        <th>Twitter</th>
+        <td><a href="http://twitter.com/ArachniScanner">@ArachniScanner</a></td>
+    </tr>
+    <tr>
+        <th>Copyright</th>
+        <td>2013 Tasos Laskos</td>
+    </tr>
+    <tr>
+        <th>License</th>
+        <td><a href="file.LICENSE.html">Apache License Version 2.0</a></td>
+    </tr>
+</table>
+
+![Arachni logo](http://arachni.github.com/arachni/logo.png)
+
+## Synopsis
+
+A web user interface and collaboration platform for the
+[Arachni](https://github.com/Arachni/arachni) open source web application
+security scanner framework.
 
 ## Features
 
@@ -69,91 +145,35 @@ provided by the [RailsApps Project](http://railsapps.github.com/).)
  - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
  - Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 
-## Technical details
-
-### Ruby on Rails
-
-This application is being developed on:
-
-* Ruby version 1.9.3
-* Rails version 4.0
-
-### Database
-
-This application uses SQLite with ActiveRecord.
-
-### Development
-
-* Template Engine: ERB
-* Testing Framework: RSpec and Machinist and Cucumber
-* Front-end Framework: Twitter Bootstrap (Sass)
-* Form Builder: SimpleForm
-* Authentication: Devise
-* Authorization: CanCan
-
-## Getting Started
-
-The WebUI is still under development so there are no packages for it yet.
-To get it running you'll have to run the following (assuming a Debian-based OS):
-
-```
-# Arachni Framework dependencies, along with some Rails ones.
-sudo apt-get install build-essential libxml2-dev libxslt1-dev libcurl4-openssl-dev libsqlite3-dev libyaml-dev zlib1g-dev ruby1.9.1-dev ruby1.9.1 git libv8-dev
-
-sudo gem install bundler
-
-git clone https://github.com/Arachni/arachni-ui-web
-cd arachni-ui-web
-
-# --binstubs will make the executables of the Framework available under 'bin/',
-# so that you'll be able to run the CLI if needed.
-bundle install --binstubs
-
-rake db:migrate
-rake db:setup
-script/rails s thin
-```
-
-For seed data (default user accounts etc) take a look in ```db/seeds.rb```.
-
-Also, the DB schema is pretty fluid during development so migrate after each
-```git pull``` and don't be surprised if you'll have to remove the existing schema
-and DBs for things to work again:
-
-```
-rm db/development.sqlite3
-rm db/test.sqlite3
-rm db/schema.rb
-rake db:migrate
-rake db:setup
-```
-
-## Documentation and Support
+## [Usage](https://github.com/Arachni/arachni/wiki)
 
 For the time being, this is the only documentation.
 
-### Issues
+## Bug reports/Feature requests
 
-Please send your feedback using Github's issue system at
-[http://github.com/Arachni/arachni-ui-web/issues](http://github.com/Arachni/arachni-ui-web/issues).
+Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issues).<br/>
+Get support via the [Support Portal](http://support.arachni-scanner.com).
 
 ## Contributing
 
 If you make improvements to this application, please share with others.
 
 * [Fork the project](https://github.com/Arachni/arachni-ui-web/fork_select).
-* Start a feature branch based on the `experimental` branch (```git checkout -b <feature-name> experimental```).
+* Start a feature branch based on the `experimental` branch (`git checkout -b <feature-name> experimental`).
 * Add specs for your code.
-* Run the spec suite to make sure you didn't break anything (```rake spec:core```
-    for the core libs or ```rake spec``` for everything).
+* Run the spec suite to make sure you didn't break anything (`rake spec`).
 * Commit and push your changes.
 * Issue a pull request and wait for your code to be reviewed.
 
-## Credits
-
-* [Tasos Laskos](mailto:tasos.laskos@gmail.com)
+_PS. You may want to setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment) first._
 
 ## License
 
 Arachni WebUI is licensed under the Apache License Version 2.0.<br/>
 See the [LICENSE](file.LICENSE.html) file for more information.
+
+## Disclaimer
+
+This is free software and you are allowed to use it as you see fit.
+However, neither the development team nor any of our contributors can held
+responsible for your actions or for any damage caused by the use of this software.
