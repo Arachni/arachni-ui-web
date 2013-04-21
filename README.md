@@ -147,12 +147,10 @@ security scanner framework.
 
 ## [Usage](https://github.com/Arachni/arachni/wiki)
 
-For the time being, this is the only documentation.
-
 ## Bug reports/Feature requests
 
-Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issues).<br/>
-Get support via the [Support Portal](http://support.arachni-scanner.com).
+Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issues) and
+get support via the [Support Portal](http://support.arachni-scanner.com).
 
 ## Contributing
 
