@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 39a71261fac988fd4714edde3fa5ae983e2dc4e8
+  revision: 4a8639eec804ef5f0e322d55bd81e89ae69d03b6
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -93,7 +93,7 @@ GEM
       nokogiri (>= 1.5.0)
     daemons (1.1.9)
     database_cleaner (0.9.1)
-    diff-lcs (1.2.3)
+    diff-lcs (1.2.4)
     em-synchrony (1.0.3)
       eventmachine (>= 1.0.0.beta.1)
     erubis (2.7.0)
@@ -181,7 +181,7 @@ GEM
     simple_form (3.0.0.beta1)
       actionpack (>= 4.0.0.beta, < 4.1)
       activemodel (>= 4.0.0.beta, < 4.1)
-    sprockets (2.9.2)
+    sprockets (2.9.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
