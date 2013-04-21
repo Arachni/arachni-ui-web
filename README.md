@@ -56,7 +56,7 @@ and DBs for things to work again:
      <tr/>
     <tr>
         <th>Documentation</th>
-        <td><a href="https://github.com/Arachni/arachni/wiki">https://github.com/Arachni/arachni/wiki</a></td>
+        <td><a href="https://github.com/Arachni/arachni-ui-web/wiki">https://github.com/Arachni/arachni-ui-web/wiki</a></td>
     </tr>
     <tr>
         <th>Support</th>
