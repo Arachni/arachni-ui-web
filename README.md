@@ -145,12 +145,12 @@ security scanner framework.
  - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
  - Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 
-## [Usage](https://github.com/Arachni/arachni/wiki)
+## [Usage](https://github.com/Arachni/arachni-ui-web/wiki)
 
 ## Bug reports/Feature requests
 
-Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issues) and
-get support via the [Support Portal](http://support.arachni-scanner.com).
+Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issues)
+and get support via the [Support Portal](http://support.arachni-scanner.com).
 
 ## Contributing
 
