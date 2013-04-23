@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: 59778e3d36352f8ede0d5f92005807ead6d441a6
+  revision: ece17885679b825c867921eba36f37e57e7e3c99
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -172,7 +172,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
-    sass (3.2.7)
+    sass (3.2.8)
     sass-rails (4.0.0.beta1)
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
