@@ -1,6 +1,6 @@
 GIT
   remote: /home/zapotek/workspace/arachni-ui-web/../arachni/.git
-  revision: d6e9febf5234cc830d953d203f00756f1a0b95f5
+  revision: 3717a2f078e39f9e39ed785260fb238672d3ca0a
   branch: experimental
   specs:
     arachni (1.0dev)
@@ -65,7 +65,7 @@ GEM
     atomic (1.1.8)
     awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
-    bootstrap-sass (2.3.1.0)
+    bootstrap-sass (2.3.1.1)
       sass (~> 3.2)
     builder (3.1.4)
     cancan (1.6.9)
@@ -167,7 +167,7 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
-    rspec-rails (2.13.0)
+    rspec-rails (2.13.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
