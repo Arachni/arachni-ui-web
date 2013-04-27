@@ -93,7 +93,7 @@ class Profile < ActiveRecord::Base
     end
 
     def self.recent( limit = 5 )
-        find( :all, order: "id desc", limit: limit )
+        order( 'id desc' ).limit( limit )
     end
 
     def self.light
