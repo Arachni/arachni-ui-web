@@ -226,6 +226,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
@@ -245,6 +246,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
@@ -264,6 +266,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
