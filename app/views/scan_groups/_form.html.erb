@@ -2,8 +2,8 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-        <%= f.input :name, label: false, placeholder: 'Name' %>
-        <%= f.input :description, label: false, placeholder: 'Description' %>
+        <%= f.input :name, label: false, placeholder: '(Required) Name' %>
+        <%= f.input :description, label: false, placeholder: '(Required) Description' %>
 
         <% if User.count > 1 %>
 

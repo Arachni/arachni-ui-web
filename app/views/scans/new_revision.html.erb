@@ -9,7 +9,7 @@
 
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :description,
+                <%= f.input :description, label: false, placeholder: 'Description',
                             hint: 'You can use <a href="http://daringfireball.net/' +
                                           'projects/markdown/syntax">Markdown</a> for text formatting.' %>
             </div>
@@ -52,142 +52,8 @@
 
         <%= f.input :type, as: :hidden, default: 'direct' %>
 
-        <a href="#" onclick="$('#advanced').toggle();">
-            Toggle visibility of advanced options
-        </a>
+        <%= render partial: 'form_advanced_options', locals: { f: f } %>
 
-        <hr/>
-
-        <div id="advanced" class="hide">
-            <div class="row-fluid">
-                <div class="span12">
-
-                    <%= f.input :instance_count,
-                                hint: 'How many Instances to utilise for the scan.' %>
-
-                    <p class="alert alert-info">
-                        Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
-                    </p>
-
-                    <div class="alert">
-                        <strong>Warning!</strong>
-                        <ul>
-                            <li>
-                                High-performance distribution (i.e. using more than 1 Instance) is experimental.
-                            </li>
-                            <li>
-                                Please be sure that the web server will be able to handle the heat,
-                                otherwise you may end up killing it.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <% if (type_errors = @scan.errors.messages[:type]).any? %>
-                <div class="alert alert-error">
-                    Scan type errors:
-                    <ul>
-                        <% type_errors.each do |e| %>
-                            <li><%= e %></li>
-                        <% end %>
-                    </ul>
-                </div>
-            <% end %>
-
-            <div class="row-fluid btn-group" data-toggle="buttons-radio" id="scan-type-buttons">
-                <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
-                    <h4>Direct</h4>
-                </a>
-                <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
-                    <h4>Remote</h4>
-                </a>
-                <a href="#scan-type-buttons" id="grid-btn" class="span4 btn btn-inverse scroll">
-                    <h4>High-Performance Grid</h4>
-                </a>
-            </div>
-
-            <div class="row-fluid hidden-phone" id="scan-type-descriptions">
-                <div class="span4">
-                    <p class="well">Perform a direct scan from this machine to the web application.
-                        No need to setup anything else.</p>
-                </div>
-                <div class="span4">
-                    <p class="well">Delegate the scan workload to a deployed Dispatcher.
-                        No traffic will pass through this machine.</p>
-                </div>
-
-                <div class="span3">
-                    <p class="well">Combine the resources of multiple Dispatchers for super-fast scans.</p>
-                </div>
-            </div>
-
-            <div class="row-fluid hide" id="dispatcher-remote">
-                <div class="span12 well">
-                    <% if @dispatchers.any? %>
-                        <div class="control-group">
-                            <label class="control-label" for="scan[remote_dispatcher_id]">Dispatcher</label>
-                            <div class="controls">
-                                <select class="span2" name="remote_dispatcher_id" id="remote_dispatcher_id">
-                                    <% @dispatchers.each do |d| %>
-                                        <option value="<%= d.id %>"><%= d.to_label %></option>
-                                    <% end %>
-                                </select>
-                                <div class="alert alert-info">
-                                    If the scan is configured to use more than 1 Instance,
-                                    all Instances will be from the same Dispatcher.
-                                </div>
-                            </div>
-                        </div>
-                    <% else %>
-                        <div class="alert alert-info">
-                            There are no available Dispatchers.
-                            <% if can? :create, Dispatcher %>
-                                <a href="<%= new_dispatcher_path %>">Add one now</a> or perform
-                                a Direct scan instead.
-                            <% end %>
-                        </div>
-                    <% end %>
-                </div>
-            </div>
-
-            <div class="row-fluid hide" id="dispatcher-grid">
-                <div class="span12 well">
-                    <% if @grid_dispatchers.any? %>
-                        <div class="control-group">
-                            <label class="control-label" for="scan[grid_dispatcher_id]">Master Dispatcher</label>
-                            <div class="controls">
-
-                                <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
-                                    <% @grid_dispatchers.each do |d| %>
-                                        <option value="<%= d.id %>"><%= d.to_label %></option>
-                                    <% end %>
-                                </select>
-
-                                <div class="alert alert-info">
-                                    If the scan is configured to use more than 1 Instance,
-                                    all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
-                                    <br/>
-                                    Also, the selected Instance count option will be treated as
-                                    a maximum value in order to satisfy Grid load-balancing and availability
-                                    requirements.
-                                </div>
-                            </div>
-                        </div>
-
-                    <% else %>
-                        <div class="alert alert-info">
-                            There are no Dispatchers that are Grid members.
-                            <% if can? :create, Dispatcher %>
-                                <a href="<%= new_dispatcher_path %>">Add one now</a> or select
-                                a different type of scan.
-                            <% end %>
-                        </div>
-                    <% end %>
-                </div>
-            </div>
-        </div>
-
-    <%= f.button :submit, class: 'btn btn-inverse', value: 'Rescan' %>
+        <%= f.button :submit, class: 'btn btn-inverse', value: 'Rescan' %>
     <% end %>
 </div>

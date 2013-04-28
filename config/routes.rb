@@ -21,7 +21,10 @@ ArachniWebui::Application.routes.draw do
         patch :mark_read, on: :collection
     end
 
-    resources :dispatchers
+    resources :dispatchers do
+        patch :make_default, on: :member
+        patch :share,        on: :member
+    end
 
     scope 'scans' do
         resources :scan_groups, path: 'groups',

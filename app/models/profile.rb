@@ -23,18 +23,21 @@ class Profile < ActiveRecord::Base
     DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
     validates_presence_of   :name
-    validates_uniqueness_of :name, scope: :owner_id
+    validates_uniqueness_of :name, scope: :owner_id, case_sensitive: false
 
     validates_presence_of   :description
 
     validate :validate_description
-    validate :validate_modules
     validate :validate_plugins
     validate :validate_plugin_options
     validate :validate_redundant
     validate :validate_cookies
     validate :validate_custom_headers
     validate :validate_login_check
+
+    # #modules= will ignore any any modules which have not specifically been
+    # authorized so this is not strictly required.
+    validate :validate_modules
 
     serialize :cookies,         Hash
     serialize :custom_headers,  Hash
@@ -90,7 +93,7 @@ class Profile < ActiveRecord::Base
     end
 
     def self.recent( limit = 5 )
-        find( :all, order: "id desc", limit: limit )
+        order( 'id desc' ).limit( limit )
     end
 
     def self.light
@@ -127,6 +130,16 @@ class Profile < ActiveRecord::Base
             opts[k.to_sym] = v
         end
         opts
+    end
+
+    def modules
+        # Only allow authorized modules.
+        super & Settings.profile_allowed_modules
+    end
+
+    def plugins
+        # Only allow authorized plugins.
+        super.select { |k, _| Settings.profile_allowed_plugins.include? k }
     end
 
     def html_description
@@ -178,16 +191,24 @@ class Profile < ActiveRecord::Base
     end
 
     def modules=( m )
-        return super( ::FrameworkHelper.modules.keys.map( &:to_s ) ) if m == :all || m == :default
-        super m
+        # Only allow authorized modules.
+
+        if m == :all || m == :default
+            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
+        end
+
+        super m & Settings.profile_allowed_modules.to_a
     end
 
     def plugins=( p )
+        # Only allow authorized plugins.
+
         if p == :default
             c = ::FrameworkHelper.default_plugins.keys.inject( {} ) { |h, name| h[name] = {}; h }
             return super c
         end
-        super p
+
+        super p.select { |k, _| Settings.profile_allowed_plugins.include? k }
     end
 
     def modules_with_info
@@ -265,8 +286,8 @@ class Profile < ActiveRecord::Base
 
     def validate_redundant
         redundant.each do |pattern, counter|
-            next if !(counter.to_s =~ /[^\d]+/)
-            errors.add :redundant, "rule '#{pattern}' needs an integer counter"
+            next if counter.to_i > 0
+            errors.add :redundant, "rule '#{pattern}' needs an integer counter greater than 0"
         end
     end
 
@@ -285,10 +306,10 @@ class Profile < ActiveRecord::Base
     def validate_login_check
         return if login_check_url.to_s.empty? && login_check_pattern.to_s.empty?
         if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
-            errors.add :login_check_url, "not a valid absolute URL"
+            errors.add :login_check_url, 'not a valid absolute URL'
         end
 
-        errors.add :login_check_pattern, "cannot be blank" if login_check_pattern.empty?
+        errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
     end
 
     def validate_modules
@@ -308,8 +329,11 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_plugin_options
+        available = ::FrameworkHelper.plugins.keys.map( &:to_s )
         ::FrameworkHelper.framework do |f|
             plugins.each do |plugin, options|
+                next if !available.include? plugin.to_s
+
                 begin
                     f.plugins.prep_opts( plugin, f.plugins[plugin], options )
                 rescue Arachni::Component::Options::Error::Invalid => e

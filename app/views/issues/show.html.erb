@@ -1,4 +1,4 @@
-<% title @issue %>
+<% title @issue.to_s.html_safe %>
 
 <% breadcrumb_add 'Scans', @issue.scan %>
 <% breadcrumb_add @issue.scan, @issue.scan %>
@@ -16,7 +16,22 @@
    )
 
    not_available = '<p class="alert alert-info">Not available</p>'.html_safe
+
 %>
+
+<% if @issue.references.any? %>
+    <% add_to_affixed_sidebar do %>
+        <div id="references">
+            <h3>References</h3>
+
+            <ul>
+                <% @issue.references.each do |k, v| %>
+                <li><%= link_to k, v %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+<% end %>
 
 <div id="issues">
     <div class="page-header">
@@ -79,6 +94,15 @@
             </li>
         <% end %>
 
+        <% if @issue.has_remediation_steps? %>
+            <li>
+                <a href="#issue-<%= @issue.digest %>-remediation" data-toggle="tab">
+                    <i class="icon-asterisk"></i>
+                    Remediation
+                </a>
+            </li>
+        <% end %>
+
         <li>
             <a href="#issue-<%= @issue.digest %>-review" data-toggle="tab">
                 <i class="icon-edit"></i>
@@ -135,7 +159,13 @@
                 <tr>
                     <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
-                    <td class="wrap"><%= @issue.proof.recode || not_available %></td>
+                    <td class="wrap">
+                        <% if @issue.proof %>
+                            <%= @issue.proof.recode %>
+                        <% else %>
+                            <%= not_available %>
+                        <% end %>
+                    </td>
                 </tr>
             </table>
 
@@ -316,17 +346,31 @@
         </div>
 
         <% if @issue.has_verification_steps? %>
-        <div id="issue-<%= @issue.digest %>-verification" class="tab-pane">
-            <h3>
-                Verification steps
-            </h3>
+            <div id="issue-<%= @issue.digest %>-verification" class="tab-pane">
+                <h3>
+                    Verification steps
+                </h3>
 
-            <p>
-                <%= m @issue.verification_steps %>
-            </p>
+                <p>
+                    <%= m @issue.verification_steps %>
+                </p>
 
-        </div>
+            </div>
         <% end %>
+
+        <% if @issue.has_remediation_steps? %>
+            <div id="issue-<%= @issue.digest %>-remediation" class="tab-pane">
+                <h3>
+                    Remediation steps
+                </h3>
+
+                <p>
+                    <%= m @issue.remediation_steps %>
+                </p>
+
+            </div>
+        <% end %>
+
 
         <div id="issue-<%= @issue.digest %>-review" class="tab-pane">
             <%= render 'form' %>

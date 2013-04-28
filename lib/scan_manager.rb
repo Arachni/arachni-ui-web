@@ -22,10 +22,13 @@ class ScanManager
     end
 
     def monitor
+        return if Rails.env == 'test'
         @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ){ refresh }
     end
 
     def after_create( scan )
+        return if Rails.env == 'test'
+
         # If the scan has a status then it's not the first time that it's been
         # saved so bail out to avoid an inf loop.
         return if scan.status

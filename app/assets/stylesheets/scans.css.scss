@@ -19,6 +19,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #scans {
+    label {
+        display: inline;
+    }
+
+    .help-block {
+        display: block;
+        clear: both;
+    }
+
     #show-profile.modal {
         //new custom width
         width: 1220px;
@@ -66,12 +75,41 @@
         width: 100%;
     }
 
+    #scan_scan_group_ids,
     #scan_user_ids {
-        height: 110px;
+        height: 90px;
     }
 
-    #scan_scan_group_ids {
-        height: 110px;
+    #error-messages {
+        max-height: 200px;
+        overflow: auto;
+    }
+
+    .scan_instance_count {
+        .controls {
+            display: inline;
+            padding-left: 10px;
+        }
+    }
+
+    #grid_dispatcher_id,
+    #remote_dispatcher_id {
+        width: 100%;
+    }
+
+
+
+    #progress-percentage {
+        font-weight: bold;
+        font-size: 17px;
+        color: white;
+        position: absolute;
+
+        text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+            1px 1px 0 #000;
     }
 
     .accordion-group {
@@ -97,29 +135,4 @@
         text-align: center;
     }
 
-    #progress-percentage {
-        font-weight: bold;
-        font-size: 17px;
-        color: white;
-        position: absolute;
-
-        text-shadow:
-                -1px -1px 0 #000,
-                1px -1px 0 #000,
-                -1px 1px 0 #000,
-                1px 1px 0 #000;
-    }
-
-    #error-messages {
-        max-height: 200px;
-        overflow: auto;
-    }
-
-    #grid_dispatcher_id, #remote_dispatcher_id {
-        width: 100%;
-    }
-
-    label {
-        display: inline;
-    }
 }

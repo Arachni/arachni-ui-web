@@ -27,7 +27,7 @@ module Notifier
     # @abstract
     #
     def subscribers
-        []
+        users
     end
 
     def family

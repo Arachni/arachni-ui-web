@@ -5,6 +5,14 @@ require File.expand_path( "../../config/environment", __FILE__ )
 require 'rspec/rails'
 require 'rspec/autorun'
 
+require 'capybara/rspec'
+require 'capybara/rails'
+
+require 'factory_girl'
+require 'database_cleaner'
+
+require 'faker'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join( "spec/support/**/*.rb" )].each { |f| require f }
@@ -19,6 +27,15 @@ RSpec.configure do |config|
     # config.mock_with :flexmock
     # config.mock_with :rr
 
+    config.before( :all ) do
+        ProcessHelper.instance.killall
+        Arachni::Options.reset
+    end
+
+    config.after( :suite ) do
+        ProcessHelper.instance.killall
+    end
+
     config.include ValidUserHelper, type: :controller
     config.include ValidUserRequestHelper, type: :request
 
@@ -26,9 +43,6 @@ RSpec.configure do |config|
     config.run_all_when_everything_filtered                = true
     config.color                                           = true
     config.add_formatter :documentation
-
-    # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-    config.fixture_path                               = "#{::Rails.root}/spec/fixtures"
 
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false

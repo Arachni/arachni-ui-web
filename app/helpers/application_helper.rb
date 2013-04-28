@@ -20,6 +20,15 @@ require 'timeout'
 module ApplicationHelper
     include ::FrameworkHelper
 
+    def params_to_hash( params )
+        return {} if !params
+
+        params.inject({}) do |h, (k, v)|
+            h[k] = v.is_a?( ActionController::Parameters ) ? params_to_hash( v ) : v
+            h
+        end
+    end
+
     def fade_out_messages?
         !@do_not_fade_out_messages
     end

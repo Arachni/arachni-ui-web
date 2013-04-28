@@ -31,8 +31,7 @@
             <div class="span6">
                 <h2>Activities</h2>
                 <% if @activities.any? %>
-                    <%= my_paginate @activities, param_name: 'activities_page', remote: true,
-                                    params: { render: 'activities' } %>
+                    <%= my_paginate @activities, param_name: 'activities_page' %>
 
                     <ul class="notifications unstyled">
                         <% @activities.each do |activity| %>

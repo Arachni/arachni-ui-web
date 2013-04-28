@@ -95,8 +95,7 @@ class ProfilesController < ApplicationController
     # POST /profiles
     # POST /profiles.json
     def create
-        @profile.owner  = current_user
-        @profile.users |= [current_user]
+        @profile.owner = current_user
 
         respond_to do |format|
             if @profile.save
@@ -134,7 +133,6 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.update_attributes( params.require( :profile ).permit( user_ids: [] ) )
-
                 notify @profile
 
                 format.html { redirect_to :back, notice: 'Profile was successfully shared.' }
@@ -168,10 +166,10 @@ class ProfilesController < ApplicationController
     end
 
     def strong_params
-        plugin__with_options = []
+        plugin_with_options = []
         plugins_with_info = ::FrameworkHelper.plugins
         plugins_with_info.each do |name, info|
-            plugin__with_options << if opts = info[:options]
+            plugin_with_options << if opts = info[:options]
                                         { name => info[:options].map( &:name ) }
                                     else
                                         name
@@ -185,14 +183,15 @@ class ProfilesController < ApplicationController
                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
                    :max_slaves, :min_pages_per_instance, { modules: [] }, { selected_plugins: []},
-                   { plugins: plugin__with_options }, :proxy_host, :proxy_password, :proxy_port,
+                   { plugins: plugin_with_options }, :proxy_host, :proxy_password, :proxy_port,
                    :proxy_type, :proxy_username, :redirect_limit, :redundant,
                    :restrict_paths, :user_agent, :http_timeout, :description,
                    :https_only, :exclude_pages, { user_ids: [] }]
 
         allowed << :global if current_user.admin?
 
-        params.require( :profile ).permit( *allowed )
+        # Make sure no ActionController::Parameters sneak in.
+        params_to_hash params.require( :profile ).permit( *allowed )
     end
 
     def prepare_plugin_params

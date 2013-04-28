@@ -92,7 +92,7 @@
                     <%
                        reports_links = reports_with_outfile.map do |shortname, (name, desc)|
                            link_to name, report_scan_path( format: shortname ),
-                                   rel: 'tooltip', title:  desc
+                                   rel: 'tooltip', title:  desc, data: { 'no-turbolink' => true }
                        end
                     %>
 
@@ -128,7 +128,7 @@
     </div>
 
     <div class="visible-phone pull-left">
-        <%= render partial: 'share_form', locals: { scan: @scan } %>
+        <%= render partial: 'shared/share_form', locals: { model: @scan } %>
         <%= render partial: 'scan_group_form', locals: { scan: @scan } %>
     </div>
 

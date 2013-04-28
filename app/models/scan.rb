@@ -21,6 +21,8 @@ class Scan < ActiveRecord::Base
 
     self.inheritance_column = 'inheritance_column'
 
+    TYPES = [:direct, :remote, :grid]
+
     has_and_belongs_to_many :users
     has_and_belongs_to_many :scan_groups
 
@@ -38,14 +40,13 @@ class Scan < ActiveRecord::Base
     validates_presence_of :url
     validate :validate_url
 
-    validates :type, inclusion: { in:      [:direct, :remote, :grid],
-                                  message: "Please select a scan type" }
+    validates :type, inclusion: { in:      TYPES,
+                                  message: 'Please select a scan type' }
     validate :validate_type
 
     validate :validate_instance_count
     validate :validate_description
 
-    before_save :propagate_to_revisions
     before_save :add_owner_to_subscribers
 
     # The manager will start the scans when they are created and monitor and
@@ -69,15 +70,11 @@ class Scan < ActiveRecord::Base
     end
 
     def self.limit_exceeded?
-        Settings.global_scan_limit && active.size >= Settings.global_scan_limit
+        Settings.scan_global_limit && active.size >= Settings.scan_global_limit
     end
 
     def self.recent( limit = 5 )
         limit( limit ).order( "id desc" )
-    end
-
-    def subscribers
-        users | [owner]
     end
 
     def family
@@ -453,8 +450,12 @@ class Scan < ActiveRecord::Base
 
                         if revision?
                             previous_issues = Issue.
-                                where( scan_id: previous_revisions_with_root.pluck( :id ), fixed: false ).
-                                where( 'digest NOT IN (?)', issue_digests )
+                                where( scan_id: previous_revisions_with_root.pluck( :id ), fixed: false )
+
+                            if issue_digests.any?
+                                previous_issues = previous_issues.
+                                    where( 'digest NOT IN (?)', issue_digests )
+                            end
 
                             previous_issues.each do |i|
                                 i.notify action: :fixed,
@@ -559,14 +560,14 @@ class Scan < ActiveRecord::Base
             errors.add :url, 'not a valid absolute URL'
         end
 
-        if !url.to_s.empty? && !Settings.target_allowed?( url )
-            if Settings.target_whitelist_patterns.any? &&
-                !Settings.target_in_whitelist?( url )
+        if !url.to_s.empty? && !Settings.scan_target_allowed?( url )
+            if Settings.scan_target_whitelist_patterns.any? &&
+                !Settings.scan_target_in_whitelist?( url )
                 errors.add :url, 'not in the whitelist'
             end
 
-            if Settings.target_blacklist_patterns.any? &&
-                Settings.target_in_blacklist?( url )
+            if Settings.scan_target_blacklist_patterns.any? &&
+                Settings.scan_target_in_blacklist?( url )
                 errors.add :url, 'is blacklisted'
             end
         end
@@ -595,10 +596,6 @@ class Scan < ActiveRecord::Base
     end
 
     private
-
-    def propagate_to_revisions
-
-    end
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]

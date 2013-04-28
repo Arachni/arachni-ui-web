@@ -13,6 +13,7 @@ HardSettings.finished_scan_pagination_entries = 15
 HardSettings.activities_pagination_entries    = 20
 HardSettings.notifications_pagination_entries = 20
 HardSettings.profile_pagination_entries       = 20
+HardSettings.dispatcher_pagination_entries    = 20
 
 HardSettings.max_running_scans_per_user = 5
 HardSettings.max_running_scans          = 20

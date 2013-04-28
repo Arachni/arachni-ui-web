@@ -1,1 +1,1 @@
-$('#profiles').html( "<%= escape_javascript( render partial: 'table', formats: :html, locals: { profiles: @profiles } ) %>" )
+$('#profiles #table').html( "<%= escape_javascript( render partial: 'table', formats: :html, locals: { profiles: @profiles } ) %>" )

@@ -37,9 +37,19 @@ class Ability
             # Dispatcher access rules
             #
 
-            # Can use the admin-defined ones to perform scans but can't
-            # edit or create any.
-            can :read, Dispatcher
+            # Can see/use global Dispatchers or Dispatchers which have been shared with them.
+            can :read, Dispatcher do |dispatcher|
+                dispatcher.global? || dispatcher.user_ids.include?( user.id )
+            end
+
+            # Can create personal Dispatchers -- controller assigns the User/Owner ID.
+            can :create, Dispatcher
+
+            # Can manage Dispatchers they created.
+            can :manage, Dispatcher, owner_id: user.id
+
+            # Only admins can make a Dispatcher the default
+            cannot :make_default, Dispatcher
 
             #
             # Profile access rules
@@ -56,6 +66,7 @@ class Ability
             # Can manage Profiles they created.
             can :manage, Profile, owner_id: user.id
 
+            # Only admins can make a Profile the default
             cannot :make_default, Profile
 
             #
@@ -89,6 +100,9 @@ class Ability
 
             # Can create personal Scans -- controller assigns the User/Owner ID.
             can :create, Scan
+
+            Settings::SCAN_TYPES.each { |type| cannot "perform_#{type}".to_sym, Scan }
+            Settings.scan_allowed_types.each { |type| can "perform_#{type}".to_sym, Scan }
 
             #
             # Comment access rules

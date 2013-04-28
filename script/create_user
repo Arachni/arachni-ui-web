@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
+APP_PATH = File.expand_path( '../../config/application',  __FILE__ )
+require File.expand_path( '../../config/boot',  __FILE__ )
+require APP_PATH
+
+Rails.application.require_environment!
+
+if ARGV.size != 3
+    puts <<-EOTXT
+    Usage #{__FILE__} <e-mail> <password> <full name>
+    EOTXT
+
+    exit 1
+end
+
+email    = ARGV.first.dup
+password = ARGV[1].dup
+name     = ARGV[2].dup
+
+user = User.create( email: email, password: password, name: name )
+
+if user.errors.empty?
+    puts "User '#{name}' with e-mail address '#{user.email}' created with password '#{password}'."
+    exit
+end
+
+$stderr.puts "User '#{name}' with e-mail address '#{user.email}' could not be created because:"
+$stderr.puts
+
+user.errors.messages.each do |field, messages|
+    $stderr.puts "'#{field}' field:"
+    messages.each do |msg|
+        $stderr.puts "  * #{msg}"
+    end
+end
+
+exit 1

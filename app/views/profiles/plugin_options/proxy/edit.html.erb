@@ -1,0 +1,47 @@
+<% info[:options].each do |option| %>
+
+    <div class="alert alert-info">
+        <%= render partial: 'profiles/plugin_options/option_label', locals: {
+                plugin_name: plugin_name,
+                option:      option,
+                value:       configuration[option.name]
+        } %>
+
+        <div class="input-append">
+            <%= render partial: 'profiles/plugin_options/option_input', locals: {
+                    plugin_name: plugin_name,
+                    option:      option,
+                    value:       configuration[option.name],
+                    disabled:    disabled
+            } %>
+
+            <% if option.name == 'session_token' %>
+                <button id="profile_plugin_proxy_session_token_refresh_button"
+                        class="btn" type="button">
+                    <i class="icon-refresh"></i>
+                </button>
+            <% end %>
+        </div>
+    </div>
+
+<% end %>
+
+<script type="text/javascript">
+    function randomstring( L ){
+        var s = '';
+
+        var randomchar = function() {
+            var n= Math.floor( Math.random() * 62 );
+            if( n < 10 ) return n; //1-10
+            if( n < 36 ) return String.fromCharCode( n + 55 ); //A-Z
+            return String.fromCharCode( n + 61 ); //a-z
+        }
+
+        while( s.length < L ) s += randomchar();
+        return s;
+    }
+
+    $('#profile_plugin_proxy_session_token_refresh_button' ).on( 'click', function(){
+        $('#profile_plugins_proxy_session_token' ).val( randomstring( 36 ) );
+    })
+</script>

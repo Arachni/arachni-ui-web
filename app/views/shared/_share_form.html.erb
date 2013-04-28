@@ -1,17 +1,17 @@
-<% if User.count > 1 && can?( :share, profile ) %>
-    <a href="#shareProfile_<%= profile.id %>" title="Share scan"
+<% if User.count > 1 && can?( :share, model ) %>
+    <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
        role="button" class="btn btn-small" data-toggle="modal">
         <i class="icon-share"></i>
 
-        <% if (shared_with = profile.users.size - 1) > 0 %>
+        <% if (shared_with = model.users.size - 1) > 0 %>
         <span title="Shared with <%= pluralize shared_with, 'more user' %>."
               class="label"><%= shared_with %></span>
         <% end %>
 
-        <%= 'Share scan' if !local_assigns[:nolabel] %>
+        <%= "Share #{model.class.to_s.downcase}" if !local_assigns[:nolabel] %>
     </a>
 
-    <div id="shareProfile_<%= profile.id %>" class="modal hide fade"
+    <div id="share<%= model.class %><%= model.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
 
         <div class="modal-header">
@@ -21,12 +21,12 @@
             <h3>Share with:</h3>
         </div>
 
-        <%= simple_form_for( profile, url: share_profile_path( profile ) ) do |f| %>
+        <%= simple_form_for( model, url: polymorphic_path( model, action: 'share' ) ) do |f| %>
             <div class="modal-body">
                 <%= f.error_notification %>
                 <%= f.association :users, label: '',
-                                  collection: User.all - [profile.owner],
-                                  as: :check_boxes, html_input: { id: 'ff' } %>
+                                  collection: User.all - [model.owner],
+                                  as: :check_boxes %>
 
             </div>
             <div class="modal-footer">
@@ -40,8 +40,8 @@
         // If we have a scan table then we're probably inside it and since
         // the table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-        $( '#shareProfile_<%= profile.id %>' ).each( function() {
-            $( '#profiles' ).parent().before( this );
+        $( '#share<%= model.class %><%= model.id %>' ).each( function() {
+            $( '#<%= model.class.to_s.downcase %>s' ).parent().before( this );
         })
     </script>
 <% end %>

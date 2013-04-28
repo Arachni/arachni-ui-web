@@ -9,8 +9,8 @@
 
     <p class="muted">
         Hint: It is best to use custom, per-scan, profiles when needing to specify special
-        headers or session cookies so that you'll be able to updated them when
-        repeating finished scans.
+        headers or session cookies so that you'll be able to update them when
+        repeating scans.
     </p>
 </div>
 
@@ -22,6 +22,8 @@
 </p>
 <% end %>
 
-<div id='profiles'>
-    <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+<div id="profiles">
+    <div id="table">
+        <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+    </div>
 </div>

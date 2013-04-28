@@ -22,9 +22,14 @@ class ScansController < ApplicationController
 
     before_filter :authenticate_user!
 
+    before_filter :prepare_associations,
+                  only: [ :new, :new_revision, :create, :repeat ]
+
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
     before_filter :new_scan, only: [ :create ]
+
+    before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
 
     load_and_authorize_resource
 
@@ -82,8 +87,6 @@ class ScansController < ApplicationController
     def new
         show_scan_limit_errors
 
-        @profiles = current_user.available_profiles
-
         html_proc = nil
         if params[:id]
             html_proc = proc { render '_revision_form' }
@@ -91,9 +94,6 @@ class ScansController < ApplicationController
         else
             @scan = Scan.new
         end
-
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
 
         respond_to do |format|
             format.html( &html_proc )
@@ -105,9 +105,6 @@ class ScansController < ApplicationController
     def new_revision
         @scan = find_scan( params.require( :id ) )
 
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
-
         respond_to do |format|
             format.html
         end
@@ -118,12 +115,7 @@ class ScansController < ApplicationController
     def create
         show_scan_limit_errors
 
-        @profiles         = current_user.available_profiles
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
-
         @scan.owner = current_user
-        @scan.users |= [current_user]
 
         respond_to do |format|
             if !Scan.limit_exceeded? && @scan.save
@@ -140,8 +132,7 @@ class ScansController < ApplicationController
 
     # POST /scans/1/repeat
     def repeat
-        @dispatchers      = Dispatcher.alive
-        @grid_dispatchers = @dispatchers.grid_members
+        show_scan_limit_errors
 
         @scan = find_scan( params.require( :id ) ).new_revision
 
@@ -235,6 +226,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
@@ -254,6 +246,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
@@ -273,6 +266,7 @@ class ScansController < ApplicationController
         respond_to do |format|
             format.js {
                 if params[:render] == 'index'
+                    prepare_scan_group_tab_data
                     prepare_tables_data
                     render '_tables.js'
                 else
@@ -305,6 +299,12 @@ class ScansController < ApplicationController
 
     private
 
+    def prepare_associations
+        @profiles         = current_user.available_profiles
+        @dispatchers      = current_user.available_dispatchers.alive
+        @grid_dispatchers = @dispatchers.grid_members
+    end
+
     def new_scan
         @scan = Scan.new( strong_params )
     end
@@ -312,6 +312,10 @@ class ScansController < ApplicationController
     def strong_params
         if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
             params[:scan][:dispatcher_id] = params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
+        end
+
+        if params[:scan][:dispatcher_id] == 'load_balance'
+            params[:scan][:dispatcher_id] = current_user.available_dispatchers.preferred.id
         end
 
         allowed = [ :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
@@ -332,6 +336,13 @@ class ScansController < ApplicationController
     def find_scan( id )
         s = Scan.find( params[:id] )
         params[:overview] == 'true' ? s.act_as_overview : s
+    end
+
+    def check_scan_type_abilities
+        return if can? "perform_#{params[:scan][:type]}".to_sym, Scan
+
+        flash[:error] = "You don't have #{params[:scan][:type]} scan privileges."
+        redirect_to :back
     end
 
     def show_scan_limit_errors

@@ -1,0 +1,10 @@
+<% info[:options].each do |option| %>
+    <p class="alert alert-info">
+        <%= render partial: 'profiles/plugin_options/option', locals: {
+                plugin_name: plugin_name,
+                option:      option,
+                value:       configuration[option.name],
+                disabled:    disabled
+        } %>
+    </p>
+<%end%>

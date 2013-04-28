@@ -1,14 +1,16 @@
 <%= simple_form_for( [@issue.scan, @issue] ) do |f| %>
     <%= f.error_notification %>
 
+    <h3>State</h3>
+
     <div class="form-inputs">
         <div class="row-fluid">
             <div class="span6">
-                <%= f.input :fixed, label: 'Mark this issue as fixed' %>
+                <%= f.input :fixed, label: 'Mark as fixed' %>
             </div>
             <div class="span6">
                 <%= f.input :false_positive,
-                            label: 'Mark this issue as a false positive' %>
+                            label: 'Mark as false positive' %>
 
                 <p class="help-block" id="false-positive-report-nudge">
                     <em>You may also want to <a href="https://github.com/Arachni/arachni/issues">
@@ -44,6 +46,35 @@
             <%= f.input :verification_steps,
                         hint: '(You can use <a href="http://daringfireball.net/' +
                             'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
+        </div>
+
+        <hr/>
+
+        <h3>Remediation</h3>
+
+        <% if !@issue.remedy_guidance.to_s.empty? %>
+            <h4>Guidance</h4>
+
+            <blockquote>
+                <%= @issue.remedy_guidance %>
+            </blockquote>
+        <% end %>
+
+        <% if !@issue.remedy_code.to_s.empty? %>
+            <h4>Sample code</h4>
+            <code><%= @issue.remedy_code %></code>
+        <% end %>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <%= f.input :remediation_steps, label: 'Steps',
+                            hint: '(You can use <a href="http://daringfireball.net/' +
+                              'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
+
+                <p class="help-block">
+                    Describe a way to remedy this issue.
+                </p>
+            </div>
         </div>
     </div>
 

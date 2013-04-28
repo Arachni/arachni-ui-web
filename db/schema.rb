@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130215230059) do
+ActiveRecord::Schema.define(version: 20130302162250) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -23,13 +23,22 @@ ActiveRecord::Schema.define(version: 20130215230059) do
   end
 
   create_table "dispatchers", force: true do |t|
+    t.integer  "owner_id"
+    t.boolean  "global"
+    t.boolean  "default"
     t.string   "address"
     t.integer  "port"
+    t.float    "score"
     t.text     "description"
     t.text     "statistics"
     t.boolean  "alive"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "dispatchers_users", id: false, force: true do |t|
+    t.integer "dispatcher_id", null: false
+    t.integer "user_id",       null: false
   end
 
   create_table "issues", force: true do |t|
@@ -58,6 +67,7 @@ ActiveRecord::Schema.define(version: 20130215230059) do
     t.boolean  "false_positive",        default: false
     t.boolean  "verified",              default: false
     t.text     "verification_steps"
+    t.text     "remediation_steps"
     t.boolean  "fixed",                 default: false
     t.integer  "scan_id"
     t.datetime "created_at"
@@ -196,10 +206,13 @@ ActiveRecord::Schema.define(version: 20130215230059) do
 
   create_table "settings", force: true do |t|
     t.string   "name"
-    t.integer  "global_scan_limit"
-    t.integer  "per_user_scan_limit"
-    t.text     "target_whitelist_patterns"
-    t.text     "target_blacklist_patterns"
+    t.integer  "scan_global_limit"
+    t.integer  "scan_per_user_limit"
+    t.text     "scan_target_whitelist_patterns"
+    t.text     "scan_target_blacklist_patterns"
+    t.text     "scan_allowed_types"
+    t.text     "profile_allowed_modules"
+    t.text     "profile_allowed_plugins"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

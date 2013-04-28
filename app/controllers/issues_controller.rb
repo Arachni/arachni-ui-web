@@ -96,7 +96,7 @@ class IssuesController < ApplicationController
 
     def strong_params
         params.require( :issue ).
-            permit( :false_positive, :requires_verification,
+            permit( :false_positive, :requires_verification, :remediation_steps,
                     :verified, :verification_steps, :fixed )
     end
 

@@ -17,24 +17,31 @@
 require 'arachni/rpc/client'
 
 class Dispatcher < ActiveRecord::Base
+    include Extensions::Notifier
+
     has_many :scans
+
+    has_and_belongs_to_many :users
+    belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
     validates_presence_of :address
 
     validates_presence_of :port
     validates_numericality_of :port
 
-    validates_uniqueness_of :address, scope: :port
+    validates_uniqueness_of :address, scope: :port, case_sensitive: false
 
     validate :server_reachability
     validate :validate_description
 
+    before_save   :add_owner_to_subscribers
     after_create  DispatcherManager.instance
 
     serialize :statistics, Hash
 
     scope :alive,       -> { where alive: true }
     scope :unreachable, -> { where alive: false }
+    scope :global,      -> { where global: true }
 
     # Exclude sensitive info.
     def to_json( options = {} )
@@ -47,13 +54,52 @@ class Dispatcher < ActiveRecord::Base
         self.statistics = stats
     end
 
+    def self.describe_notification( action )
+        case action
+            when :destroy
+                'was deleted'
+            when :create
+                'created'
+            when :update
+                'was updated'
+            when :share
+                'was shared with you'
+            when :make_default
+                'was set as the system default'
+            else
+                action.to_s
+        end
+    end
+
+    def self.preferred
+        order( 'score ASC' ).first
+    end
+
     def family
         [self]
     end
 
+    def self.default
+        self.where( default: true ).first
+    end
+
+    def self.unmake_default
+        update_all default: false
+    end
+
+    def make_default
+        self.class.unmake_default
+        self.default = true
+        self.save
+    end
+
+    def default?
+        !!self.default
+    end
+
     def self.find_by_url( url )
-        url, port = *url.split( ':' )
-        where url: url, port: port
+        address, port = *url.split( ':' )
+        where( address: address, port: port ).first
     end
 
     def self.grid_members
@@ -117,10 +163,6 @@ class Dispatcher < ActiveRecord::Base
         statistics['node']['pipe_id']
     end
 
-    def score
-        statistics['node']['score']
-    end
-
     def neighbours
         (statistics['neighbours'] || []).map { |n| Dispatcher.find_by_url( n ) }
     end
@@ -152,7 +194,6 @@ class Dispatcher < ActiveRecord::Base
 
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
-
         client.stats do |stats|
             if stats.rpc_exception?
                 if alive?
@@ -164,13 +205,11 @@ class Dispatcher < ActiveRecord::Base
                 next
             end
 
-            self.alive      = true
-            self.statistics = stats
-            save
+            update( alive: true, statistics: stats, score: stats['node']['score'] )
 
             stats['neighbours'].each do |neighbour|
                 naddress, nport = neighbour.split( ':' )
-                self.class.create( address: naddress, port: nport,
+                self.class.create( address: naddress, port: nport, owner_id: owner_id,
                                    description: "Automatically added as a neighbour of '#{url}'." )
             end
 
@@ -178,19 +217,25 @@ class Dispatcher < ActiveRecord::Base
         end
     end
 
-    def server_reachability
-        if !ApplicationHelper.host_reachable?( address, port )
-            err = 'does not point to a running server'
-            errors.add :address, err
-            errors.add :port, err
-        end
-    end
-
     private
+
+    def server_reachability
+        return if ApplicationHelper.host_reachable?( address, port )
+
+        err = 'does not point to a running server'
+        errors.add :address, err
+        errors.add :port, err
+    end
 
     def validate_description
         return if ActionController::Base.helpers.strip_tags( description ) == description
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
+    end
+
+    def add_owner_to_subscribers
+        return if !owner
+        self.user_ids |= [owner.id]
+        true
     end
 
 end

@@ -1,6 +1,6 @@
 <div class="accordion">
     <% components.each do |shortname, info| %>
-        <div class="accordion-group">
+        <div class="accordion-group profile-<%= input %>">
             <div class="accordion-heading">
 
                 <input id="profile_<%= input %>_<%= shortname %>"
@@ -49,12 +49,14 @@
                 <div class="accordion-inner">
                     <strong>Options</strong>
 
-                    <%= render partial: 'plugin_options',
-                               locals: {
-                                   info:       info,
-                                   shortname:  shortname,
-                                   options:    @profile.plugins[shortname] || {}
-                               } %>
+                    <div class="plugin-options">
+                        <%= render partial: 'plugin_options',
+                                   locals: {
+                                       plugin_info:   info,
+                                       plugin_name:   shortname,
+                                       configuration: @profile.plugins[shortname] || {},
+                                   } %>
+                    </div>
                 </div>
                 <%end%>
 

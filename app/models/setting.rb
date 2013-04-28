@@ -1,13 +1,28 @@
 class Setting < ActiveRecord::Base
-    serialize :target_whitelist_patterns, Array
-    serialize :target_blacklist_patterns, Array
+    serialize :scan_target_whitelist_patterns, Array
+    serialize :scan_target_blacklist_patterns, Array
+    serialize :scan_allowed_types, Array
+    serialize :profile_allowed_modules, Array
+    serialize :profile_allowed_plugins, Array
 
-    def target_whitelist_patterns=( string_or_hash )
+    SCAN_TYPES = Scan::TYPES + [:multi_instance]
+
+    def scan_target_whitelist_patterns=( string_or_hash )
         super self.class.string_list_to_array( string_or_hash )
     end
 
-    def target_blacklist_patterns=( string_or_hash )
+    def scan_target_blacklist_patterns=( string_or_hash )
         super self.class.string_list_to_array( string_or_hash )
+    end
+
+    def profile_allowed_plugins_with_info
+        profile_allowed_plugins.
+            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.plugins[name]; h }
+    end
+
+    def profile_allowed_modules_with_info
+        profile_allowed_modules.
+            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
     end
 
     private

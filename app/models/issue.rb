@@ -21,7 +21,10 @@ class Issue < ActiveRecord::Base
 
     has_many :comments, as: :commentable, dependent: :destroy
 
-    validate :review_options
+    validate :validate_review_options
+    validate :validate_verification_steps
+    validate :validate_remediation_steps
+
     validates_uniqueness_of :digest, scope: :scan_id
 
     # These can contain lots of junk characters which may blow up the SQL
@@ -69,7 +72,7 @@ class Issue < ActiveRecord::Base
         Arachni::Issue::Severity::INFORMATIONAL
     ]
 
-    PROTECTED = [:verification_steps, :false_positive, :fixed]
+    PROTECTED = [:remediation_steps, :verification_steps, :false_positive, :fixed]
 
     scope :fixed, -> { where fixed: true }
     scope :light, -> { select( column_names - %w(response_body references) ) }
@@ -90,8 +93,8 @@ class Issue < ActiveRecord::Base
         end
         ret << " END"
     end
-    scope :by_severity, order: order_by_severity
-    default_scope by_severity
+    scope :by_severity, -> { order order_by_severity }
+    default_scope { by_severity }
 
     def timeline
         Notification.where( model_id: id, model_type: self.class.to_s,
@@ -143,6 +146,14 @@ class Issue < ActiveRecord::Base
         !verification_steps.to_s.empty?
     end
 
+    def has_remediation_steps?
+        !remediation_steps.to_s.empty?
+    end
+
+    def response_body_contains_proof?
+        proof && response_body && response_body.include?( proof )
+    end
+
     def base64_response_body
         Base64.encode64( response_body ).gsub( /\n/, '' )
     end
@@ -150,21 +161,12 @@ class Issue < ActiveRecord::Base
     def to_s
         s = "#{name} in #{vector_type.capitalize}"
         s << " input '#{vector_name}'" if vector_name
-        s << ""
-        s.html_safe
+        s
     end
 
     def cwe_url
         return if cwe.to_s.empty?
         "http://cwe.mitre.org/data/definitions/#{cwe}.html"
-    end
-
-    def response_body_contains_proof?
-        proof && response_body && response_body.include?( proof )
-    end
-
-    def just_verified?
-        verified_changed? && verified?
     end
 
     def subscribers
@@ -191,6 +193,8 @@ class Issue < ActiveRecord::Base
                 'has an updated manual verification state'
             when :verification_steps
                 'has updated verification steps'
+            when :remediation_steps
+                'has updated remediation steps'
             when :commented
                 'has a new comment'
         end
@@ -237,9 +241,20 @@ class Issue < ActiveRecord::Base
 
     private
 
-    def review_options
+    def validate_review_options
         if false_positive && (requires_verification || verified)
             errors.add :false_positive, 'cannot include additional options'
         end
     end
+
+    def validate_verification_steps
+        return if ActionController::Base.helpers.strip_tags( verification_steps ) == verification_steps
+        errors.add :verification_steps, 'cannot contain HTML, please use Markdown instead'
+    end
+
+    def validate_remediation_steps
+        return if ActionController::Base.helpers.strip_tags( remediation_steps ) == remediation_steps
+        errors.add :remediation_steps, 'cannot contain HTML, please use Markdown instead'
+    end
+
 end

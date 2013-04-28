@@ -43,6 +43,11 @@
         float: right;
     }
 
+    input#search {
+        float: none;
+        width: 240px;
+    }
+
     input#profile_plugins, input#profile_modules {
         float: left;
         margin-right: 10px;
@@ -77,7 +82,7 @@
 
     #profile_user_ids {
         width: 100%;
-        height: 150px;
+        height: 135px;
     }
 
     #profile_redundant {
@@ -155,6 +160,10 @@
     #profile_login_check_pattern {
         width:  90%;
         float: left;
+    }
+
+    .numeric {
+        width: 55px;
     }
 
     .form-actions input.btn {

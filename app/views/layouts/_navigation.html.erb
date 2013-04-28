@@ -1,4 +1,4 @@
-<%= link_to "Arachni v#{Arachni::VERSION}  - Webui v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
+<%= link_to "Arachni v#{Arachni::VERSION}  - WebUI v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
 
 <% if user_signed_in? %>
 
@@ -123,7 +123,7 @@
             </ul>
         </li>
 
-        <% has_dropdown = (recent_dispatchers = Dispatcher.recent).any? || can?( :create, Dispatcher ) %>
+        <% has_dropdown = (recent_dispatchers = current_user.available_dispatchers.recent).any? || can?( :create, Dispatcher ) %>
 
         <li class="dropdown">
             <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
@@ -136,7 +136,7 @@
             <% if has_dropdown %>
             <ul id="dispatcher-dropdown" class="dropdown-menu">
 
-                <% if current_user.admin? %>
+                <% if can? :create, Dispatcher %>
                 <li>
                     <%= link_to new_dispatcher_url do %>
                         <i class="icon-plus"></i>
@@ -235,12 +235,15 @@
               <span class="caret"></span>
             </a>
             <ul id="current-user-dropdown" class="dropdown-menu">
-                <li>
-                    <%= link_to settings_path do %>
-                        <i class="icon-cog"></i> Settings
-                    <% end %>
-                </li>
-                <li class="divider"></li>
+                <% if can? :read, Setting %>
+                    <li>
+                        <%= link_to settings_path do %>
+                            <i class="icon-cog"></i> Settings
+                        <% end %>
+                    </li>
+                    <li class="divider"></li>
+                <% end %>
+
                 <li>
                   <%= link_to edit_user_registration_path do %>
                       <i class="icon-pencil"></i> Edit account

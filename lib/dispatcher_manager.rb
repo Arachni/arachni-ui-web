@@ -22,13 +22,15 @@ class DispatcherManager
     end
 
     def monitor
+        return if Rails.env == 'test'
         @timer ||= ::EM.
             add_periodic_timer( HardSettings.dispatcher_refresh_rate / 1000 ){ refresh }
     end
 
     def after_create( dispatcher )
+        return if Rails.env == 'test'
         # Avoid having this called multiple times for the same Dispatcher.
-        return if dispatcher.statistics.any?
+        return if dispatcher.statistics['node'].any?
         dispatcher.refresh
     end
 

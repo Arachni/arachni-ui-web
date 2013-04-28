@@ -18,21 +18,54 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#setting_per_user_scan_limit,
-#setting_global_scan_limit {
-    width: 30px;
-}
-
-#setting_target_blacklist_patterns,
-#setting_target_whitelist_patterns {
-    width:  100%;
-    height: 150px;
-}
-
 #settings {
+
+    .help-block {
+        clear: both;
+    }
+
     label {
-        float: left;
         display: inline;
         padding-right: 10px;
     }
+
+    #scan {
+        #setting_scan_per_user_limit,
+        #setting_scan_global_limit {
+            width: 30px;
+        }
+
+        #setting_scan_target_blacklist_patterns,
+        #setting_scan_target_whitelist_patterns {
+            width:  100%;
+            height: 150px;
+        }
+
+        .setting_scan_per_user_limit .controls,
+        .setting_scan_global_limit .controls {
+            display: inline;
+        }
+
+        .setting_scan_allowed_types .checkbox {
+            display: block;
+        }
+
+        .settings_scan_allowed_types input {
+            float: none;
+        }
+    }
+
+    #profile {
+        .modules input {
+            margin-right: 5px;
+            margin-top: -3px;
+            clear: both
+        }
+
+        input#search {
+            float: none;
+            width: 240px;
+        }
+    }
+
 }

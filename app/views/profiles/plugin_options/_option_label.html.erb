@@ -1,0 +1,8 @@
+<label for="profile[plugins][<%= plugin_name %>][<%= option.name %>]" >
+    <% description = (option.desc.ends_with?( '.' ) ? option.desc[0...-1] : option.desc)  %>
+    <% if option.required? %>
+        <abbr title="required">*</abbr>
+    <%end%>
+
+    <%= description %> (<strong><em><%= option.name %></em></strong>):
+</label>

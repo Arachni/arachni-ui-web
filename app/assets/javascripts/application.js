@@ -36,6 +36,11 @@
 
 jQuery.fn.exists = function(){ return this.length > 0; }
 
+$.expr[':'].icontains = function(obj, index, meta, stack){
+    return (obj.textContent || obj.innerText || jQuery(obj).text() || '').
+        toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
+};
+
 if( typeof Array.prototype.contains != 'function' ) {
     Array.prototype.contains = function(obj) {
         var i = this.length;

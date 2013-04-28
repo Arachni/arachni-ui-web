@@ -1,11 +1,26 @@
-<%= simple_form_for(@user) do |f| %>
+<%= simple_form_for( @user ) do |f| %>
     <%= f.error_notification %>
 
     <div class="form-inputs">
-        <%= f.input :name %>
-        <%= f.input :email %>
-        <%= f.input :password, hint: "Leave blank if you don't want to change it." %>
-        <%= f.input :password_confirmation %>
+        <div class="fluid-row">
+            <div class="span6">
+                <%= f.input :name, label: false, placeholder: 'Name' %>
+            </div>
+            <div class="span6">
+                <%= f.input :password, label: false, placeholder: 'Password',
+                            hint: @user.id.nil? ? '' : "Leave blank if you don't want to change it." %>
+            </div>
+        </div>
+
+        <div class="fluid-row">
+            <div class="span6">
+                <%= f.input :email, label: false, placeholder: 'E-mail address' %>
+            </div>
+            <div class="span6">
+                <%= f.input :password_confirmation,
+                            label: false, placeholder: 'Password confirmation' %>
+            </div>
+        </div>
 
         <%= f.association :roles, as: :check_boxes %>
     </div>

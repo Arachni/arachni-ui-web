@@ -13,28 +13,30 @@
             </p>
         <% end %>
 
-        <% if can? :edit, Profile %>
-            <%= link_to edit_profile_path( profile ), title: 'Edit',
-                        class: 'btn btn-small btn-warning' do %>
-                <i class="icon-pencil"></i>
+        <div class="visible-phone">
+            <% if can? :edit, profile %>
+                <%= link_to edit_profile_path( profile ), title: 'Edit',
+                            class: 'btn btn-small btn-warning' do %>
+                    <i class="icon-pencil"></i>
+                <% end %>
             <% end %>
-        <% end %>
 
-        <% if can? :copy, Profile %>
-            <%= link_to copy_profile_path( profile ),
-                        title: "Create a new profile based on '#{profile.name}'",
-                        class: 'btn btn-small btn-primary' do %>
-                <i class="icon-copy"></i>
+            <% if can? :copy, profile %>
+                <%= link_to copy_profile_path( profile ),
+                            title: "Create a new profile based on '#{profile.name}'",
+                            class: 'btn btn-small btn-primary' do %>
+                    <i class="icon-copy"></i>
+                <% end %>
             <% end %>
-        <% end %>
 
-        <% if can?( :delete, Profile ) && !profile.default? %>
-            <%= link_to profile, title: 'Delete', method: :delete,
-                        class: 'btn btn-small btn-danger',
-                        data: { confirm: 'Are you sure?' } do %>
-                <i class="icon-trash"></i>
+            <% if can?( :delete, profile ) && !profile.default? %>
+                <%= link_to profile, title: 'Delete', method: :delete,
+                            class: 'btn btn-small btn-danger',
+                            data: { confirm: 'Are you sure?' } do %>
+                    <i class="icon-trash"></i>
+                <% end %>
             <% end %>
-        <% end %>
+        </div>
     </div>
 </div>
 

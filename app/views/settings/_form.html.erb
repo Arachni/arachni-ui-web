@@ -3,24 +3,44 @@
 
     <ul class="nav nav-tabs" id="setting-tabs"
         data-table-container="table-container">
+
         <li class="active">
-            <a href="#scans" data-toggle="tab">
-                Scans
+            <a href="#scan" data-toggle="tab">
+                Scan
             </a>
         </li>
+
+        <li>
+            <a href="#profile" data-toggle="tab">
+                Profile
+            </a>
+        </li>
+
     </ul>
 
     <div class="tab-content">
-        <div id="scans" class="tab-pane active in">
+        <div id="scan" class="tab-pane active in">
+
             <div class="row-fluid">
                 <div class="span5">
-                    <%= f.input :global_scan_limit %>
+                    <%= f.input :scan_allowed_types, collection: Setting::SCAN_TYPES,
+                                checked: @setting.scan_allowed_types,
+                                as: :check_boxes, label: 'Allowed types' %>
+                    <p class="help-block">
+                        What scan types to allow.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <%= f.input :scan_global_limit, label: 'Global limit' %>
                     <p class="help-block">
                         How many active scans to allow at any given time.
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :per_user_scan_limit %>
+                    <%= f.input :scan_per_user_limit, label: 'Per user limit'  %>
                     <p class="help-block">
                         How many active scans to allow at any given time per user.
                     </p>
@@ -29,22 +49,121 @@
 
             <div class="row-fluid">
                 <div class="span5">
-                    <%= f.input :target_whitelist_patterns,
-                                input_html: { value: @setting.target_whitelist_patterns.join( "\n" ) } %>
+                    <%= f.input :scan_target_whitelist_patterns, label: 'Target URL whitelist patterns',
+                        input_html: { value: @setting.scan_target_whitelist_patterns.join( "\n" ) } %>
                     <p class="help-block">
                         Only allow scans against target URLs which match any of
                         these patterns.
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :target_blacklist_patterns,
-                                input_html: { value: @setting.target_blacklist_patterns.join( "\n" ) } %>
+                    <%= f.input :scan_target_blacklist_patterns, label: 'Target URL blacklist patterns',
+                                input_html: { value: @setting.scan_target_blacklist_patterns.join( "\n" ) } %>
                     <p class="help-block">
                         Do not allow scans against target URLs which match any of
                         these patterns.
                     </p>
                 </div>
             </div>
+        </div>
+
+        <div id="profile" class="tab-pane">
+            <h2>
+                Modules
+                <small>Security checks to appear as Profile options.</small>
+            </h2>
+
+            <div class="row-fluid">
+                <div class="span3">
+                    <input id="search" type="text" class="string optional"
+                           placeholder="Filter modules by name or description">
+                </div>
+
+                <div class="span2">
+                    <button class="btn btn-small check">Check all</button>
+                    <button class="btn btn-small uncheck">Uncheck all</button>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <h3>Audit (Active)</h3>
+
+                    <div class="modules">
+                        <% FrameworkHelper.modules.
+                                   select { |n, i| i[:path].include?( '/modules/audit' ) }.
+                                   each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_modules,
+                                    shortname: shortname,
+                                    type:      :module,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <h3>Recon (Passive)</h3>
+
+                    <div class="modules">
+                        <% FrameworkHelper.modules.
+                                   select { |n, i| i[:path].include?( '/modules/recon' ) }.
+                                   each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_modules,
+                                    shortname: shortname,
+                                    type:      :module,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <input name="setting[profile_allowed_modules][]"
+                       type="hidden" checked="checked">
+            </div>
+
+            <h2>
+                Profiles
+                <small>Assisting components to appear as Profile options.</small>
+            </h2>
+
+            <div class="row-fluid">
+                <%
+                   lk, rk = *FrameworkHelper.plugins.keys.chunk( 2 )
+
+                   lm = FrameworkHelper.plugins.slice( *lk )
+                   rm = FrameworkHelper.plugins.slice( *rk )
+                %>
+
+                <div class="span6">
+                    <div class="plugins">
+                        <% lm.each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_plugins,
+                                    shortname: shortname,
+                                    type:      :plugin,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <div class="plugins">
+                        <% rm.each do |shortname, info| %>
+                            <%= render partial: 'component_list', locals: {
+                                    selected:  @setting.profile_allowed_plugins,
+                                    shortname: shortname,
+                                    type:      :plugin,
+                                    info:      info
+                            } %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 

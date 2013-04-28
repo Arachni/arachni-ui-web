@@ -22,7 +22,7 @@
             <% reports_links = reports_with_outfile.
                     map do |shortname, (n, desc)|
                         link_to n, report_scan_path( format: shortname ),
-                                rel: 'tooltip', title: desc
+                                rel: 'tooltip', title: desc, data: { 'no-turbolink' => true }
                     end
             %>
 

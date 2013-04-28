@@ -15,8 +15,36 @@
 =end
 
 module ProfilesHelper
+    include ApplicationHelper
+
+    def modules
+        allowed = Settings.profile_allowed_modules.reject { |m| m.to_s.empty?}
+        super.select { |name, _| allowed.include? name }
+    end
+
+    def plugins
+        allowed = Settings.profile_allowed_plugins.reject { |m| m.to_s.empty?}
+        super.select { |name, _| allowed.include? name }
+    end
+
     def messages_for( attribute )
         render partial: 'attribute_messages', locals: { attribute: attribute }
+    end
+
+    def render_options( plugin_name, plugin_info, configuration = {}, disabled = false )
+        tpl = "#{Rails.root}/app/views/profiles/plugin_options/#{plugin_name}/#{params[:action]}.html.erb"
+        opts = {
+            plugin_name:   plugin_name,
+            info:          plugin_info,
+            configuration: configuration,
+            disabled:      disabled
+        }
+
+        if File.exist? tpl
+            render file: tpl, locals: opts
+        else
+            render partial: 'profiles/plugin_options/generic', locals: opts
+        end
     end
 
     def profile_filter( filter )

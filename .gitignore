@@ -73,3 +73,5 @@ pickle-email-*.html
 **.swp
 
 Gemfile.lock
+.rvmrc
+config/initializers/secret_token
