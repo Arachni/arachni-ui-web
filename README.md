@@ -15,6 +15,7 @@ To run from source you first need to setup a
 
     git clone https://github.com/Arachni/arachni-ui-web
     cd arachni-ui-web
+    git checkout experimental
 
     # --binstubs will make the executables of the Framework available under 'bin/',
     # so that you'll be able to run the CLI if needed.
