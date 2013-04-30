@@ -292,14 +292,14 @@ class Scan < ActiveRecord::Base
         self.status = :pausing
         save
 
-        instance.framework.pause {}
+        instance.service.pause {}
     end
 
     def resume
         self.status = :resuming
         save
 
-        instance.framework.resume {}
+        instance.service.resume {}
     end
 
     def spawns
