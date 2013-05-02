@@ -82,9 +82,15 @@ group :test do
     gem 'faker'
 end
 
+if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni-rpc-em' )
+    gem 'arachni-rpc-em', path: p
+else
+    gem 'arachni-rpc-em', '0.1.4dev', git: 'git://github.com/Arachni/arachni-rpc-em.git'
+end
+
 # The Arachni Framework.
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
-    gem 'arachni', git: "#{p}/.git", branch: 'experimental'
+    gem 'arachni', path: p
 else
     gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
 end
