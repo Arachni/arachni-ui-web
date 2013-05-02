@@ -3,6 +3,9 @@
 This branch is where all development takes place, once its code has been tested and
 is considered stable, it is then merged into the `master` branch and released.
 
+Do not be confused by the version of this branch, `1.0dev` is a placeholder
+which simply means _next release_.
+
 ## Nightlies
 
 For self-contained, nightly snapshot packages take a look at:
