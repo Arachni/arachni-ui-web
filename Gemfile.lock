@@ -67,7 +67,7 @@ GEM
     atomic (1.1.8)
     awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
-    bootstrap-sass (2.3.1.1)
+    bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
     builder (3.1.4)
     cancan (1.6.9)
@@ -230,7 +230,7 @@ PLATFORMS
 DEPENDENCIES
   arachni!
   arachni-rpc-em!
-  bootstrap-sass (>= 2.3.0.0)
+  bootstrap-sass (= 2.3.1.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)
   coffee-rails (= 4.0.0.beta1)
