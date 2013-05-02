@@ -118,6 +118,9 @@ and get support via the [Support Portal](http://support.arachni-scanner.com).
 
 If you make improvements to this application, please share with others.
 
+Before starting any work, please read the [instructions](https://github.com/Arachni/arachni-ui-web/tree/experimental#source)
+for working with the source code.
+
 * Fork the project.
 * Start a feature branch based on the [experimental](https://github.com/Arachni/arachni-ui-web/tree/experimental)
     branch (`git checkout -b <feature-name> experimental`).
@@ -125,8 +128,6 @@ If you make improvements to this application, please share with others.
 * Run the spec suite to make sure you didn't break anything (`rake spec`).
 * Commit and push your changes.
 * Issue a pull request and wait for your code to be reviewed.
-
-_PS. You may want to setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment) first._
 
 ## License
 
