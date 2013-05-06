@@ -16,7 +16,7 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 
 # UI/CSS framework.
-gem 'bootstrap-sass', '>= 2.3.0.0'
+gem 'bootstrap-sass', '2.3.1.0'
 
 # Markdown to HTML conversion.
 gem 'rdiscount'
