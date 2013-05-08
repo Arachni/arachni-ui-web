@@ -53,14 +53,14 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>Homepage</th>
-        <td><a href="http://arachni-scanner.com">http://arachni-scanner.com</a></td>
+        <td><a href="http://www.arachni-scanner.com">http://arachni-scanner.com</a></td>
     </tr>
     <tr>
         <th>Blog</th>
-        <td><a href="http://arachni-scanner.com/blog">http://arachni-scanner.com/blog</a></td>
+        <td><a href="http://www.arachni-scanner.com/blog">http://arachni-scanner.com/blog</a></td>
     <tr>
         <th>Github</th>
-        <td><a href="http://github.com/Arachni/arachni-ui-web">http://github.com/Arachni/arachni-ui-web</a></td>
+        <td><a href="https://github.com/Arachni/arachni-ui-web">http://github.com/Arachni/arachni-ui-web</a></td>
      <tr/>
     <tr>
         <th>Documentation</th>
