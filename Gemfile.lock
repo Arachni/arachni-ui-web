@@ -14,9 +14,8 @@ PATH
   specs:
     arachni (0.1dev)
       addressable (~> 2.3.2)
-      arachni-rpc-em (~> 0.1.3)
+      arachni-rpc-em (= 0.1.4dev)
       awesome_print
-      bundler (>= 1.0.0)
       highline
       json
       nokogiri (>= 1.5.7.rc1)
@@ -25,6 +24,14 @@ PATH
       sys-proctable (>= 0.9.1)
       terminal-table (>= 1.4.2)
       typhoeus (~> 0.3.3)
+
+PATH
+  remote: /home/zapotek/workspace/arachni-rpc-em
+  specs:
+    arachni-rpc-em (0.1.4dev)
+      arachni-rpc (= 0.1.3)
+      em-synchrony (>= 1.0.0)
+      eventmachine (~> 1.0.0)
 
 GEM
   remote: http://rubygems.org/
@@ -55,18 +62,14 @@ GEM
       tzinfo (~> 0.3.33)
     addressable (2.3.4)
     arachni-rpc (0.1.3)
-    arachni-rpc-em (0.1.3)
-      arachni-rpc (= 0.1.3)
-      em-synchrony (>= 1.0.0)
-      eventmachine (~> 1.0.0)
     arel (4.0.0)
-    atomic (1.1.8)
+    atomic (1.1.9)
     awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
     builder (3.1.4)
-    cancan (1.6.9)
+    cancan (1.6.10)
     capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -130,7 +133,7 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.0)
     minitest (4.7.4)
-    multi_json (1.7.2)
+    multi_json (1.7.3)
     nokogiri (1.6.0.rc1)
       mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
@@ -156,7 +159,7 @@ GEM
       thor (>= 0.17.0, < 2.0)
     rake (10.0.4)
     rb-readline (0.5.0)
-    rdiscount (2.0.7.2)
+    rdiscount (2.0.7.3)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.4)
@@ -225,6 +228,7 @@ PLATFORMS
 
 DEPENDENCIES
   arachni!
+  arachni-rpc-em!
   bootstrap-sass (= 2.3.1.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)
