@@ -4,7 +4,7 @@ describe Dispatcher do
 
     after :each do
         # Factories start actual Dispatchers so don't let them accumulate.
-        ProcessHelper.instance.killall
+        dispatcher_killall
     end
 
     describe :factory do

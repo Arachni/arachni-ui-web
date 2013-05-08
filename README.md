@@ -49,7 +49,7 @@ and DBs for things to work again:
 <table>
     <tr>
         <th>Version</th>
-        <td>0.1dev</td>
+        <td>1.0dev</td>
     </tr>
     <tr>
         <th>Homepage</th>
