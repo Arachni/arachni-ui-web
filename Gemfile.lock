@@ -14,7 +14,7 @@ PATH
   specs:
     arachni (0.1dev)
       addressable (~> 2.3.2)
-      arachni-rpc-em (= 0.1.4dev)
+      arachni-rpc-em (= 0.2dev)
       awesome_print
       highline
       json
@@ -28,7 +28,7 @@ PATH
 PATH
   remote: /home/zapotek/workspace/arachni-rpc-em
   specs:
-    arachni-rpc-em (0.1.4dev)
+    arachni-rpc-em (0.2dev)
       arachni-rpc (= 0.1.3)
       em-synchrony (>= 1.0.0)
       eventmachine (~> 1.0.0)
