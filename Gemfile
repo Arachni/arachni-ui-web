@@ -25,7 +25,7 @@ gem 'rdiscount'
 gem 'simple_form', '>= 3.0.0.beta1'
 
 # User management/authentication.
-gem 'devise',      github: 'idl3/devise', branch: 'rails4'
+gem "devise", "~> 3.0.0.rc"
 
 # User authorization management.
 gem 'cancan', '>= 1.6.8'
@@ -93,5 +93,5 @@ end
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', path: p
 else
-    gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+    gem 'arachni', git: 'https://github.com/Arachni/arachni.git', branch: 'experimental'
 end
