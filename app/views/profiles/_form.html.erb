@@ -267,6 +267,44 @@
         </fieldset>
     </section>
 
+    <section id="fingerprinting">
+        <fieldset>
+            <legend id="fingerprinting-h">
+                Platform fingerprinting
+                <small>What platforms should the scanner anticipate</small>
+            </legend>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <%= f.input :no_fingerprinting,
+                                label: 'Disable fingerprinting'
+                    %>
+                </div>
+            </div>
+
+            <h4>
+                Platforms
+                <small>Explicitly specify platforms to improve efficiency</small>
+            </h4>
+
+
+            <div class="row-fluid">
+            <% [:os, :db, :servers, :languages, :frameworks].each_with_index do |type, i| %>
+
+                <div class="span2">
+                    <h5><%= platform_type_fullname( type ) %></h5>
+                    <%= f.input :platforms, collection: valid_platforms( type ),
+                                label:  false,
+                                as: :check_boxes,
+                                label_method: lambda { |p| platform_fullname( p ) }
+                    %>
+                </div>
+            <% end %>
+            </div>
+
+        </fieldset>
+    </section>
+
     <section id="modules">
         <fieldset>
             <legend id="modules-h">

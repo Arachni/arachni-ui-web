@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130302162250) do
+ActiveRecord::Schema.define(version: 20130608213932) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 20130302162250) do
     t.integer  "http_timeout"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "no_fingerprinting"
+    t.text     "platforms"
   end
 
   create_table "profiles_users", id: false, force: true do |t|

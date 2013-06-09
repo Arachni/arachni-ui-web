@@ -49,9 +49,11 @@ class Profile < ActiveRecord::Base
     serialize :extend_paths,    Array
     serialize :restrict_paths,  Array
     serialize :modules,         Array
+    serialize :platforms,       Array
     serialize :plugins,         Hash
     serialize :redundant,       Hash
 
+    before_save :sanitize_platforms
     before_save :add_owner_to_subscribers
 
     RPC_OPTS = [ :audit_cookies, :audit_cookies_extensively, :audit_forms,
@@ -63,7 +65,7 @@ class Profile < ActiveRecord::Base
                  :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
                  :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                  :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                 :http_timeout, :https_only, :exclude_pages ]
+                 :http_timeout, :https_only, :exclude_pages, :platforms, :no_fingerprinting ]
 
     scope :global, -> { where global: true }
 
@@ -344,6 +346,11 @@ class Profile < ActiveRecord::Base
     end
 
     private
+
+    def sanitize_platforms
+        self.platforms.reject!{ |p| p.to_s.empty? }
+        true
+    end
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]

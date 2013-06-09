@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- Profiles
+    - Added configuration options for the new platform fingerprinting feature.
 - Login page
     - Added a notice for first-time users about the location of the default credentials.
 - Scans
