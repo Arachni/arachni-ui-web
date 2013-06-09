@@ -19,7 +19,7 @@ gem 'jquery-turbolinks'
 gem 'bootstrap-sass', '2.3.1.0'
 
 # Markdown to HTML conversion.
-gem 'rdiscount'
+gem 'github-markdown'
 
 # HTML form helper.
 gem 'simple_form', '>= 3.0.0.beta1'

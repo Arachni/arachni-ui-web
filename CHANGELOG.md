@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Switched to <a href="http://github.github.com/github-flavored-markdown/">GitHub-flavored Markdown</a>.
 - Profiles
     - Added configuration options for the new platform fingerprinting feature.
 - Login page

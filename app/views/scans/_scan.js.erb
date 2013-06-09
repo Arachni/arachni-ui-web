@@ -43,7 +43,7 @@ $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisio
     $('#scan-description-form').hide();
 <% else %>
     $('#edit-description-btn').show();
-    $('#scan-description' ).html( "<%= escape_javascript( @scan.description ) %>" );
+    $('#scan-description' ).html( "<%= escape_javascript( m @scan.description ) %>" );
     $('#scan').show();
     $('#comments-link-container').show();
     $('#comments').show();
