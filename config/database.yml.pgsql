@@ -2,7 +2,7 @@
 #
 #   CREATE USER arachni WITH PASSWORD 'secret' CREATEDB;
 #
-# (Update the settings bellow if you've changed the username or password values.)
+# (Update the credentials in both the above SQL query and the bellow settings appropriately.)
 
 development:
   host: localhost
