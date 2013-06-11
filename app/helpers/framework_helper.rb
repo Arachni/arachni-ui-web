@@ -31,7 +31,7 @@ module FrameworkHelper
     end
 
     def plugins
-        components_for( :plugins )
+        components_for( :plugins ).tap {|s| p s}
     end
 
     def default_plugins
@@ -60,6 +60,12 @@ module FrameworkHelper
             components = framework do |f|
                 (manager = f.send( type )).send( list ).inject( {} ) do |h, name|
                     h[name] = manager[name].info.merge( path: manager.name_to_path( name ) )
+
+                    if unsupported_component?( h[name][:options] )
+                        h.delete( name )
+                        next h
+                    end
+
                     h[name][:author]    = [ h[name][:author] ].flatten
                     h[name][:authors]   = h[name][:author]
 
@@ -78,6 +84,12 @@ module FrameworkHelper
         end
 
         YAML.load( IO.read( path ) )
+    end
+
+    def unsupported_component?( options )
+        return false if !options
+        options.each { |option| return true if option.type == 'path' && option.required? }
+        false
     end
 
     extend self
