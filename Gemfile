@@ -89,12 +89,12 @@ end
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni-rpc-em' )
     gem 'arachni-rpc-em', path: p
 else
-    gem 'arachni-rpc-em', github: 'Arachni/arachni-rpc-em'
+    gem 'arachni-rpc-em', git: 'http://github.com/Arachni/arachni-rpc-em'
 end
 
 # The Arachni Framework.
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', path: p
 else
-    gem 'arachni', git: 'https://github.com/Arachni/arachni.git', branch: 'experimental'
+    gem 'arachni', git: 'http://github.com/Arachni/arachni.git', branch: 'experimental'
 end
