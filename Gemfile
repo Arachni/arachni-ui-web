@@ -5,8 +5,11 @@ gem 'rails', '4.0.0.beta1'
 # Web server.
 gem 'thin'
 
-# DB
+# SQLite DB (Default)
 gem 'sqlite3'
+
+# Postgres DB (Optional)
+gem 'pg'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
