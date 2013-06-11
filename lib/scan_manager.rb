@@ -41,7 +41,7 @@ class ScanManager
                 scan.start
             else
                 owner = "WebUI v#{ArachniWebui::Application::VERSION}"
-                scan.dispatcher.client.dispatch( owner ) do |instance_info|
+                scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
                     scan.instance_url   = instance_info['url']
                     scan.instance_token = instance_info['token']
                     scan.save
