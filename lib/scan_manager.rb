@@ -80,8 +80,8 @@ class ScanManager
 
         Process.detach ::EM.fork_reactor {
             # redirect the Instance's RPC server's output to /dev/null
-            #$stdout.reopen( '/dev/null', 'w' )
-            #$stderr.reopen( '/dev/null', 'w' )
+            $stdout.reopen( '/dev/null', 'w' )
+            $stderr.reopen( '/dev/null', 'w' )
 
             Arachni::Options.rpc_port = port
             Arachni::RPC::Server::Instance.new( Arachni::Options.instance, token )
