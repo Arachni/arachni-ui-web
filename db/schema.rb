@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130608213932) do
+ActiveRecord::Schema.define(version: 20130609175254) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20130608213932) do
     t.boolean  "read",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "identifier"
   end
 
   create_table "profiles", force: true do |t|

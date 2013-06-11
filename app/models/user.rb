@@ -55,10 +55,10 @@ class User < ActiveRecord::Base
     end
 
     def activities
-        # NOTE: PostgreSQL requires the 'id' in the group clause, which makes
-        # this useless.
-        Notification.group( %w(model_type model_id action text)).
-            where( 'actor_id = ?', id ).order( 'id desc' )
+        ids = Notification.pluck( :identifier ).uniq.map do |id|
+            Notification.where( identifier: id ).first.id
+        end
+        Notification.where( 'id in (?)', ids ).where( 'actor_id = ?', id ).order( 'id desc' )
     end
 
     def self.recent( limit = 5 )
