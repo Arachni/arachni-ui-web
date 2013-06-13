@@ -45,6 +45,10 @@ ArachniWebui::Application.routes.draw do
         patch :resume,   on: :member
         patch :abort,    on: :member
 
+        patch :pause,    on: :collection, to: :pause_all
+        patch :resume,   on: :collection, to: :resume_all
+        patch :abort,    on: :collection, to: :abort_all
+
         get :new_revision, on: :member
         get :report,   on: :member
         get :comments, on: :member

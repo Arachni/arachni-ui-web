@@ -87,6 +87,36 @@
 <% if scans.any? %>
 
 <div id="<%= type %>-table-container">
+
+    <% if treat_as_running && params[filter] =='yours' %>
+        <% if current_user.own_scans.paused.any? %>
+            <%= link_to resume_scans_path, title: 'Resume all scans',
+                        method: :patch, class: 'btn btn-small btn-success',
+                        remote: true,
+                        data: { confirm: 'Are you sure you want to resume all scans?' } do %>
+                <i class="icon-play-circle"></i>
+            <% end %>
+        <% end %>
+
+        <% if current_user.own_scans.running.any? %>
+            <%= link_to pause_scans_path, title: 'Pause all scans',
+                        method: :patch, class: 'btn btn-small btn-warning',
+                        remote: true,
+                        data: { confirm: 'Are you sure you want to pause all scans?' } do %>
+                <i class="icon-pause"></i>
+            <% end %>
+        <% end %>
+
+        <% if current_user.own_scans.active.any? %>
+            <%= link_to abort_scans_path, title: 'Abort all scans',
+                        method: :patch, class: 'btn btn-small btn-danger',
+                        remote: true,
+                        data: { confirm: 'Are you sure you want to abort all scans?' } do %>
+                <i class="icon-stop"></i>
+            <% end %>
+        <% end %>
+    <% end %>
+
     <p class="muted">
     <%=
         case params[filter]

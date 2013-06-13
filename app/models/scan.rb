@@ -56,10 +56,12 @@ class Scan < ActiveRecord::Base
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
-    scope :active,   -> { where active: true }
-    scope :inactive, -> { where active: false }
-    scope :finished, -> { where( "status = 'completed' OR status = 'aborted'" +
-                                     " OR status = 'error'" ) }
+    scope :active,      -> { where active: true }
+    scope :running,     -> { where status: %w(crawling auditing) }
+    scope :paused,      -> { where status: %w(paused pausing) }
+    scope :inactive,    -> { where active: false }
+    scope :finished,    -> { where( "status = 'completed' OR status = 'aborted'" +
+                                    " OR status = 'error'" ) }
 
     SENSITIVE = [ :instance_token ]
 
