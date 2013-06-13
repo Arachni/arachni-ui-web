@@ -316,10 +316,12 @@ class Scan < ActiveRecord::Base
                 'encountered a fatal error and stopped'
             when :destroy
                 'was deleted'
-            when :abort
+            when :abort, :abort_all
                 'was aborted'
-            when :pause, :resume
-                "was #{action}d"
+            when :pause, :pause_all
+                'was paused'
+            when :resume, :resume_all
+                'was resumed'
             when :create
                 'started'
             when :commented
