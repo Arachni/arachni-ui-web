@@ -194,7 +194,7 @@ ActiveRecord::Schema.define(version: 20130609175254) do
     t.string   "status"
     t.text     "statistics"
     t.text     "issue_digests"
-    t.text     "error_messages",                default: ""
+    t.text     "error_messages"
     t.integer  "owner_id"
     t.datetime "finished_at"
     t.integer  "root_id"
