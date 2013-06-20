@@ -481,6 +481,10 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def error_messages
+      return @error_messages.nil? : "" ? @error_messages
+    end
+
     private
 
     def push_framework_issues( a_issues )
