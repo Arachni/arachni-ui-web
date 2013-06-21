@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- Added `script/import` to import database and their configurations from older
+    packages.
 - Switched to <a href="http://github.github.com/github-flavored-markdown/">GitHub-flavored Markdown</a>.
 - Profiles
     - Added configuration options for the new platform fingerprinting feature.
