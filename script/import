@@ -40,6 +40,13 @@ if ARGV.size != 1
     exit 1
 end
 
+puts 'If you had opted for an external database for the previous package, please'
+print 'backup your data before continuing (\'y\' to proceed, leave empty to abort): '
+if STDIN.gets.to_s.chomp.downcase != 'y'
+    exit
+end
+puts
+
 old_pkg    = ARGV.first.dup
 system_dir = "#{old_pkg}/system/arachni-ui-web"
 
