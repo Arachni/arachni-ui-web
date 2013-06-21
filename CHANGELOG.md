@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Added support for PostgreSQL along with sample database configuration file (`config/database.yml.pgsql`).
 - Added `script/import` to import database and their configurations from older
     packages.
 - Switched to <a href="http://github.github.com/github-flavored-markdown/">GitHub-flavored Markdown</a>.
