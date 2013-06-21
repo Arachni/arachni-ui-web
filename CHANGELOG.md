@@ -14,6 +14,9 @@
         - Added resume/pause/abort all buttons.
     - Monitoring
         - Fixed "Share" button to show the modal dialog with the share form.
+    - New scan
+        - Removed multi-Instance scan warnings and updated Grid behavior as per
+            the framework changes.
 
 ## Version 0.4 _(April 28, 2013)_
 
