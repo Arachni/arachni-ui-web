@@ -486,7 +486,7 @@ class Scan < ActiveRecord::Base
     end
 
     def error_messages
-      return @error_messages.nil? : "" ? @error_messages
+      @error_messages.to_s
     end
 
     private
