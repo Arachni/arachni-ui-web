@@ -110,31 +110,26 @@
     <div class="hide well" id="dispatcher-grid">
         <% if @grid_dispatchers.any? %>
             <div class="control-group">
-                <label class="control-label" for="scan[grid_dispatcher_id]">Master Dispatcher</label>
+                <label class="control-label" for="scan[grid_dispatcher_id]">Dispatcher</label>
                 <div class="controls">
 
                     <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
-                        <option value="load_balance">Load balance</option>
-
                         <% @grid_dispatchers.each do |d| %>
                             <option value="<%= d.id %>"><%= d.to_label %></option>
                         <% end %>
                     </select>
 
                     <div class="alert alert-info">
-                        <% if can? :perform_multi_instance, Scan %>
-                            If the scan is configured to use more than 1 Instance,
-                            all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
-                            <br/>
-                            Also, the
-                        <% else %>
-                            The
-                        <% end %>
-
-                        selected Instance count option will be treated as
-                        a maximum value in order to satisfy Grid load-balancing and availability
-                        requirements.
+                        The Instance will be automatically provided by the least
+                        burdened member of the Grid of the Dispatcher you select.
                     </div>
+
+                    <% if can? :perform_multi_instance, Scan %>
+                        <div class="alert alert-info">
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be load-balanced across the Grid as well.
+                        </div>
+                    <% end %>
                 </div>
             </div>
 

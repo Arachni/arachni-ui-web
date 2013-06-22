@@ -355,7 +355,7 @@ class Scan < ActiveRecord::Base
         instance.service.scan( profile.to_rpc_options.merge(
             url:    url,
             spawns: spawns,
-            grid:   grid?
+            grid:   spawns > 1 ? grid? : nil
         ).merge( sitemap_opts )) { refresh }
 
         self
@@ -589,10 +589,6 @@ class Scan < ActiveRecord::Base
     end
 
     def validate_instance_count
-        if grid? && instance_count <= 1
-            errors.add :instance_count, 'must be more than 1 for Grid scans'
-        end
-
         if instance_count < 1
             errors.add :instance_count, 'must be at least 1'
         end

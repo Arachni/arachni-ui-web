@@ -121,7 +121,7 @@ class Dispatcher < ActiveRecord::Base
     def to_label
         str = to_s
         str << " | #{jobs.size} scans" if jobs.any?
-        str << " | Pipe: #{pipe_id}" if !pipe_id.to_s.empty? && grid_member?
+        str << " | Pipe: #{pipe_id}" if !pipe_id.to_s.empty?
         str
     end
 
@@ -132,14 +132,7 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def grid_member?
-        # If we are another Dispatcher's neighbour and that Dispatcher has
-        # a different pipe-id than us then we're in a Grid.
-        (self.class.alive - [self]).each do |d|
-            next if d.pipe_id == pipe_id
-            return true if d.neighbours.include?( self )
-        end
-
-        false
+        (statistics['neighbours'] || []).any?
     end
 
     def alive?
