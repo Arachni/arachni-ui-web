@@ -198,7 +198,11 @@ class Dispatcher < ActiveRecord::Base
                 next
             end
 
-            update( alive: true, statistics: stats, score: stats['node']['score'] )
+            # Skip validation because #server_reachability is not necessary.
+            self.alive      = true
+            self.statistics = stats
+            self.score      = stats['node']['score']
+            save( validate: false )
 
             stats['neighbours'].each do |neighbour|
                 naddress, nport = neighbour.split( ':' )
