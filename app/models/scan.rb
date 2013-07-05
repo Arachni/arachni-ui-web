@@ -327,7 +327,7 @@ class Scan < ActiveRecord::Base
             when :commented
                 'has a new comment'
             when :share
-                'was shared with you'
+                'was shared'
             when :repeat
                 'was repeated'
             when :update_memberships
