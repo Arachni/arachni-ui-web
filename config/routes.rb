@@ -63,6 +63,7 @@ ArachniWebui::Application.routes.draw do
     end
 
     get '/navigation', :to => 'home#navigation'
+    get '/welcome',    :to => 'home#welcome'
 
     authenticated :user do
         root to: 'home#index'

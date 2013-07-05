@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130609175254) do
+ActiveRecord::Schema.define(version: 20130704221626) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 20130609175254) do
     t.text     "profile_allowed_plugins"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "welcomed"
   end
 
   create_table "users", force: true do |t|

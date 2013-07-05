@@ -1,10 +1,12 @@
 <h2>Sign in</h2>
 
+<% if !Settings.welcomed? %>
 <p class="alert alert-info">
-    If you are a first-time user, please consult the
+    Please consult the
     <a href="https://github.com/Arachni/arachni-ui-web/wiki#default-credentials">Wiki</a>
     for default credentials.
 </p>
+<% end %>
 
 <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div class="form-inputs">
