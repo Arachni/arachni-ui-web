@@ -116,8 +116,6 @@ and get support via the [Support Portal](http://support.arachni-scanner.com).
 
 ## Contributing
 
-If you make improvements to this application, please share with others.
-
 Before starting any work, please read the [instructions](https://github.com/Arachni/arachni-ui-web/tree/experimental#source)
 for working with the source code.
 
