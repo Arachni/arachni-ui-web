@@ -403,6 +403,50 @@
 
 <hr/>
 
+<section id="fingerprinting">
+    <fieldset>
+        <legend id="fingerprinting-h">
+            Platform fingerprinting
+            <small>What platforms should the scanner anticipate</small>
+        </legend>
+
+        <div class="row-fluid">
+            <div class="span6">
+                <b>Disable fingerprinting:</b>
+                <input <%= 'checked' if profile.no_fingerprinting %>
+                       disabled type="checkbox">
+
+            </div>
+        </div>
+
+        <h4>
+            Platforms
+            <small>Explicitly specify platforms to improve efficiency</small>
+        </h4>
+
+
+        <div class="row-fluid">
+            <% [:os, :db, :servers, :languages, :frameworks].each_with_index do |type, i| %>
+
+                <div class="span2">
+                    <h5><%= platform_type_fullname( type ) %></h5>
+
+                    <% valid_platforms( type ).each do |platform| %>
+                        <p>
+                            <%= platform_fullname( platform ) %>
+                            <input <%= 'checked' if profile.platforms.include?( platform ) %>
+                                   disabled type="checkbox">
+                        </p>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+
+    </fieldset>
+</section>
+
+<hr/>
+
 <section id="modules">
     <h2 id="modules-h">
         Modules

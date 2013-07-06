@@ -21,6 +21,8 @@ class Notification < ActiveRecord::Base
     scope :read,   -> { where read: true }
     scope :unread, -> { where read: false }
 
+    before_save :add_identifier
+
     def self.mark_read
         update_all read: true
     end
@@ -65,4 +67,14 @@ class Notification < ActiveRecord::Base
         s
     end
 
+    def generate_identifier
+        Digest::SHA2.hexdigest [model_type, model_id, action, text].join( ':' )
+    end
+
+    private
+
+    def add_identifier
+        self.identifier = generate_identifier
+        true
+    end
 end

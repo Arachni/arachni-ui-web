@@ -59,7 +59,7 @@
 
             <% if User.count > 1 && can?( :share, @scan ) %>
             <li>
-                <a href="#shareScan_<%= @scan.id %>" title="Share scan"
+                <a href="#shareScan<%= @scan.id %>" title="Share scan"
                    role="button" data-toggle="modal">
                     <i class="icon-share"></i>
 

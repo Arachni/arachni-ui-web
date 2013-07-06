@@ -11,21 +11,10 @@
                     hint: 'How many Instances to utilise for the scan.' %>
 
         <p class="alert alert-info">
-            Workload distribution can achieve high efficiency levels which will result in significantly diminished scan times.
+            Multi-Instance scans can achieve high efficiency levels which will
+            result in significantly diminished scan times and better utilization
+            of multi-core/CPU systems.
         </p>
-
-        <div class="alert">
-            <strong>Warning!</strong>
-            <ul>
-                <li>
-                    High-performance distribution (i.e. using more than 1 Instance) is experimental.
-                </li>
-                <li>
-                    Please be sure that the web server will be able to handle the heat,
-                    otherwise you may end up killing it.
-                </li>
-            </ul>
-        </div>
     <% end %>
 
     <% if (type_errors = @scan.errors.messages[:type]).any? %>
@@ -54,7 +43,7 @@
 
         <% if can? :perform_grid, Scan %>
             <a href="#scan-type-buttons" id="grid-btn" class="span4 btn btn-inverse scroll">
-                <h4>High-Performance Grid</h4>
+                <h4>Grid</h4>
             </a>
         <% end %>
     </div>
@@ -76,7 +65,7 @@
 
         <% if can? :perform_grid, Scan %>
             <div class="span3">
-                <p class="well">Combine the resources of multiple Dispatchers for super-fast scans.</p>
+                <p class="well">Load-balance the scan workload across many Dispatchers.</p>
             </div>
         <% end %>
     </div>
@@ -121,31 +110,26 @@
     <div class="hide well" id="dispatcher-grid">
         <% if @grid_dispatchers.any? %>
             <div class="control-group">
-                <label class="control-label" for="scan[grid_dispatcher_id]">Master Dispatcher</label>
+                <label class="control-label" for="scan[grid_dispatcher_id]">Dispatcher</label>
                 <div class="controls">
 
                     <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
-                        <option value="load_balance">Load balance</option>
-
                         <% @grid_dispatchers.each do |d| %>
                             <option value="<%= d.id %>"><%= d.to_label %></option>
                         <% end %>
                     </select>
 
                     <div class="alert alert-info">
-                        <% if can? :perform_multi_instance, Scan %>
-                            If the scan is configured to use more than 1 Instance,
-                            all Instances will be from Dispatchers with unique bandwidth pipes (Pipe-ID).
-                            <br/>
-                            Also, the
-                        <% else %>
-                            The
-                        <% end %>
-
-                        selected Instance count option will be treated as
-                        a maximum value in order to satisfy Grid load-balancing and availability
-                        requirements.
+                        The Instance will be automatically provided by the least
+                        burdened member of the Grid of the Dispatcher you select.
                     </div>
+
+                    <% if can? :perform_multi_instance, Scan %>
+                        <div class="alert alert-info">
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be load-balanced across the Grid as well.
+                        </div>
+                    <% end %>
                 </div>
             </div>
 

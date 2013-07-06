@@ -236,6 +236,22 @@ class ScansController < ApplicationController
         end
     end
 
+    # PATCH /scans/pause
+    def pause_all
+        current_user.own_scans.running.each do |scan|
+            scan.pause
+            notify scan
+        end
+
+        respond_to do |format|
+            format.js {
+                prepare_scan_group_tab_data
+                prepare_tables_data
+                render '_tables.js'
+            }
+        end
+    end
+
     # PUT /scans/1/resume
     def resume
         @scan = find_scan( params.require( :id ) )
@@ -256,6 +272,22 @@ class ScansController < ApplicationController
         end
     end
 
+    # PATCH /scans/resume
+    def resume_all
+        current_user.own_scans.paused.each do |scan|
+            scan.resume
+            notify scan
+        end
+
+        respond_to do |format|
+            format.js {
+                prepare_scan_group_tab_data
+                prepare_tables_data
+                render '_tables.js'
+            }
+        end
+    end
+
     # PUT /scans/1/abort
     def abort
         @scan = find_scan( params.require( :id ) )
@@ -272,6 +304,22 @@ class ScansController < ApplicationController
                 else
                     render '_scan.js'
                 end
+            }
+        end
+    end
+
+    # PATCH /scans/abort
+    def abort_all
+        current_user.own_scans.active.each do |scan|
+            scan.abort
+            notify scan
+        end
+
+        respond_to do |format|
+            format.js {
+                prepare_scan_group_tab_data
+                prepare_tables_data
+                render '_tables.js'
             }
         end
     end

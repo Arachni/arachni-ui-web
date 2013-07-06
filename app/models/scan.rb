@@ -56,10 +56,12 @@ class Scan < ActiveRecord::Base
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
-    scope :active,   -> { where active: true }
-    scope :inactive, -> { where active: false }
-    scope :finished, -> { where( "status = 'completed' OR status = 'aborted'" +
-                                     " OR status = 'error'" ) }
+    scope :active,      -> { where active: true }
+    scope :running,     -> { where status: %w(crawling auditing) }
+    scope :paused,      -> { where status: %w(paused pausing) }
+    scope :inactive,    -> { where active: false }
+    scope :finished,    -> { where( "status = 'completed' OR status = 'aborted'" +
+                                    " OR status = 'error'" ) }
 
     SENSITIVE = [ :instance_token ]
 
@@ -292,14 +294,14 @@ class Scan < ActiveRecord::Base
         self.status = :pausing
         save
 
-        instance.framework.pause {}
+        instance.service.pause {}
     end
 
     def resume
         self.status = :resuming
         save
 
-        instance.framework.resume {}
+        instance.service.resume {}
     end
 
     def spawns
@@ -314,16 +316,18 @@ class Scan < ActiveRecord::Base
                 'encountered a fatal error and stopped'
             when :destroy
                 'was deleted'
-            when :abort
+            when :abort, :abort_all
                 'was aborted'
-            when :pause, :resume
-                "was #{action}d"
+            when :pause, :pause_all
+                'was paused'
+            when :resume, :resume_all
+                'was resumed'
             when :create
                 'started'
             when :commented
                 'has a new comment'
             when :share
-                'was shared with you'
+                'was shared'
             when :repeat
                 'was repeated'
             when :update_memberships
@@ -351,7 +355,7 @@ class Scan < ActiveRecord::Base
         instance.service.scan( profile.to_rpc_options.merge(
             url:    url,
             spawns: spawns,
-            grid:   grid?
+            grid:   spawns > 1 ? grid? : nil
         ).merge( sitemap_opts )) { refresh }
 
         self
@@ -585,10 +589,6 @@ class Scan < ActiveRecord::Base
     end
 
     def validate_instance_count
-        if grid? && instance_count <= 1
-            errors.add :instance_count, 'must be more than 1 for Grid scans'
-        end
-
         if instance_count < 1
             errors.add :instance_count, 'must be at least 1'
         end

@@ -64,7 +64,7 @@ module ApplicationHelper
     end
 
     def m( string )
-        RDiscount.new( string ).to_html.html_safe
+        GitHub::Markdown.render( string ).html_safe
     end
 
     def truncate_html( html, length = 500, append = ' [...]' )

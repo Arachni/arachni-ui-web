@@ -41,7 +41,7 @@ class ScanManager
                 scan.start
             else
                 owner = "WebUI v#{ArachniWebui::Application::VERSION}"
-                scan.dispatcher.client.dispatch( owner ) do |instance_info|
+                scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
                     scan.instance_url   = instance_info['url']
                     scan.instance_token = instance_info['token']
                     scan.save
@@ -80,8 +80,8 @@ class ScanManager
 
         Process.detach ::EM.fork_reactor {
             # redirect the Instance's RPC server's output to /dev/null
-            #$stdout.reopen( '/dev/null', 'w' )
-            #$stderr.reopen( '/dev/null', 'w' )
+            $stdout.reopen( '/dev/null', 'w' )
+            $stderr.reopen( '/dev/null', 'w' )
 
             Arachni::Options.rpc_port = port
             Arachni::RPC::Server::Instance.new( Arachni::Options.instance, token )

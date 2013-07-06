@@ -1,0 +1,74 @@
+<% title 'Welcome' %>
+
+<div class="page-header">
+    <h1>Welcome to Arachni's web interface,</h1>
+
+    <div class="lead">
+        please skim through this page to get the information you need before
+        you start wandering about.
+    </div>
+</div>
+
+<h2>Choosing the right database</h2>
+<p>
+    By default, this interface uses an SQLite3 database and that allows for a
+    configuration-free out-of-the-box experience. However, this setup is unsuitable
+    for larger workloads and may cause stability issues or crashes.
+</p>
+<p>
+    If you plan on only having a few scans running at any given time then there
+    shouldn't be any issue, if, however, you plan on running and managing multiple
+    active scans and Dispatchers then it is recommended that you use
+    <a href="https://github.com/Arachni/arachni-ui-web/wiki/Database#PostgreSQL">PostgreSQL</a>.
+</p>
+<p>
+    <i>
+        Unfortunately, you can't move your data between databases; thus, if you plan
+        on evaluating Arachni using the default database, before moving to PostgreSQL,
+        please refrain from performing operations whose data you're not willing to lose.
+    </i>
+</p>
+
+<h2>Upgrading</h2>
+<p>
+    If you were already using Arachni version 0.4.2 and later, you can easily
+    import your existing data from  your old package to this new one.
+    All you need to do is follow a few simple
+    <a href="https://github.com/Arachni/arachni-ui-web/wiki/Upgrade">upgrade instructions</a>.
+</p>
+
+<h2>Getting help</h2>
+<p>
+    Don't hesitate to ask for assistance if you run into issues or have
+    any questions, but do use the right way to get in touch:
+</p>
+
+<dl>
+    <dt>
+        <a href="https://github.com/Arachni/arachni-ui-web/wiki">Documentation</a>
+    </dt>
+    <dd>
+        Cut and dry documentation, goes through all the available features and
+        explains what everything does.
+    </dd>
+
+    <dt>
+        <a href="https://github.com/Arachni/arachni-ui-web/issues">Reporting bugs</a>
+    </dt>
+    <dd>
+        If something exploded or you're seeing a scary error please do take some
+        time to tell us about it so that we can fix it and have you back on your way.
+    </dd>
+
+    <dt>
+        <a href="http://support.arachni-scanner.com/">Asking for help</a>
+    </dt>
+    <dd>
+        The support portal allows you to easily ask for assistance or clarifications.
+        If you are unsure about how to do something, this is the right way to find out.
+    </dd>
+
+</dl>
+
+You can quickly access the above resources from any page of the interface via the
+links in the footer.

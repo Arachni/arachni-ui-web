@@ -17,6 +17,22 @@
 module ProfilesHelper
     include ApplicationHelper
 
+    def valid_platforms( type = nil )
+        (type.nil? ? platform_manager.valid : platform_manager.send( type ).valid).map( &:to_s )
+    end
+
+    def platform_type_fullname( type )
+        Arachni::Platform::Manager::TYPES[type]
+    end
+
+    def platform_fullname( platform )
+        platform_manager.fullname platform
+    end
+
+    def platform_manager
+        @platform_manager ||= Arachni::Platform::Manager.new
+    end
+
     def modules
         allowed = Settings.profile_allowed_modules.reject { |m| m.to_s.empty?}
         super.select { |name, _| allowed.include? name }

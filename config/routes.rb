@@ -45,6 +45,10 @@ ArachniWebui::Application.routes.draw do
         patch :resume,   on: :member
         patch :abort,    on: :member
 
+        patch :pause,    on: :collection, to: :pause_all
+        patch :resume,   on: :collection, to: :resume_all
+        patch :abort,    on: :collection, to: :abort_all
+
         get :new_revision, on: :member
         get :report,   on: :member
         get :comments, on: :member
@@ -59,10 +63,8 @@ ArachniWebui::Application.routes.draw do
     end
 
     get '/navigation', :to => 'home#navigation'
+    get '/welcome',    :to => 'home#welcome'
 
-    authenticated :user do
-        root to: 'home#index'
-    end
     root to: 'home#index'
 
     devise_for :users, :skip => [:registrations], path_prefix: 'd'

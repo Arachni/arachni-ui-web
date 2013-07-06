@@ -162,6 +162,16 @@
         float: left;
     }
 
+    .profile_platforms {
+        label {
+            clear: both;
+
+            input {
+                margin-left: 10px;
+            }
+        }
+    }
+
     .numeric {
         width: 55px;
     }

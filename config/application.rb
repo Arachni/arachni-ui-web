@@ -80,6 +80,10 @@ module ArachniWebui
 
         # Version of your assets, change this if you want to expire all your assets
         config.assets.version = '1.0'
+
+        if ENV['ARACHNI_WEBUI_LOGDIR']
+            config.logger = ActiveSupport::Logger.new( "#{ENV['ARACHNI_WEBUI_LOGDIR']}/#{Rails.env}.log" )
+        end
     end
 end
 

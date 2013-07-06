@@ -121,7 +121,7 @@ class Dispatcher < ActiveRecord::Base
     def to_label
         str = to_s
         str << " | #{jobs.size} scans" if jobs.any?
-        str << " | Pipe: #{pipe_id}" if !pipe_id.to_s.empty? && grid_member?
+        str << " | Pipe: #{pipe_id}" if !pipe_id.to_s.empty?
         str
     end
 
@@ -132,14 +132,7 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def grid_member?
-        # If we are another Dispatcher's neighbour and that Dispatcher has
-        # a different pipe-id than us then we're in a Grid.
-        (self.class.alive - [self]).each do |d|
-            next if d.pipe_id == pipe_id
-            return true if d.neighbours.include?( self )
-        end
-
-        false
+        (statistics['neighbours'] || []).any?
     end
 
     def alive?
@@ -205,10 +198,15 @@ class Dispatcher < ActiveRecord::Base
                 next
             end
 
-            update( alive: true, statistics: stats, score: stats['node']['score'] )
+            # Skip validation because #server_reachability is not necessary.
+            self.alive      = true
+            self.statistics = stats
+            self.score      = stats['node']['score']
+            save( validate: false )
 
             stats['neighbours'].each do |neighbour|
                 naddress, nport = neighbour.split( ':' )
+                next if self.class.where( address: naddress, port: nport ).any?
                 self.class.create( address: naddress, port: nport, owner_id: owner_id,
                                    description: "Automatically added as a neighbour of '#{url}'." )
             end

@@ -1,4 +1,6 @@
 <% info[:options].each do |option| %>
+    <% next if option.type == 'path' %>
+
     <p class="alert alert-info">
         <%= render partial: 'profiles/plugin_options/option', locals: {
                 plugin_name: plugin_name,

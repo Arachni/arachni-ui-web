@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+=begin
+    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+=end
+
+require 'yaml'
+require 'fileutils'
+
+ENV['RAILS_ENV'] = 'production'
+
+DEFAULT_DB_CONFIG = {
+    'pool'      => 50,
+    'timeout'   => 15000,
+    'encoding'  => 'UTF8'
+}
+
+ROOT      = File.expand_path( '../../',  __FILE__ )
+BOOT_PATH = "#{ROOT}/config/boot"
+APP_PATH  = "#{ROOT}/config/application"
+
+if ARGV.size != 1
+    puts <<-EOTXT
+    Imports database and configuration of a previous Arachni package (>= 0.4.2-0.4).
+
+    Usage #{__FILE__} <package directory>
+    EOTXT
+
+    exit 1
+end
+
+puts 'If you had opted for an external database for the previous package, please'
+print 'backup your data before continuing (\'y\' to proceed, leave empty to abort): '
+if STDIN.gets.to_s.chomp.downcase != 'y'
+    exit
+end
+puts
+
+old_pkg    = ARGV.first.dup
+system_dir = "#{old_pkg}/system/arachni-ui-web"
+
+if !File.directory? old_pkg
+    fail "Package directory does not exist: #{old_pkg}"
+end
+
+db_config_file = "#{system_dir}/config/database.yml"
+
+puts 'Processing database configuration:'
+
+print ' -- Backing up existing one...'
+bak = "#{ROOT}/config/database.yml.bak"
+FileUtils.cp "#{ROOT}/config/database.yml", bak
+puts " OK (#{bak})"
+
+if !File.exist? db_config_file
+    fail "Could not locate database configuration file: #{db_config_file}"
+end
+
+db_config = YAML.load( IO.read( db_config_file ) )
+
+if !db_config.is_a? Hash
+    fail "Could not parse database configuration file: #{db_config_file}"
+end
+
+db_config.each do |k, v|
+    db_config[k] = v.merge( DEFAULT_DB_CONFIG )
+end
+
+print ' -- Importing...'
+db_config_file = "#{ROOT}/config/database.yml"
+File.open( db_config_file, 'w' ) { |f| f.write db_config.to_yaml }
+puts " OK (#{db_config_file})"
+puts
+
+if db_config['production']['adapter'] == 'sqlite3'
+    puts 'Detected SQLite3:'
+
+    print ' -- Backing up existing one...'
+    bak = "#{ROOT}/db/production.sqlite3.bak"
+    FileUtils.cp "#{ROOT}/db/production.sqlite3", bak
+    puts " OK (#{bak})"
+
+    print ' -- Copying...'
+    sqlite3 = "#{ROOT}/db/production.sqlite3"
+    FileUtils.cp "#{system_dir}/db/production.sqlite3", sqlite3
+    puts " OK (#{sqlite3})"
+    puts
+end
+
+puts 'Migrating database:'
+
+require BOOT_PATH
+require APP_PATH
+
+Rails.application.require_environment!
+
+ActiveRecord::Base.establish_connection db_config[ENV['RAILS_ENV']]
+ActiveRecord::Migration.verbose = true
+
+begin
+    ActiveRecord::Migrator.migrate "#{ROOT}/db/migrate/"
+rescue => e
+    puts "Migration failed: #{e}"
+    e.backtrace.each do |line|
+        puts line
+    end
+
+    if db_config['production']['adapter'] == 'sqlite3'
+        puts
+        print ' -- Restoring previous SQLite3 DB...'
+        sqlite3 = "#{ROOT}/db/production.sqlite3"
+        FileUtils.cp "#{ROOT}/db/production.sqlite3.bak", sqlite3
+        puts " OK (#{sqlite3})"
+    end
+
+    exit
+end
+
+puts 'All done!'

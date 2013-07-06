@@ -116,7 +116,7 @@ class ProfilesController < ApplicationController
         @profile = Profile.find( params.require( :id ) )
 
         respond_to do |format|
-            if @profile.update_attributes( strong_params )
+            if @profile.update_attributes( strong_params.tap {|p| ap p } )
                 notify @profile
 
                 format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
@@ -186,7 +186,8 @@ class ProfilesController < ApplicationController
                    { plugins: plugin_with_options }, :proxy_host, :proxy_password, :proxy_port,
                    :proxy_type, :proxy_username, :redirect_limit, :redundant,
                    :restrict_paths, :user_agent, :http_timeout, :description,
-                   :https_only, :exclude_pages, { user_ids: [] }]
+                   :https_only, :exclude_pages, { user_ids: [] }, :no_fingerprinting,
+                   { platforms: [] } ]
 
         allowed << :global if current_user.admin?
 

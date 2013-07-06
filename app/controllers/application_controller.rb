@@ -36,5 +36,13 @@ class ApplicationController < ActionController::Base
     def wipe_storage
         storage.clear
     end
+
+    def after_sign_in_path_for( resource )
+        return super if Settings.welcomed?
+        Settings.welcomed = true
+
+        welcome_path
+    end
+
 end
 

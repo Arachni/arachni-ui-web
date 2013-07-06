@@ -24,10 +24,17 @@ class Settings
     class << self
         [:scan_global_limit, :scan_per_user_limit, :profile_allowed_modules,
          :profile_allowed_plugins, :scan_target_whitelist_patterns,
-         :scan_target_blacklist_patterns].each do |sym|
+         :scan_target_blacklist_patterns, :welcomed?].each do |sym|
             define_method sym do
                 Setting.first.send( sym )
             end
+        end
+
+        def welcomed=( bool )
+            s = Setting.first
+            s.welcomed = bool
+            s.save
+            bool
         end
 
         def scan_allowed_types

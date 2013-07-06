@@ -101,6 +101,10 @@ class Issue < ActiveRecord::Base
                             user_id: scan.owner_id ).order( 'id desc' )
     end
 
+    def audit_options
+        super.with_indifferent_access
+    end
+
     def url
         return nil if super.to_s.empty?
         super
