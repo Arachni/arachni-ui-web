@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Added welcome screen after first sign-in.
 - Added support for PostgreSQL along with sample database configuration file (`config/database.yml.pgsql`).
 - Added `script/import` to import database and their configurations from older
     packages.
