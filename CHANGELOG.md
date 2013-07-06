@@ -1,5 +1,7 @@
 # ChangeLog
 
+## _Under development_
+
 ## Version 0.4.1 _(July 06, 2013)_
 
 - Added welcome screen after first sign-in.
