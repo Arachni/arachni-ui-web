@@ -65,9 +65,6 @@ ArachniWebui::Application.routes.draw do
     get '/navigation', :to => 'home#navigation'
     get '/welcome',    :to => 'home#welcome'
 
-    authenticated :user do
-        root to: 'home#index'
-    end
     root to: 'home#index'
 
     devise_for :users, :skip => [:registrations], path_prefix: 'd'

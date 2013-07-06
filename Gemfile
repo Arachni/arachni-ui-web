@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.0.beta1'
+gem 'rails', '4.0.0'
 
 # Web server.
 gem 'thin'
@@ -25,16 +25,16 @@ gem 'bootstrap-sass', '2.3.1.0'
 gem 'github-markdown'
 
 # HTML form helper.
-gem 'simple_form', '>= 3.0.0.beta1'
+gem 'simple_form', '~> 3.0.0.rc'
 
 # User management/authentication.
 gem "devise", "~> 3.0.0.rc"
 
 # User authorization management.
-gem 'cancan', '>= 1.6.8'
+gem 'cancan', '~> 1.6.10'
 
 # User role management.
-gem 'rolify', '>= 3.1.0'
+gem 'rolify', '~> 3.2.0'
 
 # Pagination helper.
 gem 'kaminari'
@@ -51,13 +51,13 @@ end
 
 group :assets do
     # Sass CSS preprocessor.
-    gem 'sass-rails',   '4.0.0.beta1'
+    gem 'sass-rails',   '4.0.0'
 
     # CoffeeScript JavaScript preprocessor.
-    gem 'coffee-rails', '4.0.0.beta1'
+    gem 'coffee-rails', '4.0.0'
 
     # JavaScript compression.
-    gem 'uglifier', '>= 1.0.3'
+    gem 'uglifier', '~> 1.0.3'
 
     # JavaScript interpreter.
     gem 'libv8',    '~> 3.11.8'
