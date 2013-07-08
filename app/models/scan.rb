@@ -434,7 +434,8 @@ class Scan < ActiveRecord::Base
                 self.statistics = progress_data['stats']
 
                 if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
-                    self.error_messages += "\n" + progress_data['errors'].join( "\n" )
+                    self.error_messages ||= ''
+                    self.error_messages  += "\n" + progress_data['errors'].join( "\n" )
                 end
 
                 push_framework_issues( progress_data['issues'] )
@@ -486,7 +487,7 @@ class Scan < ActiveRecord::Base
     end
 
     def error_messages
-      @error_messages.to_s
+        super.to_s
     end
 
     private
