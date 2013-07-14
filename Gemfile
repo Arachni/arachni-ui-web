@@ -86,4 +86,4 @@ group :test do
 end
 
 # The Arachni Framework.
-gem 'arachni', '0.4.3'
+gem 'arachni', '0.4.3.1'

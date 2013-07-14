@@ -1,5 +1,13 @@
 # ChangeLog
 
+## Version 0.4.1.1 _(July 14, 2013)_
+
+- Login-screen
+    - Disabled AJAX refreshing of top-level menu.
+- Scan
+    - Monitoring
+        - Fixed bug causing the error log not to appear when there are errors.
+
 ## Version 0.4.1 _(July 06, 2013)_
 
 - Added welcome screen after first sign-in.

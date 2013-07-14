@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.4.1</td>
+        <td>0.4.1.1</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -115,6 +115,8 @@ Submit bugs using [GitHub Issues](http://github.com/Arachni/arachni-ui-web/issue
 and get support via the [Support Portal](http://support.arachni-scanner.com).
 
 ## Contributing
+
+If you make improvements to this application, please share with others.
 
 Before starting any work, please read the [instructions](https://github.com/Arachni/arachni-ui-web/tree/experimental#source)
 for working with the source code.
