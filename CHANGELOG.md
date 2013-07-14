@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- Login-screen
+    - Disabled AJAX refreshing of top-level menu.
 - Scan
     - Monitoring
         - Fixed bug causing the error log not to appear when there are errors.
