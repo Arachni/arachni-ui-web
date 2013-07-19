@@ -1,5 +1,10 @@
 # ChangeLog
 
+# Under development
+
+- Profiles
+    - Added HTTP auth options.
+
 ## Version 0.4.1.1 _(July 14, 2013)_
 
 - Login-screen

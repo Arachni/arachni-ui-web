@@ -213,6 +213,25 @@
         <small>How the scanner will communicate with the web application</small>
     </h2>
 
+    <% if !profile.http_username.to_s.empty? && !profile.http_password.to_s.empty? %>
+    <div class="row-fluid">
+        <div class="span6">
+            <p>
+                <b>HTTP username:</b>
+                <%= profile.http_username %>
+            </p>
+            <%= messages_for :http_username %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>HTTP password:</b>
+                <%= profile.http_password %>
+            </p>
+            <%= messages_for :http_password %>
+        </div>
+    </div>
+    <%end%>
+
     <div class="row-fluid">
         <div class="span6">
             <p>

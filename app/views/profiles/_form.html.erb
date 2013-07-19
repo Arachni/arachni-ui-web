@@ -149,11 +149,21 @@
 
             <div class="row-fluid">
                 <div class="span6">
+                    <%= f.input :http_username %>
+                    <%=  messages_for( :http_username ) %>
+                </div>
+                <div class="span6">
+                    <%= f.input :http_password, as: :string %>
+                    <%=  messages_for( :http_password ) %>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
                         <%= f.input :http_req_limit %>
                     <%=  messages_for( :http_req_limit ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_host %>
+                    <%= f.input :proxy_host %>
                     <%=  messages_for( :proxy_host ) %>
                 </div>
             </div>
