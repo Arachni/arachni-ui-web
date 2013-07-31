@@ -20,6 +20,15 @@ class ScansController < ApplicationController
     include ApplicationHelper
     include NotificationsHelper
 
+    rescue_from ActiveRecord::RecordNotFound do
+        flash[:alert] = 'The requested scan does not exist or has been deleted.'
+
+        respond_to do |format|
+            format.html { redirect_to :scans }
+            format.js { render text: "window.location = '#{scans_path}';" }
+        end
+    end
+
     before_filter :authenticate_user!
 
     before_filter :prepare_associations,

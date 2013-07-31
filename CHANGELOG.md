@@ -2,6 +2,10 @@
 
 # Under development
 
+- Scan
+    - Monitoring
+        - Redirect to the Scans list page with an alert if the monitored scan
+            was deleted.
 - Profiles
     - Added HTTP auth options.
 
