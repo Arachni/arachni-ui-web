@@ -268,9 +268,11 @@ class Scan < ActiveRecord::Base
     end
 
     def instance
-        @instance ||=
-            Arachni::RPC::Client::Instance.new( Arachni::Options.instance,
-                                                instance_url, instance_token )
+        client_synchronize do
+            client_factory[client_key] ||= Arachni::RPC::Client::Instance.new(
+                Arachni::Options.instance, instance_url, instance_token
+            )
+        end
     end
 
     def abort
@@ -281,12 +283,13 @@ class Scan < ActiveRecord::Base
         instance.service.abort_and_report :auditstore  do |auditstore|
             if !auditstore.rpc_exception?
                 create_report( auditstore )
-                instance.service.shutdown {}
+                instance.service.shutdown { delete_client }
             end
 
             self.status = :aborted
             finish
         end
+
         true
     end
 
@@ -424,6 +427,7 @@ class Scan < ActiveRecord::Base
                 save
 
                 notify action: self.status
+                delete_client
 
                 next
             end
@@ -492,6 +496,22 @@ class Scan < ActiveRecord::Base
 
     private
 
+    def delete_client
+        client_synchronize { client_factory.delete client_key }
+    end
+
+    def client_factory
+        @@instances ||= {}
+    end
+
+    def client_synchronize( &block )
+        (@@client_mutex ||= Mutex.new).synchronize(&block)
+    end
+
+    def client_key
+        "#{instance_url}:#{instance_token}".hash
+    end
+
     def push_framework_issues( a_issues )
         if revision?
             previous_rev_ids = previous_revisions_with_root.pluck( :id )
@@ -536,7 +556,7 @@ class Scan < ActiveRecord::Base
         # Grab the report and save the scan, we're all done now. :)
         instance.service.abort_and_report :auditstore do |auditstore|
             create_report( auditstore )
-            instance.service.shutdown {}
+            instance.service.shutdown { delete_client }
 
             block.call if block_given?
         end

@@ -2,6 +2,8 @@
 
 # Under development
 
+- Fixed caching of RPC clients for Scans (Instances) and Dispatchers to keep
+    the amount of open RPC connections to a minimum.
 - Scan
     - Monitoring
         - Redirect to the Scans list page with an alert if the monitored scan

@@ -181,8 +181,12 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def client
-        @client ||=
-            Arachni::RPC::Client::Dispatcher.new( Arachni::Options.instance, url )
+        client_synchronize do
+            client_factory[client_key] ||=
+                Arachni::RPC::Client::Dispatcher.new(
+                    Arachni::Options.instance, url
+                )
+        end
     end
 
     def refresh( &block )
@@ -216,6 +220,18 @@ class Dispatcher < ActiveRecord::Base
     end
 
     private
+
+    def client_factory
+        @@dispatchers ||= {}
+    end
+
+    def client_synchronize( &block )
+        (@@client_mutex ||= Mutex.new).synchronize(&block)
+    end
+
+    def client_key
+        url.hash
+    end
 
     def server_reachability
         return if ApplicationHelper.host_reachable?( address, port )
