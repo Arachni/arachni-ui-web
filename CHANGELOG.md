@@ -2,8 +2,8 @@
 
 # Under development
 
-- Fixed caching of RPC clients for Scans (Instances) and Dispatchers to keep
-    the amount of open RPC connections to a minimum.
+- Fixed bug causing the system to hang after `1:24` hours of scan monitoring,
+    caused by improper caching of RPC clients.
 - Scan
     - Monitoring
         - Redirect to the Scans list page with an alert if the monitored scan
