@@ -1,6 +1,6 @@
 # ChangeLog
 
-# Under development
+## 0.4.2 _(August 10, 2013)_
 
 - Fixed bug causing the system to hang after `1:24` hours of scan monitoring,
     caused by improper caching of RPC clients.
