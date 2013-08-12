@@ -1,5 +1,16 @@
 # ChangeLog
 
+## 0.4.2 _(August 10, 2013)_
+
+- Fixed bug causing the system to hang after `1:24` hours of scan monitoring,
+    caused by improper caching of RPC clients.
+- Scan
+    - Monitoring
+        - Redirect to the Scans list page with an alert if the monitored scan
+            was deleted.
+- Profiles
+    - Added HTTP auth options.
+
 ## Version 0.4.1.1 _(July 14, 2013)_
 
 - Login-screen

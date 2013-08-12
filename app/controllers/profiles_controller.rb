@@ -187,7 +187,7 @@ class ProfilesController < ApplicationController
                    :proxy_type, :proxy_username, :redirect_limit, :redundant,
                    :restrict_paths, :user_agent, :http_timeout, :description,
                    :https_only, :exclude_pages, { user_ids: [] }, :no_fingerprinting,
-                   { platforms: [] } ]
+                   { platforms: [] }, :http_username, :http_password ]
 
         allowed << :global if current_user.admin?
 

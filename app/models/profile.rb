@@ -65,7 +65,8 @@ class Profile < ActiveRecord::Base
                  :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
                  :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                  :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                 :http_timeout, :https_only, :exclude_pages, :platforms, :no_fingerprinting ]
+                 :http_timeout, :https_only, :exclude_pages, :platforms,
+                 :no_fingerprinting, :http_username, :http_password ]
 
     scope :global, -> { where global: true }
 
