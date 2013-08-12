@@ -86,8 +86,4 @@ group :test do
 end
 
 # The Arachni Framework.
-if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
-    gem 'arachni', path: p
-else
-    gem 'arachni', git: 'http://github.com/Arachni/arachni.git', branch: 'experimental'
-end
+gem 'arachni', '~> 0.4.4'
