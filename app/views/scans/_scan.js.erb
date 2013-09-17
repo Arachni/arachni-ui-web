@@ -1,3 +1,7 @@
+// The AJAX refresh messes with the page scroll so we need to keep track of it
+// and then restore it.
+var pageYOffset = $('html, body').scrollTop();
+
 <% if !params.delete( :change_revision ) %>
     $("#comments-list").html( "<%= escape_javascript(
                         render partial: 'comments/list.html',
@@ -52,6 +56,9 @@ $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisio
 if( $('#scan-description-form').is( ':visible' ) ){
     $('#edit-description-btn').hide();
 }
+
+// Restore the scroll value to where it was prior to the AJAX refresh.
+$("html, body").scrollTop( pageYOffset );
 
 window.setupScanCallbacks();
 window.setupComments();

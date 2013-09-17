@@ -2,6 +2,9 @@
 
 ## _Under development_
 
+- Scan monitoring
+    - Keep track of (and restore) the window scroll position between AJAX refreshes.
+
 ## 0.4.2 _(August 10, 2013)_
 
 - Fixed bug causing the system to hang after `1:24` hours of scan monitoring,
