@@ -1,5 +1,7 @@
 # ChangeLog
 
+## _Under development_
+
 ## 0.4.2.1 _(September 18, 2013)_
 
 - Scan monitoring

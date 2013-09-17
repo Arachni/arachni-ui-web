@@ -61,7 +61,6 @@ group :assets do
 
     # JavaScript interpreter.
     gem 'libv8',    '~> 3.11.8'
-
     # JavaScript interpreter wrapper.
     gem 'therubyracer'
 end
@@ -87,4 +86,8 @@ group :test do
 end
 
 # The Arachni Framework.
-gem 'arachni', '~> 0.4.5'
+if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
+    gem 'arachni', path: p
+else
+    gem 'arachni', git: 'http://github.com/Arachni/arachni.git', branch: 'experimental'
+end
