@@ -31,7 +31,7 @@ module FrameworkHelper
     end
 
     def plugins
-        components_for( :plugins ).tap {|s| p s}
+        components_for( :plugins )
     end
 
     def default_plugins

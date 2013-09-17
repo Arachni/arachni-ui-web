@@ -1,16 +1,16 @@
 <% if fade_out_messages? %>
     <div id="flash">
         <% flash.each do |name, msg| %>
-            <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
-                <a class="close" data-dismiss="alert">×</a>
+            <div class="alert alert-<%= name == :notice ? 'success' : 'error' %>">
+                <a class="close" data-dismiss="alert">&#10006;</a>
                 <%= content_tag :div, msg, id: "#{name}" if msg.is_a?( String ) %>
             </div>
         <% end %>
     </div>
 <% else %>
     <% flash.each do |name, msg| %>
-        <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
-            <a class="close" data-dismiss="alert">×</a>
+        <div class="alert alert-<%= name == :notice ? 'success' : 'error' %>">
+            <a class="close" data-dismiss="alert">&#10006;</a>
             <%= content_tag :div, msg, id: "#{name}" if msg.is_a?( String ) %>
         </div>
     <% end %>

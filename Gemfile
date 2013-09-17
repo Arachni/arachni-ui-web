@@ -61,6 +61,7 @@ group :assets do
 
     # JavaScript interpreter.
     gem 'libv8',    '~> 3.11.8'
+
     # JavaScript interpreter wrapper.
     gem 'therubyracer'
 end
@@ -86,4 +87,4 @@ group :test do
 end
 
 # The Arachni Framework.
-gem 'arachni', '~> 0.4.4'
+gem 'arachni', '~> 0.4.5'

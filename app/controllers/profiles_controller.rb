@@ -116,7 +116,7 @@ class ProfilesController < ApplicationController
         @profile = Profile.find( params.require( :id ) )
 
         respond_to do |format|
-            if @profile.update_attributes( strong_params.tap {|p| ap p } )
+            if @profile.update_attributes( strong_params )
                 notify @profile
 
                 format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
