@@ -2,6 +2,10 @@
 
 ## _Under development_
 
+- Navigation menu
+    - Removed "Home" item since it was redundant.
+    - Updated JS detection of active page when the WebUI is mounted under a subdirectory.
+
 ## 0.4.2.1 _(September 18, 2013)_
 
 - Scan monitoring
