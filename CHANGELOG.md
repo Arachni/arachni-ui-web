@@ -5,6 +5,8 @@
 - Navigation menu
     - Removed "Home" item since it was redundant.
     - Updated JS detection of active page when the WebUI is mounted under a subdirectory.
+- Profiles
+    - Added Regexp validation for the login-check-pattern input.
 
 ## 0.4.2.1 _(September 18, 2013)_
 

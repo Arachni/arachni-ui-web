@@ -313,6 +313,12 @@ class Profile < ActiveRecord::Base
         end
 
         errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
+
+        begin
+            Regexp.new( login_check_pattern )
+        rescue RegexpError => e
+            errors.add :login_check_pattern, "not a valid regular expression (#{e})"
+        end
     end
 
     def validate_modules
