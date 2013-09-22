@@ -10,6 +10,9 @@
     - Added Import and Export/Download functionality, supporting:
         - YAML -- Including the CLI AFP files.
         - JSON
+- Settings
+    - Profiles
+        - Fixed heading (_Profiles_ => _Plugins_).
 
 ## 0.4.2.1 _(September 18, 2013)_
 
