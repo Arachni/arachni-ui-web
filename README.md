@@ -118,7 +118,7 @@ security scanner framework.
             - Allowed modules.
  - Users can:
     - Manage, create and share Dispatchers with each other.
-    - Manage, create and share Scan configuration Profiles with each other.
+    - Manage, create, export, import and share Scan configuration Profiles with each other.
     - Start Scans using one of the available Profiles (and optionally Dispatchers).
     - Organize Scans into Scan Groups for easier management and share their Groups with each other.
     - Manage, comment, share and export reports of their Scans.
