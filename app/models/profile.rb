@@ -139,7 +139,12 @@ class Profile < ActiveRecord::Base
         profile_hash = to_rpc_options
         profile_hash[:name] = name
         profile_hash[:description] = description
-        serializer.dump profile_hash
+
+        if serializer == JSON
+            JSON::pretty_generate profile_hash
+        else
+            serializer.dump profile_hash
+        end
     end
 
     def modules
