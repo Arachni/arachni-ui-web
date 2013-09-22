@@ -14,36 +14,7 @@
         <% end %>
 
         <div class="visible-phone">
-            <% if can? :edit, profile %>
-                <%= link_to edit_profile_path( profile ), title: 'Edit',
-                            class: 'btn btn-small btn-warning' do %>
-                    <i class="icon-pencil"></i>
-                <% end %>
-            <% end %>
-
-            <% if can? :copy, profile %>
-                <%= link_to copy_profile_path( profile ),
-                            title: "Create a new profile based on '#{profile.name}'",
-                            class: 'btn btn-small btn-primary' do %>
-                    <i class="icon-copy"></i>
-                <% end %>
-            <% end %>
-
-            <% if can?( :delete, profile ) && !profile.default? %>
-                <%= link_to profile, title: 'Delete', method: :delete,
-                            class: 'btn btn-small btn-danger',
-                            data: { confirm: 'Are you sure?' } do %>
-                    <i class="icon-trash"></i>
-                <% end %>
-            <% end %>
-
-            <% if can? :read, profile %>
-                <%= link_to profile_path( profile, format: :yaml ),
-                            title: 'Download',
-                            class: 'btn btn-small btn-inverse' do %>
-                    <i class="icon-download-alt"></i>
-                <% end %>
-            <% end %>
+            <%= render partial: 'actions', locals: { profile: profile } %>
         </div>
     </div>
 </div>

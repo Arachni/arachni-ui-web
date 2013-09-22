@@ -42,23 +42,23 @@ class ProfilesController < ApplicationController
     def show
         @profile = Profile.find( params.require( :id ) )
 
-        set_download_header = proc do
+        set_download_header = proc do |extension|
             name = @profile.name
             [ "\n", "\r", '"' ].each { |k| name.gsub!( k, '' ) }
 
             headers['Content-Disposition'] =
-                "attachment; filename=\"Arachni WebUI Profile - #{name}.yaml\""
+                "attachment; filename=\"Arachni WebUI Profile - #{name}.#{extension}\""
         end
 
         respond_to do |format|
             format.html # show.html.erb
             format.js { render @profile }
             format.json do
-                set_download_header.call
+                set_download_header.call 'json'
                 render text: @profile.export( JSON )
             end
             format.yaml do
-                set_download_header.call
+                set_download_header.call 'yaml'
                 render text: @profile.export( YAML )
             end
         end
