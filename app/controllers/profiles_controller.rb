@@ -132,7 +132,12 @@ class ProfilesController < ApplicationController
             return
         end
 
-        @profile = Profile.import( params[:profile][:file] )
+        begin
+            @profile = Profile.import( params[:profile][:file] )
+        rescue ArgumentError => e
+            redirect_to profiles_url, alert: e.to_s
+            return
+        end
 
         respond_to do |format|
             format.html { render 'edit' }

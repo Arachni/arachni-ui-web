@@ -140,6 +140,7 @@ class Profile < ActiveRecord::Base
         profile_hash[:name] = name
         profile_hash[:description] = description
 
+        profile_hash = profile_hash.stringify_keys( false )
         if serializer == JSON
             JSON::pretty_generate profile_hash
         else
@@ -300,8 +301,12 @@ class Profile < ActiveRecord::Base
         h = begin
                 JSON.load serialized
             rescue
-                YAML.load( serialized ).to_hash.stringify_keys( false )
+                YAML.safe_load serialized rescue nil
             end
+
+        if !h.is_a?( Hash )
+            raise ArgumentError, 'Could not understand the Profile format.'
+        end
 
         h['modules'] ||= h.delete( 'mods' )
         new h.select { |attribute, _| attribute_names.include? attribute }
