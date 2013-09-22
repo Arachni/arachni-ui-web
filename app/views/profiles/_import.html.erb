@@ -1,0 +1,21 @@
+<div id="profile-import" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+            &#10006;
+        </button>
+        <h3>Import profile:</h3>
+    </div>
+
+    <%= simple_form_for :profile, url: import_profiles_url, html: { multipart: true } do |f| %>
+        <div class="modal-body">
+            <%= f.error_notification %>
+            <%= f.input :file, as: :file, label: false,
+                        hint: '(You can also import AFP profiles created by the CLI interface.)'
+            %>
+        </div>
+        <div class="modal-footer">
+            <%= f.button :submit, value: 'Import' %>
+            <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    <% end %>
+</div>

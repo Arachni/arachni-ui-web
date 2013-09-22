@@ -135,6 +135,13 @@ class Profile < ActiveRecord::Base
         opts
     end
 
+    def export( serializer = YAML )
+        profile_hash = to_rpc_options
+        profile_hash[:name] = name
+        profile_hash[:description] = description
+        serializer.dump profile_hash
+    end
+
     def modules
         # Only allow authorized modules.
         super & Settings.profile_allowed_modules
@@ -280,6 +287,19 @@ class Profile < ActiveRecord::Base
                 Hash[string_or_hash.to_s.split( /[\n\r]/ ).reject( &:empty? ).
                                map{ |rule| rule.split( hash_delimiter, 2 ) }]
         end
+    end
+
+    def self.import( file )
+        serialized = file.read
+
+        h = begin
+                JSON.load serialized
+            rescue
+                YAML.load( serialized ).to_hash.stringify_keys( false )
+            end
+
+        h['modules'] ||= h.delete( 'mods' )
+        new h.select { |attribute, _| attribute_names.include? attribute }
     end
 
     def validate_description

@@ -57,6 +57,7 @@ ArachniWebui::Application.routes.draw do
     end
 
     resources :profiles do
+        post  :import,       on: :collection
         patch :make_default, on: :member
         patch :share,        on: :member
         get   :copy,         on: :member

@@ -7,6 +7,7 @@
     - Updated JS detection of active page when the WebUI is mounted under a subdirectory.
 - Profiles
     - Added Regexp validation for the login-check-pattern input.
+    - Added Import and Export/Download functionality.
 
 ## 0.4.2.1 _(September 18, 2013)_
 

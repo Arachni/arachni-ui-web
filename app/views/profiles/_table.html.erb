@@ -204,6 +204,14 @@
                         <% end %>
                     <% end %>
 
+                    <% if can? :read, profile %>
+                        <%= link_to profile_path( profile, format: :yaml ),
+                                    title: 'Download',
+                                    class: 'btn btn-small btn-inverse' do %>
+                            <i class="icon-download-alt"></i>
+                        <% end %>
+                    <% end %>
+
                     <% if can? :share, profile %>
                         <%= render partial: 'shared/share_form', locals: { model: profile, nolabel: true } %>
                     <% end %>

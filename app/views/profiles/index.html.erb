@@ -19,8 +19,15 @@
     <%= link_to new_profile_path, class: 'btn btn-primary' do %>
         <i class="icon-plus"></i> New Profile
     <% end %>
+
+    <a href="#profile-import" title="Share scan"
+       role="button" class="btn btn-inverse" data-toggle="modal">
+        <i class="icon-upload-alt"></i> Import
+    </a>
 </p>
 <% end %>
+
+<%= render partial: 'import' %>
 
 <div id="profiles">
     <div id="table">
