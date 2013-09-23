@@ -304,9 +304,7 @@ class Profile < ActiveRecord::Base
                 YAML.safe_load serialized rescue nil
             end
 
-        if !h.is_a?( Hash )
-            raise ArgumentError, 'Could not understand the Profile format.'
-        end
+        return if !h.is_a?( Hash )
 
         h['modules'] ||= h.delete( 'mods' )
         new h.select { |attribute, _| attribute_names.include? attribute }

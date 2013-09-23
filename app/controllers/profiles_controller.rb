@@ -132,10 +132,10 @@ class ProfilesController < ApplicationController
             return
         end
 
-        begin
-            @profile = Profile.import( params[:profile][:file] )
-        rescue ArgumentError => e
-            redirect_to profiles_url, alert: e.to_s
+        @profile = Profile.import( params[:profile][:file] )
+
+        if !@profile
+            redirect_to profiles_url, alert: 'Could not understand the Profile format.'
             return
         end
 
