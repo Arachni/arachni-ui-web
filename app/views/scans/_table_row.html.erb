@@ -50,7 +50,13 @@
 
         <%= link_to scan.url, scan.url %>
     </td>
-    <td class="hidden-phone"><%= link_to scan.profile.name, scan.profile %></td>
+    <td class="hidden-phone">
+        <% if scan.profile %>
+            <%= link_to scan.profile.name, scan.profile %>
+        <% else %>
+            (Deleted)
+        <% end %>
+    </td>
     <td class="hidden-phone">
         <% if (!show_as_revision && scan.has_revisions?) %>
         N/A
@@ -157,7 +163,7 @@
                 <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
             <% end %>
         <% else %>
-            <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) %>
+            <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) && scan.profile %>
                 <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',
                             class: 'btn btn-small btn-success' do %>
                     <i class="icon-repeat"></i>

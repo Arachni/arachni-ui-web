@@ -10,6 +10,10 @@
     - Added Import and Export/Download functionality, supporting:
         - YAML -- Including the CLI AFP files.
         - JSON
+    - Delete dialog now warns of the existence of associated Scans.
+- Scans
+    - Index
+        - Fixed a nil error caused when a Scan's Profile has been deleted.
 - Settings
     - Profiles
         - Fixed heading (_Profiles_ => _Plugins_).

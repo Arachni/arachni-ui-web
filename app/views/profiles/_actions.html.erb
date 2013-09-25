@@ -14,9 +14,12 @@
 <% end %>
 
 <% if can?( :delete, profile ) && !profile.default? %>
+    <% msg = 'Are you sure?'
+       msg += ' This profile has associated scans.' if profile.has_scans? %>
+
     <%= link_to profile, title: 'Delete', method: :delete,
                 class: 'btn btn-small btn-danger',
-                data: { confirm: 'Are you sure?' } do %>
+                data: { confirm: msg } do %>
         <i class="icon-trash"></i>
     <% end %>
 <% end %>

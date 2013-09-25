@@ -115,6 +115,10 @@ class Profile < ActiveRecord::Base
         name
     end
 
+    def has_scans?
+        Scan.where( profile: self ).any?
+    end
+
     def make_default
         self.class.unmake_default
         self.default = true

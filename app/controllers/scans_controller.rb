@@ -114,6 +114,8 @@ class ScansController < ApplicationController
     def new_revision
         @scan = find_scan( params.require( :id ) )
 
+        fail 'Scan has no Profile, cannot repeat.' if !@scan.profile
+
         respond_to do |format|
             format.html
         end
