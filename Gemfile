@@ -91,5 +91,5 @@ end
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', path: p
 else
-    gem 'arachni', git: 'http://github.com/Arachni/arachni.git', branch: 'experimental'
+    gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
 end
