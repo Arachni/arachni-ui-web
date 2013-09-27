@@ -1,0 +1,24 @@
+<%= f.simple_fields_for @scan.schedule do |schedule| %>
+    <%= schedule.input :start_datetime, as: :datetime %>
+
+    <div class="row-fluid">
+        <div class="span1">
+            Every:
+        </div>
+        <div class="span1">
+            <%= schedule.input :every_minute, placeholder: 'Minutes', label: false %>
+        </div>
+
+        <div class="span1">
+            <%= schedule.input :every_hour, placeholder: 'Hours', label: false %>
+        </div>
+
+        <div class="span1">
+            <%= schedule.input :every_day, placeholder: 'Days', label: false %>
+        </div>
+
+        <div class="span1">
+            <%= schedule.input :every_month, placeholder: 'Months', label: false %>
+        </div>
+    </div>
+<% end %>

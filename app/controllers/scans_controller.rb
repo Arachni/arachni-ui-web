@@ -102,6 +102,7 @@ class ScansController < ApplicationController
             @scan = find_scan( params.require( :id ) )
         else
             @scan = Scan.new
+            @scan.build_schedule
         end
 
         respond_to do |format|
@@ -365,7 +366,11 @@ class ScansController < ApplicationController
     end
 
     def new_scan
-        @scan = Scan.new( strong_params )
+        parameters = strong_params
+        schedule   = parameters.delete( 'schedule' )
+
+        @scan = Scan.new( parameters )
+        @scan.create_schedule( schedule )
     end
 
     def strong_params
@@ -389,7 +394,14 @@ class ScansController < ApplicationController
         params.require( :scan ).
             permit( :url, :description, :type, :instance_count, :profile_id,
                     { user_ids: [] }, { scan_group_ids: [] }, :dispatcher_id,
-                    :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps )
+                    :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps,
+                    schedule: [
+                            'start_datetime(1i)', 'start_datetime(2i)',
+                            'start_datetime(3i)', 'start_datetime(4i)',
+                            'start_datetime(5i)', :every_minute, :every_hour,
+                            :every_day, :every_month
+                    ]
+        )
     end
 
     def find_scan( id )

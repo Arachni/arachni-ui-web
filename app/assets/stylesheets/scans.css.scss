@@ -97,7 +97,12 @@
         width: 100%;
     }
 
-
+    #scan_schedule_every_minute,
+    #scan_schedule_every_hour,
+    #scan_schedule_every_day,
+    #scan_schedule_every_month {
+        width: 100%;
+    }
 
     #progress-percentage {
         font-weight: bold;
@@ -110,11 +115,6 @@
                 1px -1px 0 #000,
                 -1px 1px 0 #000,
             1px 1px 0 #000;
-    }
-
-    .accordion-group {
-        border: 0px;
-        border-bottom: 1px solid #E5E5E5
     }
 
     #charts .pie-chart {

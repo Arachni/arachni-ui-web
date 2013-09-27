@@ -31,11 +31,16 @@ class Scan < ActiveRecord::Base
     belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
     belongs_to :root,   class_name: 'Scan'
 
+    has_one :schedule, dependent: :destroy, autosave: true
     has_one :report
 
     has_many :issues,        dependent: :destroy
     has_many :comments, as: :commentable, dependent: :destroy
     has_many :revisions, class_name: 'Scan', foreign_key: :root_id
+
+    accepts_nested_attributes_for :schedule
+
+    validates_associated :schedule
 
     validates_presence_of :url
     validate :validate_url
