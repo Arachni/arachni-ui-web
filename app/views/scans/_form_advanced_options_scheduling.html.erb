@@ -1,24 +1,75 @@
+<% show_crawl_options = true if !local_assigns.include?( :show_crawl_options ) %>
+
 <%= f.simple_fields_for @scan.schedule do |schedule| %>
     <%= schedule.input :start_datetime, as: :datetime %>
 
-    <div class="row-fluid">
-        <div class="span1">
-            Every:
-        </div>
-        <div class="span1">
-            <%= schedule.input :every_minute, placeholder: 'Minutes', label: false %>
-        </div>
+    <fieldset>
+        <legend>Recurring</legend>
 
-        <div class="span1">
-            <%= schedule.input :every_hour, placeholder: 'Hours', label: false %>
-        </div>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="row-fluid">
+                    <div class="span1">
+                        Every:
+                    </div>
+                    <div class="span2">
+                        <%= schedule.input :every_minute, placeholder: 'Minutes', label: false %>
+                    </div>
 
-        <div class="span1">
-            <%= schedule.input :every_day, placeholder: 'Days', label: false %>
-        </div>
+                    <div class="span2">
+                        <%= schedule.input :every_hour, placeholder: 'Hours', label: false %>
+                    </div>
 
-        <div class="span1">
-            <%= schedule.input :every_month, placeholder: 'Months', label: false %>
+                    <div class="span2">
+                        <%= schedule.input :every_day, placeholder: 'Days', label: false %>
+                    </div>
+
+                    <div class="span2">
+                        <%= schedule.input :every_month, placeholder: 'Months', label: false %>
+                    </div>
+                </div>
+            </div>
+<% end %>
+
+<% if show_crawl_options %>
+        <div class="span6">
+            <div class="control-group radio_buttons optional">
+                <div class="controls">
+                    <p>
+                        Use sitemaps of previous revisions:
+                    </p>
+                    <p>
+                        <input id="scan_restrict_to_revision_sitemaps"
+                               class="radio_buttons optional"
+                               type="radio"
+                               value="restrict_to_revision_sitemaps"
+                               name="scan[sitemap_option]"
+                               <%= 'checked' if @scan.restrict_to_revision_sitemaps? %>
+                        >
+
+                        <label for="scan_restrict_to_revision_sitemaps"
+                               class="radio_buttons optional control-label">
+                            instead of crawling
+                        </label>
+                    </p>
+                    <p>
+                        <input id="scan_extend_from_revision_sitemaps"
+                               class="radio_buttons optional"
+                               type="radio"
+                               value="extend_from_revision_sitemaps"
+                               name="scan[sitemap_option]"
+                               <%= 'checked' if @scan.extend_from_revision_sitemaps? %>
+                        >
+
+                        <label for="scan_extend_from_revision_sitemaps"
+                               class="radio_buttons optional control-label">
+                            in addition to crawling
+                        </label>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 <% end %>
+</fieldset>
+

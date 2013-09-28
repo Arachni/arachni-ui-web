@@ -1,3 +1,5 @@
+<% show_crawl_options = true if !local_assigns.include?( :show_crawl_options ) %>
+
 <div class="accordion" id="scan-advanced-options-accordion">
     <div class="accordion-group">
         <div class="accordion-heading">
@@ -23,7 +25,8 @@
                     </div>
 
                     <div class="tab-pane" id="scheduling">
-                        <%= render partial: 'form_advanced_options_scheduling', locals: { f: f } %>
+                        <%= render partial: 'form_advanced_options_scheduling',
+                                   locals: { f: f, show_crawl_options: show_crawl_options } %>
                     </div>
                 </div>
             </div>
