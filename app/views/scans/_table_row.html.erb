@@ -187,7 +187,7 @@
 </tr>
 
 <% if !show_as_revision && scan.has_revisions? %>
-    <% scan.revisions_with_root.each do |revision| %>
+    <% scan.revisions_with_root.finished.each do |revision| %>
         <% next if !treat_as_running && revision.active?  %>
         <%= render partial: 'table_row',
                    locals: { scan: revision,
