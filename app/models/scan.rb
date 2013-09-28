@@ -237,7 +237,7 @@ class Scan < ActiveRecord::Base
     end
 
     def aborted?
-        status == :aborted
+        status == :aborted || status == :aborting
     end
 
     def error?

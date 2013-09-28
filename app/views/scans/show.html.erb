@@ -73,6 +73,17 @@
             </li>
             <% end %>
 
+            <% if can?( :update, @scan ) %>
+                <li>
+                    <a href="#updateScanSchedule_<%= @scan.id %>"
+                       title="Update schedule"
+                       role="button" data-toggle="modal">
+                        <i class="icon-calendar"></i>
+                        Edit schedule
+                    </a>
+                </li>
+            <% end %>
+
             <% if current_user.scan_groups.any? && can?( :update, @scan ) %>
                 <li>
                     <a href="#updateScanGroup_<%= @scan.id %>"
@@ -130,6 +141,7 @@
     <div class="visible-phone pull-left">
         <%= render partial: 'shared/share_form', locals: { model: @scan } %>
         <%= render partial: 'scan_group_form', locals: { scan: @scan } %>
+        <%= render partial: 'scan_schedule_form', locals: { scan: @scan } %>
     </div>
 
     <div class="visible-phone">

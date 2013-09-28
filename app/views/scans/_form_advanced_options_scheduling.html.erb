@@ -1,8 +1,11 @@
-<% show_crawl_options = true if !local_assigns.include?(:show_crawl_options) %>
+<%
+   show_crawl_options = true if !local_assigns.include?(:show_crawl_options)
+   scan ||= @scan
+%>
 
 <div class="row-fluid">
 
-    <%= f.simple_fields_for @scan.schedule do |schedule| %>
+    <%= f.simple_fields_for scan.schedule do |schedule| %>
     <div class="span3">
         <fieldset>
             <legend>Start at</legend>
@@ -64,7 +67,7 @@
                                            type="radio"
                                            value="restrict_to_revision_sitemaps"
                                            name="scan[sitemap_option]"
-                                           <%= 'checked' if @scan.restrict_to_revision_sitemaps? %>
+                                           <%= 'checked' if scan.restrict_to_revision_sitemaps? %>
                                     >
 
                                     <label for="scan_restrict_to_revision_sitemaps"
@@ -79,7 +82,7 @@
                                            type="radio"
                                            value="extend_from_revision_sitemaps"
                                            name="scan[sitemap_option]"
-                                           <%= 'checked' if @scan.extend_from_revision_sitemaps? %>
+                                           <%= 'checked' if scan.extend_from_revision_sitemaps? %>
                                     >
 
                                     <label for="scan_extend_from_revision_sitemaps"

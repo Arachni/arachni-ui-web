@@ -169,10 +169,17 @@ class ScansController < ApplicationController
     def update
         @scan = find_scan( params.require( :id ) )
 
-        update_params = params.require( :scan ).permit( :description )
+        update_params = params.require( :scan ).
+            permit( :description, :restrict_to_revision_sitemaps,
+                    :extend_from_revision_sitemaps,
+                    schedule: [ :start_at,:every_minute, :every_hour, :every_day,
+                                :every_month ] )
+
+        schedule_params = update_params.delete(:schedule)
 
         respond_to do |format|
-            if @scan.update_attributes( update_params )
+            if @scan.update_attributes( update_params ) &&
+                @scan.schedule.update_attributes( schedule_params )
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.js { render '_scan.js' }
                 format.json { head :no_content }
