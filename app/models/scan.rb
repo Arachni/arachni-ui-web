@@ -350,8 +350,9 @@ class Scan < ActiveRecord::Base
     end
 
     def start
-        self.status = :starting
-        self.active = true
+        self.status     = :starting
+        self.active     = true
+        self.started_at = Time.now
         save
 
         sitemap_opts = {}
