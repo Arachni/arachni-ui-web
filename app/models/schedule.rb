@@ -1,3 +1,15 @@
+class DatetimeValidator < ActiveModel::EachValidator
+    def validate_each( record, attribute, value )
+        before_type_cast = "#{attribute}_before_type_cast"
+
+        raw_value = record.send( before_type_cast ) if record.respond_to?( before_type_cast.to_sym )
+        raw_value ||= value
+
+        return if raw_value.blank?
+        raw_value.to_datetime rescue record.errors[attribute] << (options[:message] || 'must be a datetime.')
+    end
+end
+
 class Schedule < ActiveRecord::Base
     belongs_to :scan
 
@@ -32,4 +44,7 @@ class Schedule < ActiveRecord::Base
                   message: 'Accepted values: 1-12.'
               },
               allow_nil: true
+
+    validates :start_at, datetime: true
+
 end

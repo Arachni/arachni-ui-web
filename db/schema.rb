@@ -210,12 +210,11 @@ ActiveRecord::Schema.define(version: 20130927200257) do
   end
 
   create_table "schedules", force: true do |t|
-    t.datetime "start_datetime"
+    t.datetime "start_at"
     t.integer  "every_minute"
     t.integer  "every_hour"
     t.integer  "every_day"
     t.integer  "every_month"
-    t.integer  "every_year"
     t.integer  "scan_id"
     t.datetime "created_at"
     t.datetime "updated_at"

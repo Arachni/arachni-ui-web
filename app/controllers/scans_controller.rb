@@ -367,7 +367,7 @@ class ScansController < ApplicationController
 
     def new_scan
         parameters = strong_params
-        schedule   = parameters.delete( 'schedule' )
+        ap schedule   = parameters.delete( 'schedule' )
 
         @scan = Scan.new( parameters )
         @scan.create_schedule( schedule )
@@ -395,12 +395,7 @@ class ScansController < ApplicationController
             permit( :url, :description, :type, :instance_count, :profile_id,
                     { user_ids: [] }, { scan_group_ids: [] }, :dispatcher_id,
                     :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps,
-                    schedule: [
-                            'start_datetime(1i)', 'start_datetime(2i)',
-                            'start_datetime(3i)', 'start_datetime(4i)',
-                            'start_datetime(5i)', :every_minute, :every_hour,
-                            :every_day, :every_month
-                    ]
+                    schedule: [ :start_at, :every_minute, :every_hour, :every_day, :every_month ]
         )
     end
 

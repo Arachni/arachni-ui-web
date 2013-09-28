@@ -62,6 +62,7 @@ class Scan < ActiveRecord::Base
     serialize :issue_digests, Array
 
     scope :active,      -> { where active: true }
+    #scope :scheduled,   -> { where schedule: 'scheduled' }
     scope :running,     -> { where status: %w(crawling auditing) }
     scope :paused,      -> { where status: %w(paused pausing) }
     scope :inactive,    -> { where active: false }
