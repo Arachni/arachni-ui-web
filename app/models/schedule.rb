@@ -13,6 +13,8 @@ end
 class Schedule < ActiveRecord::Base
     belongs_to :scan
 
+    scope :due, -> { joins(:scan).where( scans: { status: 'scheduled' } ).where [ 'start_at <= ?', Time.now ] }
+
     validates :every_minute,
               numericality: true,
               inclusion: {
@@ -46,5 +48,14 @@ class Schedule < ActiveRecord::Base
               allow_nil: true
 
     validates :start_at, datetime: true
+
+    def recurring?
+        interval > 0
+    end
+
+    def interval
+        every_minute.to_i.minutes + every_hour.to_i.hours +
+            every_day.to_i.days + every_month.to_i.months
+    end
 
 end

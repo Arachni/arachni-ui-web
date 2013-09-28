@@ -14,6 +14,8 @@
     limitations under the License.
 =end
 
+require 'arachni/rpc/server/instance'
+
 class ScanManager
     include Singleton
 
@@ -23,7 +25,10 @@ class ScanManager
 
     def monitor
         return if Rails.env == 'test'
-        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ){ refresh }
+        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ) do
+            keep_schedule
+            refresh
+        end
     end
 
     def after_create( scan )
@@ -32,6 +37,29 @@ class ScanManager
         # If the scan has a status then it's not the first time that it's been
         # saved so bail out to avoid an inf loop.
         return if scan.status
+
+        if scan.schedule.start_at
+            scan.status = :scheduled
+            scan.save
+            return
+        end
+
+        start_scan scan
+
+        true
+    end
+
+    private
+
+    def keep_schedule
+        Rails.logger.info "#{self.class}##{__method__}"
+
+        Schedule.due.each do |schedule|
+            start_scan schedule.scan
+        end
+    end
+
+    def start_scan( scan )
         scan.status = :initializing
         scan.save
 
@@ -54,8 +82,6 @@ class ScanManager
         true
     end
 
-    private
-
     def refresh
         Rails.logger.info "#{self.class}##{__method__}"
 
@@ -65,8 +91,6 @@ class ScanManager
     end
 
     def spawn_instance
-        require 'arachni/rpc/server/instance'
-
         # Global address to bind to.
         Arachni::Options.rpc_address = 'localhost'
 

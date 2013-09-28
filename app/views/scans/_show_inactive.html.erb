@@ -62,12 +62,16 @@
 
 <% else %>
     <p class='alert alert-info'>
-        <i class="icon-spinner icon-spin"></i>
 
         <% if @scan.initializing? %>
-        The scan is initializing, please wait...
+            <i class="icon-spinner icon-spin"></i>
+            The scan is initializing, please wait...
+        <% elsif @scan.scheduled? %>
+            This scan has been scheduled for <%= l @scan.schedule.start_at %>
+            (<%= @scan.schedule.start_at.zone %>) and will run in <%= distance_of_time_in_words_to_now @scan.schedule.start_at %>.
         <% else %>
-        Cleaning up and retrieving the report, please wait...
+            <i class="icon-spinner icon-spin"></i>
+            Cleaning up and retrieving the report, please wait...
         <% end %>
     </p>
 

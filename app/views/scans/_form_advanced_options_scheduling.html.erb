@@ -8,7 +8,14 @@
             <legend>Start at</legend>
             <div class="row-fluid">
                 <div class="span12">
-                    <%= schedule.input :start_at, as: :string, placeholder: 'hour:minute day/month/year', label: false %>
+                    <%=
+                        tz  = Time.zone
+                        now = tz.now
+                        schedule.input :start_at, as: :string,
+                                       placeholder: 'hour:minute day/month/year',
+                                       label: false,
+                                       hint: "Now: #{now.hour}:#{now.min} #{now.day}/#{now.month}/#{now.year} in #{tz.name}"
+                    %>
                 </div>
             </div>
         </fieldset>

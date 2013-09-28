@@ -62,12 +62,11 @@ class Scan < ActiveRecord::Base
     serialize :issue_digests, Array
 
     scope :active,      -> { where active: true }
-    #scope :scheduled,   -> { where schedule: 'scheduled' }
+    scope :scheduled,   -> { where status: 'scheduled' }
     scope :running,     -> { where status: %w(crawling auditing) }
     scope :paused,      -> { where status: %w(paused pausing) }
     scope :inactive,    -> { where active: false }
-    scope :finished,    -> { where( "status = 'completed' OR status = 'aborted'" +
-                                    " OR status = 'error'" ) }
+    scope :finished,    -> { where 'finished_at IS NOT NULL' }
 
     SENSITIVE = [ :instance_token ]
 
@@ -210,7 +209,7 @@ class Scan < ActiveRecord::Base
     end
 
     def finished?
-        completed? || aborted? || error?
+        !!finished_at
     end
 
     def running?
@@ -219,6 +218,10 @@ class Scan < ActiveRecord::Base
 
     def cleaning_up?
         !active? && !finished?
+    end
+
+    def scheduled?
+        status == :scheduled
     end
 
     def completed?
@@ -395,7 +398,7 @@ class Scan < ActiveRecord::Base
     def new_revision( opts = {} )
         new = root_revision.dup
 
-        new.root   = self
+        new.root   = self.root || self
         new.active = nil
         new.status = nil
         new.report = nil
@@ -406,6 +409,7 @@ class Scan < ActiveRecord::Base
 
         new.owner_id = self.owner_id
         new.user_ids = self.user_ids
+        new.schedule = self.schedule.dup
         new.scan_group_ids = self.scan_group_ids
 
         new.save
@@ -587,6 +591,15 @@ class Scan < ActiveRecord::Base
         self.active      = false
         self.finished_at = Time.now
         save
+
+        return if !self.schedule.recurring?
+
+        revision = new_revision
+        ap self.id
+        ap revision.id
+        revision.schedule.start_at = Time.now + revision.schedule.interval
+        revision.save
+        revision.repeat
     end
 
     def validate_url
@@ -625,8 +638,6 @@ class Scan < ActiveRecord::Base
         return if ActionController::Base.helpers.strip_tags( description ) == description
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
-
-    private
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]
