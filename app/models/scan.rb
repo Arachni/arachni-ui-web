@@ -595,8 +595,6 @@ class Scan < ActiveRecord::Base
         return if !self.schedule.recurring?
 
         revision = new_revision
-        ap self.id
-        ap revision.id
         revision.schedule.start_at = Time.now + revision.schedule.interval
         revision.save
         revision.repeat
