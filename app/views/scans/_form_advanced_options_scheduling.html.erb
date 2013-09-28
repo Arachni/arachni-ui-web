@@ -12,20 +12,20 @@
                     <div class="span1">
                         Every:
                     </div>
-                    <div class="span2">
-                        <%= schedule.input :every_minute, placeholder: 'Minutes', label: false %>
+                    <div class="span3">
+                        <%= schedule.input :every_minute, placeholder: 'Minutes (1-59)', label: false %>
+                    </div>
+
+                    <div class="span3">
+                        <%= schedule.input :every_hour, placeholder: 'Hours (1-23)', label: false %>
                     </div>
 
                     <div class="span2">
-                        <%= schedule.input :every_hour, placeholder: 'Hours', label: false %>
+                        <%= schedule.input :every_day, placeholder: 'Days (1-29)', label: false %>
                     </div>
 
-                    <div class="span2">
-                        <%= schedule.input :every_day, placeholder: 'Days', label: false %>
-                    </div>
-
-                    <div class="span2">
-                        <%= schedule.input :every_month, placeholder: 'Months', label: false %>
+                    <div class="span3">
+                        <%= schedule.input :every_month, placeholder: 'Months (1-12)', label: false %>
                     </div>
                 </div>
             </div>

@@ -20,8 +20,8 @@ class Schedule < ActiveRecord::Base
     validates :every_day,
               numericality: true,
               inclusion: {
-                  in:       1..7,
-                  message: 'Accepted values: 1-7.'
+                  in:       1..29,
+                  message: 'Accepted values: 1-29.'
               },
               allow_nil: true
 
