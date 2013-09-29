@@ -27,11 +27,12 @@ var pageYOffset = $('html, body').scrollTop();
     objDiv.scrollTop = objDiv.scrollHeight;
 <% end %>
 
-$("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
-
 $("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html', locals: { url_method_type: :scan_url } ) .force_encoding( 'utf-8' ) ) %>" );
 
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );
+$("#scan-sidebar").html( "<%= escape_javascript( render( partial: 'scan_sidebar' ).force_encoding( 'utf-8' ) ) %>" );
+
+$("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
 
 <% if !params['_method'] || params['_method'] == 'get' %>
     $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
