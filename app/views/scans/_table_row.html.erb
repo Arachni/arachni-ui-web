@@ -128,6 +128,13 @@
             <% end %>
         <% end %>
 
+        <% if can? :edit, scan %>
+            <%= link_to edit_scan_path( scan ), title: 'Edit',
+                        class: 'btn btn-small btn-warning' do %>
+                <i class="icon-pencil"></i>
+            <% end %>
+        <% end %>
+
         <% if scan.active? %>
             <% if can? :pause, scan %>
                 <% if scan.paused? %>

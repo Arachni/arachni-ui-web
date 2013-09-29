@@ -241,7 +241,7 @@ function autoRefreshElements( selector ){
 }
 
 function responsiveAdjust(){
-    if( window.innerWidth <= 1000 ){
+    if( window.innerWidth <= 1058 ){
 
         if( $('#left-sidebar').exists() ) {
             $('#left-sidebar').attr( 'class', 'span2' );
@@ -267,7 +267,7 @@ function responsiveAdjust(){
 
     if( $('#left-sidebar').exists() ) {
         $('#left-sidebar').attr( 'class', 'span2' );
-        $('#main-content').attr( 'class', 'span8' );
+        $('#main-content').attr( 'class', 'span10' );
     } else {
         $('#main-content').attr( 'class', 'offset2 span8' );
     }

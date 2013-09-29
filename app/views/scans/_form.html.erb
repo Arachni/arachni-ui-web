@@ -5,14 +5,15 @@
         <div class="span6">
             <%= f.input :url, as: :url, label: false, placeholder: 'Target URL',
                         hint: 'Full URL of the targeted web application (must
-                        include the appropriate protocol,
-                        <i>http</i> or <i>https</i>).' %>
+                        include the appropriate protocol, <i>http</i> or <i>https</i>).',
+                        disabled: !!@scan.id %>
         </div>
 
         <div class="span6">
             <div class="control-group">
                 <div class="controls">
-                    <select class="span2" name="scan[profile_id]" id="scan_profile">
+                    <select class="span2" name="scan[profile_id]"
+                            id="scan_profile" <%= 'disabled' if @scan.active? %>>
                         <% @profiles.each do |p| %>
                             <option <%= 'selected' if (params[:scan] || {})[:profile_id].to_i == p.id || p.default? %> value="<%= p.id %>">
                                 <%= p.name %>
@@ -71,7 +72,14 @@
 
     <%= f.button :submit, id: 'go-btn',
                  class: 'btn btn-primary',
-                 value: 'Go!' %>
+                 value: @scan.id ? 'Save' : 'Go!' %>
+
+    <% if @scan.id %>
+        <%= link_to scan_path( @scan ), title: 'Back to scan',
+                    class: 'btn' do %>
+            Back to scan
+        <% end %>
+    <% end %>
 
 
 <% end %>

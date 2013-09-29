@@ -95,6 +95,17 @@
                 </li>
             <% end %>
 
+            <% if can?( :update, @scan ) %>
+                <li>
+                    <a href="<%= edit_scan_path @scan %>"
+                       title="Edit this scan's details"
+                       role="button" data-toggle="modal">
+                        <i class="icon-edit"></i>
+                        Full edit
+                    </a>
+                </li>
+            <% end %>
+
             <% if !@scan.overview? %>
                 <li id="download-report" class="hide">
                     <i class="icon-download-alt"></i>

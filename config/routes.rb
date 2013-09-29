@@ -31,7 +31,7 @@ ArachniWebui::Application.routes.draw do
                   only: [ :new, :edit, :create, :update, :destroy ]
     end
 
-    resources :scans, except: [:edit] do
+    resources :scans do
         resources :comments
         resources :issues, only: [ :index, :show, :update ] do
             resources :comments
