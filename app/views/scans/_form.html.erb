@@ -13,9 +13,13 @@
             <div class="control-group">
                 <div class="controls">
                     <select class="span2" name="scan[profile_id]"
-                            id="scan_profile" <%= 'disabled' if @scan.active? %>>
+                            id="scan_profile" <%= 'disabled' if @scan.active? || @scan.finished? %>>
                         <% @profiles.each do |p| %>
-                            <option <%= 'selected' if (params[:scan] || {})[:profile_id].to_i == p.id || p.default? %> value="<%= p.id %>">
+                            <option <%= 'selected' if @scan.profile == p ||
+                                        (params[:scan] || {})[:profile_id].to_i == p.id ||
+                                        p.default? %>
+                                    value="<%= p.id %>">
+
                                 <%= p.name %>
 
                                 <% if p.global? %>
@@ -68,7 +72,9 @@
 
     <%= f.input :type, as: :hidden, default: 'direct' %>
 
-    <%= render partial: 'form_advanced_options', locals: { f: f } %>
+    <% if !@scan.finished? %>
+        <%= render partial: 'form_advanced_options', locals: { f: f } %>
+    <% end %>
 
     <%= f.button :submit, id: 'go-btn',
                  class: 'btn btn-primary',

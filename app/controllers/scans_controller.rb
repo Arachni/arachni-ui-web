@@ -154,7 +154,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params.require( :id ) ).new_revision
 
         respond_to do |format|
-            if @scan.repeat( strong_params( scan, :repeat ) )
+            if @scan.repeat( strong_params( scan ) )
                 notify @scan
 
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }
@@ -174,13 +174,13 @@ class ScansController < ApplicationController
     def update
         @scan = find_scan( params.require( :id ) )
 
-        update_params = strong_params( @scan, :update )
-
+        update_params   = strong_params( @scan )
         schedule_params = update_params.delete(:schedule)
 
         respond_to do |format|
             if @scan.update_attributes( update_params ) &&
                 @scan.schedule.update_attributes( schedule_params )
+
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.js { render '_scan.js' }
                 format.json { head :no_content }
@@ -381,7 +381,7 @@ class ScansController < ApplicationController
         @scan.create_schedule( schedule )
     end
 
-    def strong_params( scan = nil, action = nil )
+    def strong_params( scan = nil )
         if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
             params[:scan][:dispatcher_id] =
                 params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
@@ -402,15 +402,19 @@ class ScansController < ApplicationController
         params.delete( 'remote_dispatcher_id' )
 
         allowed_params = [ :description, { user_ids: [] }, { scan_group_ids: [] },
-            :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps,
-            schedule: [ :start_at, :every_minute, :every_hour, :every_day, :every_month ]
-        ]
+            :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
 
-        if !scan || !scan.active?
+        if !scan || (!scan.active? && !scan.finished?)
             allowed_params += [ :type, :instance_count, :profile_id, :dispatcher_id ]
         end
 
-        if !action || action == :new
+        if !scan || !scan.finished?
+            allowed_params << {
+                schedule: [ :start_at, :every_minute, :every_hour, :every_day, :every_month ]
+            }
+        end
+
+        if !scan || !scan.id
             allowed_params << :url
         end
 
