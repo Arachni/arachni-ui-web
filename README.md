@@ -148,6 +148,8 @@ security scanner framework.
             - Avoid crawling
             - Extend a new crawl
     - Overview -- Combines the results of multiple revisions for easy review/management.
+ - Scans can be scheduled to be performed at a later date or at predefined intervals.
+    - Recurring scans are incremental, with each occurrence being a separate revision.
  - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
  - Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 
