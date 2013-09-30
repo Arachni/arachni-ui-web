@@ -18,7 +18,7 @@
                 data-toggle="dropdown">
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
+        <ul id="scan-edit-button-dropdown-<%= scan.id %>" class="dropdown-menu">
             <% if User.count > 1 && can?( :share, scan ) %>
                 <li>
                     <a href="#shareScan<%= scan.id %>" title="Share scan"
