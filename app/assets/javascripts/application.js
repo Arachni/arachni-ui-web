@@ -121,10 +121,14 @@ function restoreAccordions(){
     $( ".collapse" ).on( 'shown', function(){
         aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
+        id = ':' + $( this ).attr( 'id' ) + ':';
+
         if( aGroup != null ) {
-            aGroup += ':' + $( this ).attr( 'id' ) + ':';
+            if( aGroup.indexOf(id) == -1 ){
+                aGroup += id;
+            }
         } else {
-            aGroup = ':' + $( this ).attr( 'id' ) + ':';
+            aGroup = id;
         }
 
         $.cookie( accordionCookieName, aGroup, { path: '/' } );
