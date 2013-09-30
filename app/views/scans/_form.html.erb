@@ -47,7 +47,7 @@
         </div>
 
         <% span = 'span6' %>
-        <% if current_user.scan_groups.any? %>
+        <% if @scan.root? && current_user.scan_groups.any? %>
             <% span = 'span3' %>
 
             <div class="span3">
@@ -63,7 +63,7 @@
         <% end %>
 
         <div class="<%= span %>">
-            <% if User.count > 1 %>
+            <% if @scan.root? && User.count > 1 %>
                 <%= f.association :users, label: 'Share with:',
                     collection: User.all - [current_user] %>
             <% end %>

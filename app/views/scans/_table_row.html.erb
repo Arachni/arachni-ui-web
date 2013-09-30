@@ -128,12 +128,7 @@
             <% end %>
         <% end %>
 
-        <% if can? :edit, scan %>
-            <%= link_to edit_scan_path( scan ), title: 'Edit',
-                        class: 'btn btn-small btn-warning' do %>
-                <i class="icon-pencil"></i>
-            <% end %>
-        <% end %>
+        <%= render partial: 'edit_button_dropdown', locals: { scan: scan, show_as_revision: show_as_revision } %>
 
         <% if scan.active? %>
             <% if can? :pause, scan %>
@@ -166,21 +161,14 @@
             <% end %>
 
             <% if can? :update, scan %>
-                <%= render partial: 'scan_schedule_form', locals: { scan: scan, nolabel: true } %>
+                <%= render partial: 'scan_schedule_form', locals: { scan: scan, nodisplay: true } %>
             <% end %>
 
             <% if !show_as_revision %>
-                <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
-                <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
+                <%= render partial: 'scan_group_form', locals: { scan: scan, nodisplay: true } %>
+                <%= render partial: 'shared/share_form', locals: { model: scan, nodisplay: true } %>
             <% end %>
         <% else %>
-            <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) && scan.profile %>
-                <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',
-                            class: 'btn btn-small btn-success' do %>
-                    <i class="icon-repeat"></i>
-                <% end %>
-            <% end %>
-
             <% if can? :delete, scan %>
                 <%= link_to scan, title: 'Delete scan', method: :delete,
                             class: 'btn btn-small btn-danger', remote: true,
@@ -189,13 +177,16 @@
                 <% end %>
             <% end %>
 
-            <% if (!show_as_revision && scan.root?) && can?( :share, scan ) %>
-                <% if can? :update, scan %>
-                    <%= render partial: 'scan_schedule_form', locals: { scan: scan, nolabel: true } %>
+            <% if (!show_as_revision && scan.root?) && can?( :repeat, scan ) && scan.profile %>
+                <%= link_to new_revision_scan_path( scan ), title: 'Repeat scan',
+                            class: 'btn btn-small btn-success' do %>
+                    <i class="icon-repeat"></i>
                 <% end %>
+            <% end %>
 
-                <%= render partial: 'scan_group_form', locals: { scan: scan, nolabel: true } %>
-                <%= render partial: 'shared/share_form', locals: { model: scan, nolabel: true } %>
+            <% if (!show_as_revision && scan.root?) && can?( :share, scan ) %>
+                <%= render partial: 'scan_group_form', locals: { scan: scan, nodisplay: true } %>
+                <%= render partial: 'shared/share_form', locals: { model: scan, nodisplay: true } %>
             <% end %>
         <% end %>
     </td>

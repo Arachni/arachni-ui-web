@@ -112,7 +112,7 @@ function restoreAccordions(){
                 $( "#" + collapsible ).height( 'auto' );
             }
         }
-    // Default open accordions.
+        // Default open accordions.
     } else {
         // Scan statistics.
         $.cookie( accordionCookieName, ':statistics:', { path: '/' } );
@@ -267,7 +267,7 @@ function responsiveAdjust(){
 
     if( $('#left-sidebar').exists() ) {
         $('#left-sidebar').attr( 'class', 'span2' );
-        $('#main-content').attr( 'class', 'span10' );
+        $('#main-content').attr( 'class', 'span9' );
     } else {
         $('#main-content').attr( 'class', 'offset2 span8' );
     }

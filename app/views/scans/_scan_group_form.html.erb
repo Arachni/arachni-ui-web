@@ -7,11 +7,13 @@
         }
     </script>
 
-    <a href="#updateScanGroup_<%= scan.id %>" title="Update group memberships"
-       role="button" class="btn btn-small btn-inverse" data-toggle="modal">
-        <i class="icon-folder-close-alt"></i>
-        <%= 'Update group memberships' if !local_assigns[:nolabel] %>
-    </a>
+    <% if !local_assigns[:nodisplay] %>
+        <a href="#updateScanGroup_<%= scan.id %>" title="Update group memberships"
+           role="button" class="btn btn-small btn-inverse" data-toggle="modal">
+            <i class="icon-folder-close-alt"></i>
+            <%= 'Update group memberships' if !local_assigns[:nolabel] %>
+        </a>
+    <% end %>
 
     <div id="updateScanGroup_<%= scan.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">

@@ -1,15 +1,18 @@
 <% if User.count > 1 && can?( :share, model ) %>
-    <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
-       role="button" class="btn btn-small" data-toggle="modal">
-        <i class="icon-share"></i>
 
-        <% if (shared_with = model.users.size - 1) > 0 %>
-        <span title="Shared with <%= pluralize shared_with, 'more user' %>."
-              class="label"><%= shared_with %></span>
-        <% end %>
+    <% if !local_assigns[:nodisplay] %>
+        <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
+           role="button" class="btn btn-small" data-toggle="modal">
+            <i class="icon-share"></i>
 
-        <%= "Share #{model.class.to_s.downcase}" if !local_assigns[:nolabel] %>
-    </a>
+            <% if (shared_with = model.users.size - 1) > 0 %>
+            <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+                  class="label"><%= shared_with %></span>
+            <% end %>
+
+            <%= "Share #{model.class.to_s.downcase}" if !local_assigns[:nolabel] %>
+        </a>
+    <% end %>
 
     <div id="share<%= model.class %><%= model.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
