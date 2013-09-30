@@ -2,6 +2,7 @@
     <li class="nav-header">
         Toggle visibility of
     </li>
+
     <li id="comments-link-container">
         <a class="toggle-comments" data-toggle="collapse"
            href="#comments">
@@ -20,7 +21,8 @@
         </a>
     </li>
 
-    <li id="toggle-statistics" class="hide">
+    <% if @scan.running? %>
+    <li id="toggle-statistics">
         <a href="#statistics" data-toggle="collapse"
            title="Toggle statistics visibility" role="button">
             <i class="icon-list-alt"></i>
@@ -28,15 +30,18 @@
             Statistics
         </a>
     </li>
+    <% end %>
 
-    <li id="toggle-charts" class="hide">
-        <a href="#graphs" onclick="toggleCharts();"
-           title="Toggle chart visibility" role="button">
-            <i class="icon-bar-chart"></i>
+    <% if !@scan.cleaning_up? %>
+        <li id="toggle-charts">
+            <a href="#graphs" onclick="toggleCharts();"
+               title="Toggle chart visibility" role="button">
+                <i class="icon-bar-chart"></i>
 
-            Charts
-        </a>
-    </li>
+                Charts
+            </a>
+        </li>
+    <% end %>
 </ul>
 
 <% if @scan.root_revision.has_revisions? %>
@@ -101,8 +106,8 @@
         </li>
     <% end %>
 
-    <% if !@scan.overview? %>
-        <li id="download-report" class="hide">
+    <% if @scan.finished? && !@scan.overview? %>
+        <li id="download-report">
             <i class="icon-download-alt"></i>
             Download report as:
 

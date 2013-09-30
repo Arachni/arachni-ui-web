@@ -135,6 +135,12 @@
         text-align: center;
     }
 
+    #toggle-charts,
+    #toggle-statistics,
+    #download-report {
+        display: none;
+    }
+
 }
 
 .update-scan-schedule {
