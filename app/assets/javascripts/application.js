@@ -65,6 +65,9 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
+var tabCookieName        = 'activeTabGroup';
+var accordionCookieName = 'activeAccordionGroup';
+
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
     parent = $(parent);
@@ -95,8 +98,6 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    var accordionCookieName = 'activeAccordionGroup';
-
     aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
     if( aGroup != null ){
@@ -135,6 +136,16 @@ function restoreAccordions(){
     });
 
     $( ".collapse" ).on( 'hidden', function(){
+
+        // If there are any tabs open inside the accordion, close them, otherwise
+        // the accordion will remain open.
+        openTabs = $.cookie( tabCookieName, undefined, { path: '/' } );
+        $('a[data-toggle="tab"]' ).each( function( i, e ) {
+            id = e.href.split( '#' ).pop();
+            openTabs = openTabs.replace( new RegExp( ':' + id + ':', 'g' ), '' );
+            $.cookie( tabCookieName, openTabs, { path: '/' } );
+        });
+
         aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
 
         if( aGroup != null ) {
@@ -145,8 +156,6 @@ function restoreAccordions(){
 }
 
 function restoreTabs() {
-    var tabCookieName = 'activeTabGroup';
-
     elements = $('a[data-toggle="tab"]');
     aGroup   = $.cookie( tabCookieName, undefined, { path: '/' } );
 
