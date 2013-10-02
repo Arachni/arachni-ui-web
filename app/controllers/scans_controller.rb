@@ -152,9 +152,12 @@ class ScansController < ApplicationController
         show_scan_limit_errors
 
         @scan = find_scan( params.require( :id ) ).new_revision
+        update_params   = strong_params( @scan )
+        schedule_params = update_params.delete(:schedule)
 
         respond_to do |format|
-            if @scan.repeat( strong_params( scan ) )
+            if @scan.repeat( update_params ) &&
+                @scan.schedule.update_attributes( schedule_params )
                 notify @scan
 
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }

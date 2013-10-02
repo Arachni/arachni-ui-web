@@ -61,6 +61,7 @@ class Scan < ActiveRecord::Base
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
+    scope :roots,       -> { where root_id: nil }
     scope :active,      -> { where active: true }
     scope :scheduled,   -> { where status: 'scheduled' }
     scope :running,     -> { where status: %w(crawling auditing) }
@@ -596,6 +597,7 @@ class Scan < ActiveRecord::Base
         return if !self.schedule.recurring?
 
         revision = new_revision
+
         revision.schedule.start_at = Time.now + revision.schedule.interval
         revision.save
         revision.repeat

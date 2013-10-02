@@ -44,7 +44,7 @@ module ScansHelper
                             per( HardSettings.active_scan_pagination_entries ).
                             order( 'id DESC' )
 
-        @finished_scans = scan_filter( params[:filter_finished] ).finished.
+        @finished_scans = scan_filter( params[:filter_finished] ).roots.finished.
                             page( params[:finished_page] ).
                             per( HardSettings.finished_scan_pagination_entries ).
                             order( 'id DESC' )

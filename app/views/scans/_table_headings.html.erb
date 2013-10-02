@@ -1,0 +1,42 @@
+<%
+   treat_as_running   = local_assigns[:treat_as_running].nil? ? true : local_assigns[:treat_as_running]
+   contains_revisions = local_assigns[:contains_revisions].nil? ? false : local_assigns[:contains_revisions]
+%>
+
+<thead>
+<tr>
+    <% if !treat_as_running && contains_revisions %>
+        <td></td>
+    <% end %>
+
+    <th>URL</th>
+    <th class="hidden-phone">Profile</th>
+    <th class="hidden-phone">Type</th>
+
+    <% if treat_as_running %>
+        <th class="hidden-phone">Status</th>
+        <th>Progress</th>
+    <% end %>
+
+    <th>Issue count</th>
+
+    <% if treat_as_running %>
+        <th class="hidden-phone">Sitemap size</th>
+        <th class="hidden-phone">Running for</th>
+        <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
+            ETA
+        </th>
+    <% else %>
+        <th class="hidden-phone">Started at</th>
+        <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
+            Finished at</th>
+    <% end %>
+
+    <% if !yours %>
+        <th>Owner</th>
+    <% end %>
+
+    <th class="hidden-phone">Comments</th>
+    <th></th>
+</tr>
+</thead>

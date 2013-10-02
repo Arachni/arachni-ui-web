@@ -141,6 +141,25 @@
         display: none;
     }
 
+    table td.revision-table-container {
+        padding-bottom: 0px;
+        border: none;
+    }
+
+    .revision-table-container {
+        table {
+
+            tr:first-child td {
+                border-top: 0px;
+            }
+
+            tr td:first-child {
+                margin-right: 10px;
+                border-left: 1px solid black;
+            }
+        }
+    }
+
 }
 
 .update-scan-schedule {

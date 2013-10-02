@@ -70,10 +70,12 @@
 
                 Share
             </a>
+
+            <%= render partial: 'shared/share_form', locals: { model: @scan, nodisplay: true } %>
         </li>
     <% end %>
 
-    <% if can?( :update, @scan ) %>
+    <% if !@scan.finished? && can?( :update, @scan ) %>
         <li>
             <a href="#updateScanSchedule_<%= @scan.id %>"
                title="Update schedule"
@@ -81,6 +83,8 @@
                 <i class="icon-calendar"></i>
                 Edit schedule
             </a>
+
+            <%= render partial: 'scan_schedule_form', locals: { scan: @scan, nodisplay: true } %>
         </li>
     <% end %>
 
@@ -92,6 +96,8 @@
                 <i class="icon-folder-close-alt"></i>
                 Edit group memberships
             </a>
+
+            <%= render partial: 'scan_group_form', locals: { scan: @scan, nodisplay: true } %>
         </li>
     <% end %>
 
@@ -128,3 +134,4 @@
         </li>
     <% end %>
 </ul>
+
