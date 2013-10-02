@@ -31,7 +31,11 @@ class ScanManager
         end
     end
 
-    def after_create( scan )
+    def self.process( scan )
+        instance.process scan
+    end
+
+    def process( scan )
         return if Rails.env == 'test'
 
         # If the scan has a status then it's not the first time that it's been
@@ -41,6 +45,7 @@ class ScanManager
         if scan.schedule.start_at
             scan.status = :scheduled
             scan.save
+
             return
         end
 

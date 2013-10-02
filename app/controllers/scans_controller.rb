@@ -136,6 +136,8 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if !Scan.limit_exceeded? && @scan.save
+
+                ScanManager.process @scan
                 notify @scan
 
                 format.html { redirect_to @scan }
@@ -158,6 +160,8 @@ class ScansController < ApplicationController
         respond_to do |format|
             if @scan.repeat( update_params ) &&
                 @scan.schedule.update_attributes( schedule_params )
+
+                ScanManager.process @scan
                 notify @scan
 
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }

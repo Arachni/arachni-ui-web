@@ -54,10 +54,6 @@ class Scan < ActiveRecord::Base
 
     before_save :add_owner_to_subscribers
 
-    # The manager will start the scans when they are created and monitor and
-    # update their progress and other details at regular intervals.
-    after_create ScanManager.instance
-
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
@@ -421,7 +417,7 @@ class Scan < ActiveRecord::Base
     def repeat( opts = {} )
         return false if !update_attributes( opts )
 
-        ScanManager.instance.after_create( self )
+        ScanManager.process( self )
         true
     end
 
@@ -597,7 +593,6 @@ class Scan < ActiveRecord::Base
         return if !self.schedule.recurring?
 
         revision = new_revision
-
         revision.schedule.start_at = Time.now + revision.schedule.interval
         revision.save
         revision.repeat
