@@ -39,7 +39,7 @@
                    txt += 'so far...'
                elsif revision.scheduled?
                    txt = "#{idx} Scheduled for #{l revision.schedule.start_at}
-                   &ndash; #{distance_of_time_in_words_to_now @scan.schedule.start_at}."
+                   &ndash; #{distance_of_time_in_words_to_now revision.schedule.start_at}."
                else
                   txt += "#{revision.issues.fixed.count} fixed"
                end
