@@ -41,15 +41,15 @@
         <% end %>
 
         <% if !show_as_revision %>
-            <% if scan.schedule.start_at? %>
+            <% if scan.any_scheduled? %>
                 <a href="#"
                    rel="tooltip" class="label label-info"
-                   data-original-title="Was scheduled">
+                   data-original-title="Scheduled">
                     <i class="icon-calendar"></i>
                 </a>
             <% end %>
 
-            <% if scan.schedule.recurring? %>
+            <% if scan.any_recurring? %>
                 <a href="#"
                    rel="tooltip" class="label label-info"
                    data-original-title="Recurring">

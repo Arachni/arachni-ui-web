@@ -249,6 +249,14 @@ class Scan < ActiveRecord::Base
         type == :grid
     end
 
+    def any_scheduled?
+        schedule.start_at? && (revisions.active.any? || revisions.scheduled.any?)
+    end
+
+    def any_recurring?
+        schedule.recurring? && (revisions.active.any? || revisions.scheduled.any?)
+    end
+
     def eta
         statistics['eta']
     end

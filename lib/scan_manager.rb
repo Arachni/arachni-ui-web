@@ -42,7 +42,7 @@ class ScanManager
         # saved so bail out to avoid an inf loop.
         return if scan.status
 
-        if scan.schedule.start_at
+        if scan.schedule.start_at?
             scan.status = :scheduled
             scan.save
 

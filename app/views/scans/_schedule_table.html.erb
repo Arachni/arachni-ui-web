@@ -79,6 +79,7 @@
     <% end %>
 </ul>
 
+<% if @scans.any? %>
 <table class="table table-striped table-hover table-condensed">
     <thead>
     <tr>
@@ -138,3 +139,8 @@
         </tr>
     <% end %>
 </table>
+<% else %>
+    <p class="alert alert-info">
+        No scans have been scheduled in the '<%= params[filter].to_s.capitalize %>' category.
+    </p>
+<% end %>
