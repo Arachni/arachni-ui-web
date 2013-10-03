@@ -111,8 +111,12 @@
                 <% end %>
             </td>
             <td>
-                <%= l scan.schedule.start_at %>
-                (<%= distance_of_time_in_words( scan.schedule.start_at - Time.now ) %>)
+                <% if scan.schedule.start_at %>
+                    <%= l scan.schedule.start_at %>
+                    (<%= distance_of_time_in_words( scan.schedule.start_at - Time.now ) %>)
+                <% else %>
+                    N/A
+                <% end %>
             </td>
             <td>
                 <%= scan.schedule.recurring? ? 'Yes' : 'No' %>

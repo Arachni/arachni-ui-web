@@ -40,38 +40,40 @@
             <% end %>
         <% end %>
 
-        <% if scan.schedule.start_at? %>
-            <a href="#"
-               rel="tooltip" class="label label-info"
-               data-original-title="Was scheduled">
-                <i class="icon-calendar"></i>
-            </a>
-        <% end %>
+        <% if !show_as_revision %>
+            <% if scan.schedule.start_at? %>
+                <a href="#"
+                   rel="tooltip" class="label label-info"
+                   data-original-title="Was scheduled">
+                    <i class="icon-calendar"></i>
+                </a>
+            <% end %>
 
-        <% if scan.schedule.recurring? %>
-            <a href="#"
-               rel="tooltip" class="label label-info"
-               data-original-title="Recurring">
-                <i class="icon-time"></i>
-            </a>
-        <% end %>
+            <% if scan.schedule.recurring? %>
+                <a href="#"
+                   rel="tooltip" class="label label-info"
+                   data-original-title="Recurring">
+                    <i class="icon-time"></i>
+                </a>
+            <% end %>
 
-        <% if treat_as_running && scan.revision? %>
-            <a href="#"
-               rel="tooltip" class="label label-info"
-               data-original-title="Revision">
-                <i class="icon-repeat"></i>
-            </a>
-        <% end %>
+            <% if treat_as_running && scan.revision? %>
+                <a href="#"
+                   rel="tooltip" class="label label-info"
+                   data-original-title="Revision">
+                    <i class="icon-repeat"></i>
+                </a>
+            <% end %>
 
-        <% if !show_as_revision && scan.root_with_revisions? %>
-            <a href="#revision-table-container-<%= scan.id %>"
-               data-toggle="collapse"
-               rel="tooltip" class="label label-info"
-               data-original-title="Has revisions, click to toggle visibility.">
-                <i class="icon-repeat"></i>
-                <i class="icon-sort-down"></i>
-            </a>
+            <% if scan.root_with_revisions? %>
+                <a href="#revision-table-container-<%= scan.id %>"
+                   data-toggle="collapse"
+                   rel="tooltip" class="label label-info"
+                   data-original-title="Has revisions, click to toggle visibility.">
+                    <i class="icon-repeat"></i>
+                    <i class="icon-sort-down"></i>
+                </a>
+            <% end %>
         <% end %>
 
         <%= link_to scan.url, scan.url %>

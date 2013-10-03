@@ -30,8 +30,8 @@ class Scan < ActiveRecord::Base
     belongs_to :profile
     belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
     belongs_to :root,   class_name: 'Scan'
+    belongs_to :schedule, autosave: true
 
-    has_one :schedule, dependent: :destroy, autosave: true
     has_one :report
 
     has_many :issues,        dependent: :destroy
@@ -411,7 +411,7 @@ class Scan < ActiveRecord::Base
 
         new.owner_id = self.owner_id
         new.user_ids = self.user_ids
-        new.schedule = self.schedule.dup
+        new.schedule = self.schedule
         new.scan_group_ids = self.scan_group_ids
 
         new.save

@@ -32,7 +32,7 @@ class Schedule < ActiveRecord::Base
         started_at:  'Start time'
     }
 
-    belongs_to :scan
+    has_many :scan
 
     scope :due, -> { joins(:scan).where( scans: { status: 'scheduled' } ).where [ 'start_at <= ?', Time.now ] }
 

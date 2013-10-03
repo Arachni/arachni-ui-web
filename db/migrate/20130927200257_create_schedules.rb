@@ -10,7 +10,6 @@ class CreateSchedules < ActiveRecord::Migration
 
       t.string  :basetime
 
-      t.integer :scan_id
       t.timestamps
     end
   end

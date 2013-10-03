@@ -60,7 +60,7 @@ class ScanManager
         Rails.logger.info "#{self.class}##{__method__}"
 
         Schedule.due.each do |schedule|
-            start_scan schedule.scan
+            start_scan schedule.scan.last
         end
     end
 
