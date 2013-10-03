@@ -64,7 +64,7 @@
             </a>
         <% end %>
 
-        <% if scan.root_with_revisions? %>
+        <% if !show_as_revision && scan.root_with_revisions? %>
             <a href="#revision-table-container-<%= scan.id %>"
                data-toggle="collapse"
                rel="tooltip" class="label label-info"
