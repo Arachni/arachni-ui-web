@@ -1,5 +1,13 @@
-$("#table").data( "refresh-url", "<%= escape_javascript schedule_scans_url( format: :js, params: params ) %>" );
-$("#table").html( "<%= escape_javascript( render( 'schedule_table.html' ).force_encoding( 'utf-8' ) ) %>" );
+// Get open dropdowns.
+visibleDropdowns = [];
+$('#scans #tables .dropdown-menu' ).each( function( i, e ){
+    if( $(e).is( ':visible' ) && $(e).attr( 'id' ) != undefined ){
+        visibleDropdowns.push( $(e).attr( 'id' ) );
+    }
+});
+
+$("#tables").data( "refresh-url", "<%= escape_javascript schedule_scans_url( format: :js, params: params ) %>" );
+$("#tables").html( "<%= escape_javascript( render( 'schedule_table.html' ).force_encoding( 'utf-8' ) ) %>" );
 
 $("#scan-groups-list").html( "<%= escape_javascript render( partial: 'scan_groups/list_with_tabs.html', locals: { path_method: method( :schedule_scans_url ) } ) %>" );
 
@@ -8,3 +16,16 @@ window.setupScanGroupHooks();
 <% if @group %>
     $("#selected_group_id").val( <%= @group.id %> );
 <% end %>
+
+// Restore open dropdowns.
+for (var i = 0; i < visibleDropdowns.length; i++) {
+    e = '#' + visibleDropdowns[i];
+
+    $(e).show();
+    $(e).parent().hover( function(){
+        $(e).show();
+    }, function(){
+        $(e).hide();
+    });
+
+}
