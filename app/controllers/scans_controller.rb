@@ -45,13 +45,25 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
-        @scan_group = ScanGroup.new
         prepare_scan_group_tab_data
         prepare_tables_data
 
         respond_to do |format|
             format.html # index.html.erb
             format.js { render '_tables.js' }
+            format.json { render json: @scans }
+        end
+    end
+
+    # GET /scans/schedule
+    # GET /scans/schedule.json
+    def schedule
+        prepare_scan_group_tab_data
+        prepare_schedule_data
+
+        respond_to do |format|
+            format.html # index.html.erb
+            format.js { render 'schedule.js' }
             format.json { render json: @scans }
         end
     end

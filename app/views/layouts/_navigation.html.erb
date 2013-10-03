@@ -61,6 +61,13 @@
                     <% end %>
                 </li>
 
+                <li>
+                    <%= link_to schedule_scans_url do %>
+                        <i class="icon-calendar"></i>
+                        Schedule
+                    <% end %>
+                </li>
+
                 <% if (recent_scans = current_user.scans.active.recent).any? %>
                     <li class="divider"></li>
                     <li class="nav-header">Recently started</li>

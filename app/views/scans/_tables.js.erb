@@ -15,7 +15,7 @@ $("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_wi
 window.setupScanGroupHooks();
 
 <% if @group %>
-$("#selected_group_id").val( <%= @group.id %> );
+    $("#selected_group_id").val( <%= @group.id %> );
 <% end %>
 
 // Restore open dropdowns.

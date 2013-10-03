@@ -54,6 +54,7 @@ ArachniWebui::Application.routes.draw do
         get :comments, on: :member
         get :errors,   on: :member
         get :count,    on: :collection
+        get :schedule, on: :collection
     end
 
     resources :profiles do

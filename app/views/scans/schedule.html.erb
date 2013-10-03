@@ -1,0 +1,35 @@
+<% title 'Schedule' %>
+<% breadcrumb_add 'Scans', scans_path %>
+
+<div class="page-header">
+    <h1>Scan schedule</h1>
+
+    <div class="lead">
+        Review and manage scans which have been scheduled for later.
+    </div>
+</div>
+
+<p>
+    <%= link_to new_scan_path, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Scan
+    <% end %>
+
+    <%= link_to scans_path, class: 'btn btn-inverse' do %>
+        <i class="icon-list"></i> Active or finished scans
+    <% end %>
+</p>
+
+<% add_to_sidebar do %>
+    <div id="scan-groups-sidebar">
+        <%= render partial: 'scan_groups/form_with_list',
+                   locals: { path_method: :schedule_scans_url } %>
+    </div>
+<% end %>
+
+<div id="table"
+     data-refresh-url="<%= schedule_scans_url( format: :js, params: params ) %>"
+     data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
+     data-refresh-type='js'
+>
+    <%= render 'schedule_table' %>
+</div>

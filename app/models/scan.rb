@@ -201,6 +201,10 @@ class Scan < ActiveRecord::Base
         !root?
     end
 
+    def root_with_revisions?
+        root? && has_revisions?
+    end
+
     def parsed_url
         Arachni::URI( url )
     end
