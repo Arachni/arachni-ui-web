@@ -22,7 +22,7 @@
 
 >
 
-    <% if !treat_as_running && scan.revision? %>
+    <% if !treat_as_running && show_as_revision %>
         <td>
             &mdash;
         </td>
@@ -156,7 +156,7 @@
     </td>
 </tr>
 
-<% if scan.root_with_revisions? %>
+<% if !show_as_revision && scan.root_with_revisions? %>
     <tr class="revision-table-container">
         <td class="revision-table-container" colspan="8">
             <div id='revision-table-container-<%= scan.id %>' class="collapse">
@@ -168,7 +168,7 @@
                             yours:              yours
                     } %>
 
-                    <% scan.revisions.finished.each do |revision| %>
+                    <% scan.revisions_with_root.finished.each do |revision| %>
                         <%= render partial: 'table_row',
                                    locals: {
                                         scan:             revision,

@@ -8,6 +8,8 @@ class CreateSchedules < ActiveRecord::Migration
       t.integer :every_day
       t.integer :every_month
 
+      t.string  :basetime
+
       t.integer :scan_id
       t.timestamps
     end

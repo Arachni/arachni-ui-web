@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(version: 20130928201330) do
     t.integer  "every_hour"
     t.integer  "every_day"
     t.integer  "every_month"
+    t.string   "basetime"
     t.integer  "scan_id"
     t.datetime "created_at"
     t.datetime "updated_at"

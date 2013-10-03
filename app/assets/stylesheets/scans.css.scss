@@ -80,6 +80,16 @@
         height: 90px;
     }
 
+    .scan_schedule_basetime {
+        label[for=scan_schedule_basetime] {
+            padding-right: 10px;
+        }
+
+        .controls {
+            display: inline;
+        }
+    }
+
     #error-messages {
         max-height: 200px;
         overflow: auto;
@@ -159,7 +169,6 @@
             }
         }
     }
-
 }
 
 .update-scan-schedule {

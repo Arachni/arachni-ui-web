@@ -6,23 +6,25 @@
 <div class="row-fluid">
 
     <%= f.simple_fields_for scan.schedule do |schedule| %>
-    <div class="span3">
-        <fieldset>
-            <legend>Start at</legend>
-            <div class="row-fluid">
-                <div class="span12">
-                    <%=
-                        tz  = Time.zone
-                        now = tz.now
-                        schedule.input :start_at, as: :string,
-                                       placeholder: 'hour:minute day/month/year',
-                                       label: false,
-                                       hint: "Now: #{now.hour}:#{now.min} #{now.day}/#{now.month}/#{now.year} in #{tz.name}"
-                    %>
+    <% if !scan.active %>
+        <div class="span3">
+            <fieldset>
+                <legend>Start at</legend>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <%=
+                            tz  = Time.zone
+                            now = tz.now
+                            schedule.input :start_at, as: :string,
+                                           placeholder: 'hour:minute day/month/year',
+                                           label: false,
+                                           hint: "Now: #{now.hour}:#{now.min} #{now.day}/#{now.month}/#{now.year} in #{tz.name}"
+                        %>
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </div>
+            </fieldset>
+        </div>
+    <% end %>
 
     <div class="span9">
         <fieldset>
@@ -31,23 +33,39 @@
             <div class="row-fluid">
                 <div class="span8">
                     <div class="row-fluid">
-                        <div class="span1">
-                            Every:
-                        </div>
-                        <div class="span3">
-                            <%= schedule.input :every_minute, placeholder: 'Minutes (1-59)', label: false %>
-                        </div>
+                        <div class="span12">
+                            <div class="row-fluid">
+                                <div class="span1">
+                                    Every
+                                </div>
+                                <div class="span3">
+                                    <%= schedule.input :every_minute, placeholder: 'Minutes (1-59)', label: false %>
+                                </div>
 
-                        <div class="span2">
-                            <%= schedule.input :every_hour, placeholder: 'Hours (1-23)', label: false %>
-                        </div>
+                                <div class="span2">
+                                    <%= schedule.input :every_hour, placeholder: 'Hours (1-23)', label: false %>
+                                </div>
 
-                        <div class="span2">
-                            <%= schedule.input :every_day, placeholder: 'Days (1-29)', label: false %>
-                        </div>
+                                <div class="span2">
+                                    <%= schedule.input :every_day, placeholder: 'Days (1-29)', label: false %>
+                                </div>
 
-                        <div class="span3">
-                            <%= schedule.input :every_month, placeholder: 'Months (1-12)', label: false %>
+                                <div class="span3">
+                                    <%= schedule.input :every_month, placeholder: 'Months (1-12)', label: false %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <%= schedule.input :basetime, label: 'After',
+                                               include_blank: false,
+                                               collection: Schedule::BASETIME_OPTIONS.keys,
+                                               label_method: lambda { |type|
+                                                    Schedule::BASETIME_OPTIONS[type]
+                                               }
+                            %>
                         </div>
                     </div>
                 </div>

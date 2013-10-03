@@ -119,8 +119,8 @@
             </td>
             <td>
                 <% if scan.schedule.recurring? %>
-                    <%= "#{pluralize( scan.schedule.every_hour.to_i, 'minute' )}" if scan.schedule.every_hour.to_i > 0 %>
-                    <%= "#{pluralize( scan.schedule.every_minute.to_i, 'hour' )}" if scan.schedule.every_minute.to_i > 0 %>
+                    <%= "#{pluralize( scan.schedule.every_minute.to_i, 'minute' )}" if scan.schedule.every_minute.to_i > 0 %>
+                    <%= "#{pluralize( scan.schedule.every_hour.to_i, 'hour' )}" if scan.schedule.every_hour.to_i > 0 %>
                     <%= "#{pluralize( scan.schedule.every_day.to_i, 'day' )}" if scan.schedule.every_day.to_i > 0 %>
                     <%= "#{pluralize( scan.schedule.every_month.to_i, 'month' )}" if scan.schedule.every_month.to_i > 0 %>
                 <% else %>

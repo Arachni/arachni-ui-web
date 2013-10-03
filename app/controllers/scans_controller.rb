@@ -429,7 +429,8 @@ class ScansController < ApplicationController
 
         if !scan || !scan.finished?
             allowed_params << {
-                schedule: [ :start_at, :every_minute, :every_hour, :every_day, :every_month ]
+                schedule: [ :start_at, :every_minute, :every_hour, :every_day,
+                            :every_month, :basetime ]
             }
         end
 
