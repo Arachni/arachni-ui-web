@@ -107,6 +107,10 @@ class ScanManager
         # (i.e. Let Rails send the response back before forking EM.)
         sleep 1
 
+        # Clear all connections so the child we're about to spawn won't
+        # take any of them with it.
+        ::ActiveRecord::Base.clear_all_connections!
+
         Process.detach ::EM.fork_reactor {
             # redirect the Instance's RPC server's output to /dev/null
             $stdout.reopen( '/dev/null', 'w' )
@@ -118,6 +122,9 @@ class ScanManager
 
         # Wait for the instance server to become active.
         sleep 1
+
+        # Re-establish the connection to the DB.
+        ::ActiveRecord::Base.establish_connection
 
         [ "#{Arachni::Options.rpc_address}:#{port}", token ]
     end

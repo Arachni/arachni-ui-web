@@ -5,6 +5,7 @@ development:
   database: db/development.sqlite3
   pool: 50
   timeout: 15000
+  reaping_frequency: 5
   encoding: UTF8
 
 production:
@@ -12,6 +13,7 @@ production:
   database: db/production.sqlite3
   pool: 50
   timeout: 15000
+  reaping_frequency: 5
   encoding: UTF8
 
 test: &test
@@ -19,6 +21,7 @@ test: &test
   database: db/test.sqlite3
   pool: 50
   timeout: 15000
+  reaping_frequency: 5
   encoding: UTF8
 
 cucumber:
