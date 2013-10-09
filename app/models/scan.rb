@@ -30,12 +30,17 @@ class Scan < ActiveRecord::Base
     belongs_to :profile
     belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
     belongs_to :root,   class_name: 'Scan'
+    belongs_to :schedule, autosave: true
 
     has_one :report
 
     has_many :issues,        dependent: :destroy
     has_many :comments, as: :commentable, dependent: :destroy
     has_many :revisions, class_name: 'Scan', foreign_key: :root_id
+
+    accepts_nested_attributes_for :schedule
+
+    validates_associated :schedule
 
     validates_presence_of :url
     validate :validate_url
@@ -49,19 +54,16 @@ class Scan < ActiveRecord::Base
 
     before_save :add_owner_to_subscribers
 
-    # The manager will start the scans when they are created and monitor and
-    # update their progress and other details at regular intervals.
-    after_create ScanManager.instance
-
     serialize :statistics,    Hash
     serialize :issue_digests, Array
 
+    scope :roots,       -> { where root_id: nil }
     scope :active,      -> { where active: true }
+    scope :scheduled,   -> { where status: 'scheduled' }
     scope :running,     -> { where status: %w(crawling auditing) }
     scope :paused,      -> { where status: %w(paused pausing) }
     scope :inactive,    -> { where active: false }
-    scope :finished,    -> { where( "status = 'completed' OR status = 'aborted'" +
-                                    " OR status = 'error'" ) }
+    scope :finished,    -> { where 'finished_at IS NOT NULL' }
 
     SENSITIVE = [ :instance_token ]
 
@@ -199,12 +201,16 @@ class Scan < ActiveRecord::Base
         !root?
     end
 
+    def root_with_revisions?
+        root? && has_revisions?
+    end
+
     def parsed_url
         Arachni::URI( url )
     end
 
     def finished?
-        completed? || aborted? || error?
+        !!finished_at
     end
 
     def running?
@@ -213,6 +219,10 @@ class Scan < ActiveRecord::Base
 
     def cleaning_up?
         !active? && !finished?
+    end
+
+    def scheduled?
+        status == :scheduled
     end
 
     def completed?
@@ -228,7 +238,7 @@ class Scan < ActiveRecord::Base
     end
 
     def aborted?
-        status == :aborted
+        status == :aborted || status == :aborting
     end
 
     def error?
@@ -237,6 +247,14 @@ class Scan < ActiveRecord::Base
 
     def grid?
         type == :grid
+    end
+
+    def any_scheduled?
+        schedule.start_at? && (revisions.active.any? || revisions.scheduled.any?)
+    end
+
+    def any_recurring?
+        schedule.recurring? && (revisions.active.any? || revisions.scheduled.any?)
     end
 
     def eta
@@ -341,8 +359,9 @@ class Scan < ActiveRecord::Base
     end
 
     def start
-        self.status = :starting
-        self.active = true
+        self.status     = :starting
+        self.active     = true
+        self.started_at = Time.now
         save
 
         sitemap_opts = {}
@@ -389,7 +408,7 @@ class Scan < ActiveRecord::Base
     def new_revision( opts = {} )
         new = root_revision.dup
 
-        new.root   = self
+        new.root   = self.root || self
         new.active = nil
         new.status = nil
         new.report = nil
@@ -400,6 +419,7 @@ class Scan < ActiveRecord::Base
 
         new.owner_id = self.owner_id
         new.user_ids = self.user_ids
+        new.schedule = self.schedule
         new.scan_group_ids = self.scan_group_ids
 
         new.save
@@ -409,7 +429,7 @@ class Scan < ActiveRecord::Base
     def repeat( opts = {} )
         return false if !update_attributes( opts )
 
-        ScanManager.instance.after_create( self )
+        ScanManager.process( self )
         true
     end
 
@@ -581,6 +601,23 @@ class Scan < ActiveRecord::Base
         self.active      = false
         self.finished_at = Time.now
         save
+
+        return if !self.schedule.recurring?
+
+        revision = new_revision
+
+        basetime =  if revision.schedule.basetime == :started_at
+                        self.started_at
+                    else
+                        self.finished_at
+                    end
+
+        start_at  = basetime + revision.schedule.interval
+        start_at += revision.schedule.interval while start_at < Time.now
+
+        revision.schedule.start_at = start_at
+        revision.save
+        revision.repeat
     end
 
     def validate_url
@@ -619,8 +656,6 @@ class Scan < ActiveRecord::Base
         return if ActionController::Base.helpers.strip_tags( description ) == description
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
-
-    private
 
     def add_owner_to_subscribers
         self.user_ids |= [owner.id]

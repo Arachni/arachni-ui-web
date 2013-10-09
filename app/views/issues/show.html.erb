@@ -275,9 +275,7 @@
                 </div>
             </div>
 
-            <pre id="response_body_container">
-                <%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %>
-            </pre>
+            <pre id="response_body_container"><%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %></pre>
 
             <% else %>
                 <p class="alert alert-info">

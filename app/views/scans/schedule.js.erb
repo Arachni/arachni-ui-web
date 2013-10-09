@@ -6,11 +6,10 @@ $('#scans #tables .dropdown-menu' ).each( function( i, e ){
     }
 });
 
+$("#tables").data( "refresh-url", "<%= escape_javascript schedule_scans_url( format: :js, params: params ) %>" );
+$("#tables").html( "<%= escape_javascript( render( 'schedule_table.html' ).force_encoding( 'utf-8' ) ) %>" );
 
-$("#scans #tables").data( "refresh-url", "<%= escape_javascript scans_url( format: :js, params: params ) %>" );
-$("#scans #tables").html( "<%= escape_javascript( render( 'tables.html' ).force_encoding( 'utf-8' ) ) %>" );
-
-$("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_with_tabs.html' ) %>" );
+$("#scan-groups-list").html( "<%= escape_javascript render( partial: 'scan_groups/list_with_tabs.html', locals: { path_method: method( :schedule_scans_url ) } ) %>" );
 
 window.setupScanGroupHooks();
 

@@ -1,0 +1,11 @@
+<% title 'Edit scan' %>
+<% breadcrumb_add 'Scans', scans_path %>
+<% breadcrumb_add @scan.url, scan_path( @scan ) %>
+
+<div id="scans">
+    <div class="page-header">
+        <h1>Edit scan</h1>
+    </div>
+
+    <%= render 'form' %>
+</div>

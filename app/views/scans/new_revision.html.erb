@@ -25,7 +25,9 @@
                                    class="radio_buttons optional"
                                    type="radio"
                                    value="restrict_to_revision_sitemaps"
-                                   name="scan[sitemap_option]">
+                                   name="scan[sitemap_option]"
+                                   <%= 'checked' if @scan.restrict_to_revision_sitemaps? %>
+                            >
 
                             <label for="scan_restrict_to_revision_sitemaps"
                                    class="radio_buttons optional control-label">
@@ -37,7 +39,9 @@
                                    class="radio_buttons optional"
                                    type="radio"
                                    value="extend_from_revision_sitemaps"
-                                   name="scan[sitemap_option]">
+                                   name="scan[sitemap_option]"
+                                   <%= 'checked' if @scan.extend_from_revision_sitemaps? %>
+                            >
 
                             <label for="scan_extend_from_revision_sitemaps"
                                    class="radio_buttons optional control-label">
@@ -52,7 +56,7 @@
 
         <%= f.input :type, as: :hidden, default: 'direct' %>
 
-        <%= render partial: 'form_advanced_options', locals: { f: f } %>
+        <%= render partial: 'form_advanced_options', locals: { f: f, show_crawl_options: false } %>
 
         <%= f.button :submit, class: 'btn btn-inverse', value: 'Rescan' %>
     <% end %>

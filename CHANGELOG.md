@@ -14,6 +14,8 @@
 - Scans
     - Index
         - Fixed a nil error caused when a Scan's Profile has been deleted.
+    - Can now be edited.
+    - Can be scheduled, with support for recurring (incremental/differential) Scans.
 - Settings
     - Profiles
         - Fixed heading (_Profiles_ => _Plugins_).

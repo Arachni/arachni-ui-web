@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130719152335) do
+ActiveRecord::Schema.define(version: 20131003154327) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -202,11 +202,24 @@ ActiveRecord::Schema.define(version: 20130719152335) do
     t.integer  "root_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "started_at"
+    t.integer  "schedule_id"
   end
 
   create_table "scans_users", id: false, force: true do |t|
     t.integer "user_id"
     t.integer "scan_id"
+  end
+
+  create_table "schedules", force: true do |t|
+    t.datetime "start_at"
+    t.integer  "every_minute"
+    t.integer  "every_hour"
+    t.integer  "every_day"
+    t.integer  "every_month"
+    t.string   "basetime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "settings", force: true do |t|

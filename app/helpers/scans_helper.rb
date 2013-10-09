@@ -44,11 +44,33 @@ module ScansHelper
                             per( HardSettings.active_scan_pagination_entries ).
                             order( 'id DESC' )
 
-        @finished_scans = scan_filter( params[:filter_finished] ).finished.
+        @finished_scans = scan_filter( params[:filter_finished] ).roots.finished.
                             page( params[:finished_page] ).
                             per( HardSettings.finished_scan_pagination_entries ).
                             order( 'id DESC' )
 
+    end
+
+    def prepare_schedule_data
+        params[:filter] ||= 'yours'
+
+        @counts = {}
+        %w(yours shared others).each do |type|
+            begin
+                @counts[type] = scan_filter( type ).scheduled.count
+
+                @counts['total'] ||= 0
+                @counts['total']  += @counts[type]
+            rescue => e
+                ap e
+                ap e.backtrace
+            end
+        end
+
+        @scans = scan_filter( params[:filter] ).scheduled.
+            page( params[:active_page] ).
+            per( HardSettings.scheduled_scan_pagination_entries ).
+            order( 'id DESC' )
     end
 
     def scan_filter( filter )
@@ -56,13 +78,15 @@ module ScansHelper
 
         group_scans =   if (group_id = params[:group_id].to_i) > 0
                             if current_user.admin?
-                                if @group = ScanGroup.find_by_id( params[:group_id] )
+                                if (@group = ScanGroup.find_by_id( params[:group_id] ))
                                     @group.scans
                                 else
                                     current_user.scans
                                 end
                             else
-                                if @group = current_user.scan_groups.find_by_id( params[:group_id] )
+                                @group = current_user.scan_groups.find_by_id( params[:group_id] )
+
+                                if @group
                                     @group.scans
                                 else
                                     current_user.scans
@@ -75,6 +99,7 @@ module ScansHelper
         case filter
             when 'yours'
                 group_scans.where( owner_id: current_user.id )
+
             when 'shared'
                 s = group_scans.where( 'owner_id != ?', current_user.id )
 
@@ -83,6 +108,7 @@ module ScansHelper
                 else
                     s
                 end
+
             when 'others'
                 raise 'Unauthorised!' if !current_user.admin?
 

@@ -61,15 +61,30 @@
     </script>
 
 <% else %>
-    <p class='alert alert-info'>
-        <i class="icon-spinner icon-spin"></i>
 
-        <% if @scan.initializing? %>
-        The scan is initializing, please wait...
-        <% else %>
-        Cleaning up and retrieving the report, please wait...
-        <% end %>
-    </p>
+    <% if @scan.initializing? %>
+        <p class="alert alert-info">
+            <i class="icon-spinner icon-spin"></i>
+            The scan is initializing, please wait...
+        </p>
+    <% elsif @scan.scheduled? && @scan.schedule.start_at? %>
+        <p class="alert alert-info">
+            <i class="icon-calendar"></i>
+            This scan has been scheduled for <%= l @scan.schedule.start_at %>
+            (<%= @scan.schedule.start_at.zone %>) and will run in
+            <%= distance_of_time_in_words_to_now @scan.schedule.start_at %>.
+        </p>
+    <% elsif @scan.aborted? || @scan.finished? %>
+        <p class="alert alert-info">
+            <i class="icon-spinner icon-spin"></i>
+            Cleaning up and retrieving the report, please wait...
+        </p>
+    <% else %>
+        <p class="alert alert-warning">
+            <i class="icon-warning-sign"></i>
+            This scan is in limbo, its scheduling options have been removed.
+        </p>
+    <% end %>
 
     <script type="text/javascript">
         window.setupScanCallbacks();

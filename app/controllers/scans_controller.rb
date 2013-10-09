@@ -32,7 +32,7 @@ class ScansController < ApplicationController
     before_filter :authenticate_user!
 
     before_filter :prepare_associations,
-                  only: [ :new, :new_revision, :create, :repeat ]
+                  only: [ :new, :new_revision, :create, :repeat, :update, :edit ]
 
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
@@ -45,13 +45,25 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
-        @scan_group = ScanGroup.new
         prepare_scan_group_tab_data
         prepare_tables_data
 
         respond_to do |format|
             format.html # index.html.erb
             format.js { render '_tables.js' }
+            format.json { render json: @scans }
+        end
+    end
+
+    # GET /scans/schedule
+    # GET /scans/schedule.json
+    def schedule
+        prepare_scan_group_tab_data
+        prepare_schedule_data
+
+        respond_to do |format|
+            format.html # index.html.erb
+            format.js { render 'schedule.js' }
             format.json { render json: @scans }
         end
     end
@@ -102,12 +114,18 @@ class ScansController < ApplicationController
             @scan = find_scan( params.require( :id ) )
         else
             @scan = Scan.new
+            @scan.build_schedule
         end
 
         respond_to do |format|
             format.html( &html_proc )
             format.json { render json: @scan }
         end
+    end
+
+    # GET /scans/1/edit
+    def edit
+        @scan = find_scan( params.require( :id ) )
     end
 
     # GET /scans/new/1
@@ -130,6 +148,8 @@ class ScansController < ApplicationController
 
         respond_to do |format|
             if !Scan.limit_exceeded? && @scan.save
+
+                ScanManager.process @scan
                 notify @scan
 
                 format.html { redirect_to @scan }
@@ -146,9 +166,14 @@ class ScansController < ApplicationController
         show_scan_limit_errors
 
         @scan = find_scan( params.require( :id ) ).new_revision
+        update_params   = strong_params( @scan )
+        schedule_params = update_params.delete(:schedule)
 
         respond_to do |format|
-            if @scan.repeat( strong_params )
+            if @scan.repeat( update_params ) &&
+                @scan.schedule.update_attributes( schedule_params )
+
+                ScanManager.process @scan
                 notify @scan
 
                 format.html { redirect_to @scan, notice: 'Repeating the scan.' }
@@ -168,10 +193,13 @@ class ScansController < ApplicationController
     def update
         @scan = find_scan( params.require( :id ) )
 
-        update_params = params.require( :scan ).permit( :description )
+        update_params   = strong_params( @scan )
+        schedule_params = update_params.delete(:schedule)
 
         respond_to do |format|
-            if @scan.update_attributes( update_params )
+            if @scan.update_attributes( update_params ) &&
+                @scan.schedule.update_attributes( schedule_params )
+
                 format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
                 format.js { render '_scan.js' }
                 format.json { head :no_content }
@@ -365,16 +393,22 @@ class ScansController < ApplicationController
     end
 
     def new_scan
-        @scan = Scan.new( strong_params )
+        parameters = strong_params
+        schedule   = parameters.delete( 'schedule' )
+
+        @scan = Scan.new( parameters )
+        @scan.create_schedule( schedule )
     end
 
-    def strong_params
+    def strong_params( scan = nil )
         if params[:scan][:type] == 'grid' || params[:scan][:type] == 'remote'
-            params[:scan][:dispatcher_id] = params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
+            params[:scan][:dispatcher_id] =
+                params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
         end
 
         if params[:scan][:dispatcher_id] == 'load_balance'
-            params[:scan][:dispatcher_id] = current_user.available_dispatchers.preferred.id
+            params[:scan][:dispatcher_id] =
+                current_user.available_dispatchers.preferred.id
         end
 
         allowed = [ :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
@@ -386,10 +420,25 @@ class ScansController < ApplicationController
         params.delete( 'grid_dispatcher_id' )
         params.delete( 'remote_dispatcher_id' )
 
-        params.require( :scan ).
-            permit( :url, :description, :type, :instance_count, :profile_id,
-                    { user_ids: [] }, { scan_group_ids: [] }, :dispatcher_id,
-                    :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps )
+        allowed_params = [ :description, { user_ids: [] }, { scan_group_ids: [] },
+            :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
+
+        if !scan || (!scan.active? && !scan.finished?)
+            allowed_params += [ :type, :instance_count, :profile_id, :dispatcher_id ]
+        end
+
+        if !scan || !scan.finished?
+            allowed_params << {
+                schedule: [ :start_at, :every_minute, :every_hour, :every_day,
+                            :every_month, :basetime ]
+            }
+        end
+
+        if !scan || !scan.id
+            allowed_params << :url
+        end
+
+        params.require( :scan ).permit( allowed_params )
     end
 
     def find_scan( id )

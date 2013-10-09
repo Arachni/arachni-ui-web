@@ -1,0 +1,139 @@
+<div class="span11">
+    <% if can? :perform_multi_instance, Scan %>
+        <%= f.input :instance_count,
+                    hint: 'How many Instances to utilise for the scan.' %>
+
+        <p class="alert alert-info">
+            Multi-Instance scans can achieve high efficiency levels which will
+            result in significantly diminished scan times and better utilization
+            of multi-core/multi-CPU systems.
+        </p>
+    <% end %>
+
+    <% if (type_errors = @scan.errors.messages[:type]).any? %>
+        <div class="alert alert-error">
+            Scan type errors:
+            <ul>
+                <% type_errors.each do |e| %>
+                    <li><%= e %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="row-fluid btn-group" data-toggle="buttons-radio" id="scan-type-buttons">
+        <% if can? :perform_direct, Scan %>
+            <a href="#" id="direct-btn" class="span4 btn btn-inverse scroll">
+                <h4>Direct</h4>
+            </a>
+        <% end %>
+
+        <% if can? :perform_remote, Scan %>
+            <a href="#scan-type-buttons" id="remote-btn" class="span4 btn btn-inverse scroll">
+                <h4>Remote</h4>
+            </a>
+        <% end %>
+
+        <% if can? :perform_grid, Scan %>
+            <a href="#scan-type-buttons" id="grid-btn" class="span4 btn btn-inverse scroll">
+                <h4>Grid</h4>
+            </a>
+        <% end %>
+    </div>
+
+    <div class="row-fluid hidden-phone" id="scan-type-descriptions">
+        <% if can? :perform_direct, Scan %>
+            <div class="span4">
+                <p class="well">Perform a direct scan from this machine to the web application.
+                    No need to setup anything else.</p>
+            </div>
+        <% end %>
+
+        <% if can? :perform_remote, Scan %>
+            <div class="span4">
+                <p class="well">Delegate the scan workload to a deployed Dispatcher.
+                    No traffic will pass through this machine.</p>
+            </div>
+        <% end %>
+
+        <% if can? :perform_grid, Scan %>
+            <div class="span3">
+                <p class="well">Load-balance the scan workload across many Dispatchers.</p>
+            </div>
+        <% end %>
+    </div>
+
+    <hr />
+
+    <div class="hide well" id="dispatcher-remote">
+        <% if @dispatchers.any? %>
+            <div class="control-group">
+                <label class="control-label" for="scan[remote_dispatcher_id]">Dispatcher</label>
+                <div class="controls">
+                    <select class="span2" name="remote_dispatcher_id" id="remote_dispatcher_id">
+                        <option value="load_balance">Load balance</option>
+
+                        <% @dispatchers.each do |d| %>
+                            <option value="<%= d.id %>"><%= d.to_label %></option>
+                        <% end %>
+                    </select>
+
+                    <% if can? :perform_multi_instance, Scan %>
+                        <div class="alert alert-info">
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be from the same Dispatcher.
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        <% else %>
+            <div class="alert alert-info">
+                There are no available Dispatchers.
+                <% if can? :create, Dispatcher %>
+                    <a href="<%= new_dispatcher_path %>">Add one now</a>
+
+                    <% if can? :perform_direct, Scan %>
+                        or perform a Direct scan instead.
+                    <% end %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="hide well" id="dispatcher-grid">
+        <% if @grid_dispatchers.any? %>
+            <div class="control-group">
+                <label class="control-label" for="scan[grid_dispatcher_id]">Dispatcher</label>
+                <div class="controls">
+
+                    <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
+                        <% @grid_dispatchers.each do |d| %>
+                            <option value="<%= d.id %>"><%= d.to_label %></option>
+                        <% end %>
+                    </select>
+
+                    <div class="alert alert-info">
+                        The Instance will be automatically provided by the least
+                        burdened member of the Grid of the Dispatcher you select.
+                    </div>
+
+                    <% if can? :perform_multi_instance, Scan %>
+                        <div class="alert alert-info">
+                            If the scan is configured to use more than 1 Instance,
+                            all Instances will be load-balanced across the Grid as well.
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+        <% else %>
+            <div class="alert alert-info">
+                There are no Dispatchers that are Grid members.
+                <% if can? :create, Dispatcher %>
+                    <a href="<%= new_dispatcher_path %>">Add one now</a> or select
+                    a different type of scan.
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+</div>

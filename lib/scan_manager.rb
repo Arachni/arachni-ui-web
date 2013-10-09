@@ -14,6 +14,8 @@
     limitations under the License.
 =end
 
+require 'arachni/rpc/server/instance'
+
 class ScanManager
     include Singleton
 
@@ -23,15 +25,46 @@ class ScanManager
 
     def monitor
         return if Rails.env == 'test'
-        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ){ refresh }
+        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ) do
+            keep_schedule
+            refresh
+        end
     end
 
-    def after_create( scan )
+    def self.process( scan )
+        instance.process scan
+    end
+
+    def process( scan )
         return if Rails.env == 'test'
 
         # If the scan has a status then it's not the first time that it's been
         # saved so bail out to avoid an inf loop.
         return if scan.status
+
+        if scan.schedule.start_at?
+            scan.status = :scheduled
+            scan.save
+
+            return
+        end
+
+        start_scan scan
+
+        true
+    end
+
+    private
+
+    def keep_schedule
+        Rails.logger.info "#{self.class}##{__method__}"
+
+        Schedule.due.each do |schedule|
+            start_scan schedule.scan.last
+        end
+    end
+
+    def start_scan( scan )
         scan.status = :initializing
         scan.save
 
@@ -54,8 +87,6 @@ class ScanManager
         true
     end
 
-    private
-
     def refresh
         Rails.logger.info "#{self.class}##{__method__}"
 
@@ -65,8 +96,6 @@ class ScanManager
     end
 
     def spawn_instance
-        require 'arachni/rpc/server/instance'
-
         # Global address to bind to.
         Arachni::Options.rpc_address = 'localhost'
 
@@ -77,6 +106,10 @@ class ScanManager
         # Prevents "Connection was reset" errors on the client-side.
         # (i.e. Let Rails send the response back before forking EM.)
         sleep 1
+
+        # Clear all connections so the child we're about to spawn won't
+        # take any of them with it.
+        ::ActiveRecord::Base.clear_all_connections!
 
         Process.detach ::EM.fork_reactor {
             # redirect the Instance's RPC server's output to /dev/null
@@ -89,6 +122,9 @@ class ScanManager
 
         # Wait for the instance server to become active.
         sleep 1
+
+        # Re-establish the connection to the DB.
+        ::ActiveRecord::Base.establish_connection
 
         [ "#{Arachni::Options.rpc_address}:#{port}", token ]
     end
