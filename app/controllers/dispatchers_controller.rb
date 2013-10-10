@@ -147,6 +147,10 @@ class DispatchersController < ApplicationController
     def destroy
         @dispatcher = Dispatcher.find( params.require( :id ) )
 
+        if @dispatcher.has_scheduled_scans?
+            fail 'Cannot delete a Dispatcher assigned to scheduled Scans.'
+        end
+
         notify @dispatcher
 
         @dispatcher.destroy

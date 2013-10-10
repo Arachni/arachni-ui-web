@@ -131,6 +131,10 @@ class Dispatcher < ActiveRecord::Base
         str << "#{url}"
     end
 
+    def has_scheduled_scans?
+        scans.scheduled.any?
+    end
+
     def grid_member?
         (statistics['neighbours'] || []).any?
     end
