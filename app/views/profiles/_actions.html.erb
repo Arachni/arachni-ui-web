@@ -13,9 +13,9 @@
     <% end %>
 <% end %>
 
-<% if can?( :delete, profile ) && !profile.default? %>
+<% if can?( :delete, profile ) && !profile.default? && !profile.has_scheduled_scans? %>
     <% msg = 'Are you sure?'
-       msg += ' This profile has associated scans.' if profile.has_scans? %>
+       msg += ' This profile has associated scans.' if profile.scans.any? %>
 
     <%= link_to profile, title: 'Delete', method: :delete,
                 class: 'btn btn-small btn-danger',

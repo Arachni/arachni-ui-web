@@ -18,9 +18,10 @@ class Profile < ActiveRecord::Base
     include Extensions::Notifier
 
     has_and_belongs_to_many :users
-    belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
+    has_many :scans
+    belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
-    DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
+   DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
     validates_presence_of   :name
     validates_uniqueness_of :name, scope: :owner_id, case_sensitive: false
@@ -115,8 +116,8 @@ class Profile < ActiveRecord::Base
         name
     end
 
-    def has_scans?
-        Scan.where( profile: self ).any?
+    def has_scheduled_scans?
+        scans.scheduled.any?
     end
 
     def make_default
