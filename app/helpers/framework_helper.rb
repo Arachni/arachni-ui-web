@@ -39,7 +39,8 @@ module FrameworkHelper
     end
 
     def reports
-        components_for( :reports )
+        components_for( :reports ).
+            reject { |name, _| ['metareport', 'txt'].include? name }
     end
 
     def reports_with_outfile

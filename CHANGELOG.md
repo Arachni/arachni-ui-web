@@ -16,6 +16,8 @@
         - Fixed a nil error caused when a Scan's Profile has been deleted.
     - Can now be edited.
     - Can be scheduled, with support for recurring (incremental/differential) Scans.
+    - Reporting
+        - Removed Metareport and Text reports as they were unusable via the WebUI
 - Settings
     - Profiles
         - Fixed heading (_Profiles_ => _Plugins_).
