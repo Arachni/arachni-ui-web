@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <%= f.input :type, as: :hidden, default: 'direct' %>
+    <%= f.input :type, as: :hidden, input_html: { value: (@scan.type || 'direct') } %>
 
     <% if !@scan.finished? %>
         <%= render partial: 'form_advanced_options', locals: { f: f } %>

@@ -74,7 +74,7 @@
                         <option value="load_balance">Load balance</option>
 
                         <% @dispatchers.each do |d| %>
-                            <option value="<%= d.id %>"><%= d.to_label %></option>
+                            <option value="<%= d.id %>" <%= 'selected' if @scan.dispatcher == d %> ><%= d.to_label %></option>
                         <% end %>
                     </select>
 
@@ -108,7 +108,7 @@
 
                     <select class="span2" name="grid_dispatcher_id" id="grid_dispatcher_id">
                         <% @grid_dispatchers.each do |d| %>
-                            <option value="<%= d.id %>"><%= d.to_label %></option>
+                            <option value="<%= d.id %>" <%= 'selected' if @scan.dispatcher == d %> ><%= d.to_label %></option>
                         <% end %>
                     </select>
 
