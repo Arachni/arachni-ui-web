@@ -182,8 +182,8 @@ class ProfilesController < ApplicationController
     # DELETE /profiles/1.json
     def destroy
         @profile = Profile.find( params.require( :id ) )
-        fail 'Cannot delete default profile.' if @profile.default?
-        fail 'Cannot delete profile assigned to scheduled scans.' if @profile.has_scheduled_scans?
+        fail 'Cannot delete default Profile.' if @profile.default?
+        fail 'Cannot delete Profiles assigned to scheduled Scans.' if @profile.has_scheduled_scans?
 
         notify @profile
         @profile.destroy
