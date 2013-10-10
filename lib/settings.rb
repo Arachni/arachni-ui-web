@@ -24,7 +24,7 @@ class Settings
     class << self
         [:scan_global_limit, :scan_per_user_limit, :profile_allowed_modules,
          :profile_allowed_plugins, :scan_target_whitelist_patterns,
-         :scan_target_blacklist_patterns, :welcomed?].each do |sym|
+         :scan_target_blacklist_patterns, :welcomed?, :timezone].each do |sym|
             define_method sym do
                 Setting.first.send( sym )
             end
@@ -70,5 +70,7 @@ class Settings
             Scan.limit_exceeded?
         end
     end
+
+    Time.zone = self.timezone
 
 end

@@ -16,6 +16,12 @@
             </a>
         </li>
 
+        <li>
+            <a href="#general" data-toggle="tab">
+                General
+            </a>
+        </li>
+
     </ul>
 
     <div class="tab-content">
@@ -164,6 +170,17 @@
                 </div>
             </div>
 
+        </div>
+
+        <div id="general" class="tab-pane active">
+            <div class="row-fluid">
+                <div class="span5">
+                    <%= f.input :timezone, collection: ActiveSupport::TimeZone::MAPPING.values.sort %>
+                    <p class="help-block">
+                        Select the system timezone.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
