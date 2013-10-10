@@ -81,6 +81,24 @@ class ScanManager
                         scan.save
                     end
 
+                    # If there are no Dispatcher either because they disappeared
+                    # before we could select one to load balance or the assigned
+                    # Dispatcher is no longer alive, put the scan in schedule
+                    # limbo and let the user decide how to proceed.
+                    if !scan.dispatcher || !scan.dispatcher.alive?
+                        scan.status            = :schedule
+                        scan.schedule.start_at = nil
+                        scan.dispatcher        = nil
+                        scan.save
+
+                        scan.notify(
+                            action: :dispatcher_disappeared,
+                            text:   'Please select a different Dispatcher or' +
+                                ' distribution type.'
+                        )
+                        next
+                    end
+
                     scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
                         scan.instance_url   = instance_info['url']
                         scan.instance_token = instance_info['token']

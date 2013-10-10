@@ -345,6 +345,10 @@ class Scan < ActiveRecord::Base
                 'was resumed'
             when :create
                 'started'
+            when :schedule
+                'scheduled'
+            when :dispatcher_disappeared
+                'has an unreachable or deleted Dispatcher'
             when :commented
                 'has a new comment'
             when :share

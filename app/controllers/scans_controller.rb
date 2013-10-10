@@ -150,7 +150,12 @@ class ScansController < ApplicationController
             if !Scan.limit_exceeded? && @scan.save
 
                 ScanManager.process @scan
-                notify @scan
+
+                if @scan.scheduled?
+                    notify @scan, action: :scheduled
+                else
+                    notify @scan
+                end
 
                 format.html { redirect_to @scan }
                 format.json { render json: @scan, status: :created, location: @scan }
