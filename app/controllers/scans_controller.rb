@@ -99,8 +99,8 @@ class ScansController < ApplicationController
 
         format = URI( request.url ).path.split( '.' ).last
         render layout: false,
-               text: FrameworkHelper.
-                           framework { |f| f.report_as format, @scan.report.object }
+               content_type: FrameworkHelper.content_type_for_report( format ),
+               text: FrameworkHelper.framework { |f| f.report_as format, @scan.report.object }
     end
 
     # GET /scans/new

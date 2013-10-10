@@ -38,6 +38,10 @@ module FrameworkHelper
         components_for( :plugins, :default )
     end
 
+    def content_type_for_report( format )
+        reports[format.to_s][:content_type] || 'application/octet-stream'
+    end
+
     def reports
         components_for( :reports ).
             reject { |name, _| ['metareport', 'txt'].include? name }

@@ -17,7 +17,8 @@
     - Can now be edited.
     - Can be scheduled, with support for recurring (incremental/differential) Scans.
     - Reporting
-        - Removed Metareport and Text reports as they were unusable via the WebUI
+        - Removed Metareport and Text reports as they were unusable via the WebUI.
+        - Added proper content-types for all reports.
 - Settings
     - Profiles
         - Fixed heading (_Profiles_ => _Plugins_).
