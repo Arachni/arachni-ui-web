@@ -69,18 +69,29 @@ class ScanManager
         scan.save
 
         Thread.new do
-            if scan.type == :direct
-                scan.instance_url, scan.instance_token = spawn_instance
-                scan.start
-            else
-                owner = "WebUI v#{ArachniWebui::Application::VERSION}"
-                scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
-                    scan.instance_url   = instance_info['url']
-                    scan.instance_token = instance_info['token']
-                    scan.save
-
+            begin
+                if scan.type == :direct
+                    scan.instance_url, scan.instance_token = spawn_instance
                     scan.start
+                else
+                    owner = "WebUI v#{ArachniWebui::Application::VERSION}"
+
+                    if scan.type == :remote && scan.load_balance?
+                        scan.dispatcher = scan.owner.available_dispatchers.preferred
+                        scan.save
+                    end
+
+                    scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
+                        scan.instance_url   = instance_info['url']
+                        scan.instance_token = instance_info['token']
+                        scan.save
+
+                        scan.start
+                    end
                 end
+            rescue => e
+                ap e
+                ap e.backtrace
             end
         end
 

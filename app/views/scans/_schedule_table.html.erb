@@ -110,6 +110,9 @@
                 <% if scan.dispatcher %>
                     (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
                 <% end %>
+                <% if scan.load_balance? %>
+                    (Load balanced)
+                <% end %>
             </td>
             <td>
                 <% if scan.schedule.start_at %>

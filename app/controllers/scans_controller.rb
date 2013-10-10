@@ -406,10 +406,7 @@ class ScansController < ApplicationController
                 params.delete( params[:scan][:type].to_s + '_dispatcher_id' )
         end
 
-        if params[:scan][:dispatcher_id] == 'load_balance'
-            params[:scan][:dispatcher_id] =
-                current_user.available_dispatchers.preferred.id
-        end
+        params[:scan][:load_balance] = (params[:scan][:dispatcher_id] == 'load_balance')
 
         allowed = [ :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
         if (sitemap_option = params[:scan].delete( :sitemap_option )) &&
@@ -424,7 +421,7 @@ class ScansController < ApplicationController
             :restrict_to_revision_sitemaps, :extend_from_revision_sitemaps ]
 
         if !scan || (!scan.active? && !scan.finished?)
-            allowed_params += [ :type, :instance_count, :profile_id, :dispatcher_id ]
+            allowed_params += [ :type, :instance_count, :profile_id, :dispatcher_id, :load_balance ]
         end
 
         if !scan || !scan.finished?
