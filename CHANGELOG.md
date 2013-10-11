@@ -16,6 +16,8 @@
         - Fixed a nil error caused when a Scan's Profile has been deleted.
     - Can now be edited.
     - Can be scheduled, with support for recurring (incremental/differential) Scans.
+    - Issues
+        - Fixed encoding error when handling request parameters [Issue #39].
     - Reporting
         - Removed Metareport and Text reports as they were unusable via the WebUI.
         - Added proper content-types for all reports.
