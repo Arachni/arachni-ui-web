@@ -77,8 +77,10 @@
 
 </div>
 
-<div id="updater"
-     data-refresh-url="<%= scan_url( @scan, params.merge( format: :js ) ) %>"
-     data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
-     data-refresh-type="js">
-</div>
+<% if Settings.scan_auto_refresh? %>
+    <div id="updater"
+         data-refresh-url="<%= scan_url( @scan, params.merge( format: :js ) ) %>"
+         data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
+         data-refresh-type="js">
+    </div>
+<% end %>

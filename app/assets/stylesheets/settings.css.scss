@@ -30,6 +30,11 @@
     }
 
     #scan {
+
+        label {
+            float: left;
+        }
+
         #setting_scan_per_user_limit,
         #setting_scan_global_limit {
             width: 30px;
@@ -65,6 +70,12 @@
         input#search {
             float: none;
             width: 240px;
+        }
+    }
+
+    #general {
+        label {
+            float: left;
         }
     }
 

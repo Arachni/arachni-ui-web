@@ -52,6 +52,6 @@ class SettingsController < ApplicationController
             permit( :scan_global_limit, :scan_per_user_limit, { scan_allowed_types: [] },
                     { profile_allowed_modules: [] }, { profile_allowed_plugins: [] },
                     :scan_target_whitelist_patterns, :scan_target_blacklist_patterns,
-                    :timezone )
+                    :timezone, :scan_auto_refresh )
     end
 end

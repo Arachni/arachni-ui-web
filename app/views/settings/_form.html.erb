@@ -26,18 +26,6 @@
 
     <div class="tab-content">
         <div id="scan" class="tab-pane active in">
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <%= f.input :scan_allowed_types, collection: Setting::SCAN_TYPES,
-                                checked: @setting.scan_allowed_types,
-                                as: :check_boxes, label: 'Allowed types' %>
-                    <p class="help-block">
-                        What scan types to allow.
-                    </p>
-                </div>
-            </div>
-
             <div class="row-fluid">
                 <div class="span5">
                     <%= f.input :scan_global_limit, label: 'Global limit' %>
@@ -71,6 +59,26 @@
                     </p>
                 </div>
             </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <%= f.input :scan_allowed_types, collection: Setting::SCAN_TYPES,
+                                checked: @setting.scan_allowed_types,
+                                label_method: lambda { |type| type.to_s.gsub('_', '-').capitalize },
+                                as: :check_boxes, label: 'Allowed types' %>
+                    <p class="help-block">
+                        What scan types to allow.
+                    </p>
+                </div>
+
+                <div class="span6">
+                    <%= f.input :scan_auto_refresh %>
+                    <p class="help-block">
+                        Enable auto-refreshing of the scan monitoring screen.
+                    </p>
+                </div>
+            </div>
+
         </div>
 
         <div id="profile" class="tab-pane">

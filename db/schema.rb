@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131010190108) do
+ActiveRecord::Schema.define(version: 20131012203032) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -235,7 +235,8 @@ ActiveRecord::Schema.define(version: 20131010190108) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "welcomed"
-    t.string   "timezone"
+    t.string   "timezone",                       default: "Etc/UTC"
+    t.boolean  "scan_auto_refresh",              default: true
   end
 
   create_table "users", force: true do |t|
