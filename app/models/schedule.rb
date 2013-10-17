@@ -32,9 +32,9 @@ class Schedule < ActiveRecord::Base
         started_at:  'Start time'
     }
 
-    has_many :scan
+    has_many :scans
 
-    scope :due, -> { joins(:scan).where( scans: { status: 'scheduled' } ).where [ 'start_at <= ?', Time.now ] }
+    scope :due, -> { joins(:scans).where( scans: { status: 'scheduled' } ).where [ 'start_at <= ?', Time.now ] }
 
     validates :every_minute,
               numericality: true,
