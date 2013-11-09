@@ -214,10 +214,17 @@
     <div class="row-fluid">
         <div class="span6">
             <p>
-                <b>Http req limit:</b>
+                <b>HTTP request concurrency limit:</b>
                 <%= profile.http_req_limit %>
             </p>
             <%= messages_for :http_req_limit %>
+        </div>
+        <div class="span6">
+            <p>
+                <b>HTTP request queue size:</b>
+                <%= profile.http_queue_size %>
+            </p>
+            <%= messages_for :http_queue_size %>
         </div>
     </div>
 

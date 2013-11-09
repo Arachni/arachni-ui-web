@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131012203032) do
+ActiveRecord::Schema.define(version: 20131109011550) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20131012203032) do
     t.text     "platforms"
     t.string   "http_username"
     t.string   "http_password"
+    t.integer  "http_queue_size",           default: 500
   end
 
   create_table "profiles_users", id: false, force: true do |t|

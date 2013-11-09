@@ -11,6 +11,7 @@
         - YAML -- Including the CLI AFP files.
         - JSON
     - Delete dialog now warns of the existence of associated Scans.
+    - Added support for the `http_queue_size` option.
 - Scans
     - Index
         - Fixed a nil error caused when a Scan's Profile has been deleted.
