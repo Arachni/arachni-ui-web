@@ -20,15 +20,16 @@ class ScanGroupsController < ApplicationController
 
     before_filter :authenticate_user!
 
+    # Watch out, sets @scan_group to an empty group as a fail-safe.
+    before_action :set_selected_group, only: [:new, :edit, :create, :update, :destroy]
+
     before_action :new_scan_group, only: [ :create ]
     before_action :set_scan_group, only: [:edit, :update, :destroy]
-    before_action :set_selected_group, only: [:new, :edit, :create, :update, :destroy]
 
     load_and_authorize_resource
 
     # GET /scan_groups/new
     def new
-        @scan_group = ScanGroup.new
         respond_to do |format|
             format.js { render '_form_with_list.js' }
         end
