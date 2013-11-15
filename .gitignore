@@ -71,6 +71,5 @@ pickle-email-*.html
 # vim artifacts
 **.swp
 
-Gemfile.lock
 .rvmrc
 config/initializers/secret_token
