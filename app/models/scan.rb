@@ -447,8 +447,7 @@ class Scan < ActiveRecord::Base
 
             if progress_data.rpc_exception?
                 self.status = :error
-                self.active = false
-                save
+                finish
 
                 notify action: self.status
                 delete_client
