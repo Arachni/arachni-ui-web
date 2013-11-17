@@ -388,6 +388,11 @@
                 <small>Assisting components to be enabled during the process</small>
             </legend>
 
+            <p class="alert">
+                Plugins which require an option of type <em>file</em> are
+                not supported and thus are not listed.
+            </p>
+
             <% if errors = @profile.errors.messages[:plugins] || [] %>
                 <% errors.each do |message| %>
                     <pre class="alert alert-error"><%= message %></pre>
