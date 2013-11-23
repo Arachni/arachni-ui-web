@@ -91,5 +91,7 @@ end
 if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
     gem 'arachni', path: p
 else
-    gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+    # Nightly builds use a local git repo for performance reasons.
+    repo = ENV['ARACHNI_FRAMEWORK_REPOSITORY'] || 'git@github.com:Arachni/arachni.git'
+    gem 'arachni', git: repo, branch: 'experimental'
 end
