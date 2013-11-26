@@ -20,6 +20,10 @@
         <%= yield( :head ) %>
     </head>
     <body id="top" data-target=".spy" data-spy="scroll">
+        <div id="loading" class="hide modal progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+
         <header class="navbar navbar-inverse navbar-fixed-top">
             <nav class="navbar-inner">
                 <div id="navigation-top" class="container"
@@ -82,10 +86,6 @@
         <% if Rails.env.development? %>
         <div id="footnotes_holder"></div>
         <% end %>
-
-        <div id="loading" class="hide modal progress progress-striped active">
-            <div class="bar" style="width: 100%;"></div>
-        </div>
 
         <footer>
             <div class="row-fluid">

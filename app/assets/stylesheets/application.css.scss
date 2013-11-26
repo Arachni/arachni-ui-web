@@ -29,6 +29,15 @@
  *= require_tree .
 */
 
+#loading {
+    position: fixed;
+    z-index: 2000;
+    top: 0px;
+    left: 0;
+    height: 5px;
+    width: 10000px;
+}
+
 .content {
     //background-color: #eee;
     padding: 20px;
