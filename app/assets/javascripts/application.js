@@ -37,6 +37,7 @@
 //= require_tree .
 //= require pace.min.js
 
+
 jQuery.fn.exists = function(){ return this.length > 0; }
 
 $.expr[':'].icontains = function(obj, index, meta, stack){
@@ -289,6 +290,9 @@ function responsiveAdjust(){
     }
 }
 
+$(document).on( 'page:fetch', function( $ ) {
+    Pace.restart();
+});
 
 $(document).ready( function( $ ) {
     updatePage();
