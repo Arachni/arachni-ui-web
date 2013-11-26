@@ -35,6 +35,8 @@
 //= require bootstrap-dropdown
 //= require ./jqplot/jquery.jqplot.js
 //= require_tree .
+//= require pace.min.js
+
 
 jQuery.fn.exists = function(){ return this.length > 0; }
 
@@ -289,7 +291,7 @@ function responsiveAdjust(){
 }
 
 $(document).on( 'page:fetch', function( $ ) {
-    loading();
+    Pace.restart();
 });
 
 $(document).ready( function( $ ) {
