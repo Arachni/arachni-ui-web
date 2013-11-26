@@ -30,7 +30,9 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require turbolinks
-//= require bootstrap
+//= require bootstrap-tooltip
+//= require bootstrap-tab
+//= require bootstrap-dropdown
 //= require ./jqplot/jquery.jqplot.js
 //= require_tree .
 
