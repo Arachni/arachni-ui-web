@@ -30,6 +30,8 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require turbolinks
+//= require bootstrap-transition
+//= require bootstrap-collapse
 //= require bootstrap-modal
 //= require bootstrap-tooltip
 //= require bootstrap-tab
