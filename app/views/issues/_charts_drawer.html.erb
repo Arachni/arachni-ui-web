@@ -112,6 +112,13 @@
         drawPies();
     }
 
+    function drawChartsIfVisible() {
+        if( !$('#charts').hasClass( 'in' ) ) return;
+
+        drawCharts();
+        console.log( 'drawing' );
+    }
+
     function toggleCharts(){
         var clear = true;
         if( !$('#charts').hasClass( 'in' ) ) {
@@ -132,7 +139,7 @@
     updatePage();
 
     <% if issues.any? %>
-    drawCharts();
-    $(window).resize(drawCharts);
+    drawChartsIfVisible();
+    $(window).resize(drawChartsIfVisible);
     <% end %>
 </script>
