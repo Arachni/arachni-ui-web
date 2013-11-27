@@ -30,6 +30,7 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require turbolinks
+//= require bootstrap-modal
 //= require bootstrap-tooltip
 //= require bootstrap-tab
 //= require bootstrap-dropdown
@@ -68,7 +69,7 @@ if( typeof String.prototype.endsWith != 'function' ) {
 }
 
 var tabCookieName        = 'activeTabGroup';
-var accordionCookieName = 'activeAccordionGroup';
+var accordionCookieName  = 'activeAccordionGroup';
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){

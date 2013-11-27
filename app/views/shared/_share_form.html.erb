@@ -14,7 +14,7 @@
         </a>
     <% end %>
 
-    <div id="share<%= model.class %><%= model.id %>" class="modal hide fade"
+    <div id="share<%= model.class %><%= model.id %>" class="sharing-window modal hide fade"
          tabindex="-1" role="dialog">
 
         <div class="modal-header">
@@ -40,11 +40,21 @@
     </div>
 
     <script type="text/javascript">
+
         // If we have a scan table then we're probably inside it and since
         // the table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-        $( '#share<%= model.class %><%= model.id %>' ).each( function() {
-            $( '#<%= model.class.to_s.downcase %>s' ).parent().before( this );
-        })
+
+        var shareModel    = '<%= model.class %>',
+            shareSelector = '.sharing-window';
+
+        if ( $(shareSelector).length < 3) {
+            $( shareSelector ).each( function() {
+                $( "#" + shareModel.toLowerCase() + "s" ).parent().before( this );
+            });
+        }
+
+        $(".nav.nav-list").find(shareSelector).remove();
+        
     </script>
 <% end %>
