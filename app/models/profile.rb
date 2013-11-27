@@ -137,6 +137,11 @@ class Profile < ActiveRecord::Base
                 (v.respond_to?( :empty? ) ? v.empty? : false)
             opts[k.to_sym] = v
         end
+
+        if (cookies = opts.delete(:cookies))
+            opts[:cookies] = cookies.map { |k, v| { k => v } }
+        end
+
         opts
     end
 
