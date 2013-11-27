@@ -1,26 +1,7 @@
-<div class="row-fluid hidden-phone collapse" id="charts">
-    <div class="span11" id="chart-issues-container">
-        <div id="chart-issues" class="clear">
-        </div>
-    </div>
-
-    <div class="span11" id="pies">
-        <div class="pie-chart" id="chart-severities">
-        </div>
-
-        <div class="pie-chart" id="chart-elements">
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
     <% graph_data = issues_to_graph_data( issues ) %>
 
     function pie( holder, title, data, colors ) {
-
-        container = $( '#' + holder );
-        container.empty();
-
         $.jqplot( holder,
                 [ data ],
                 {
@@ -47,12 +28,8 @@
 
 
     function drawBars(){
-        if( !$('#chart-issues' ).is(':visible') ) return;
-
-        $('#chart-issues').empty();
         $('#chart-issues').attr( "width",( $('#canvas-container').width() ) );
         $('#chart-issues').attr( "height",( $('#canvas-container').height() ) );
-
 
         $.jqplot( 'chart-issues',
                 [
@@ -130,28 +107,32 @@
     }
 
     function drawCharts(){
-        if( !$( '#charts' ).hasClass( 'in' ) ) return;
-
+        clearCharts();
         drawBars();
         drawPies();
     }
 
     function toggleCharts(){
-        container = $( '#charts' );
+        var clear = true;
+        if( !$('#charts').hasClass( 'in' ) ) {
+            drawCharts();
+            clear = false;
+        }
 
-        container.collapse( 'toggle' );
-        if( !container.hasClass( 'in' ) ) container.empty();
+        $('#charts').collapse( 'toggle' );
+        if( clear ) { clearCharts(); }
+    }
 
-        drawCharts();
+    function clearCharts() {
+        $('#chart-severities').empty();
+        $('#chart-elements').empty();
+        $('#chart-issues').empty();
     }
 
     updatePage();
 
     <% if issues.any? %>
     drawCharts();
-    $(window).resize(function() {
-        drawCharts( );
-    });
-
+    $(window).resize(drawCharts);
     <% end %>
 </script>

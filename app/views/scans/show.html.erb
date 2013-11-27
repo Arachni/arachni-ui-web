@@ -69,6 +69,8 @@
         <%= render @scan.active? ? 'show_active' : 'show_inactive' %>
     </div>
 
+    <%= render partial: 'issues/charts_container' %>
+
     <div class="row-fluid">
         <div class="span12" id='issues'>
             <%= render partial: 'issues/table.html', locals: { url_method_type: :scan_url } %>
