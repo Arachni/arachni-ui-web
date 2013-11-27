@@ -5,7 +5,7 @@
 <% else %>
 
     <% has_errors = true %>
-    <% if @scan.errors.messages.empty? %>
+    <% if @scan.errors.empty? %>
         <div id="scan-description" class="lead">
             <%= m @scan.description %>
         </div>
