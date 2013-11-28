@@ -1,0 +1,56 @@
+     <%
+            icon, msg, row_class = nil
+
+            if active_tab == 'all'
+                icon, msg, row_class =  if issue.requires_verification_and_verified?
+                                            [ 'ok', 'Verified', 'success']
+                                        elsif issue.false_positive?
+                                            [ 'remove', 'False-positive', 'error']
+                                        elsif issue.pending_verification?
+                                            [ 'exclamation-sign', 'Needs verification', 'warning']
+                                        elsif issue.fixed?
+                                            [ 'asterisk', 'Fixed', 'info']
+                                        else
+                                            [ 'question-sign', 'Awaiting review', '']
+                                        end
+           end
+
+        %>
+
+        <tr onclick="$('#description-<%= issue.digest %>').collapse( 'toggle' );"
+            class="<%= row_class %>" >
+            <td>
+                <a href="#" rel="tooltip"
+                   title="<%= msg %>">
+                    <i class="icon-<%= icon %>"></i>
+                </a>
+
+                <%= link_to issue.name, scan_issue_url( issue.scan, issue ) %>
+            </td>
+            <td class="wrap">
+                    <%= link_to issue.url, issue.url %>
+            </td>
+            <td><%= issue.vector_type.capitalize %></td>
+            <td class="wrap"><%= issue.vector_name %></td>
+            <td>
+                <p class="label label-<%= issue_severity_to_alert issue.severity %>">
+                    <%= issue.severity %>
+                </p>
+            </td>
+            <td>
+                <% if issue.cwe_url %>
+                    <%= link_to issue.cwe.to_s, issue.cwe_url %>
+                <% end %>
+            </td>
+        </tr>
+        <tr class="description">
+            <td class="description" colspan="7">
+                <div class="description-container collapse" id="description-<%= issue.digest %>">
+                    <blockquote>
+                        <%= issue.description %>
+                    </blockquote>
+                </div>
+            </td>
+        </tr>
+    </div>
+    
