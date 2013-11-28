@@ -187,6 +187,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
     </p>
 
     <table class="hidden-phone table table-striped table-hover table-condensed fixed">
+
         <thead>
             <tr>
                 <th style="width: 23%">Name</th>
@@ -205,10 +206,9 @@ url_method =    if !local_assigns.include?( :url_method_type )
         </thead>
         
         <% issues.each do |issue| %>
-
             <%= render 'issues/single_issue', active_tab: active_tab, issue: issue %>
-
         <% end %>
+
     </table>
 
     <div class="visible-phone">
@@ -225,6 +225,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
                    }
         %>
     </div>
+
 <% else %>
     <p class="alert alert-info">
         No issues discovered<%= ' yet' if @scan.active? %>.
