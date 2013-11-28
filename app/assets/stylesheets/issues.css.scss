@@ -19,27 +19,49 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #issues {
-    table.fixed {
+    table.fixed  {
         table-layout: fixed;
+
+        td.wrap {
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        tr.issue-type {
+            td {
+                border: 0px;
+                padding: 0px;
+
+                span.label {
+                    cursor: pointer;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
+        }
+
+        tr.issue-group td {
+            padding: 0;
+            padding-bottom: 3px;
+        }
     }
 
-    table.fixed tr.description, table td.description {
-        padding: 0px;
-        margin: 0px;
-        border: none;
+    table.issue-group {
+        margin-bottom: 0;
 
-        blockquote {
-            margin: 0px;
-            margin-left: 20px;
-            margin-bottom: 10px;
+        thead th {
+            padding: 0;
         }
-        p {
-            margin-left: 20px;
+        tr td p.description {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
-    }
-
-    table.fixed td.wrap {
-        word-wrap: break-word;
+        tr:first-child td, tr:nth-child(2) td {
+            border: 0px;
+        }
     }
 
     table.key-values {
@@ -64,6 +86,10 @@
                 border-top: none;
             }
         }
+    }
+
+    .tooltip {
+        position: fixed;
     }
 
     #response_body_container {

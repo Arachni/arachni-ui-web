@@ -1,0 +1,43 @@
+<%
+   msg, row_class = nil
+   icon = 'eye-open'
+
+   if active_tab == 'all'
+       icon, msg, row_class =  if issue.requires_verification_and_verified?
+                                   [ 'ok', 'Verified', 'success']
+                               elsif issue.false_positive?
+                                   [ 'remove', 'False-positive', 'error']
+                               elsif issue.pending_verification?
+                                   [ 'exclamation-sign', 'Needs verification', 'warning']
+                               elsif issue.fixed?
+                                   [ 'asterisk', 'Fixed', 'info']
+                               else
+                                   [ 'question-sign', 'Awaiting review', '']
+                               end
+   end
+
+%>
+
+<tr class="<%= row_class %>">
+    <td class="view-issue">
+        <a href="<%= scan_issue_url( issue.scan, issue ) %>" rel="tooltip"
+           class="btn btn-mini btn-info"
+           title="<%= msg %>">
+            <i class="icon-<%= icon %>"></i>
+        </a>
+    </td>
+
+    <td class="wrap">
+        <%= link_to issue.url, issue.url %>
+    </td>
+
+    <td><%= issue.vector_type.capitalize %></td>
+
+    <td class="wrap"><%= issue.vector_name %></td>
+
+    <td>
+        <% if issue.cwe_url %>
+            <%= link_to issue.cwe.to_s, issue.cwe_url %>
+        <% end %>
+    </td>
+</tr>

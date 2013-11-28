@@ -75,4 +75,12 @@ module IssuesHelper
         end
     end
 
+    def group_issues_by_type( issues )
+        h = {}
+        issues.each do |issue|
+            h[issue.name] ||= []
+            h[issue.name] << issue
+        end
+        h
+    end
 end
