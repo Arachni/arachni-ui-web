@@ -1,8 +1,10 @@
 <script type="text/javascript">
     <% graph_data = issues_to_graph_data( issues ) %>
 
+    var charts = [];
+
     function pie( holder, title, data, colors ) {
-        $.jqplot( holder,
+        c = $.jqplot( holder,
                 [ data ],
                 {
                     seriesColors: colors,
@@ -24,6 +26,8 @@
                     }
                 }
         );
+
+        charts.push(c);
     }
 
 
@@ -31,7 +35,7 @@
         $('#chart-issues').attr( "width",( $('#canvas-container').width() ) );
         $('#chart-issues').attr( "height",( $('#canvas-container').height() ) );
 
-        $.jqplot( 'chart-issues',
+        c = $.jqplot( 'chart-issues',
                 [
                     <%= graph_data[:issues].values.to_json.html_safe %>
                 ],
@@ -93,14 +97,18 @@
                         }
                     ]
                 });
+
+        charts.push(c);
     }
 
-    function drawPies(){
+    function drawSeverityPie(){
         pie( "chart-severities", "Severity levels",
                 <%= graph_data[:severities].map { |k, v| [k, v] }.to_json.html_safe %>,
                 [ '#BD2C00', '#DB843D', '#EDDF3C', '#89A54E' ]
         );
+    }
 
+    function drawElementPie(){
         pie( "chart-elements", "Issues by element",
                 <%= graph_data[:elements].map { |k, v| [k.capitalize, v] }.to_json.html_safe %>
         );
@@ -108,8 +116,10 @@
 
     function drawCharts(){
         clearCharts();
+
         drawBars();
-        drawPies();
+        drawSeverityPie();
+        drawElementPie();
     }
 
     function drawChartsIfVisible() {
@@ -130,6 +140,12 @@
     }
 
     function clearCharts() {
+        for( var i = 0; i < charts.length; i++ ) {
+            charts[i].destroy();
+        }
+
+        charts = [];
+
         $('#chart-severities').empty();
         $('#chart-elements').empty();
         $('#chart-issues').empty();
