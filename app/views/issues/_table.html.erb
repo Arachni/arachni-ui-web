@@ -186,25 +186,32 @@ url_method =    if !local_assigns.include?( :url_method_type )
         <%= issue_tab_description( active_tab ) %>
     </p>
 
-    <table class="hidden-phone table table-condensed fixed issue-groups">
-        <thead>
-            <tr>
-                <th style="width: 2%"></th>
-                <th style="width: 3%"></th>
-                <th style="width: 65%">URL</th>
-                <th style="width: 25%">Input</th>
-                <th style="width: 5%">Element</th>
-            </tr>
-        </thead>
+    <div class="hidden-phone row-fluid">
+        <div class="span2">
+            <%= render partial: 'issues/legend', locals: { issues: issues } %>
+        </div>
+        <div class="span10">
+            <table class="table table-condensed fixed issue-groups">
+                <thead>
+                    <tr>
+                        <th style="width: 2%"></th>
+                        <th style="width: 3%"></th>
+                        <th style="width: 65%">URL</th>
+                        <th style="width: 25%">Input</th>
+                        <th style="width: 5%">Element</th>
+                    </tr>
+                </thead>
 
-        <% group_issues_by_type(issues).each do |type, gissues| %>
-            <%= render 'issues/group_row',
-                       type:       type,
-                       issues:     gissues,
-                       active_tab: active_tab
-            %>
-        <% end %>
-    </table>
+                <% group_issues_by_type(issues).each do |type, gissues| %>
+                    <%= render 'issues/group_row',
+                               type:       type,
+                               issues:     gissues,
+                               active_tab: active_tab
+                    %>
+                <% end %>
+            </table>
+        </div>
+    </div>
 
     <div class="visible-phone">
         <a href="#" onclick="$('.issue').collapse( 'show' ); return false;">Expand all</a>
