@@ -20,6 +20,9 @@
         end
     %>
 
+    <% if scan.root_with_revisions? %>
+        <%= "onclick=\"$('#revision-table-container-#{scan.id}').collapse('toggle')\"".html_safe %>
+    <% end %>
 >
 
     <% if !treat_as_running && show_as_revision %>
