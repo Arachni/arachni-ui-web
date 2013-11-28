@@ -27,11 +27,11 @@
             cursor: pointer;
         }
 
-        li:nth-child(n+3):nth-last-child(n+2) span {
+        li:nth-child(n+4):nth-last-child(n+2) span {
             border-radius: 0px;
         }
 
-        li:nth-child(n+2) span {
+        li:nth-child(n+3) span {
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
             border-bottom-left-radius: 0px;
