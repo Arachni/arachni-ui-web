@@ -7,8 +7,7 @@
     <td colspan="6">
         <span onclick="$('#<%= group_id %>').collapse( 'toggle' );"
               class="label label-<%= issue_severity_to_alert ref_issue.severity %>">
-            <%= type %> (<%= issues.size %>) &mdash;
-            <%= ref_issue.severity.capitalize %> severity
+            <%= type %> (<%= issues.size %>)
         </span>
     </td>
 </tr>
@@ -16,7 +15,7 @@
 <tr class="issue-group">
     <td></td>
     <td colspan="5">
-        <div class="collapse" id="<%= group_id %>">
+        <div class="collapse issue-group-container severity-<%= ref_issue.severity.downcase %>" id="<%= group_id %>">
             <table class="table table-hover table-striped issue-group">
                 <thead>
                     <tr>

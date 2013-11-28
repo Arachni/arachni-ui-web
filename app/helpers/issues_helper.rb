@@ -75,6 +75,10 @@ module IssuesHelper
         end
     end
 
+    def severities_from_issues( issues )
+        (issues.is_a?( Array ) ? issues.map(&:severity) : issues.pluck(:severity)).uniq
+    end
+
     def group_issues_by_type( issues )
         h = {}
         issues.each do |issue|

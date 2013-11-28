@@ -18,6 +18,34 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#issues-legend {
+    position: fixed;
+
+    ul {
+        li span {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        li:nth-child(n+3):nth-last-child(n+2) span {
+            border-radius: 0px;
+        }
+
+        li:nth-child(n+2) span {
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+
+        li:last-child span {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    }
+}
 
 #scans {
     margin-top: 10px;
