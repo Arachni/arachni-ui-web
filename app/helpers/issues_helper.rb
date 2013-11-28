@@ -76,7 +76,14 @@ module IssuesHelper
     end
 
     def severities_from_issues( issues )
-        (issues.is_a?( Array ) ? issues.map(&:severity) : issues.pluck(:severity)).uniq
+        h = {}
+        issues.each do |issue|
+            h[issue.severity] ||= []
+            h[issue.severity] << issue
+        end
+
+        h.each { |severity, cissues| h[severity] = cissues.size }
+        h
     end
 
     def group_issues_by_type( issues )

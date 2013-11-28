@@ -14,13 +14,13 @@
                 </span>
         </li>
 
-        <% severities_from_issues( issues ).each do |severity| %>
+        <% severities_from_issues( issues ).each do |severity, count| %>
             <li>
                 <span class="label label-<%= issue_severity_to_alert(severity) %>"
                       onclick="$('.severity-<%=severity.downcase%>').collapse('toggle');"
                       title="Toggle visibility of <%=severity.downcase%> severity issue types."
                 >
-                    <%=severity%>
+                    <%=severity%> (<%=count%>)
                 </span>
             </li>
         <% end %>
