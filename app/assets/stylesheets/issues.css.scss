@@ -19,6 +19,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #issues {
+
     table.fixed  {
         table-layout: fixed;
 
@@ -36,6 +37,10 @@
                     cursor: pointer;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
+                    padding: 6px 6px !important;
+                    min-width: 450px !important;
+                    font-size: 14px !important;
+
                 }
             }
         }
