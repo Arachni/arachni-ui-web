@@ -1,0 +1,29 @@
+<div id="issues-legend">
+    <ul class="nav nav-list">
+        <li class="nav-header">Issue severities</li>
+
+        <li>
+                <span onclick="$('.issue-group-container').collapse('show')"
+                      title="Expand all issue types."
+                >
+                    Show all
+                </span> /
+                <span onclick="$('.issue-group-container').collapse('hide')"
+                      title="Collapse all issue types."
+                >
+                    Hide all
+                </span>
+        </li>
+
+        <% severities_from_issues( scan.issues ).each do |severity| %>
+            <li>
+                <span class="label label-<%= issue_severity_to_alert(severity) %>"
+                      onclick="$('.severity-<%=severity.downcase%>').collapse('toggle')"
+                      title="Toggle visibility of <%=severity.downcase%> severity issue types."
+                >
+                    <%=severity%>
+                </span>
+            </li>
+        <% end %>
+    </ul>
+</div>

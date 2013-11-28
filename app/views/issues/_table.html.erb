@@ -21,38 +21,6 @@ url_method =    if !local_assigns.include?( :url_method_type )
                 end
 %>
 
-<% add_to_sidebar do %>
-    <div id="issues-legend">
-        <ul class="nav nav-list">
-            <li class="nav-header">Issue severities</li>
-
-            <li>
-                <span onclick="$('.issue-group-container').collapse('show')"
-                      title="Expand all issue types."
-                >
-                    Show all
-                </span> /
-                <span onclick="$('.issue-group-container').collapse('hide')"
-                      title="Collapse all issue types."
-                >
-                    Hide all
-                </span>
-            </li>
-
-            <% severities_from_issues( scan.issues ).each do |severity| %>
-            <li>
-                <span class="label label-<%= issue_severity_to_alert(severity) %>"
-                      onclick="$('.severity-<%=severity.downcase%>').collapse('toggle')"
-                      title="Toggle visibility of <%=severity.downcase%> severity issue types."
-                >
-                    <%=severity%>
-                </span>
-            </li>
-            <% end %>
-        </ul>
-    </div>
-<% end %>
-
 <%= render partial: '/issues/charts_drawer', locals: { issues: issues } %>
 
 <h2>Issues <small>[<%= counts['all'] %>]</small></h2>
