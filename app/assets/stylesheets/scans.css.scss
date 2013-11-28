@@ -27,6 +27,11 @@
             cursor: pointer;
         }
 
+        li span:hover {
+            opacity: 0.6;
+            transition: all 0.2s ease-in-out;
+        }
+
         li:nth-child(n+4):nth-last-child(n+2) span {
             border-radius: 0px;
         }
