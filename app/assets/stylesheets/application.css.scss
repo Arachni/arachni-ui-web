@@ -42,6 +42,14 @@
     padding: 4px 5px !important;
 }
 
+.accordion-group:nth-child(even) { background-color: #E9E9E9; }
+.accordion-toggle:hover { text-decoration: none;  }
+.accordion-group input {
+    position: relative;
+    right: 15px;
+    top: 8px;
+}
+
 .content {
     //background-color: #eee;
     padding: 20px;
