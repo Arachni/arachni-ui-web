@@ -26,8 +26,9 @@ renderResponse = ( container, html ) ->
             " are you sure you want to continue?" )
 
         window.warned = confirm_render
-        return if( !confirm_render)
+        return if(!confirm_render)
 
+    $('#rendered-response-container').modal('show');
     container.html( $( '<iframe class="rendered-response" ' +
                             'src="data:text/html;base64, ' + html + '" />' ) )
 
@@ -64,7 +65,6 @@ updateElementsVisibility = () ->
 jQuery ->
     $('#render-response-button' ).click ->
         renderResponse( $('#rendered-response-container .modal-body'), $(this).data( 'html' ) )
-        $('#rendered-response-container').modal( 'show' )
     $('#issue-tabs a[href$="technical-details"]').on 'shown', () ->
         $('#sidenav').show()
     $('#issue-tabs a[href$="discussion"]').on 'shown', () ->
