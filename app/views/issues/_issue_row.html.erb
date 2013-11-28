@@ -30,14 +30,6 @@
     <td class="wrap">
         <%= link_to issue.url, issue.url %>
     </td>
-
-    <td><%= issue.vector_type.capitalize %></td>
-
     <td class="wrap"><%= issue.vector_name %></td>
-
-    <td>
-        <% if issue.cwe_url %>
-            <%= link_to issue.cwe.to_s, issue.cwe_url %>
-        <% end %>
-    </td>
+    <td><%= issue.vector_type.capitalize %></td>
 </tr>

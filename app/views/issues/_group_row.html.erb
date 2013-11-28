@@ -4,26 +4,32 @@
 %>
 
 <tr class="issue-type">
-    <td colspan="6">
+    <td colspan="5">
         <span onclick="$('#<%= group_id %>').collapse( 'toggle' );"
               class="label label-<%= issue_severity_to_alert ref_issue.severity %>">
             <%= type %> (<%= issues.size %>)
+
+            <% if ref_issue.cwe_url %>
+                <strong>
+                    <a href="<%=ref_issue.cwe_url%>"
+                        title="Vulnerability definitions from Common Weakness Enumeration project.">(CWE)</a>
+                </strong>
+            <% end %>
         </span>
     </td>
 </tr>
 
 <tr class="issue-group">
     <td></td>
-    <td colspan="5">
+    <td colspan="4">
         <div class="collapse issue-group-container severity-<%= ref_issue.severity.downcase %>" id="<%= group_id %>">
             <table class="table table-hover table-striped issue-group">
                 <thead>
                     <tr>
-                        <th style="width: 4%"></th>
-                        <th style="width: 36%"></th>
-                        <th style="width: 3%"></th>
-                        <th style="width: 15%"></th>
-                        <th style="width: 3%"></th>
+                        <th style="width: 5%"></th>
+                        <th style="width: 65%"></th>
+                        <th style="width: 25%"></th>
+                        <th style="width: 5%"></th>
                     </tr>
                 </thead>
 

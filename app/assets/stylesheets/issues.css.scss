@@ -38,9 +38,17 @@
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                     padding: 6px 6px !important;
-                    min-width: 250px !important;
+                    width: 100%;
                     font-size: 14px !important;
 
+                    a {
+                        text-decoration: none;
+                        color: blue;
+                    }
+
+                    a:hover {
+                        color: black;
+                    }
                 }
             }
         }
@@ -53,6 +61,10 @@
 
     table.issue-group {
         margin-bottom: 5px;
+
+        .tooltip {
+            position: fixed;
+        }
 
         thead th {
             padding: 0;
@@ -91,10 +103,6 @@
                 border-top: none;
             }
         }
-    }
-
-    .tooltip {
-        position: fixed;
     }
 
     #response_body_container {
