@@ -44,7 +44,7 @@
 
 .accordion-group:nth-child(even) { background-color: #E9E9E9; }
 .accordion-toggle:hover { text-decoration: none;  }
-.accordion-group input {
+.accordion-group input[type="checkbox"] {
     position: relative;
     right: 15px;
     top: 8px;
