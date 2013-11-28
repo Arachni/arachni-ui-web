@@ -38,16 +38,12 @@
     width: 10000px;
 }
 
-.label {
-    padding: 4px 5px !important;
+.accordion-toggle:hover {
+    text-decoration: none;
 }
 
-.accordion-group:nth-child(even) { background-color: #E9E9E9; }
-.accordion-toggle:hover { text-decoration: none;  }
-.accordion-group input[type="checkbox"] {
-    position: relative;
-    right: 15px;
-    top: 8px;
+.label {
+    padding: 4px 5px !important;
 }
 
 .content {

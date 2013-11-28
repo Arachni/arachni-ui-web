@@ -13,6 +13,7 @@
     - Delete dialog now warns of the existence of associated Scans.
     - Added support for the `http_queue_size` option.
     - Fixed formatting of cookies as an `RPC::Server::Instance#scan` option.
+    - Component selection accordions are now zebra-styled [Issue #57].
 - Scans
     - Index
         - Fixed a nil error caused when a Scan's Profile has been deleted.
