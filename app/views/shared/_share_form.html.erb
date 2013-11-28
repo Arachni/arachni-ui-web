@@ -1,5 +1,18 @@
 <% if User.count > 1 && can?( :share, model ) %>
 
+    <script type="text/javascript">
+        selector = '#share<%= model.class %><%= model.id %>';
+
+        if( !$(selector).is( ':visible' ) ) {
+            refreshModal = true;
+
+            // Remove previous nodes from the DOM.
+            $(selector).remove();
+        } else {
+            refreshModal = false;
+        }
+    </script>
+
     <% if !local_assigns[:nodisplay] %>
         <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
            role="button" class="btn btn-small" data-toggle="modal">
@@ -14,7 +27,7 @@
         </a>
     <% end %>
 
-    <div id="share<%= model.class %><%= model.id %>" class="sharing-window modal hide fade"
+    <div id="share<%= model.class %><%= model.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
 
         <div class="modal-header">
@@ -40,21 +53,11 @@
     </div>
 
     <script type="text/javascript">
-
         // If we have a scan table then we're probably inside it and since
         // the table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-
-        var shareModel    = '<%= model.class %>',
-            shareSelector = '.sharing-window';
-
-        if ( $(shareSelector).length < 3) {
-            $( shareSelector ).each( function() {
-                $( "#" + shareModel.toLowerCase() + "s" ).parent().before( this );
-            });
+        if( refreshModal ) {
+            $( '#<%= model.class.to_s.downcase %>s' ).parent().before( $(selector) );
         }
-
-        $(".nav.nav-list").find(shareSelector).remove();
-        
     </script>
 <% end %>

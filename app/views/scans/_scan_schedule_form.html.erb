@@ -1,7 +1,12 @@
 <% if can?( :update, scan ) %>
     <script type="text/javascript">
-        if( !$( '#updateScanSchedule_<%= scan.id %>' ).is( ':visible' ) ) {
+        selector = '#updateScanSchedule_<%= scan.id %>';
+
+        if( !$(selector).is( ':visible' ) ) {
             refreshModal = true;
+
+            // Remove previous nodes from the DOM.
+            $(selector).remove();
         } else {
             refreshModal = false;
         }
@@ -40,7 +45,7 @@
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
         if( refreshModal ) {
             // Move the new one out of the table.
-            $('#scans').parent().before( $( '#updateScanSchedule_<%= scan.id %>' ) );
+            $('#scans').parent().before( $(selector) );
         }
     </script>
 <% end %>
