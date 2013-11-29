@@ -42,14 +42,9 @@
                     font-size: 14px !important;
 
                     a {
-                        color: black !important;
                         font-size: 11px;
                         font-family: monospace;
                         text-decoration: none;
-                    }
-
-                    a:hover {
-                        opacity: 0.6;
                     }
                 }
             }
@@ -111,28 +106,37 @@
         position: fixed;
 
         ul {
-            li span {
+            li.nav-header span {
                 width: 100%;
                 cursor: pointer;
             }
 
-            li span:hover {
+            li span.label {
+                width: 100%;
+                cursor: pointer;
+
+                span.badge {
+                    float: right;
+                }
+            }
+
+            li span.label:hover {
                 opacity: 0.6;
                 transition: all 0.2s ease-in-out;
             }
 
-            li:nth-child(n+3):nth-last-child(n+2) span {
+            li:nth-child(n+3):nth-last-child(n+2) span.label {
                 border-radius: 0px;
             }
 
-            li:nth-child(n+2) span {
+            li:nth-child(n+2) span.label {
                 border-top-left-radius: 3px;
                 border-top-right-radius: 3px;
                 border-bottom-left-radius: 0px;
                 border-bottom-right-radius: 0px;
             }
 
-            li:last-child span {
+            li:last-child span.label {
                 border-top-left-radius: 0px;
                 border-top-right-radius: 0px;
                 border-bottom-left-radius: 3px;
