@@ -9,15 +9,6 @@
               class="label label-<%= issue_severity_to_alert ref_issue.severity %>">
             <%= type %>
             <span class="badge badge-inverse"><%=issues.size%></span>
-
-            <% if ref_issue.cwe_url %>
-                <strong>
-                    <span class="badge badge-inverse">
-                        <a href="<%=ref_issue.cwe_url%>"
-                            title="Vulnerability definitions from Common Weakness Enumeration project.">CWE</a>
-                    </span>
-                </strong>
-            <% end %>
         </span>
     </td>
 </tr>
@@ -40,6 +31,12 @@
                     <td colspan="5">
                         <p class="description well">
                             <%= ref_issue.description %>
+
+                            <% if ref_issue.cwe_url %>
+                                (<a href="<%=ref_issue.cwe_url%>"
+                                    data-toggle="tooltip"
+                                    title="Vulnerability definitions from Common Weakness Enumeration project.">CWE</a>)
+                            <% end %>
                         </p>
                     </td>
                 </tr>
