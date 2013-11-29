@@ -43,8 +43,13 @@
 
                     a {
                         font-size: 11px;
+                        color: white;
                         font-family: monospace;
                         text-decoration: none;
+                    }
+
+                    a:hover {
+                        color: grey;
                     }
                 }
             }
