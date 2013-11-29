@@ -20,9 +20,16 @@
 
 #issues {
 
+    ul#issue-tabs {
+        margin-bottom: 10px;
+    }
+
     table.fixed  {
         table-layout: fixed;
 
+        th {
+            padding-top: 0px;
+        }
         td.wrap {
             word-wrap: break-word;
             margin: 0;

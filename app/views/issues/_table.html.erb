@@ -52,6 +52,11 @@ url_method =    if !local_assigns.include?( :url_method_type )
 <% if issues.any? %>
     <div class="hidden-phone row-fluid">
         <div class="span2">
+            <% if issues.any? %>
+                <p class="muted hidden-phone">
+                    <%= issue_tab_description( active_tab ) %>
+                </p>
+            <% end %>
             <%= render partial: 'issues/legend', locals: { issues: issues } %>
         </div>
         <div class="span10">
