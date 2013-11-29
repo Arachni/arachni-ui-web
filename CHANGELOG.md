@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Updated to use HTML5 `localStorage` instead of cookies to store UI state.
 - Navigation menu
     - Removed "Home" item since it was redundant.
     - Updated JS detection of active page when the WebUI is mounted under a subdirectory.

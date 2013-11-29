@@ -70,11 +70,9 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
-var tabCookieName        = 'activeTabGroup';
-var accordionCookieName = 'activeAccordionGroup';
-var autoRefreshedElements = {};
-var $issueLegend = null;
-var $issueLegendPosition = null;
+autoRefreshedElements = {};
+issueLegend           = null;
+issueLegendPosition  = null;
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -106,15 +104,15 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+    var aGroup = localStorage['accordions'];
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
         $( ".collapse" ).height( '0px' );
 
-        collapsibles = aGroup.split( ':' );
+        var collapsibles = aGroup.split( ':' );
         for( i = 0; i < collapsibles.length; i++ ) {
-            collapsible = collapsibles[i];
+            var collapsible = collapsibles[i];
 
             if( collapsible != '' && $( "#" + collapsible ) ){
                 $( "#" + collapsible ).addClass( 'in' );
@@ -124,13 +122,13 @@ function restoreAccordions(){
         // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( accordionCookieName, ':statistics:', { path: '/' } );
+        localStorage['accordions'] = ':statistics:';
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['accordions'];
 
-        id = ':' + $( this ).attr( 'id' ) + ':';
+        var id = ':' + $( this ).attr( 'id' ) + ':';
 
         if( aGroup != null ) {
             if( aGroup.indexOf(id) == -1 ){
@@ -140,37 +138,37 @@ function restoreAccordions(){
             aGroup = id;
         }
 
-        $.cookie( accordionCookieName, aGroup, { path: '/' } );
+        localStorage['accordions'] = aGroup;
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-
         // If there are any tabs open inside the accordion, close them, otherwise
         // the accordion will remain open.
-        openTabs = $.cookie( tabCookieName, undefined, { path: '/' } );
+        var openTabs = localStorage['tabs'];
+
         $('a[data-toggle="tab"]' ).each( function( i, e ) {
             id = e.href.split( '#' ).pop();
             openTabs = openTabs.replace( new RegExp( ':' + id + ':', 'g' ), '' );
-            $.cookie( tabCookieName, openTabs, { path: '/' } );
+            localStorage['tabs'] = openTabs;
         });
 
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
-
+        aGroup = localStorage['accordions'];
         if( aGroup != null ) {
-            aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-            $.cookie( accordionCookieName, aGroup, { path: '/' } );
+            localStorage['accordions'] =
+                aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
         }
     });
 }
 
 function restoreTabs() {
-    elements = $('a[data-toggle="tab"]');
-    aGroup   = $.cookie( tabCookieName, undefined, { path: '/' } );
+    var elements = $('a[data-toggle="tab"]');
+    var aGroup   = localStorage['tabs'];
 
     if( aGroup != null ) {
-        elementIDs = aGroup.split( ':' );
+        var elementIDs = aGroup.split( ':' );
+
         for( i = 0; i < elementIDs.length; i++ ) {
-            element = $('a[href$="' + elementIDs[i] + '"]');
+            var element = $('a[href$="' + elementIDs[i] + '"]');
 
             if( element ) {
                 element.tab( 'show' );
@@ -179,12 +177,12 @@ function restoreTabs() {
     }
 
     elements.on( 'shown', function( e ){
-        id = e.target.href.split( '#' ).pop();
+        var id = e.target.href.split( '#' ).pop();
 
-        aGroup = $.cookie( tabCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['tabs'];
 
         if( aGroup != null ) {
-            previous = e.relatedTarget.href.split( '#' ).pop();
+            var previous = e.relatedTarget.href.split( '#' ).pop();
             aGroup = aGroup.replace( new RegExp( ':' + previous + ':', 'g' ), '' );
 
             if( aGroup.indexOf( id ) == -1 ) {
@@ -194,9 +192,8 @@ function restoreTabs() {
             aGroup = ':' + id + ':';
         }
 
-        $.cookie( tabCookieName, aGroup, { path: '/' } );
+        localStorage['tabs'] = aGroup;
     });
-
 }
 
 function updatePage() {
@@ -216,11 +213,11 @@ function updatePage() {
     restoreTabs();
 
     // Set the container's height to be at least as high as the affix'ed sidebar
-    min_height  =
+    var min_height  =
         $('#sidebar-affix').height() > $('#main-content').height() ?
             $('#sidebar-affix').height() : $('#main-content').height();
 
-    curr_height = $('#content').height();
+    var curr_height = $('#content').height();
 
     if( curr_height < min_height ) {
         $('#content').height( min_height );
@@ -232,7 +229,7 @@ function autoRefreshElement( selector ){
     var refresh_rate = elem.data( 'refresh-rate' ) ?
         elem.data( 'refresh-rate' ) : 5000;
 
-    id = elem.attr( 'id' );
+    var id = elem.attr( 'id' );
 
     // Initial fetch
     fetchAndFill( elem.data( 'refresh-url' ), elem );
@@ -299,7 +296,7 @@ window.setupScrollHooks = function (){
         navTop = $('header').height() - $nav.height(),
         isFixed = 0;
 
-    $issueLegend = $("#issues div#legend" );
+    issueLegend = $("#issues div#legend" );
 
     processScroll();
 
@@ -325,12 +322,12 @@ window.setupScrollHooks = function (){
             }
         }
 
-        if( !$issueLegend.exists() ) return;
+        if( !issueLegend.exists() ) return;
 
-        if ($win.scrollTop() + $('header').height() >= $issueLegendPosition.top) {
-            $issueLegend.addClass("stick");
+        if ($win.scrollTop() + $('header').height() >= issueLegendPosition.top) {
+            issueLegend.addClass("stick");
         } else {
-            $issueLegend.removeClass("stick");
+            issueLegend.removeClass("stick");
         }
     }
 
@@ -378,7 +375,7 @@ $(document).ready( function( $ ) {
     });
 
     var visibleDropdowns = [];
-    var phoneMenuShown = false;
+    var phoneMenuShown   = false;
 
     // This gets called just before the navbar is refreshed via AJAX.
     $('#navigation-top').bind( 'refresh', function(){
@@ -426,7 +423,7 @@ $(document).ready( function( $ ) {
         visibleDropdowns = [];
     });
 
-    $issueLegendPosition = $("#issues div#legend" ).position();
+    issueLegendPosition = $("#issues div#legend" ).position();
     window.setupScrollHooks();
 });
 
