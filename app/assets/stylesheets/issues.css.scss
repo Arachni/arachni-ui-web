@@ -114,9 +114,10 @@
             li span.label {
                 width: 100%;
                 cursor: pointer;
+                text-align: right;
 
-                span.badge {
-                    float: right;
+                span.severity-name {
+                    float: left;
                 }
             }
 

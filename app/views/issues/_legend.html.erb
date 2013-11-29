@@ -20,7 +20,8 @@
                       onclick="$('.severity-<%=severity.downcase%>').collapse('toggle');"
                       title="Toggle visibility of <%=severity.downcase%> severity issue types."
                 >
-                    <%=severity%>  <span class="badge badge-inverse"><%=count%></span>
+                    <span class="severity-name"><%=severity%></span>
+                    <span class="badge badge-inverse"><%=count%></span>
                 </span>
             </li>
         <% end %>
