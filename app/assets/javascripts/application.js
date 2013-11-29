@@ -71,7 +71,10 @@ if( typeof String.prototype.endsWith != 'function' ) {
 }
 
 var tabCookieName        = 'activeTabGroup';
-var accordionCookieName  = 'activeAccordionGroup';
+var accordionCookieName = 'activeAccordionGroup';
+var autoRefreshedElements = {};
+var $issueLegend = null;
+var $issueLegendPosition = null;
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -224,8 +227,6 @@ function updatePage() {
     }
 }
 
-var autoRefreshedElements = {};
-
 function autoRefreshElement( selector ){
     var elem         = $(selector);
     var refresh_rate = elem.data( 'refresh-rate' ) ?
@@ -289,6 +290,54 @@ function responsiveAdjust(){
     } else {
         $('#main-content').attr( 'class', 'offset2 span8' );
     }
+}
+
+window.setupScrollHooks = function (){
+    // fix sub nav on scroll
+    var $win = $(window),
+        $nav = $('.subnav' ),
+        navTop = $('header').height() - $nav.height(),
+        isFixed = 0;
+
+    $issueLegend = $("#issues div#legend" );
+
+    processScroll();
+
+    if( $nav.exists() ) {
+        // hack sad times - holdover until rewrite for 2.1
+        $nav.on( 'click', function () {
+            if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
+        });
+    }
+
+    $win.on( 'scroll', processScroll );
+
+    function processScroll() {
+        if( $nav ) {
+            var i, scrollTop = $win.scrollTop();
+            if( scrollTop >= navTop && !isFixed ) {
+                isFixed = 1;
+                $nav.addClass( 'subnav-fixed' );
+                $nav.css( 'top', $('header').height() );
+            } else if( scrollTop <= navTop && isFixed ) {
+                isFixed = 0;
+                $nav.removeClass( 'subnav-fixed' );
+            }
+        }
+
+        if( !$issueLegend.exists() ) return;
+
+        if ($win.scrollTop() + $('header').height() >= $issueLegendPosition.top) {
+            $issueLegend.addClass("stick");
+        } else {
+            $issueLegend.removeClass("stick");
+        }
+    }
+
+}
+
+function loading(){
+    $('#loading').show();
 }
 
 $(document).on( 'page:fetch', function( $ ) {
@@ -377,11 +426,9 @@ $(document).ready( function( $ ) {
         visibleDropdowns = [];
     });
 
+    $issueLegendPosition = $("#issues div#legend" ).position();
+    window.setupScrollHooks();
 });
-
-function loading(){
-    $('#loading').show();
-}
 
 $(window).bind( "popstate", function () {
     $.getScript( location.href );
@@ -392,35 +439,4 @@ $(document).ajaxStop( function() {
 });
 $(document).ajaxSuccess( function() {
     updatePage();
-});
-
-$(window).ready( function( $ ) {
-    if( !$('.subnav' ) ) return;
-
-    // fix sub nav on scroll
-    var $win = $(window),
-        $nav = $('.subnav' ),
-        navTop = $('header').height() - $nav.height(),
-        isFixed = 0;
-
-    processScroll();
-
-    // hack sad times - holdover until rewrite for 2.1
-    $nav.on( 'click', function () {
-        if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
-    });
-
-    $win.on( 'scroll', processScroll );
-
-    function processScroll() {
-        var i, scrollTop = $win.scrollTop();
-        if( scrollTop >= navTop && !isFixed ) {
-            isFixed = 1;
-            $nav.addClass( 'subnav-fixed' );
-            $nav.css( 'top', $('header').height() );
-        } else if( scrollTop <= navTop && isFixed ) {
-            isFixed = 0;
-            $nav.removeClass( 'subnav-fixed' );
-        }
-    }
 });

@@ -1,6 +1,8 @@
 // The AJAX refresh messes with the page scroll so we need to keep track of it
 // and then restore it.
-var pageYOffset = $('html, body').scrollTop();
+
+pageYOffset = $('html, body').scrollTop();
+legendClass = $('#issues div#legend' ).attr('class');
 
 <% if !params.delete( :change_revision ) %>
     $("#comments-list").html( "<%= escape_javascript(
@@ -58,8 +60,11 @@ if( $('#scan-description-form').is( ':visible' ) ){
     $('#edit-description-btn').hide();
 }
 
+$issueLegend = $("#issues div#legend" );
+
 // Restore the scroll value to where it was prior to the AJAX refresh.
 $("html, body").scrollTop( pageYOffset );
+$('#issues div#legend' ).attr('class', legendClass);
 
 window.setupScanCallbacks();
 window.setupComments();
