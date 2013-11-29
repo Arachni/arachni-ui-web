@@ -334,7 +334,7 @@ window.setupScrollHooks = function (){
         }
     }
 
-}
+};
 
 function loading(){
     $('#loading').show();
