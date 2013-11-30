@@ -125,6 +125,46 @@
         overflow-y: auto;
         height: 85%;
 
+        ul#severities {
+            li:nth-child(n+3) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+4):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+
+            li:last-child span.label {
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+        }
+
+        ul#issues {
+            li:nth-child(n+2) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+3):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+
+            li:last-child span.label {
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+        }
+
         ul {
             li.nav-header span {
                 width: 100%;
@@ -151,40 +191,8 @@
                 opacity: 0.7;
                 transition: all 0.2s ease-in-out;
             }
-
-            li:last-child span.label {
-                border-top-left-radius: 0px;
-                border-top-right-radius: 0px;
-                border-bottom-left-radius: 3px;
-                border-bottom-right-radius: 3px;
-            }
         }
 
-        ul#severities {
-            li:nth-child(n+3) span.label {
-                border-top-left-radius: 3px;
-                border-top-right-radius: 3px;
-                border-bottom-left-radius: 0px;
-                border-bottom-right-radius: 0px;
-            }
-
-            li:nth-child(n+4):nth-last-child(n+2) span.label {
-                border-radius: 0px;
-            }
-        }
-
-        ul#issues {
-            li:nth-child(n+2) span.label {
-                border-top-left-radius: 3px;
-                border-top-right-radius: 3px;
-                border-bottom-left-radius: 0px;
-                border-bottom-right-radius: 0px;
-            }
-
-            li:nth-child(n+3):nth-last-child(n+2) span.label {
-                border-radius: 0px;
-            }
-        }
     }
 
     #table-container {
