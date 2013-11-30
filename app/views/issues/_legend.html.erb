@@ -1,21 +1,22 @@
 <div id="legend">
     <ul id="severities" class="nav nav-list">
         <li class="nav-header">
-            Toggle visibility by severity
+            Toggle by severity
         </li>
         <li class="btn-group">
-            <span class="btn btn-small" onclick="resetIssues()"
-                  title="Reset issue visibility."
+            <span class="btn btn-mini" onclick="resetIssues()"
+                  title="Show High and Medium severity issues."
+                  rel="tooltip"
             >
                 Reset
             </span>
-            <span class="btn btn-small" onclick="showAllIssues()"
-                  title="Expand all issue types."
+            <span class="btn btn-mini" onclick="showAllIssues()"
+                  title="Expand all issue types." rel="tooltip"
             >
                 Show all
             </span>
-            <span class="btn btn-small" onclick="hideAllIssues()"
-                  title="Collapse all issue types."
+            <span class="btn btn-mini" onclick="hideAllIssues()"
+                  title="Collapse all issue types." rel="tooltip"
             >
                 Hide all
             </span>
@@ -26,6 +27,7 @@
                 <span class="label label-<%= issue_severity_to_alert(severity) %>"
                       onclick="toggleIssuesBySeverity( '<%= severity.downcase %>' )"
                       title="Toggle visibility of <%=severity.downcase%> severity issue types."
+                      rel="tooltip"
                 >
                     <span class="severity-name"><%=severity%></span>
                     <span class="badge badge-inverse"><%=count%></span>
@@ -34,7 +36,7 @@
         <% end %>
     </ul>
 
-    <ul id="issues" class="nav nav-list">
+    <ul id="issues" class="nav nav-list hidden-tablet">
         <li class="nav-header">
             Scroll to
         </li>
@@ -44,10 +46,13 @@
         %>
             <li>
                     <span class="label label-<%= issue_severity_to_alert(ref_issue.severity) %>"
-                          title="Scroll to."
+                          title="<%= type %>"
                           onclick="scrollToIssue('#<%=group_id%>');"
+                          rel="tooltip"
                     >
-                        <span class="severity-name"><%=type%></span>
+                        <span class="severity-name">
+                            <%= type %>
+                        </span>
                         <span class="badge badge-inverse"><%=issues.size%></span>
                     </span>
             </li>

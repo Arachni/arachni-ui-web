@@ -2,7 +2,7 @@
 // and then restore it.
 
 var pageYOffset = $('html, body').scrollTop();
-
+var legendWidth = $('#issues div#legend' ).width();
 var legendClass = $('#issues div#legend' ).attr('class');
 
 <% if !params.delete( :change_revision ) %>
@@ -65,6 +65,7 @@ window.restoreIssueVisibility();
 // Restore the scroll value to where it was prior to the AJAX refresh.
 $("html, body").scrollTop( pageYOffset );
 $('#issues div#legend').attr('class', legendClass);
+$('#issues div#legend' ).width(legendWidth);
 
 window.setupScanCallbacks();
 window.setupComments();

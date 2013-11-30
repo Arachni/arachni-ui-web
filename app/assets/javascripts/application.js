@@ -268,6 +268,10 @@ function autoRefreshElements( selector ){
 }
 
 function responsiveAdjust(){
+
+    var issueLegend = $("div#legend");
+    issueLegend.width( issueLegend.parent().width() );
+
     if( window.innerWidth <= 1058 ){
 
         if( $('#left-sidebar').exists() ) {
@@ -304,7 +308,8 @@ window.setupScrollHooks = function (){
     // fix sub nav on scroll
     var $win = $(window),
         $nav = $('.subnav' ),
-        navTop = $('header').height() - $nav.height(),
+        headerHeight = $('header').height(),
+        navTop = headerHeight - $nav.height(),
         isFixed = 0;
 
     if( $nav.exists() ) {
@@ -331,11 +336,12 @@ window.setupScrollHooks = function (){
             }
         }
 
-        var issueLegend = $("#issues div#legend" );
+        var issueLegend = $("div#legend" );
         if( !issueLegend.exists() ) return;
 
-        if (scrollTop + $('header').height() >= issueLegendPosition.top) {
+        if (scrollTop + headerHeight >= issueLegendPosition.top) {
             issueLegend.addClass("stick");
+            issueLegend.width( issueLegend.parent().width() );
         } else {
             issueLegend.removeClass("stick");
         }

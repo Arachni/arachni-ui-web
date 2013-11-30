@@ -20,6 +20,10 @@
 
 #issues {
 
+    .tooltip {
+        position: fixed;
+    }
+
     ul#issue-tabs {
         margin-bottom: 10px;
     }
@@ -76,10 +80,6 @@
     table.issue-group {
         margin-bottom: 5px;
 
-        .tooltip {
-            position: fixed;
-        }
-
         thead th {
             padding: 0;
         }
@@ -120,6 +120,9 @@
     }
 
     #legend {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 85%;
 
         ul {
             li.nav-header span {
@@ -138,6 +141,8 @@
 
                 span.severity-name {
                     float: left;
+                    text-overflow: hidden;
+                    width: 0px;
                 }
             }
 
