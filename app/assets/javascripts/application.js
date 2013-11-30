@@ -71,8 +71,7 @@ if( typeof String.prototype.endsWith != 'function' ) {
 }
 
 autoRefreshedElements = {};
-issueLegend           = null;
-issueLegendPosition  = null;
+issueLegendPosition   = null;
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -296,10 +295,6 @@ window.setupScrollHooks = function (){
         navTop = $('header').height() - $nav.height(),
         isFixed = 0;
 
-    issueLegend = $("#issues div#legend" );
-
-    processScroll();
-
     if( $nav.exists() ) {
         // hack sad times - holdover until rewrite for 2.1
         $nav.on( 'click', function () {
@@ -307,11 +302,13 @@ window.setupScrollHooks = function (){
         });
     }
 
-    $win.on( 'scroll', processScroll );
-
-    function processScroll() {
+    $win.scroll( function () {
         if( $nav ) {
-            var i, scrollTop = $win.scrollTop();
+
+            var i,
+                // FireFox weirdness.
+                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
             if( scrollTop >= navTop && !isFixed ) {
                 isFixed = 1;
                 $nav.addClass( 'subnav-fixed' );
@@ -322,15 +319,15 @@ window.setupScrollHooks = function (){
             }
         }
 
+        var issueLegend = $("#issues div#legend" );
         if( !issueLegend.exists() ) return;
 
-        if ($win.scrollTop() + $('header').height() >= issueLegendPosition.top) {
+        if (scrollTop + $('header').height() >= issueLegendPosition.top) {
             issueLegend.addClass("stick");
         } else {
             issueLegend.removeClass("stick");
         }
-    }
-
+    });
 };
 
 function loading(){
