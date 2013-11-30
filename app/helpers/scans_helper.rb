@@ -164,19 +164,6 @@ module ScansHelper
         graph_data
     end
 
-    def issue_severity_to_alert( severity )
-        case severity
-            when Arachni::Issue::Severity::HIGH
-                'important'
-            when Arachni::Issue::Severity::MEDIUM
-                'warning'
-            when Arachni::Issue::Severity::LOW
-                'info'
-            when Arachni::Issue::Severity::INFORMATIONAL
-                'default'
-        end
-    end
-
     def response_times_to_alert( time )
         time = time.to_f
 

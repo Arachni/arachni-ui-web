@@ -20,6 +20,18 @@
 
 #issues {
 
+    .severity-high {
+        background-color: #B94A48;
+    }
+    .severity-medium {
+        background-color: #d45500;
+    }
+    .severity-low {
+        background-color: #fc9200;
+    }
+    .severity-informational {
+        background-color: #3A87AD;
+    }
 
     .tooltip {
         position: fixed;

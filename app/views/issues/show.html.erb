@@ -42,7 +42,7 @@
             <small>&ndash; found by <%= link_to @issue.scan, scan_url( @issue.scan ) %>.</small>
         </div>
 
-        <p class="pull-left label label-<%= issue_severity_to_alert @issue.severity %>">
+        <p class="pull-left label severity-<%= @issue.severity.downcase %>">
             <%= @issue.severity %> severity
         </p>
     </div>

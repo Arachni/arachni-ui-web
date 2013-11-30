@@ -6,7 +6,7 @@
 <tr class="issue-type">
     <td colspan="5">
         <span onclick="toggleIssue('#<%= group_id %>');"
-              class="label label-<%= issue_severity_to_alert ref_issue.severity %>">
+              class="label severity-<%= ref_issue.severity.downcase %>">
             <%= type %>
             <span class="badge badge-inverse"><%=issues.size%></span>
         </span>

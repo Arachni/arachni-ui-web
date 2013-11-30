@@ -24,7 +24,7 @@
 
         <% severities_from_issues(issues).each do |severity, count| %>
             <li>
-                <span class="label label-<%= issue_severity_to_alert(severity) %>"
+                <span class="label severity-<%= severity.downcase %>"
                       onclick="toggleIssuesBySeverity( '<%= severity.downcase %>' )"
                       title="Toggle visibility of <%=severity.downcase%> severity issue types."
                       rel="tooltip"
@@ -45,7 +45,7 @@
             group_id  = "#{scan.id}-#{ref_issue.id_name}"
         %>
             <li>
-                    <span class="label label-<%= issue_severity_to_alert(ref_issue.severity) %>"
+                    <span class="label severity-<%= ref_issue.severity.downcase %>"
                           title="<%= type %>"
                           onclick="scrollToIssue('#<%=group_id%>');"
                           rel="tooltip"

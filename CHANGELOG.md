@@ -23,6 +23,7 @@
     - Issues
         - Fixed encoding error when handling request parameters [Issue #39].
         - Redesigned table to group issues by type [Issue #52].
+        - Updated severity colors.
     - Reporting
         - Removed Metareport and Text reports as they were unusable via the WebUI.
         - Added proper content-types for all reports.
