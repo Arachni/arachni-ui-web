@@ -18,6 +18,9 @@
 
 window.warned = false
 
+if !localStorage['issue_visibility']
+    localStorage['issue_visibility'] = JSON.stringify({})
+
 renderResponse = ( container, html ) ->
 
     if ( !window.warned )
@@ -62,6 +65,71 @@ updateElementsVisibility = () ->
             $( '#verification-container' ).hide( 'fast' )
             $( '#issue_false_positive' ).prop( 'disabled', false )
 
+window.showAllIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        $(issue).show('fast')
+        visibilities[$(issue).attr('id')] = true
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.hideAllIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        visibilities[$(issue).attr('id')] = false
+        $(issue).hide('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.restoreIssueVisibility = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        issue = $(issue)
+        switch visibilities[issue.attr('id')]
+            when true then issue.show()
+            when false then issue.hide()
+            else
+
+window.resetIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        issue = $(issue)
+        visibilities[issue.attr('id')] = ['high', 'medium'].contains(issue.data('severity'))
+
+        if visibilities[issue.attr('id')]
+            issue.show('fast')
+        else
+            issue.hide('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.toggleIssuesBySeverity = ( severity ) ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.severity-' + severity)
+        visibilities[$(issue).attr('id')] = !$(issue).is(":visible")
+        $(issue).toggle('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.toggleIssue = ( selector ) ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+    issue        = $(selector)
+
+    visibilities[issue.attr('id')] = !issue.is(":visible")
+    issue.toggle('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.scrollToIssue = ( id ) ->
+    issue = $(id)
+    toggleIssue(id) if !issue.is(':visible')
+    $(window).scrollTop( issue.offset().top - $('html, body').offset().top - $('header').height() - 47)
+
 jQuery ->
     $('#render-response-button' ).click ->
         renderResponse( $('#rendered-response-container .modal-body'), $(this).data( 'html' ) )
@@ -81,3 +149,4 @@ jQuery ->
         updateElementsVisibility()
     updateElementsVisibility()
     scrollToChild( '#response_body_container', '#response_body_container .proof' )
+    window.restoreIssueVisibility()

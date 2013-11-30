@@ -58,6 +58,18 @@ if( typeof Array.prototype.contains != 'function' ) {
     };
 }
 
+Array.prototype.unique = function(){
+    var u = {}, a = [];
+    for(var i = 0, l = this.length; i < l; ++i){
+        if(u.hasOwnProperty(this[i])) {
+            continue;
+        }
+        a.push(this[i]);
+        u[this[i]] = 1;
+    }
+    return a;
+}
+
 if( typeof String.prototype.startsWith != 'function' ) {
     String.prototype.startsWith = function( str ){
         return this.slice( 0, str.length ) == str;

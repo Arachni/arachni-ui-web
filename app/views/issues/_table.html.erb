@@ -51,7 +51,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
 
 <% if issues.any? %>
     <div class="hidden-phone row-fluid">
-        <div class="span2">
+        <div class="span3">
             <% if issues.any? %>
                 <p class="muted hidden-phone">
                     <%= issue_tab_description( active_tab ) %>
@@ -59,7 +59,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
             <% end %>
             <%= render partial: 'issues/legend', locals: { issues: issues } %>
         </div>
-        <div class="span10">
+        <div class="span9">
             <table class="table table-condensed fixed issue-groups">
                 <thead>
                     <tr>

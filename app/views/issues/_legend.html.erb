@@ -1,28 +1,55 @@
 <div id="legend">
-    <strong>Toggle visibility by severity:</strong>
-    <ul class="nav nav-list">
+    <ul id="severities" class="nav nav-list">
         <li class="nav-header">
-                <span onclick="$('.issue-group-container').collapse('show')"
-                      title="Expand all issue types."
-                >
-                    Show all
-                </span> /
-                <span onclick="$('.issue-group-container').collapse('hide')"
-                      title="Collapse all issue types."
-                >
-                    Hide all
-                </span>
+            Toggle visibility by severity
+        </li>
+        <li class="btn-group">
+            <span class="btn btn-small" onclick="resetIssues()"
+                  title="Reset issue visibility."
+            >
+                Reset
+            </span>
+            <span class="btn btn-small" onclick="showAllIssues()"
+                  title="Expand all issue types."
+            >
+                Show all
+            </span>
+            <span class="btn btn-small" onclick="hideAllIssues()"
+                  title="Collapse all issue types."
+            >
+                Hide all
+            </span>
         </li>
 
-        <% severities_from_issues( issues ).each do |severity, count| %>
+        <% severities_from_issues(issues).each do |severity, count| %>
             <li>
                 <span class="label label-<%= issue_severity_to_alert(severity) %>"
-                      onclick="$('.severity-<%=severity.downcase%>').collapse('toggle');"
+                      onclick="toggleIssuesBySeverity( '<%= severity.downcase %>' )"
                       title="Toggle visibility of <%=severity.downcase%> severity issue types."
                 >
                     <span class="severity-name"><%=severity%></span>
                     <span class="badge badge-inverse"><%=count%></span>
                 </span>
+            </li>
+        <% end %>
+    </ul>
+
+    <ul id="issues" class="nav nav-list">
+        <li class="nav-header">
+            Scroll to
+        </li>
+        <% group_issues_by_type(issues).each do |type, issues|
+            ref_issue = issues.first
+            group_id  = "#{scan.id}-#{ref_issue.id_name}"
+        %>
+            <li>
+                    <span class="label label-<%= issue_severity_to_alert(ref_issue.severity) %>"
+                          title="Scroll to."
+                          onclick="scrollToIssue('#<%=group_id%>');"
+                    >
+                        <span class="severity-name"><%=type%></span>
+                        <span class="badge badge-inverse"><%=issues.size%></span>
+                    </span>
             </li>
         <% end %>
     </ul>

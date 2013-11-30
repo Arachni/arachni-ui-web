@@ -127,6 +127,10 @@
                 cursor: pointer;
             }
 
+            li.btn-group {
+                margin-bottom: 5px;
+            }
+
             li span.label {
                 width: 100%;
                 cursor: pointer;
@@ -142,17 +146,6 @@
                 transition: all 0.2s ease-in-out;
             }
 
-            li:nth-child(n+3):nth-last-child(n+2) span.label {
-                border-radius: 0px;
-            }
-
-            li:nth-child(n+2) span.label {
-                border-top-left-radius: 3px;
-                border-top-right-radius: 3px;
-                border-bottom-left-radius: 0px;
-                border-bottom-right-radius: 0px;
-            }
-
             li:last-child span.label {
                 border-top-left-radius: 0px;
                 border-top-right-radius: 0px;
@@ -160,6 +153,34 @@
                 border-bottom-right-radius: 3px;
             }
         }
+
+        ul#severities {
+            li:nth-child(n+3) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+4):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+        }
+
+        ul#issues {
+            li:nth-child(n+2) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+3):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+        }
+
+
     }
 
     #response_body_container {
