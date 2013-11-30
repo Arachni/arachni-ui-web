@@ -20,6 +20,7 @@
 
 #issues {
 
+
     .tooltip {
         position: fixed;
     }
@@ -184,8 +185,10 @@
                 border-radius: 0px;
             }
         }
+    }
 
-
+    #table-container {
+        margin-left: 0;
     }
 
     #response_body_container {

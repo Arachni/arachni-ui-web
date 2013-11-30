@@ -34,11 +34,6 @@ url_method =    if !local_assigns.include?( :url_method_type )
             accordingly.
         </p>
     <% end %>
-
-    <p class="muted hidden-phone">
-        Click on an issue's name for details,
-        click on a row to see a quick description.
-    </p>
 <% end %>
 
 <%= render '/issues/table_tabs',
@@ -59,7 +54,7 @@ url_method =    if !local_assigns.include?( :url_method_type )
             <% end %>
             <%= render partial: 'issues/legend', locals: { issues: issues } %>
         </div>
-        <div class="span9">
+        <div class="span9" id="table-container">
             <table class="table table-condensed fixed issue-groups">
                 <thead>
                     <tr>
