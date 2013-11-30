@@ -19,27 +19,80 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #issues {
-    table.fixed {
+
+    ul#issue-tabs {
+        margin-bottom: 10px;
+    }
+
+    table.fixed  {
         table-layout: fixed;
+
+        th {
+            padding-top: 0px;
+        }
+        td.wrap {
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        tr.issue-type {
+            td {
+                border: 0px;
+                padding: 0px;
+
+                span.label {
+                    cursor: pointer;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                    padding: 6px 6px !important;
+                    width: 100%;
+                    font-size: 14px !important;
+
+                    a {
+                        font-size: 11px;
+                        color: white;
+                        font-family: monospace;
+                        text-decoration: none;
+                    }
+
+                    a:hover {
+                        color: grey;
+                    }
+                }
+
+                span.label:hover {
+                    opacity: 0.7;
+                    transition: all 0.2s ease-in-out;
+                }
+            }
+        }
+
+        tr.issue-group td {
+            padding: 0;
+            padding-bottom: 3px;
+        }
     }
 
-    table.fixed tr.description, table td.description {
-        padding: 0px;
-        margin: 0px;
-        border: none;
+    table.issue-group {
+        margin-bottom: 5px;
 
-        blockquote {
-            margin: 0px;
-            margin-left: 20px;
-            margin-bottom: 10px;
+        .tooltip {
+            position: fixed;
         }
-        p {
-            margin-left: 20px;
-        }
-    }
 
-    table.fixed td.wrap {
-        word-wrap: break-word;
+        thead th {
+            padding: 0;
+        }
+        tr td p.description {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        tr:first-child td, tr:nth-child(2) td {
+            border: 0px;
+        }
     }
 
     table.key-values {
@@ -62,6 +115,49 @@
             td, th {
                 padding-top: 0;
                 border-top: none;
+            }
+        }
+    }
+
+    #legend {
+
+        ul {
+            li.nav-header span {
+                width: 100%;
+                cursor: pointer;
+            }
+
+            li span.label {
+                width: 100%;
+                cursor: pointer;
+                text-align: right;
+
+                span.severity-name {
+                    float: left;
+                }
+            }
+
+            li span.label:hover {
+                opacity: 0.7;
+                transition: all 0.2s ease-in-out;
+            }
+
+            li:nth-child(n+3):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+
+            li:nth-child(n+2) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:last-child span.label {
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
             }
         }
     }

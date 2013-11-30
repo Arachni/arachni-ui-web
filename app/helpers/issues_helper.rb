@@ -75,4 +75,23 @@ module IssuesHelper
         end
     end
 
+    def severities_from_issues( issues )
+        h = {}
+        issues.each do |issue|
+            h[issue.severity] ||= []
+            h[issue.severity] << issue
+        end
+
+        h.each { |severity, cissues| h[severity] = cissues.size }
+        h
+    end
+
+    def group_issues_by_type( issues )
+        h = {}
+        issues.each do |issue|
+            h[issue.name] ||= []
+            h[issue.name] << issue
+        end
+        h
+    end
 end

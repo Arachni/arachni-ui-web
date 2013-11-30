@@ -70,8 +70,8 @@ if( typeof String.prototype.endsWith != 'function' ) {
     };
 }
 
-var tabCookieName        = 'activeTabGroup';
-var accordionCookieName  = 'activeAccordionGroup';
+autoRefreshedElements = {};
+issueLegendPosition   = null;
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -103,15 +103,15 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+    var aGroup = localStorage['accordions'];
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
         $( ".collapse" ).height( '0px' );
 
-        collapsibles = aGroup.split( ':' );
+        var collapsibles = aGroup.split( ':' );
         for( i = 0; i < collapsibles.length; i++ ) {
-            collapsible = collapsibles[i];
+            var collapsible = collapsibles[i];
 
             if( collapsible != '' && $( "#" + collapsible ) ){
                 $( "#" + collapsible ).addClass( 'in' );
@@ -121,13 +121,13 @@ function restoreAccordions(){
         // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( accordionCookieName, ':statistics:', { path: '/' } );
+        localStorage['accordions'] = ':statistics:';
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['accordions'];
 
-        id = ':' + $( this ).attr( 'id' ) + ':';
+        var id = ':' + $( this ).attr( 'id' ) + ':';
 
         if( aGroup != null ) {
             if( aGroup.indexOf(id) == -1 ){
@@ -137,37 +137,37 @@ function restoreAccordions(){
             aGroup = id;
         }
 
-        $.cookie( accordionCookieName, aGroup, { path: '/' } );
+        localStorage['accordions'] = aGroup;
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-
         // If there are any tabs open inside the accordion, close them, otherwise
         // the accordion will remain open.
-        openTabs = $.cookie( tabCookieName, undefined, { path: '/' } );
+        var openTabs = localStorage['tabs'];
+
         $('a[data-toggle="tab"]' ).each( function( i, e ) {
             id = e.href.split( '#' ).pop();
             openTabs = openTabs.replace( new RegExp( ':' + id + ':', 'g' ), '' );
-            $.cookie( tabCookieName, openTabs, { path: '/' } );
+            localStorage['tabs'] = openTabs;
         });
 
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
-
+        aGroup = localStorage['accordions'];
         if( aGroup != null ) {
-            aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-            $.cookie( accordionCookieName, aGroup, { path: '/' } );
+            localStorage['accordions'] =
+                aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
         }
     });
 }
 
 function restoreTabs() {
-    elements = $('a[data-toggle="tab"]');
-    aGroup   = $.cookie( tabCookieName, undefined, { path: '/' } );
+    var elements = $('a[data-toggle="tab"]');
+    var aGroup   = localStorage['tabs'];
 
     if( aGroup != null ) {
-        elementIDs = aGroup.split( ':' );
+        var elementIDs = aGroup.split( ':' );
+
         for( i = 0; i < elementIDs.length; i++ ) {
-            element = $('a[href$="' + elementIDs[i] + '"]');
+            var element = $('a[href$="' + elementIDs[i] + '"]');
 
             if( element ) {
                 element.tab( 'show' );
@@ -176,12 +176,12 @@ function restoreTabs() {
     }
 
     elements.on( 'shown', function( e ){
-        id = e.target.href.split( '#' ).pop();
+        var id = e.target.href.split( '#' ).pop();
 
-        aGroup = $.cookie( tabCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['tabs'];
 
         if( aGroup != null ) {
-            previous = e.relatedTarget.href.split( '#' ).pop();
+            var previous = e.relatedTarget.href.split( '#' ).pop();
             aGroup = aGroup.replace( new RegExp( ':' + previous + ':', 'g' ), '' );
 
             if( aGroup.indexOf( id ) == -1 ) {
@@ -191,9 +191,8 @@ function restoreTabs() {
             aGroup = ':' + id + ':';
         }
 
-        $.cookie( tabCookieName, aGroup, { path: '/' } );
+        localStorage['tabs'] = aGroup;
     });
-
 }
 
 function updatePage() {
@@ -213,25 +212,23 @@ function updatePage() {
     restoreTabs();
 
     // Set the container's height to be at least as high as the affix'ed sidebar
-    min_height  =
+    var min_height  =
         $('#sidebar-affix').height() > $('#main-content').height() ?
             $('#sidebar-affix').height() : $('#main-content').height();
 
-    curr_height = $('#content').height();
+    var curr_height = $('#content').height();
 
     if( curr_height < min_height ) {
         $('#content').height( min_height );
     }
 }
 
-var autoRefreshedElements = {};
-
 function autoRefreshElement( selector ){
     var elem         = $(selector);
     var refresh_rate = elem.data( 'refresh-rate' ) ?
         elem.data( 'refresh-rate' ) : 5000;
 
-    id = elem.attr( 'id' );
+    var id = elem.attr( 'id' );
 
     // Initial fetch
     fetchAndFill( elem.data( 'refresh-url' ), elem );
@@ -291,6 +288,52 @@ function responsiveAdjust(){
     }
 }
 
+window.setupScrollHooks = function (){
+    // fix sub nav on scroll
+    var $win = $(window),
+        $nav = $('.subnav' ),
+        navTop = $('header').height() - $nav.height(),
+        isFixed = 0;
+
+    if( $nav.exists() ) {
+        // hack sad times - holdover until rewrite for 2.1
+        $nav.on( 'click', function () {
+            if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
+        });
+    }
+
+    $win.scroll( function () {
+        if( $nav ) {
+
+            var i,
+                // FireFox weirdness.
+                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+            if( scrollTop >= navTop && !isFixed ) {
+                isFixed = 1;
+                $nav.addClass( 'subnav-fixed' );
+                $nav.css( 'top', $('header').height() );
+            } else if( scrollTop <= navTop && isFixed ) {
+                isFixed = 0;
+                $nav.removeClass( 'subnav-fixed' );
+            }
+        }
+
+        var issueLegend = $("#issues div#legend" );
+        if( !issueLegend.exists() ) return;
+
+        if (scrollTop + $('header').height() >= issueLegendPosition.top) {
+            issueLegend.addClass("stick");
+        } else {
+            issueLegend.removeClass("stick");
+        }
+    });
+};
+
+function loading(){
+    $('#loading').show();
+}
+
 $(document).on( 'page:fetch', function( $ ) {
     loading();
 });
@@ -329,7 +372,7 @@ $(document).ready( function( $ ) {
     });
 
     var visibleDropdowns = [];
-    var phoneMenuShown = false;
+    var phoneMenuShown   = false;
 
     // This gets called just before the navbar is refreshed via AJAX.
     $('#navigation-top').bind( 'refresh', function(){
@@ -377,11 +420,9 @@ $(document).ready( function( $ ) {
         visibleDropdowns = [];
     });
 
+    issueLegendPosition = $("#issues div#legend" ).position();
+    window.setupScrollHooks();
 });
-
-function loading(){
-    $('#loading').show();
-}
 
 $(window).bind( "popstate", function () {
     $.getScript( location.href );
@@ -392,35 +433,4 @@ $(document).ajaxStop( function() {
 });
 $(document).ajaxSuccess( function() {
     updatePage();
-});
-
-$(window).ready( function( $ ) {
-    if( !$('.subnav' ) ) return;
-
-    // fix sub nav on scroll
-    var $win = $(window),
-        $nav = $('.subnav' ),
-        navTop = $('header').height() - $nav.height(),
-        isFixed = 0;
-
-    processScroll();
-
-    // hack sad times - holdover until rewrite for 2.1
-    $nav.on( 'click', function () {
-        if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
-    });
-
-    $win.on( 'scroll', processScroll );
-
-    function processScroll() {
-        var i, scrollTop = $win.scrollTop();
-        if( scrollTop >= navTop && !isFixed ) {
-            isFixed = 1;
-            $nav.addClass( 'subnav-fixed' );
-            $nav.css( 'top', $('header').height() );
-        } else if( scrollTop <= navTop && isFixed ) {
-            isFixed = 0;
-            $nav.removeClass( 'subnav-fixed' );
-        }
-    }
 });

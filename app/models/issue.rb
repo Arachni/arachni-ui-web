@@ -101,6 +101,10 @@ class Issue < ActiveRecord::Base
                             user_id: scan.owner_id ).order( 'id desc' )
     end
 
+    def id_name
+        name.parameterize
+    end
+
     def audit_options
         super.with_indifferent_access
     end

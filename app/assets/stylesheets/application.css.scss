@@ -335,3 +335,8 @@ ul.nav li.dropdown:hover ul.dropdown-menu{
     height:  71px; /* fixed header height*/
     margin:  -71px 0 0; /* negative fixed header height */
 }
+
+.stick {
+    position: fixed;
+    top: 80px;
+}

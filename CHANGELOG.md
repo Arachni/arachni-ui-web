@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Updated to use HTML5 `localStorage` instead of cookies to store UI state.
 - Navigation menu
     - Removed "Home" item since it was redundant.
     - Updated JS detection of active page when the WebUI is mounted under a subdirectory.
@@ -21,6 +22,7 @@
     - Can be scheduled, with support for recurring (incremental/differential) Scans.
     - Issues
         - Fixed encoding error when handling request parameters [Issue #39].
+        - Redesigned table to group issues by type [Issue #52].
     - Reporting
         - Removed Metareport and Text reports as they were unusable via the WebUI.
         - Added proper content-types for all reports.
