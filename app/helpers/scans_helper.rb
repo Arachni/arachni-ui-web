@@ -171,9 +171,9 @@ module ScansHelper
             when Arachni::Issue::Severity::MEDIUM
                 'warning'
             when Arachni::Issue::Severity::LOW
-                'default'
-            when Arachni::Issue::Severity::INFORMATIONAL
                 'info'
+            when Arachni::Issue::Severity::INFORMATIONAL
+                'default'
         end
     end
 
