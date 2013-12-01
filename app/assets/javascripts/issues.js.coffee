@@ -110,7 +110,7 @@ window.resetIssues = () ->
 window.toggleIssuesBySeverity = ( severity ) ->
     visibilities = JSON.parse( localStorage['issue_visibility'] )
 
-    for issue in $('.severity-' + severity)
+    for issue in $('div.severity-' + severity)
         visibilities[$(issue).attr('id')] = !$(issue).is(":visible")
         $(issue).toggle('fast')
 
