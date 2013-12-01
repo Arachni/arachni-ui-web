@@ -129,13 +129,14 @@
     }
 
     function toggleCharts(){
-        var clear = true;
-        if( !$('#charts').hasClass( 'in' ) ) {
+        var clear = true, charts = $('#charts');
+
+        if( !charts.hasClass( 'in' ) ) {
             drawCharts();
             clear = false;
         }
 
-        $('#charts').collapse( 'toggle' );
+        charts.collapse( 'toggle' );
         if( clear ) { clearCharts(); }
     }
 

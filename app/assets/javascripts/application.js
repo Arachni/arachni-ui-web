@@ -68,7 +68,7 @@ Array.prototype.unique = function(){
         u[this[i]] = 1;
     }
     return a;
-}
+};
 
 if( typeof String.prototype.startsWith != 'function' ) {
     String.prototype.startsWith = function( str ){
@@ -83,7 +83,6 @@ if( typeof String.prototype.endsWith != 'function' ) {
 }
 
 autoRefreshedElements = {};
-issueLegendPosition   = null;
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -336,7 +335,9 @@ window.setupScrollHooks = function (){
         var issueLegend = $("div#legend" );
         if( !issueLegend.exists() ) return;
 
-        if (scrollTop + headerHeight >= issueLegendPosition.top) {
+        var charts = $('#charts');
+
+        if (scrollTop + headerHeight >= $("#legend-reference" ).position().top) {
             issueLegend.addClass("stick");
             issueLegend.width( issueLegend.parent().width() );
         } else {
@@ -438,7 +439,6 @@ $(document).ready( function( $ ) {
         visibleDropdowns = [];
     });
 
-    issueLegendPosition = $("#issues div#legend" ).position();
     window.setupScrollHooks();
 });
 
