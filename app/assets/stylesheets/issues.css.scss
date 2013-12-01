@@ -135,6 +135,7 @@
     #legend {
         overflow-x: hidden;
         overflow-y: auto;
+//        padding-right: 10px;
         height: 85%;
 
         ul#severities {
@@ -178,6 +179,8 @@
         }
 
         ul {
+            padding-left: 0;
+
             li.nav-header span {
                 width: 100%;
                 cursor: pointer;
@@ -208,7 +211,7 @@
     }
 
     #table-container {
-        margin-left: 0;
+        margin-left: 10px;
     }
 
     #response_body_container {

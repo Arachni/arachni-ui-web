@@ -269,9 +269,6 @@ function autoRefreshElements( selector ){
 
 function responsiveAdjust(){
 
-    var issueLegend = $("div#legend");
-    issueLegend.width( issueLegend.parent().width() );
-
     if( window.innerWidth <= 1058 ){
 
         if( $('#left-sidebar').exists() ) {
@@ -374,6 +371,9 @@ $(document).ready( function( $ ) {
 
     responsiveAdjust();
     $(window).resize( function(){
+        var issueLegend = $("div#legend");
+        issueLegend.width( issueLegend.parent().width() );
+
         responsiveAdjust();
     });
 

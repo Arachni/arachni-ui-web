@@ -2,7 +2,7 @@
 // and then restore it.
 
 var pageYOffset = $('html, body').scrollTop();
-var legendWidth = $('#issues div#legend' ).width();
+var legendWidth = $('#issues div#legend' ).parent().width();
 var legendClass = $('#issues div#legend' ).attr('class');
 
 <% if !params.delete( :change_revision ) %>
@@ -64,8 +64,10 @@ if( $('#scan-description-form').is( ':visible' ) ){
 window.restoreIssueVisibility();
 // Restore the scroll value to where it was prior to the AJAX refresh.
 $("html, body").scrollTop( pageYOffset );
-$('#issues div#legend').attr('class', legendClass);
-$('#issues div#legend' ).width(legendWidth);
+
+var legend = $('div#legend')
+legend.attr('class', legendClass);
+legend.width(legendWidth);
 
 window.setupScanCallbacks();
 window.setupComments();
