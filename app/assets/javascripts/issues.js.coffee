@@ -92,6 +92,9 @@ window.restoreIssueVisibility = () ->
             when true then issue.show()
             when false then issue.hide()
             else
+                if !['high', 'medium'].contains(issue.data('severity'))
+                    issue.hide()
+
 
 window.resetIssues = () ->
     visibilities = JSON.parse( localStorage['issue_visibility'] )
