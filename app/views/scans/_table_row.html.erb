@@ -7,6 +7,7 @@
    yours = (params[filter] == 'yours')
 
    class_if_revision = !treat_as_running && (show_as_revision || scan.revision?) ? 'revision' : ''
+   class_if_revision << ' root-with-revisions' if scan.root_with_revisions?
 %>
 
 <tr <%= if scan.paused?
