@@ -29,6 +29,10 @@
     position: relative;
     max-height: 150px;
     overflow:  auto;
+
+    ul li {
+        width: 100%;
+    }
 }
 
 ul#scan-group-tabs li {
