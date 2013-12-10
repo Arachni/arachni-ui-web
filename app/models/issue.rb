@@ -239,11 +239,6 @@ class Issue < ActiveRecord::Base
 
         h.reject!{ |k, v| PROTECTED.include? k }
 
-        if h[:headers]
-            h[:headers][:request]  = h[:headers].delete( 'request' )
-            h[:headers][:response] = h[:headers].delete( 'response' )
-        end
-
         h
     end
 

@@ -293,8 +293,9 @@
                             <tr>
                                 <th class="top" colspan="2">Request</th>
                             </tr>
-                            <% if @issue.headers[:request] %>
-                                <% @issue.headers[:request].each do |k, v| %>
+
+                            <% if @issue.headers['request'] %>
+                                <% @issue.headers['request'].each do |k, v| %>
                                     <tr>
                                         <th><%= k %></th>
                                         <td><%= v %></td>
@@ -314,8 +315,8 @@
                             <tr>
                                 <th class="top" colspan="2">Response</th>
                             </tr>
-                            <% if @issue.headers[:response] %>
-                                <% @issue.headers[:response].each do |k, v| %>
+                            <% if @issue.headers['response'] %>
+                                <% @issue.headers['response'].each do |k, v| %>
                                     <tr>
                                         <th><%= k %></th>
                                         <td><%= v %></td>
