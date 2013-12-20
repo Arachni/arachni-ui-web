@@ -40,10 +40,8 @@
         <%= simple_form_for( model, url: polymorphic_path( model, action: 'share' ) ) do |f| %>
             <div class="modal-body">
                 <%= f.error_notification %>
-                <%= f.association :users, label: '',
-                                  collection: User.all - [model.owner],
-                                  as: :check_boxes %>
-
+                <%= f.association :users, label: '', as: :check_boxes,
+                                  collection: User.all - [model.owner] %>
             </div>
             <div class="modal-footer">
                 <%= f.button :submit, class: 'btn btn-small btn-primary', value: 'Share' %>
@@ -53,8 +51,8 @@
     </div>
 
     <script type="text/javascript">
-        // If we have a scan table then we're probably inside it and since
-        // the table will keep being updated by AJAX we must move the modal dialog
+        // If we have a scan table then we're probably inside it and since the
+        // table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
         if( refreshModal ) {
             $( '#<%= model.class.to_s.downcase %>s' ).parent().before( $(selector) );
