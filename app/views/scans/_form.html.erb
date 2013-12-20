@@ -5,7 +5,7 @@
         <div class="span6">
             <%= f.input :url, as: :url, label: false, placeholder: 'Target URL',
                         hint: 'Full URL of the targeted web application (must
-                        include the appropriate protocol, <i>http</i> or <i>https</i>).',
+                        include the appropriate protocol, http or https).',
                         disabled: !!@scan.id %>
         </div>
 
@@ -42,8 +42,7 @@
     <div class="row-fluid">
         <div class="span6">
             <%= f.input :description, label: false, placeholder: 'Description',
-                        hint: 'You can use <a href="http://daringfireball.net/' +
-                              'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+                        hint: 'You can use Markdown for text formatting.' %>
         </div>
 
         <% span = 'span6' %>

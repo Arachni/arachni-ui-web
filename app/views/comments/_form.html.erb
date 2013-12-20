@@ -4,9 +4,7 @@
     <%= simple_form_for( [commentable.family, @comment].flatten, remote: true ) do |f| %>
         <div>
             <%= f.error_notification %>
-            <%= f.input :text, label: false,
-                        hint: 'You can use <a href="http://daringfireball.net/' +
-                              'projects/markdown/syntax">Markdown</a> for text formatting.' %>
+            <%= f.input :text, label: false, hint: 'You can use Markdown for text formatting.' %>
         </div>
 
         <div>
