@@ -28,8 +28,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.turbolinks
-//= require turbolinks
 //= require bootstrap-transition
 //= require bootstrap-collapse
 //= require bootstrap-modal
@@ -381,14 +379,6 @@ $(document).ready( function( $ ) {
     // Perform AJAX refreshes on elements with a 'data-refresh-url' attribute
     // at set intervals.
     autoRefreshElements('div, span');
-
-    // Disable turbolinks for fragments.
-    $('a').each( function( i, e ){
-        if( $(e).attr('href') == '#' ){
-//            $(e).data( 'no-turbolink', '' );
-            $(e).attr( 'href', 'javascript:void(0);' );
-        }
-    });
 
     var visibleDropdowns = [];
     var phoneMenuShown   = false;

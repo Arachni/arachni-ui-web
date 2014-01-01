@@ -16,10 +16,6 @@ gem 'pg'
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
 
-# Uses AJAX requests for hyperlinks.
-gem 'turbolinks'
-gem 'jquery-turbolinks'
-
 # UI/CSS framework.
 gem 'bootstrap-sass', '2.3.1.0'
 

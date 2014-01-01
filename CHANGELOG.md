@@ -2,6 +2,7 @@
 
 ## _Under development_
 
+- Removed Turbolinks as it breaks Bootstrap modals.
 - Updated to use HTML5 `localStorage` instead of cookies to store UI state.
 - Navigation menu
     - Removed "Home" item since it was redundant.
