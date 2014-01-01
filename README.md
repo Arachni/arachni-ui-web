@@ -78,7 +78,7 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013 Tasos Laskos</td>
+        <td>2013-2014 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>
