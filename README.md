@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.4.2.1</td>
+        <td>0.4.3</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013 Tasos Laskos</td>
+        <td>2013-2014 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>
@@ -74,7 +74,7 @@ security scanner framework.
             - Allowed modules.
  - Users can:
     - Manage, create and share Dispatchers with each other.
-    - Manage, create and share Scan configuration Profiles with each other.
+    - Manage, create, export, import and share Scan configuration Profiles with each other.
     - Start Scans using one of the available Profiles (and optionally Dispatchers).
     - Organize Scans into Scan Groups for easier management and share their Groups with each other.
     - Manage, comment, share and export reports of their Scans.
@@ -104,6 +104,8 @@ security scanner framework.
             - Avoid crawling
             - Extend a new crawl
     - Overview -- Combines the results of multiple revisions for easy review/management.
+ - Scans can be scheduled to be performed at a later date or at predefined intervals.
+    - Recurring scans are incremental, with each occurrence being a separate revision.
  - Scan reports can be exported in multiple formats (HTML, XML, YAML and more).
  - Simple, clean, responsive design suitable for desktops, tablets and mobile phones.
 

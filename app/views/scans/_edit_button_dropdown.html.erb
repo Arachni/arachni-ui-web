@@ -1,0 +1,63 @@
+<% show_as_revision ||= false %>
+<% if can? :edit, scan %>
+    <%= render partial: 'scan_schedule_form', locals: { scan: scan, nodisplay: true } %>
+
+    <% if !show_as_revision %>
+        <%= render partial: 'scan_group_form', locals: { scan: scan, nodisplay: true } %>
+        <%= render partial: 'shared/share_form', locals: { model: scan, nodisplay: true } %>
+    <% end %>
+
+    <div class="btn-group">
+        <%= link_to edit_scan_path( scan ), title: 'Edit',
+                    class: 'btn btn-small btn-warning' do %>
+            <i class="icon-pencil"></i>
+        <% end %>
+
+        <% if !show_as_revision %>
+        <button class="btn btn-small btn-warning dropdown-toggle"
+                data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul id="scan-edit-button-dropdown-<%= scan.id %>" class="dropdown-menu">
+            <% if User.count > 1 && can?( :share, scan ) %>
+                <li>
+                    <a href="#shareScan<%= scan.id %>" title="Share scan"
+                       role="button" data-toggle="modal">
+                        <i class="icon-share"></i>
+
+                        <% if (shared_with = scan.users.size - 1) > 0 %>
+                      <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+                            class="label"><%= shared_with %></span>
+                        <% end %>
+
+                        Share
+                    </a>
+                </li>
+            <% end %>
+
+            <% if !scan.finished? && can?( :update, scan ) %>
+                <li>
+                    <a href="#updateScanSchedule_<%= scan.id %>"
+                       title="Update schedule"
+                       role="button" data-toggle="modal">
+                        <i class="icon-calendar"></i>
+                        Edit schedule
+                    </a>
+                </li>
+            <% end %>
+
+            <% if current_user.scan_groups.any? && can?( :update, scan ) %>
+                <li>
+                    <a href="#updateScanGroup_<%= scan.id %>"
+                       title="Update group memberships"
+                       role="button" data-toggle="modal">
+                        <i class="icon-folder-close-alt"></i>
+                        Edit group memberships
+                    </a>
+                </li>
+            <% end %>
+
+        </ul>
+        <% end %>
+    </div>
+<% end %>

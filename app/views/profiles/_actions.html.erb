@@ -1,0 +1,50 @@
+<% if can? :edit, profile %>
+    <%= link_to edit_profile_path( profile ), title: 'Edit',
+                class: 'btn btn-small btn-warning' do %>
+        <i class="icon-pencil"></i>
+    <% end %>
+<% end %>
+
+<% if can? :copy, profile %>
+    <%= link_to copy_profile_path( profile ),
+                title: "Create a new profile based on '#{profile.name}'",
+                class: 'btn btn-small btn-primary' do %>
+        <i class="icon-copy"></i>
+    <% end %>
+<% end %>
+
+<% if can?( :delete, profile ) && !profile.default? && !profile.has_scheduled_scans? %>
+    <% msg = 'Are you sure?'
+       msg += ' This profile has associated scans.' if profile.scans.any? %>
+
+    <%= link_to profile, title: 'Delete', method: :delete,
+                class: 'btn btn-small btn-danger',
+                data: { confirm: msg } do %>
+        <i class="icon-trash"></i>
+    <% end %>
+<% end %>
+
+<% if can? :read, profile %>
+    <div class="btn-group">
+        <a class="btn btn-small btn-inverse" data-toggle="dropdown" href="#">
+            <i class="icon-download-alt"></i>
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <%= link_to profile_path( profile, format: :yaml ) do %>
+                    YAML (Also suitable for the CLI interface.)
+                <% end %>
+            </li>
+            <li>
+                <%= link_to profile_path( profile, format: :json ) do %>
+                    JSON
+                <% end %>
+            </li>
+        </ul>
+    </div>
+<% end %>
+
+<% if can? :share, profile %>
+    <%= render partial: 'shared/share_form', locals: { model: profile, nolabel: true } %>
+<% end %>

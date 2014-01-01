@@ -1,11 +1,32 @@
+// Get open dropdowns.
+visibleDropdowns = [];
+$('#scans #tables .dropdown-menu' ).each( function( i, e ){
+    if( $(e).is( ':visible' ) && $(e).attr( 'id' ) != undefined ){
+        visibleDropdowns.push( $(e).attr( 'id' ) );
+    }
+});
+
+
 $("#scans #tables").data( "refresh-url", "<%= escape_javascript scans_url( format: :js, params: params ) %>" );
 $("#scans #tables").html( "<%= escape_javascript( render( 'tables.html' ).force_encoding( 'utf-8' ) ) %>" );
 
 $("#scan-groups-list").html( "<%= escape_javascript render( 'scan_groups/list_with_tabs.html' ) %>" );
 
-window.setupScanGroupHooks()
+window.setupScanGroupHooks();
 
 <% if @group %>
-$("#selected_group_id").val( <%= @group.id %> );
+    $("#selected_group_id").val( <%= @group.id %> );
 <% end %>
 
+// Restore open dropdowns.
+for (var i = 0; i < visibleDropdowns.length; i++) {
+    e = '#' + visibleDropdowns[i];
+
+    $(e).show();
+    $(e).parent().hover( function(){
+        $(e).show();
+    }, function(){
+        $(e).hide();
+    });
+
+}

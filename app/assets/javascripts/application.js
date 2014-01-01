@@ -1,4 +1,4 @@
-// Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+// Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,10 +28,13 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.turbolinks
-//= require turbolinks
-//= require bootstrap
-//= require ./jqplot/jquery.jqplot.js
+//= require bootstrap-transition
+//= require bootstrap-collapse
+//= require bootstrap-modal
+//= require bootstrap-tooltip
+//= require bootstrap-tab
+//= require bootstrap-dropdown
+//= require jqplot/jquery.jqplot.js.erb
 //= require_tree .
 
 jQuery.fn.exists = function(){ return this.length > 0; }
@@ -53,6 +56,18 @@ if( typeof Array.prototype.contains != 'function' ) {
     };
 }
 
+Array.prototype.unique = function(){
+    var u = {}, a = [];
+    for(var i = 0, l = this.length; i < l; ++i){
+        if(u.hasOwnProperty(this[i])) {
+            continue;
+        }
+        a.push(this[i]);
+        u[this[i]] = 1;
+    }
+    return a;
+};
+
 if( typeof String.prototype.startsWith != 'function' ) {
     String.prototype.startsWith = function( str ){
         return this.slice( 0, str.length ) == str;
@@ -64,6 +79,8 @@ if( typeof String.prototype.endsWith != 'function' ) {
         return this.slice( -str.length ) == str;
     };
 }
+
+autoRefreshedElements = {};
 
 // Parent must have 'position: relative;'
 function scrollToChild( parent, child ){
@@ -95,61 +112,71 @@ function fetchAndFill( url, element ){
 }
 
 function restoreAccordions(){
-    var accordionCookieName = 'activeAccordionGroup';
-
-    aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+    var aGroup = localStorage['accordions'];
 
     if( aGroup != null ){
         $( ".collapse" ).removeClass( 'in' );
         $( ".collapse" ).height( '0px' );
 
-        collapsibles = aGroup.split( ':' );
+        var collapsibles = aGroup.split( ':' );
         for( i = 0; i < collapsibles.length; i++ ) {
-            collapsible = collapsibles[i];
+            var collapsible = collapsibles[i];
 
             if( collapsible != '' && $( "#" + collapsible ) ){
                 $( "#" + collapsible ).addClass( 'in' );
                 $( "#" + collapsible ).height( 'auto' );
             }
         }
-    // Default open accordions.
+        // Default open accordions.
     } else {
         // Scan statistics.
-        $.cookie( accordionCookieName, ':statistics:', { path: '/' } );
+        localStorage['accordions'] = ':statistics:';
     }
 
     $( ".collapse" ).on( 'shown', function(){
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['accordions'];
+
+        var id = ':' + $( this ).attr( 'id' ) + ':';
 
         if( aGroup != null ) {
-            aGroup += ':' + $( this ).attr( 'id' ) + ':';
+            if( aGroup.indexOf(id) == -1 ){
+                aGroup += id;
+            }
         } else {
-            aGroup = ':' + $( this ).attr( 'id' ) + ':';
+            aGroup = id;
         }
 
-        $.cookie( accordionCookieName, aGroup, { path: '/' } );
+        localStorage['accordions'] = aGroup;
     });
 
     $( ".collapse" ).on( 'hidden', function(){
-        aGroup = $.cookie( accordionCookieName, undefined, { path: '/' } );
+        // If there are any tabs open inside the accordion, close them, otherwise
+        // the accordion will remain open.
+        var openTabs = localStorage['tabs'];
 
+        $('a[data-toggle="tab"]' ).each( function( i, e ) {
+            id = e.href.split( '#' ).pop();
+            openTabs = openTabs.replace( new RegExp( ':' + id + ':', 'g' ), '' );
+            localStorage['tabs'] = openTabs;
+        });
+
+        aGroup = localStorage['accordions'];
         if( aGroup != null ) {
-            aGroup = aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
-            $.cookie( accordionCookieName, aGroup, { path: '/' } );
+            localStorage['accordions'] =
+                aGroup.replace( new RegExp( ':' + $( this ).attr( 'id' ) + ':', 'g' ), '' );
         }
     });
 }
 
 function restoreTabs() {
-    var tabCookieName = 'activeTabGroup';
-
-    elements = $('a[data-toggle="tab"]');
-    aGroup   = $.cookie( tabCookieName, undefined, { path: '/' } );
+    var elements = $('a[data-toggle="tab"]');
+    var aGroup   = localStorage['tabs'];
 
     if( aGroup != null ) {
-        elementIDs = aGroup.split( ':' );
+        var elementIDs = aGroup.split( ':' );
+
         for( i = 0; i < elementIDs.length; i++ ) {
-            element = $('a[href$="' + elementIDs[i] + '"]');
+            var element = $('a[href$="' + elementIDs[i] + '"]');
 
             if( element ) {
                 element.tab( 'show' );
@@ -158,12 +185,12 @@ function restoreTabs() {
     }
 
     elements.on( 'shown', function( e ){
-        id = e.target.href.split( '#' ).pop();
+        var id = e.target.href.split( '#' ).pop();
 
-        aGroup = $.cookie( tabCookieName, undefined, { path: '/' } );
+        aGroup = localStorage['tabs'];
 
         if( aGroup != null ) {
-            previous = e.relatedTarget.href.split( '#' ).pop();
+            var previous = e.relatedTarget.href.split( '#' ).pop();
             aGroup = aGroup.replace( new RegExp( ':' + previous + ':', 'g' ), '' );
 
             if( aGroup.indexOf( id ) == -1 ) {
@@ -173,9 +200,8 @@ function restoreTabs() {
             aGroup = ':' + id + ':';
         }
 
-        $.cookie( tabCookieName, aGroup, { path: '/' } );
+        localStorage['tabs'] = aGroup;
     });
-
 }
 
 function updatePage() {
@@ -195,25 +221,23 @@ function updatePage() {
     restoreTabs();
 
     // Set the container's height to be at least as high as the affix'ed sidebar
-    min_height  =
+    var min_height  =
         $('#sidebar-affix').height() > $('#main-content').height() ?
             $('#sidebar-affix').height() : $('#main-content').height();
 
-    curr_height = $('#content').height();
+    var curr_height = $('#content').height();
 
     if( curr_height < min_height ) {
         $('#content').height( min_height );
     }
 }
 
-var autoRefreshedElements = {};
-
 function autoRefreshElement( selector ){
     var elem         = $(selector);
     var refresh_rate = elem.data( 'refresh-rate' ) ?
         elem.data( 'refresh-rate' ) : 5000;
 
-    id = elem.attr( 'id' );
+    var id = elem.attr( 'id' );
 
     // Initial fetch
     fetchAndFill( elem.data( 'refresh-url' ), elem );
@@ -241,7 +265,8 @@ function autoRefreshElements( selector ){
 }
 
 function responsiveAdjust(){
-    if( window.innerWidth <= 1000 ){
+
+    if( window.innerWidth <= 1058 ){
 
         if( $('#left-sidebar').exists() ) {
             $('#left-sidebar').attr( 'class', 'span2' );
@@ -267,10 +292,60 @@ function responsiveAdjust(){
 
     if( $('#left-sidebar').exists() ) {
         $('#left-sidebar').attr( 'class', 'span2' );
-        $('#main-content').attr( 'class', 'span8' );
+        $('#main-content').attr( 'class', 'span9' );
     } else {
         $('#main-content').attr( 'class', 'offset2 span8' );
     }
+}
+
+window.setupScrollHooks = function (){
+    // fix sub nav on scroll
+    var $win = $(window),
+        $nav = $('.subnav' ),
+        headerHeight = $('header').height(),
+        navTop = headerHeight - $nav.height(),
+        isFixed = 0;
+
+    if( $nav.exists() ) {
+        // hack sad times - holdover until rewrite for 2.1
+        $nav.on( 'click', function () {
+            if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
+        });
+    }
+
+    $win.scroll( function () {
+        if( $nav ) {
+
+            var i,
+                // FireFox weirdness.
+                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+            if( scrollTop >= navTop && !isFixed ) {
+                isFixed = 1;
+                $nav.addClass( 'subnav-fixed' );
+                $nav.css( 'top', $('header').height() );
+            } else if( scrollTop <= navTop && isFixed ) {
+                isFixed = 0;
+                $nav.removeClass( 'subnav-fixed' );
+            }
+        }
+
+        var issueLegend = $("div#legend" );
+        if( !issueLegend.exists() ) return;
+
+        var charts = $('#charts');
+
+        if (scrollTop + headerHeight >= $("#legend-reference" ).position().top) {
+            issueLegend.addClass("stick");
+            issueLegend.width( issueLegend.parent().width() );
+        } else {
+            issueLegend.removeClass("stick");
+        }
+    });
+};
+
+function loading(){
+    $('#loading').show();
 }
 
 $(document).on( 'page:fetch', function( $ ) {
@@ -295,6 +370,9 @@ $(document).ready( function( $ ) {
 
     responsiveAdjust();
     $(window).resize( function(){
+        var issueLegend = $("div#legend");
+        issueLegend.width( issueLegend.parent().width() );
+
         responsiveAdjust();
     });
 
@@ -302,16 +380,8 @@ $(document).ready( function( $ ) {
     // at set intervals.
     autoRefreshElements('div, span');
 
-    // Disable turbolinks for fragments.
-    $('a').each( function( i, e ){
-        if( $(e).attr('href') == '#' ){
-//            $(e).data( 'no-turbolink', '' );
-            $(e).attr( 'href', 'javascript:void(0);' );
-        }
-    });
-
     var visibleDropdowns = [];
-    var phoneMenuShown = false;
+    var phoneMenuShown   = false;
 
     // This gets called just before the navbar is refreshed via AJAX.
     $('#navigation-top').bind( 'refresh', function(){
@@ -338,7 +408,7 @@ $(document).ready( function( $ ) {
         // Since the navbar gets refreshed via AJAX we can't figure this out on
         // the server-side because the controller will always be irrelevant.
         $('#navigation-top ul.nav > li > a' ).each( function( i, e ){
-            if( window.location.pathname.split( '/' )[1] == $(e).attr( 'href' ).split( '/' )[1] ){
+            if( window.location.pathname.indexOf( $(e).attr( 'href' ) ) >= 0 ){
                 $(e).parent().addClass( 'active' );
             }
         });
@@ -359,11 +429,8 @@ $(document).ready( function( $ ) {
         visibleDropdowns = [];
     });
 
+    window.setupScrollHooks();
 });
-
-function loading(){
-    $('#loading').show();
-}
 
 $(window).bind( "popstate", function () {
     $.getScript( location.href );
@@ -374,35 +441,4 @@ $(document).ajaxStop( function() {
 });
 $(document).ajaxSuccess( function() {
     updatePage();
-});
-
-$(window).ready( function( $ ) {
-    if( !$('.subnav' ) ) return;
-
-    // fix sub nav on scroll
-    var $win = $(window),
-        $nav = $('.subnav' ),
-        navTop = $('header').height() - $nav.height(),
-        isFixed = 0;
-
-    processScroll();
-
-    // hack sad times - holdover until rewrite for 2.1
-    $nav.on( 'click', function () {
-        if( !isFixed ) setTimeout( function () { $win.scrollTop($win.scrollTop() - 47) }, 10 );
-    });
-
-    $win.on( 'scroll', processScroll );
-
-    function processScroll() {
-        var i, scrollTop = $win.scrollTop();
-        if( scrollTop >= navTop && !isFixed ) {
-            isFixed = 1;
-            $nav.addClass( 'subnav-fixed' );
-            $nav.css( 'top', $('header').height() );
-        } else if( scrollTop <= navTop && isFixed ) {
-            isFixed = 0;
-            $nav.removeClass( 'subnav-fixed' );
-        }
-    }
 });

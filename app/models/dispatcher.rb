@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -129,6 +129,10 @@ class Dispatcher < ActiveRecord::Base
         str = ''
         str << "#{name} | " if !name.to_s.empty?
         str << "#{url}"
+    end
+
+    def has_scheduled_scans?
+        scans.scheduled.any?
     end
 
     def grid_member?

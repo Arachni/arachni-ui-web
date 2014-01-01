@@ -1,4 +1,11 @@
 <%
+
+   if local_assigns[:path_method].is_a? Symbol
+       path_method = method( local_assigns[:path_method] )
+   elsif local_assigns[:path_method].nil?
+       path_method = method( :scans_url )
+   end
+
    show_owner = !!local_assigns[:show_owner]
 %>
 
@@ -37,7 +44,7 @@
                 <li
                 <%= 'class="active"'.html_safe if group == @group %>
                 >
-                    <%= link_to scans_path( params.merge( format: nil, group_id: group.id ) ),
+                    <%= link_to path_method.call( params.merge( format: nil, group_id: group.id ) ),
                                 onclick: 'loading();', remote: true do %>
                         <%= group %> (<%= group.scans.size %>)
                     <% end %>

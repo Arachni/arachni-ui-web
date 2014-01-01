@@ -43,9 +43,7 @@
 
             <hr/>
 
-            <%= f.input :verification_steps,
-                        hint: '(You can use <a href="http://daringfireball.net/' +
-                            'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
+            <%= f.input :verification_steps, hint: 'You can use Markdown for text formatting.' %>
         </div>
 
         <hr/>
@@ -68,8 +66,7 @@
         <div class="row-fluid">
             <div class="span12">
                 <%= f.input :remediation_steps, label: 'Steps',
-                            hint: '(You can use <a href="http://daringfireball.net/' +
-                              'projects/markdown/syntax">Markdown</a> for text formatting.)' %>
+                            hint: 'You can use Markdown for text formatting.' %>
 
                 <p class="help-block">
                     Describe a way to remedy this issue.

@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,9 +18,10 @@ class Profile < ActiveRecord::Base
     include Extensions::Notifier
 
     has_and_belongs_to_many :users
-    belongs_to :owner,  class_name: 'User', foreign_key: :owner_id
+    has_many :scans
+    belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
-    DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
+   DESCRIPTIONS_FILE = "#{Rails.root}/config/profile/attributes.yml"
 
     validates_presence_of   :name
     validates_uniqueness_of :name, scope: :owner_id, case_sensitive: false
@@ -115,6 +116,10 @@ class Profile < ActiveRecord::Base
         name
     end
 
+    def has_scheduled_scans?
+        scans.scheduled.any?
+    end
+
     def make_default
         self.class.unmake_default
         self.default = true
@@ -132,7 +137,25 @@ class Profile < ActiveRecord::Base
                 (v.respond_to?( :empty? ) ? v.empty? : false)
             opts[k.to_sym] = v
         end
+
+        if (cookies = opts.delete(:cookies))
+            opts[:cookies] = cookies.map { |k, v| { k => v } }
+        end
+
         opts
+    end
+
+    def export( serializer = YAML )
+        profile_hash = to_rpc_options
+        profile_hash[:name] = name
+        profile_hash[:description] = description
+
+        profile_hash = profile_hash.stringify_keys( false )
+        if serializer == JSON
+            JSON::pretty_generate profile_hash
+        else
+            serializer.dump profile_hash
+        end
     end
 
     def modules
@@ -282,6 +305,21 @@ class Profile < ActiveRecord::Base
         end
     end
 
+    def self.import( file )
+        serialized = file.read
+
+        h = begin
+                JSON.load serialized
+            rescue
+                YAML.safe_load serialized rescue nil
+            end
+
+        return if !h.is_a?( Hash )
+
+        h['modules'] ||= h.delete( 'mods' )
+        new h.select { |attribute, _| attribute_names.include? attribute }
+    end
+
     def validate_description
         return if ActionController::Base.helpers.strip_tags( description ) == description
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
@@ -313,6 +351,12 @@ class Profile < ActiveRecord::Base
         end
 
         errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
+
+        begin
+            Regexp.new( login_check_pattern )
+        rescue RegexpError => e
+            errors.add :login_check_pattern, "not a valid regular expression (#{e})"
+        end
     end
 
     def validate_modules

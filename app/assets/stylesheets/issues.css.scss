@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+ * Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +19,93 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #issues {
-    table.fixed {
+
+    .severity-high {
+        background-color: #B94A48;
+    }
+    .severity-medium {
+        background-color: #d45500;
+    }
+    .severity-low {
+        background-color: #fc9200;
+    }
+    .severity-informational {
+        background-color: #3A87AD;
+    }
+
+    .tooltip {
+        position: fixed;
+    }
+
+    ul#issue-tabs {
+        margin-bottom: 10px;
+    }
+
+    table.fixed  {
         table-layout: fixed;
+
+        th {
+            padding-top: 0px;
+        }
+        td.wrap {
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        tr.issue-type {
+            td {
+                border: 0px;
+                padding: 0px;
+
+                span.label {
+                    cursor: pointer;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                    padding: 6px 6px !important;
+                    width: 100%;
+                    font-size: 14px !important;
+
+                    a {
+                        font-size: 11px;
+                        color: white;
+                        font-family: monospace;
+                        text-decoration: none;
+                    }
+
+                    a:hover {
+                        color: grey;
+                    }
+                }
+
+                span.label:hover {
+                    opacity: 0.7;
+                    transition: all 0.2s ease-in-out;
+                }
+            }
+        }
+
+        tr.issue-group td {
+            padding: 0;
+            padding-bottom: 3px;
+        }
     }
 
-    table.fixed tr.description, table td.description {
-        padding: 0px;
-        margin: 0px;
-        border: none;
+    table.issue-group {
+        margin-bottom: 5px;
 
-        blockquote {
-            margin: 0px;
-            margin-left: 20px;
-            margin-bottom: 10px;
+        thead th {
+            padding: 0;
         }
-        p {
-            margin-left: 20px;
+        tr td p.description {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
-    }
-
-    table.fixed td.wrap {
-        word-wrap: break-word;
+        tr:first-child td, tr:nth-child(2) td {
+            border: 0px;
+        }
     }
 
     table.key-values {
@@ -64,6 +130,87 @@
                 border-top: none;
             }
         }
+    }
+
+    #legend {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 85%;
+
+        ul#severities {
+            li:nth-child(n+3) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+4):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+
+            li:last-child span.label {
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+        }
+
+        ul#issues {
+            li:nth-child(n+2) span.label {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            li:nth-child(n+3):nth-last-child(n+2) span.label {
+                border-radius: 0px;
+            }
+
+            li:last-child span.label {
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+        }
+
+        ul {
+            padding-left: 0;
+
+            li.nav-header span {
+                width: 100%;
+                cursor: pointer;
+            }
+
+            li.btn-group {
+                margin-bottom: 5px;
+            }
+
+            li span.label {
+                width: 100%;
+                cursor: pointer;
+                text-align: right;
+
+                span.severity-name {
+                    float: left;
+                    text-overflow: hidden;
+                    width: 0px;
+                }
+            }
+
+            li span.label:hover {
+                opacity: 0.7;
+                transition: all 0.2s ease-in-out;
+            }
+        }
+
+    }
+
+    #table-container {
+        margin-left: 10px;
     }
 
     #response_body_container {
@@ -100,6 +247,11 @@
     .repeat-request-btn {
         margin-top: 8px;
         margin-left: 10px;
+    }
+
+    .accordion-group {
+        border: 0px;
+        border-bottom: 1px solid #E5E5E5
     }
 
     .form-inputs {

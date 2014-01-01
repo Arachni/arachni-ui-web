@@ -1,4 +1,4 @@
-# Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+# Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@
 
 window.warned = false
 
+if !localStorage['issue_visibility']
+    localStorage['issue_visibility'] = JSON.stringify({})
+
 renderResponse = ( container, html ) ->
 
     if ( !window.warned )
@@ -26,8 +29,9 @@ renderResponse = ( container, html ) ->
             " are you sure you want to continue?" )
 
         window.warned = confirm_render
-        return if( !confirm_render)
+        return if(!confirm_render)
 
+    $('#rendered-response-container').modal('show');
     container.html( $( '<iframe class="rendered-response" ' +
                             'src="data:text/html;base64, ' + html + '" />' ) )
 
@@ -61,10 +65,77 @@ updateElementsVisibility = () ->
             $( '#verification-container' ).hide( 'fast' )
             $( '#issue_false_positive' ).prop( 'disabled', false )
 
+window.showAllIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        $(issue).show('fast')
+        visibilities[$(issue).attr('id')] = true
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.hideAllIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        visibilities[$(issue).attr('id')] = false
+        $(issue).hide('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.restoreIssueVisibility = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        issue = $(issue)
+        switch visibilities[issue.attr('id')]
+            when true then issue.show()
+            when false then issue.hide()
+            else
+                if !['high', 'medium'].contains(issue.data('severity'))
+                    issue.hide()
+
+
+window.resetIssues = () ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('.issue-group-container')
+        issue = $(issue)
+        visibilities[issue.attr('id')] = ['high', 'medium'].contains(issue.data('severity'))
+
+        if visibilities[issue.attr('id')]
+            issue.show('fast')
+        else
+            issue.hide('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.toggleIssuesBySeverity = ( severity ) ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+
+    for issue in $('div.severity-' + severity)
+        visibilities[$(issue).attr('id')] = !$(issue).is(":visible")
+        $(issue).toggle('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.toggleIssue = ( selector ) ->
+    visibilities = JSON.parse( localStorage['issue_visibility'] )
+    issue        = $(selector)
+
+    visibilities[issue.attr('id')] = !issue.is(":visible")
+    issue.toggle('fast')
+
+    localStorage['issue_visibility'] = JSON.stringify( visibilities )
+
+window.scrollToIssue = ( id ) ->
+    issue = $(id)
+    toggleIssue(id) if !issue.is(':visible')
+    $(window).scrollTop( issue.offset().top - $('html, body').offset().top - $('header').height() - 47)
+
 jQuery ->
     $('#render-response-button' ).click ->
         renderResponse( $('#rendered-response-container .modal-body'), $(this).data( 'html' ) )
-        $('#rendered-response-container').modal( 'show' )
     $('#issue-tabs a[href$="technical-details"]').on 'shown', () ->
         $('#sidenav').show()
     $('#issue-tabs a[href$="discussion"]').on 'shown', () ->
@@ -81,3 +152,4 @@ jQuery ->
         updateElementsVisibility()
     updateElementsVisibility()
     scrollToChild( '#response_body_container', '#response_body_container .proof' )
+    window.restoreIssueVisibility()

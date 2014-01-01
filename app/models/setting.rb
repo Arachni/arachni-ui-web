@@ -5,6 +5,8 @@ class Setting < ActiveRecord::Base
     serialize :profile_allowed_modules, Array
     serialize :profile_allowed_plugins, Array
 
+    after_save :save_callback
+
     SCAN_TYPES = Scan::TYPES + [:multi_instance]
 
     def scan_target_whitelist_patterns=( string_or_hash )
@@ -26,6 +28,10 @@ class Setting < ActiveRecord::Base
     end
 
     private
+
+    def save_callback
+        Time.zone = self.timezone
+    end
 
     def self.string_list_to_array( string_or_array )
         case string_or_array

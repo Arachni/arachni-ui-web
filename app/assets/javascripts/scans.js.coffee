@@ -1,4 +1,4 @@
-# Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+# Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,12 +30,14 @@ pickScanType = ( type ) ->
             $('#dispatcher-grid').hide( 50 )
             $('#dispatcher-remote').hide( 50 )
             $('#direct').show
+
         when 'remote'
             $('#scan_type').val( 'remote' )
 
             $('#direct').hide( 50 )
             $('#dispatcher-grid').hide( 50 )
             $('#dispatcher-remote').show( 50 )
+
         when 'grid'
             $('#scan_type').val( 'grid' )
 
@@ -69,6 +71,9 @@ jQuery ->
         pickScanType( 'remote' )
     $('#grid-btn').click ->
         pickScanType( 'grid' )
+
+    $('#' + $('#scan_type').val() + '-btn').click()
+
     $('#add-scan-comment').on 'shown', () ->
         $('textarea#comment_text').focus()
     $('#active-scan-counter').bind 'refreshed', () ->
@@ -76,6 +81,5 @@ jQuery ->
             $(this).hide()
         else
             $(this).show()
-    $('#direct-btn').click()
 
     window.setupScanCallbacks()

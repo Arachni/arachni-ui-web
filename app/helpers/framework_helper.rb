@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -38,8 +38,13 @@ module FrameworkHelper
         components_for( :plugins, :default )
     end
 
+    def content_type_for_report( format )
+        reports[format.to_s][:content_type] || 'application/octet-stream'
+    end
+
     def reports
-        components_for( :reports )
+        components_for( :reports ).
+            reject { |name, _| ['metareport', 'txt'].include? name }
     end
 
     def reports_with_outfile

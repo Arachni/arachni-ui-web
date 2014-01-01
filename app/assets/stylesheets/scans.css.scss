@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+ * Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #scans {
+    margin-top: 10px;
+
     label {
         display: inline;
     }
@@ -58,7 +60,7 @@
 
     #scan_description {
         width: 100%;
-        height: 100px;
+        height: 85px;
     }
 
     #scan_type {
@@ -80,6 +82,16 @@
         height: 90px;
     }
 
+    .scan_schedule_basetime {
+        label[for=scan_schedule_basetime] {
+            padding-right: 10px;
+        }
+
+        .controls {
+            display: inline;
+        }
+    }
+
     #error-messages {
         max-height: 200px;
         overflow: auto;
@@ -97,7 +109,12 @@
         width: 100%;
     }
 
-
+    #scan_schedule_every_minute,
+    #scan_schedule_every_hour,
+    #scan_schedule_every_day,
+    #scan_schedule_every_month {
+        width: 100%;
+    }
 
     #progress-percentage {
         font-weight: bold;
@@ -110,11 +127,6 @@
                 1px -1px 0 #000,
                 -1px 1px 0 #000,
             1px 1px 0 #000;
-    }
-
-    .accordion-group {
-        border: 0px;
-        border-bottom: 1px solid #E5E5E5
     }
 
     #charts .pie-chart {
@@ -135,4 +147,37 @@
         text-align: center;
     }
 
+    #toggle-charts,
+    #toggle-statistics,
+    #download-report {
+        display: none;
+    }
+
+    table tr.root-with-revisions {
+        cursor: pointer;
+    }
+    table td.revision-table-container {
+        padding-bottom: 0px;
+        border: none;
+    }
+
+    .revision-table-container {
+        table {
+
+            tr:first-child td {
+                border-top: 0px;
+            }
+
+            tr td:first-child {
+                margin-right: 10px;
+                border-left: 1px solid black;
+            }
+        }
+    }
+}
+
+.update-scan-schedule {
+    width: 70%;
+    left: 15%;
+    margin-left: 0px;
 }

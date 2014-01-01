@@ -20,6 +20,10 @@
         <%= yield( :head ) %>
     </head>
     <body id="top" data-target=".spy" data-spy="scroll">
+        <div id="loading" class="hide modal progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+
         <header class="navbar navbar-inverse navbar-fixed-top">
             <nav class="navbar-inner">
                 <div id="navigation-top" class="container"
@@ -83,10 +87,6 @@
         <div id="footnotes_holder"></div>
         <% end %>
 
-        <div id="loading" class="hide modal progress progress-striped active">
-            <div class="bar" style="width: 100%;"></div>
-        </div>
-
         <footer>
             <div class="row-fluid">
                 <div class="span2 hidden-phone"></div>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="span2">
                     <p>
-                        &copy; 2013 <a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a>
+                        &copy; 2013-2014 <a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a>
                     </p>
                 </div>
             </div>

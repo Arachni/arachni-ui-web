@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -99,6 +99,10 @@ class Issue < ActiveRecord::Base
     def timeline
         Notification.where( model_id: id, model_type: self.class.to_s,
                             user_id: scan.owner_id ).order( 'id desc' )
+    end
+
+    def id_name
+        name.parameterize
     end
 
     def audit_options
@@ -234,11 +238,6 @@ class Issue < ActiveRecord::Base
         end
 
         h.reject!{ |k, v| PROTECTED.include? k }
-
-        if h[:headers]
-            h[:headers][:request]  = h[:headers].delete( 'request' )
-            h[:headers][:response] = h[:headers].delete( 'response' )
-        end
 
         h
     end

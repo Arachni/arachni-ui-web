@@ -13,12 +13,12 @@
 
            tooltip = case @scan.status
                          when :auditing
-                             "Vectors of the web application are being audited" +
-                                     " in order to determine their security status."
+                             'Vectors of the web application are being audited' +
+                                     ' in order to determine their security status.'
 
                          when :crawling
-                             "The web application is being analyzed in an effort" +
-                                     " to find all available pages and attack vectors."
+                             'The web application is being analyzed in an effort' +
+                                     ' to find all available pages and attack vectors.'
                      end
         %>
         <p>
@@ -135,7 +135,6 @@
 <script type="text/javascript">
     window.setupScanCallbacks();
 
-    $( '#edit-description-btn' ).show();
     $( '#issues' ).show();
     $( '#scan-sidebar' ).show( 'slow' );
     $( 'li#toggle-statistics' ).fadeIn( 'slow' );

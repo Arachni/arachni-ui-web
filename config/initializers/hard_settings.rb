@@ -9,6 +9,7 @@ HardSettings.dispatcher_refresh_rate          = 5000
 
 HardSettings.active_scan_pagination_entries   = 20
 HardSettings.finished_scan_pagination_entries = 15
+HardSettings.scheduled_scan_pagination_entries= 50
 
 HardSettings.activities_pagination_entries    = 20
 HardSettings.notifications_pagination_entries = 20

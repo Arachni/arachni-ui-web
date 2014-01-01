@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
+
+gem 'psych'
 
 # Web server.
 gem 'thin'
@@ -14,10 +16,6 @@ gem 'pg'
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
 
-# Uses AJAX requests for hyperlinks.
-gem 'turbolinks'
-gem 'jquery-turbolinks'
-
 # UI/CSS framework.
 gem 'bootstrap-sass', '2.3.1.0'
 
@@ -25,10 +23,10 @@ gem 'bootstrap-sass', '2.3.1.0'
 gem 'github-markdown'
 
 # HTML form helper.
-gem 'simple_form', '~> 3.0.0.rc'
+gem 'simple_form', '~> 3.0.1'
 
 # User management/authentication.
-gem "devise", "~> 3.0.0.rc"
+gem "devise", "~> 3.2.2"
 
 # User authorization management.
 gem 'cancan', '~> 1.6.10'
@@ -51,17 +49,16 @@ end
 
 group :assets do
     # Sass CSS preprocessor.
-    gem 'sass-rails',   '4.0.0'
+    gem 'sass-rails', '~> 4.0.0'
 
     # CoffeeScript JavaScript preprocessor.
-    gem 'coffee-rails', '4.0.0'
+    gem 'coffee-rails', '~> 4.0.0'
 
     # JavaScript compression.
     gem 'uglifier', '~> 1.0.3'
 
     # JavaScript interpreter.
     gem 'libv8',    '~> 3.11.8'
-
     # JavaScript interpreter wrapper.
     gem 'therubyracer'
 end
@@ -87,4 +84,4 @@ group :test do
 end
 
 # The Arachni Framework.
-gem 'arachni', '~> 0.4.5'
+gem 'arachni'

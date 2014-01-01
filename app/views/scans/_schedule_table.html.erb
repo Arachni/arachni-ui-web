@@ -1,0 +1,149 @@
+<%
+   filter = 'filter'
+   opts = params.dup
+   opts.delete( :format )
+
+   yours = (params[filter] == 'yours')
+%>
+
+<ul class="nav nav-tabs" id="scan-table-tab"
+    data-table-container="table-container">
+
+    <% if @counts['yours'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                <i class="icon-user"></i>
+                Yours <small>[<%= @counts['yours'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+        <li
+        <% if yours %>
+        class="active"
+        <% end %>
+        >
+
+            <%= link_to schedule_scans_url( opts.merge( filter => 'yours' ) ),
+                        onclick: 'loading();', remote: true do %>
+                <i class="icon-user"></i>
+                Yours <small>[<%= @counts['yours'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if @counts['shared'] == 0 %>
+        <li class="disabled">
+            <a href="#">
+                <i class="icon-share-alt"></i>
+                Shared <small>[<%= @counts['shared'] %>]</small>
+            </a>
+        </li>
+    <% else %>
+
+        <li
+        <% if params[filter] == 'shared' %>
+        class="active"
+        <% end %>
+
+        >
+            <%= link_to schedule_scans_url( opts.merge( filter => 'shared' ) ),
+                        onclick: 'loading();', remote: true do %>
+                <i class="icon-share-alt"></i>
+                Shared <small>[<%= @counts['shared'] %>]</small>
+            <% end %>
+        </li>
+    <% end %>
+
+    <% if current_user.admin? %>
+
+        <% if @counts['others'] == 0 %>
+            <li class="disabled">
+                <a href="#">
+                    <i class="icon-group"></i>
+                    Others' <small>[<%= @counts['others'] %>]</small>
+                </a>
+            </li>
+        <% else %>
+            <li
+            <% if params[filter] == 'others' %>
+            class="active"
+            <% end %>
+            >
+                <%= link_to schedule_scans_url( opts.merge( filter => 'others' ) ),
+                            onclick: 'loading();', remote: true do %>
+                    <i class="icon-group"></i>
+                    Others' <small>[<%= @counts['others'] %>]</small>
+                <% end %>
+            </li>
+        <% end %>
+    <% end %>
+</ul>
+
+<% if @scans.any? %>
+<table class="table table-striped table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>URL</th>
+        <th>Profile</th>
+        <th>Type</th>
+        <th>Starts at</th>
+        <th>Recurring?</th>
+        <th>Every</th>
+        <th></th>
+    </tr>
+    </thead>
+
+    <% @scans.each do |scan| %>
+        <tr>
+            <td>
+                <%= link_to scan.url, scan.url %>
+            </td>
+            <td>
+                <% if scan.profile %>
+                    <%= link_to scan.profile.name, scan.profile %>
+                <% else %>
+                    (Deleted)
+                <% end %>
+            </td>
+            <td>
+                <%= scan.type.to_s.capitalize %>
+                <% if scan.dispatcher %>
+                    (<%= link_to scan.dispatcher.url, scan.dispatcher %>)
+                <% end %>
+                <% if scan.load_balance? %>
+                    (Load balanced)
+                <% end %>
+            </td>
+            <td>
+                <% if scan.schedule.start_at %>
+                    <%= l scan.schedule.start_at %>
+                    (<%= distance_of_time_in_words( scan.schedule.start_at - Time.now ) %>)
+                <% else %>
+                    N/A
+                <% end %>
+            </td>
+            <td>
+                <%= scan.schedule.recurring? ? 'Yes' : 'No' %>
+            </td>
+            <td>
+                <% if scan.schedule.recurring? %>
+                    <%= "#{pluralize( scan.schedule.every_minute.to_i, 'minute' )}" if scan.schedule.every_minute.to_i > 0 %>
+                    <%= "#{pluralize( scan.schedule.every_hour.to_i, 'hour' )}" if scan.schedule.every_hour.to_i > 0 %>
+                    <%= "#{pluralize( scan.schedule.every_day.to_i, 'day' )}" if scan.schedule.every_day.to_i > 0 %>
+                    <%= "#{pluralize( scan.schedule.every_month.to_i, 'month' )}" if scan.schedule.every_month.to_i > 0 %>
+                <% else %>
+                    N/A
+                <% end %>
+            </td>
+            <td>
+                <%= render partial: 'table_buttons',
+                           locals: { scan: scan, repeat: false } %>
+            </td>
+        </tr>
+    <% end %>
+</table>
+<% else %>
+    <p class="alert alert-info">
+        No scans have been scheduled in the '<%= params[filter].to_s.capitalize %>' category.
+    </p>
+<% end %>

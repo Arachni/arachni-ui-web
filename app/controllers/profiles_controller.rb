@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -38,13 +38,29 @@ class ProfilesController < ApplicationController
 
     # GET /profiles/1
     # GET /profiles/1.json
+    # GET /profiles/1.yaml
     def show
         @profile = Profile.find( params.require( :id ) )
+
+        set_download_header = proc do |extension|
+            name = @profile.name
+            [ "\n", "\r", '"' ].each { |k| name.gsub!( k, '' ) }
+
+            headers['Content-Disposition'] =
+                "attachment; filename=\"Arachni WebUI Profile - #{name}.#{extension}\""
+        end
 
         respond_to do |format|
             format.html # show.html.erb
             format.js { render @profile }
-            format.json { render json: @profile }
+            format.json do
+                set_download_header.call 'json'
+                render text: @profile.export( JSON )
+            end
+            format.yaml do
+                set_download_header.call 'yaml'
+                render text: @profile.export( YAML )
+            end
         end
     end
 
@@ -69,7 +85,6 @@ class ProfilesController < ApplicationController
             format.html { render 'new' }
         end
     end
-
 
     # GET /profiles/1/edit
     def edit
@@ -104,9 +119,28 @@ class ProfilesController < ApplicationController
                 format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
                 format.json { render json: @profile, status: :created, location: @profile }
             else
-                format.html { render action: "new" }
+                format.html { render action: 'new' }
                 format.json { render json: @profile.errors, status: :unprocessable_entity }
             end
+        end
+    end
+
+    # POST /profiles/import
+    def import
+        if !params[:profile] || !params[:profile][:file].is_a?( ActionDispatch::Http::UploadedFile )
+            redirect_to profiles_url, alert: 'No file selected for import.'
+            return
+        end
+
+        @profile = Profile.import( params[:profile][:file] )
+
+        if !@profile
+            redirect_to profiles_url, alert: 'Could not understand the Profile format.'
+            return
+        end
+
+        respond_to do |format|
+            format.html { render 'edit' }
         end
     end
 
@@ -148,7 +182,8 @@ class ProfilesController < ApplicationController
     # DELETE /profiles/1.json
     def destroy
         @profile = Profile.find( params.require( :id ) )
-        fail 'Cannot delete default profile.' if @profile.default?
+        fail 'Cannot delete default Profile.' if @profile.default?
+        fail 'Cannot delete Profiles assigned to scheduled Scans.' if @profile.has_scheduled_scans?
 
         notify @profile
         @profile.destroy

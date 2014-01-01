@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+ * Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,23 @@
  *= require_self
  *= require_tree .
 */
+
+#loading {
+    position: fixed;
+    z-index: 2000;
+    top: 0px;
+    left: 0;
+    height: 5px;
+    width: 10000px;
+}
+
+.accordion-toggle:hover {
+    text-decoration: none;
+}
+
+.label {
+    padding: 4px 5px !important;
+}
 
 .content {
     //background-color: #eee;
@@ -317,4 +334,13 @@ ul.nav li.dropdown:hover ul.dropdown-menu{
     display: block;
     height:  71px; /* fixed header height*/
     margin:  -71px 0 0; /* negative fixed header height */
+}
+
+.stick {
+    position: fixed;
+    top: 80px;
+}
+
+#left-sidebar {
+    width: 13%
 }

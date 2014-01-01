@@ -42,7 +42,7 @@
             <small>&ndash; found by <%= link_to @issue.scan, scan_url( @issue.scan ) %>.</small>
         </div>
 
-        <p class="pull-left label label-<%= issue_severity_to_alert @issue.severity %>">
+        <p class="pull-left label severity-<%= @issue.severity.downcase %>">
             <%= @issue.severity %> severity
         </p>
     </div>
@@ -182,7 +182,7 @@
                       target="_blank" method="<%= @issue.http_method.downcase %>">
                     <% if request_params %>
                         <% request_params.each_pair do |name, value|%>
-                            <input type="hidden" name="<%= name %>" value="<%= value.gsub( "\0", "&#00;" ).html_safe %>" />
+                            <input type="hidden" name="<%= name.recode %>" value="<%= value.gsub( "\0", "&#00;" ).recode %>" />
                         <%end%>
                     <%end%>
                     <button title="Replay the request" type="submit"
@@ -190,7 +190,7 @@
                         <i class="icon-repeat"></i>
                     </button>
                 </form>
-            <%end%>
+            <% end %>
 
             <table class="table">
                 <thead>
@@ -252,32 +252,30 @@
             <h4 id="response">Response</h4>
 
             <% if @issue.response_body %>
-            <% if @issue.response_body_contains_proof? %>
-                <p class="muted">
-                    Proof is highlighted in red and scroll-centered.
-                </p>
-            <% end %>
+                <% if @issue.response_body_contains_proof? %>
+                    <p class="muted">
+                        Proof is highlighted in red and scroll-centered.
+                    </p>
+                <% end %>
 
-            <a id="render-response-button"
-               class="btn btn-small btn-inverse hidden-phone"
-               data-html="<%= @issue.base64_response_body %>" >
-                Render the response
-            </a>
+                <a id="render-response-button"
+                   class="btn btn-small btn-inverse hidden-phone"
+                   data-html="<%= @issue.base64_response_body %>" >
+                    Render the response
+                </a>
 
-            <div id="rendered-response-container" class="modal hide fade">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &#10006;
-                    </button>
-                    <h3>Rendered response</h3>
+                <div id="rendered-response-container" class="modal hide fade">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &#10006;
+                        </button>
+                        <h3>Rendered response</h3>
+                    </div>
+                    <div class="modal-body">
+                    </div>
                 </div>
-                <div class="modal-body">
-                </div>
-            </div>
 
-            <pre id="response_body_container">
-                <%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %>
-            </pre>
+                <pre id="response_body_container"><%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %></pre>
 
             <% else %>
                 <p class="alert alert-info">
@@ -295,8 +293,9 @@
                             <tr>
                                 <th class="top" colspan="2">Request</th>
                             </tr>
-                            <% if @issue.headers[:request] %>
-                                <% @issue.headers[:request].each do |k, v| %>
+
+                            <% if @issue.headers['request'] %>
+                                <% @issue.headers['request'].each do |k, v| %>
                                     <tr>
                                         <th><%= k %></th>
                                         <td><%= v %></td>
@@ -316,8 +315,8 @@
                             <tr>
                                 <th class="top" colspan="2">Response</th>
                             </tr>
-                            <% if @issue.headers[:response] %>
-                                <% @issue.headers[:response].each do |k, v| %>
+                            <% if @issue.headers['response'] %>
+                                <% @issue.headers['response'].each do |k, v| %>
                                     <tr>
                                         <th><%= k %></th>
                                         <td><%= v %></td>
@@ -370,7 +369,6 @@
 
             </div>
         <% end %>
-
 
         <div id="issue-<%= @issue.digest %>-review" class="tab-pane">
             <%= render 'form' %>

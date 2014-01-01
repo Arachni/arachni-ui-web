@@ -1,3 +1,11 @@
+<%
+   if local_assigns[:path_method].is_a? Symbol
+       path_method = method( local_assigns[:path_method] )
+   elsif local_assigns[:path_method].nil?
+       path_method = method( :scans_url )
+   end
+%>
+
 <% if @group %>
     <p>
         You are seeing scans of the <strong><%= @group.name %></strong> group:
@@ -18,7 +26,7 @@
     <hr/>
 
     <p>
-        <%= link_to scans_path( group_id: false ), onclick: 'loading();',
+        <%= link_to path_method.call( group_id: false ), onclick: 'loading();',
                     class: 'btn btn-small btn-info btn-clear', remote: true do %>
             Clear filter
         <% end %>
@@ -86,7 +94,7 @@
             <p class="muted">Your groups.</p>
 
             <%= render partial: 'scan_groups/list',
-                       locals: { groups: @scan_groups['yours'] } %>
+                       locals: { path_method: path_method, groups: @scan_groups['yours'] } %>
         <% else %>
             <p class="alert alert-info">
                 You haven't created any groups.
@@ -98,7 +106,7 @@
         <p class="muted">Groups others have shared with you.</p>
 
         <%= render partial: 'scan_groups/list',
-                   locals: { groups: @scan_groups['shared'], show_owner: true } %>
+                   locals: { path_method: path_method, groups: @scan_groups['shared'], show_owner: true } %>
     </div>
 
     <% if current_user.admin? %>
@@ -106,7 +114,7 @@
             <p class="muted">Everyone else's groups.</p>
 
             <%= render partial: 'scan_groups/list',
-                       locals: { groups: @scan_groups['others'], show_owner: true } %>
+                       locals: { path_method: path_method, groups: @scan_groups['others'], show_owner: true } %>
         </div>
     <% end %>
 </div>

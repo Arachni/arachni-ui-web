@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+ * Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,10 +123,6 @@
     #profile_modules {
         display: inline;
     }
-    .accordion-group {
-        border: 0px;
-        border-bottom: 1px solid #E5E5E5
-    }
 
     .plugin-options .label {
         display: inline;
@@ -168,6 +164,21 @@
 
             input {
                 margin-left: 10px;
+            }
+        }
+    }
+
+    #modules, #plugins {
+        .accordion-group:nth-child(even) {
+            background-color: #E9E9E9;
+        }
+        .accordion-group {
+            border: 0px;
+
+            input[type="checkbox"] {
+                position: relative;
+                right: 15px;
+                top: 8px;
             }
         }
     }

@@ -1,5 +1,39 @@
 # ChangeLog
 
+## 0.4.3 _(January 1, 2014)_
+
+- Removed Turbolinks as it breaks Bootstrap modals.
+- Updated to use HTML5 `localStorage` instead of cookies to store UI state.
+- Navigation menu
+    - Removed "Home" item since it was redundant.
+    - Updated JS detection of active page when the WebUI is mounted under a subdirectory.
+- Profiles
+    - Added Regexp validation for the login-check-pattern input.
+    - Added Import and Export/Download functionality, supporting:
+        - YAML -- Including the CLI AFP files.
+        - JSON
+    - Delete dialog now warns of the existence of associated Scans.
+    - Added support for the `http_queue_size` option.
+    - Fixed formatting of cookies as an `RPC::Server::Instance#scan` option.
+    - Component selection accordions are now zebra-styled [Issue #57].
+- Scans
+    - Index
+        - Fixed a nil error caused when a Scan's Profile has been deleted.
+    - Can now be edited.
+    - Can be scheduled, with support for recurring (incremental/differential) Scans.
+    - Issues
+        - Fixed encoding error when handling request parameters [Issue #39].
+        - Redesigned table to group issues by type [Issue #52].
+        - Updated severity colors.
+    - Reporting
+        - Removed Metareport and Text reports as they were unusable via the WebUI.
+        - Added proper content-types for all reports.
+- Settings
+    - Profiles
+        - Fixed heading (_Profiles_ => _Plugins_).
+    - Added "General" tab.
+        - Added Timezone setting.
+
 ## 0.4.2.1 _(September 18, 2013)_
 
 - Scan monitoring

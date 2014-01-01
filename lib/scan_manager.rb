@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
     limitations under the License.
 =end
 
+require 'arachni/rpc/server/instance'
+
 class ScanManager
     include Singleton
 
@@ -23,38 +25,96 @@ class ScanManager
 
     def monitor
         return if Rails.env == 'test'
-        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ){ refresh }
+        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ) do
+            keep_schedule
+            refresh
+        end
     end
 
-    def after_create( scan )
+    def self.process( scan )
+        instance.process scan
+    end
+
+    def process( scan )
         return if Rails.env == 'test'
 
         # If the scan has a status then it's not the first time that it's been
         # saved so bail out to avoid an inf loop.
         return if scan.status
-        scan.status = :initializing
-        scan.save
 
-        Thread.new do
-            if scan.type == :direct
-                scan.instance_url, scan.instance_token = spawn_instance
-                scan.start
-            else
-                owner = "WebUI v#{ArachniWebui::Application::VERSION}"
-                scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
-                    scan.instance_url   = instance_info['url']
-                    scan.instance_token = instance_info['token']
-                    scan.save
+        if scan.schedule.start_at?
+            scan.status = :scheduled
+            scan.save
 
-                    scan.start
-                end
-            end
+            return
         end
+
+        start_scan scan
 
         true
     end
 
     private
+
+    def keep_schedule
+        Rails.logger.info "#{self.class}##{__method__}"
+
+        Schedule.due.each do |schedule|
+            start_scan schedule.scans.last
+        end
+    end
+
+    def start_scan( scan )
+        scan.status = :initializing
+        scan.save
+
+        Thread.new do
+            begin
+                if scan.type == :direct
+                    scan.instance_url, scan.instance_token = spawn_instance
+                    scan.start
+                else
+                    owner = "WebUI v#{ArachniWebui::Application::VERSION}"
+
+                    if scan.type == :remote && scan.load_balance?
+                        scan.dispatcher = scan.owner.available_dispatchers.preferred
+                        scan.save
+                    end
+
+                    # If there are no Dispatcher either because they disappeared
+                    # before we could select one to load balance or the assigned
+                    # Dispatcher is no longer alive, put the scan in schedule
+                    # limbo and let the user decide how to proceed.
+                    if !scan.dispatcher || !scan.dispatcher.alive?
+                        scan.status            = :schedule
+                        scan.schedule.start_at = nil
+                        scan.dispatcher        = nil
+                        scan.save
+
+                        scan.notify(
+                            action: :dispatcher_disappeared,
+                            text:   'Please select a different Dispatcher or' +
+                                ' distribution type.'
+                        )
+                        next
+                    end
+
+                    scan.dispatcher.client.dispatch( owner, {}, scan.grid? ) do |instance_info|
+                        scan.instance_url   = instance_info['url']
+                        scan.instance_token = instance_info['token']
+                        scan.save
+
+                        scan.start
+                    end
+                end
+            rescue => e
+                ap e
+                ap e.backtrace
+            end
+        end
+
+        true
+    end
 
     def refresh
         Rails.logger.info "#{self.class}##{__method__}"
@@ -65,8 +125,6 @@ class ScanManager
     end
 
     def spawn_instance
-        require 'arachni/rpc/server/instance'
-
         # Global address to bind to.
         Arachni::Options.rpc_address = 'localhost'
 
@@ -77,6 +135,10 @@ class ScanManager
         # Prevents "Connection was reset" errors on the client-side.
         # (i.e. Let Rails send the response back before forking EM.)
         sleep 1
+
+        # Clear all connections so the child we're about to spawn won't
+        # take any of them with it.
+        ::ActiveRecord::Base.clear_all_connections!
 
         Process.detach ::EM.fork_reactor {
             # redirect the Instance's RPC server's output to /dev/null
@@ -89,6 +151,9 @@ class ScanManager
 
         # Wait for the instance server to become active.
         sleep 1
+
+        # Re-establish the connection to the DB.
+        ::ActiveRecord::Base.establish_connection
 
         [ "#{Arachni::Options.rpc_address}:#{port}", token ]
     end

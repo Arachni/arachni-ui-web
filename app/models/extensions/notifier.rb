@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ module Notifier
                 model:  self,
                 user:   subscriber,
                 action: opts[:action].to_s,
-                text: opts[:text]
+                text:   opts[:text]
             )
         end
     end

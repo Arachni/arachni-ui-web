@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -146,6 +146,10 @@ class DispatchersController < ApplicationController
     # DELETE /dispatchers/1.json
     def destroy
         @dispatcher = Dispatcher.find( params.require( :id ) )
+
+        if @dispatcher.has_scheduled_scans?
+            fail 'Cannot delete a Dispatcher assigned to scheduled Scans.'
+        end
 
         notify @dispatcher
 

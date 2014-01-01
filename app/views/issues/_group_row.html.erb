@@ -1,0 +1,55 @@
+<%
+   ref_issue = issues.first
+   group_id  = "#{scan.id}-#{ref_issue.id_name}"
+%>
+
+<tr class="issue-type">
+    <td colspan="5">
+        <span onclick="toggleIssue('#<%= group_id %>');"
+              class="label severity-<%= ref_issue.severity.downcase %>">
+            <%= type %>
+            <span class="badge badge-inverse"><%=issues.size%></span>
+        </span>
+    </td>
+</tr>
+
+<tr class="issue-group">
+    <td></td>
+    <td colspan="4">
+        <div class="issue-group-container severity-<%= ref_issue.severity.downcase %>"
+             data-severity="<%= ref_issue.severity.downcase %>" id="<%= group_id %>">
+            <table class="table table-hover table-striped issue-group">
+                <thead>
+                    <tr>
+                        <th style="width: 5%"></th>
+                        <th style="width: 65%"></th>
+                        <th style="width: 25%"></th>
+                        <th style="width: 5%"></th>
+                    </tr>
+                </thead>
+
+                <tr>
+                    <td colspan="5">
+                        <p class="description well">
+                            <%= ref_issue.description %>
+
+                            <% if ref_issue.cwe_url %>
+                                (<a href="<%=ref_issue.cwe_url%>"
+                                    data-toggle="tooltip"
+                                    target="_blank"
+                                    title="Vulnerability definitions from Common Weakness Enumeration project.">CWE</a>)
+                            <% end %>
+                        </p>
+                    </td>
+                </tr>
+
+                <% issues.each do |issue| %>
+                    <%= render 'issues/issue_row',
+                               issue:      issue,
+                               active_tab: active_tab
+                    %>
+                <% end %>
+            </table>
+        </div>
+    </td>
+</tr>

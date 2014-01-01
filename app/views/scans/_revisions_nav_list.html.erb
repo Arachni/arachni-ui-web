@@ -32,9 +32,22 @@
     <% @scan.root_revision.revisions.each.with_index do |revision, i| %>
         <li class="<%= 'active' if !@scan.overview? && revision.id == @scan.id %>">
             <%
-               txt = "#{i+1} &ndash; #{revision.issues.count} new, " +
-                       (revision.running? ? 'so far...' :
-                               "#{revision.issues.fixed.count} fixed")
+               idx = "#{i+1} &ndash;"
+               txt = "#{idx} #{revision.issues.count} new, "
+
+               if revision.running?
+                   txt += 'so far...'
+               elsif revision.scheduled?
+                   if revision.schedule.start_at
+                       txt = "#{idx} Scheduled for #{l revision.schedule.start_at}
+                            &ndash; #{distance_of_time_in_words_to_now revision.schedule.start_at}."
+                   else
+                       txt = "#{idx} Scheduled start datetime removed, no more scans will be performed."
+                   end
+               else
+                  txt += "#{revision.issues.fixed.count} fixed."
+               end
+
             %>
             <%= link_to txt.html_safe, scan_url( revision,
                                                  change_revision: true ),

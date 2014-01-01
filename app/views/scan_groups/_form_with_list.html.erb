@@ -1,11 +1,19 @@
+<%
+   if local_assigns[:path_method].is_a? Symbol
+       path_method = method( local_assigns[:path_method] )
+   elsif local_assigns[:path_method].nil?
+       path_method = method( :scans_url )
+   end
+%>
+
 <h3>Groups</h3>
 
 <div id="scan-groups-list">
-    <%= render 'scan_groups/list_with_tabs' %>
+    <%= render partial: 'scan_groups/list_with_tabs', locals: { path_method: path_method } %>
 </div>
 
 <hr/>
 
 <div id="scan-group-form">
-    <%= render 'scan_groups/form' %>
+    <%= render partial: 'scan_groups/form' %>
 </div>

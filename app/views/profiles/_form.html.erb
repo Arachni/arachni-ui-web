@@ -25,7 +25,7 @@
             <div class="span6">
                 <%= f.input :global %>
                 <p class="help-block">
-                    Make this profile globally available.
+                    Make this profile available to all users.
                 </p>
             </div>
         <% end %>
@@ -34,8 +34,7 @@
         <div class="row-fluid">
             <div class="span6">
                 <%= f.input :description, label: false, placeholder: '(Required) Description',
-                            hint: 'You can use <a href="http://daringfireball.net/' +
-                                      'projects/markdown/syntax">Markdown</a> for text formatting.',
+                            hint: 'You can use Markdown for text formatting.',
                             input_html: { rows: 5, cols: 100 } %>
             </div>
             <div class="span6">
@@ -159,7 +158,7 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                        <%= f.input :http_req_limit %>
+                    <%= f.input :http_req_limit %>
                     <%=  messages_for( :http_req_limit ) %>
                 </div>
                 <div class="span6">
@@ -169,17 +168,23 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                        <%= f.input :proxy_port %>
+                    <%= f.input :http_queue_size %>
+                    <%=  messages_for( :http_queue_size ) %>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <%= f.input :proxy_port %>
                     <%=  messages_for( :proxy_port ) %>
                 </div>
                 <div class="span6">
-                        <%= f.input :proxy_username %>
+                    <%= f.input :proxy_username %>
                     <%=  messages_for( :proxy_username ) %>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                        <%= f.input :proxy_password, as: :string %>
+                    <%= f.input :proxy_password, as: :string %>
                     <%= messages_for( :proxy_password ) %>
                 </div>
                 <div class="span6">
@@ -189,7 +194,7 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                        <%= f.input :user_agent, as: :string %>
+                    <%= f.input :user_agent, as: :string %>
                     <%= messages_for( :user_agent ) %>
                 </div>
                 <div class="span6">
@@ -381,6 +386,11 @@
                 Plugins
                 <small>Assisting components to be enabled during the process</small>
             </legend>
+
+            <p class="alert">
+                Plugins which require an option of type <em>file</em> are
+                not supported and thus are not listed.
+            </p>
 
             <% if errors = @profile.errors.messages[:plugins] || [] %>
                 <% errors.each do |message| %>

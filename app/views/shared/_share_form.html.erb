@@ -1,15 +1,31 @@
 <% if User.count > 1 && can?( :share, model ) %>
-    <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
-       role="button" class="btn btn-small" data-toggle="modal">
-        <i class="icon-share"></i>
 
-        <% if (shared_with = model.users.size - 1) > 0 %>
-        <span title="Shared with <%= pluralize shared_with, 'more user' %>."
-              class="label"><%= shared_with %></span>
-        <% end %>
+    <script type="text/javascript">
+        selector = '#share<%= model.class %><%= model.id %>';
 
-        <%= "Share #{model.class.to_s.downcase}" if !local_assigns[:nolabel] %>
-    </a>
+        if( !$(selector).is( ':visible' ) ) {
+            refreshModal = true;
+
+            // Remove previous nodes from the DOM.
+            $(selector).remove();
+        } else {
+            refreshModal = false;
+        }
+    </script>
+
+    <% if !local_assigns[:nodisplay] %>
+        <a href="#share<%= model.class %><%= model.id %>" title="Share scan"
+           role="button" class="btn btn-small" data-toggle="modal">
+            <i class="icon-share"></i>
+
+            <% if (shared_with = model.users.size - 1) > 0 %>
+            <span title="Shared with <%= pluralize shared_with, 'more user' %>."
+                  class="label"><%= shared_with %></span>
+            <% end %>
+
+            <%= "Share #{model.class.to_s.downcase}" if !local_assigns[:nolabel] %>
+        </a>
+    <% end %>
 
     <div id="share<%= model.class %><%= model.id %>" class="modal hide fade"
          tabindex="-1" role="dialog">
@@ -24,10 +40,8 @@
         <%= simple_form_for( model, url: polymorphic_path( model, action: 'share' ) ) do |f| %>
             <div class="modal-body">
                 <%= f.error_notification %>
-                <%= f.association :users, label: '',
-                                  collection: User.all - [model.owner],
-                                  as: :check_boxes %>
-
+                <%= f.association :users, label: '', as: :check_boxes,
+                                  collection: User.all - [model.owner] %>
             </div>
             <div class="modal-footer">
                 <%= f.button :submit, class: 'btn btn-small btn-primary', value: 'Share' %>
@@ -37,11 +51,11 @@
     </div>
 
     <script type="text/javascript">
-        // If we have a scan table then we're probably inside it and since
-        // the table will keep being updated by AJAX we must move the modal dialog
+        // If we have a scan table then we're probably inside it and since the
+        // table will keep being updated by AJAX we must move the modal dialog
         // out of it otherwise it'll keep vanishing with each AJAX refresh.
-        $( '#share<%= model.class %><%= model.id %>' ).each( function() {
-            $( '#<%= model.class.to_s.downcase %>s' ).parent().before( this );
-        })
+        if( refreshModal ) {
+            $( '#<%= model.class.to_s.downcase %>s' ).parent().before( $(selector) );
+        }
     </script>
 <% end %>

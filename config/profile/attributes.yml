@@ -33,6 +33,9 @@ fuzz_methods:
 http_req_limit:
     description: 'Maximum HTTP request concurrency.'
     warning: 'Using a high concurrency level could kill the web server and lead to corrupted results.'
+http_queue_size:
+    description: 'Maximum amount of HTTP requests to keep in the queue.'
+    warning: 'More means better scheduling and better performance, fewer means less RAM consumption.'
 include: 'Only crawls and audits URLs matching the given patterns.'
 link_count_limit: 'Limits the amount of URLs to follow.'
 login_check_pattern: 'Matches the given pattern against the body of the login-check

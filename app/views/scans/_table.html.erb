@@ -133,39 +133,10 @@
     <%= my_paginate scans, remote: true, param_name: type + '_page' %>
 
     <table class="table table-striped table-hover table-condensed">
-        <thead>
-        <tr>
-            <th>URL</th>
-            <th class="hidden-phone">Profile</th>
-            <th class="hidden-phone">Type</th>
-
-            <% if treat_as_running %>
-            <th class="hidden-phone">Status</th>
-            <th>Progress</th>
-            <% end %>
-
-            <th>Issue count</th>
-
-            <% if treat_as_running %>
-            <th class="hidden-phone">Sitemap size</th>
-            <th class="hidden-phone">Running for</th>
-            <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
-                ETA
-            </th>
-            <% else %>
-            <th class="hidden-phone">Started at</th>
-            <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
-                Finished at</th>
-            <% end %>
-
-            <% if !yours %>
-            <th>Owner</th>
-            <% end %>
-
-            <th class="hidden-phone">Comments</th>
-            <th></th>
-        </tr>
-        </thead>
+        <%= render partial: 'table_headings', locals: {
+                treat_as_running:   treat_as_running,
+                yours:              yours
+        } %>
 
         <% scans.each do |scan| %>
             <% next if !treat_as_running && scan.revision? %>

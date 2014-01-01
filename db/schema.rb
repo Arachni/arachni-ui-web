@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130719152335) do
+ActiveRecord::Schema.define(version: 20131109011550) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20130719152335) do
     t.text     "platforms"
     t.string   "http_username"
     t.string   "http_password"
+    t.integer  "http_queue_size",           default: 500
   end
 
   create_table "profiles_users", id: false, force: true do |t|
@@ -202,11 +203,25 @@ ActiveRecord::Schema.define(version: 20130719152335) do
     t.integer  "root_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "started_at"
+    t.integer  "schedule_id"
+    t.boolean  "load_balance"
   end
 
   create_table "scans_users", id: false, force: true do |t|
     t.integer "user_id"
     t.integer "scan_id"
+  end
+
+  create_table "schedules", force: true do |t|
+    t.datetime "start_at"
+    t.integer  "every_minute"
+    t.integer  "every_hour"
+    t.integer  "every_day"
+    t.integer  "every_month"
+    t.string   "basetime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "settings", force: true do |t|
@@ -221,6 +236,8 @@ ActiveRecord::Schema.define(version: 20130719152335) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "welcomed"
+    t.string   "timezone",                       default: "Etc/UTC"
+    t.boolean  "scan_auto_refresh",              default: true
   end
 
   create_table "users", force: true do |t|

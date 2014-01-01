@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ class SettingsController < ApplicationController
         params.require( :setting ).
             permit( :scan_global_limit, :scan_per_user_limit, { scan_allowed_types: [] },
                     { profile_allowed_modules: [] }, { profile_allowed_plugins: [] },
-                    :scan_target_whitelist_patterns, :scan_target_blacklist_patterns )
+                    :scan_target_whitelist_patterns, :scan_target_blacklist_patterns,
+                    :timezone, :scan_auto_refresh )
     end
 end

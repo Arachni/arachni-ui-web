@@ -1,0 +1,61 @@
+<div id="legend">
+    <ul id="severities" class="nav nav-list">
+        <li class="nav-header">
+            Toggle by severity
+        </li>
+        <li class="btn-group">
+            <span class="btn btn-mini" onclick="resetIssues()"
+                  title="Show High and Medium severity issues."
+                  rel="tooltip"
+            >
+                Reset
+            </span>
+            <span class="btn btn-mini" onclick="showAllIssues()"
+                  title="Expand all issue types." rel="tooltip"
+            >
+                Show all
+            </span>
+            <span class="btn btn-mini" onclick="hideAllIssues()"
+                  title="Collapse all issue types." rel="tooltip"
+            >
+                Hide all
+            </span>
+        </li>
+
+        <% severities_from_issues(issues).each do |severity, count| %>
+            <li>
+                <span class="label severity-<%= severity.downcase %>"
+                      onclick="toggleIssuesBySeverity( '<%= severity.downcase %>' )"
+                      title="Toggle visibility of <%=severity.downcase%> severity issue types."
+                      rel="tooltip"
+                >
+                    <span class="severity-name"><%=severity%></span>
+                    <span class="badge badge-inverse"><%=count%></span>
+                </span>
+            </li>
+        <% end %>
+    </ul>
+
+    <ul id="issues" class="nav nav-list hidden-tablet">
+        <li class="nav-header">
+            Navigate to
+        </li>
+        <% group_issues_by_type(issues).each do |type, issues|
+            ref_issue = issues.first
+            group_id  = "#{scan.id}-#{ref_issue.id_name}"
+        %>
+            <li>
+                    <span class="label severity-<%= ref_issue.severity.downcase %>"
+                          title="<%= type %>"
+                          onclick="scrollToIssue('#<%=group_id%>');"
+                          rel="tooltip"
+                    >
+                        <span class="severity-name">
+                            <%= type %>
+                        </span>
+                        <span class="badge badge-inverse"><%=issues.size%></span>
+                    </span>
+            </li>
+        <% end %>
+    </ul>
+</div>

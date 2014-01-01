@@ -1,6 +1,9 @@
 // The AJAX refresh messes with the page scroll so we need to keep track of it
 // and then restore it.
+
 var pageYOffset = $('html, body').scrollTop();
+var legendWidth = $('#issues div#legend' ).parent().width();
+var legendClass = $('#issues div#legend' ).attr('class');
 
 <% if !params.delete( :change_revision ) %>
     $("#comments-list").html( "<%= escape_javascript(
@@ -23,15 +26,16 @@ var pageYOffset = $('html, body').scrollTop();
     $("#error-messages").html( "<%= escape_javascript( @scan.error_messages ).force_encoding( 'utf-8' ) %>" );
     $("#error-messages-container" ).show();
 
-    objDiv = document.getElementById( 'error-messages' );
+    var objDiv = document.getElementById( 'error-messages' );
     objDiv.scrollTop = objDiv.scrollHeight;
 <% end %>
-
-$("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
 
 $("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html', locals: { url_method_type: :scan_url } ) .force_encoding( 'utf-8' ) ) %>" );
 
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );
+$("#scan-sidebar").html( "<%= escape_javascript( render( partial: 'scan_sidebar' ).force_encoding( 'utf-8' ) ) %>" );
+
+$("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
 
 <% if !params['_method'] || params['_method'] == 'get' %>
     $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
@@ -57,8 +61,14 @@ if( $('#scan-description-form').is( ':visible' ) ){
     $('#edit-description-btn').hide();
 }
 
+window.restoreIssueVisibility();
 // Restore the scroll value to where it was prior to the AJAX refresh.
 $("html, body").scrollTop( pageYOffset );
 
+var legend = $('div#legend')
+legend.attr('class', legendClass);
+legend.width(legendWidth);
+
 window.setupScanCallbacks();
 window.setupComments();
+

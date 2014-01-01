@@ -1,0 +1,51 @@
+<% if can?( :update, scan ) %>
+    <script type="text/javascript">
+        selector = '#updateScanSchedule_<%= scan.id %>';
+
+        if( !$(selector).is( ':visible' ) ) {
+            refreshModal = true;
+
+            // Remove previous nodes from the DOM.
+            $(selector).remove();
+        } else {
+            refreshModal = false;
+        }
+    </script>
+
+    <% if !local_assigns[:nodisplay] %>
+        <a href="#updateScanSchedule_<%= scan.id %>" title="Update schedule"
+           role="button" class="btn btn-small btn-inverse" data-toggle="modal">
+            <i class="icon-calendar"></i>
+            <%= 'Update schedule' if !local_assigns[:nolabel] %>
+        </a>
+    <% end %>
+
+    <div id="updateScanSchedule_<%= scan.id %>"
+         class="modal hide fade update-scan-schedule"
+         tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&#10006;</button>
+            <h3>Schedule:</h3>
+        </div>
+
+        <%= simple_form_for( scan ) do |f| %>
+            <div class="modal-body">
+                <%= render partial: 'form_advanced_options_scheduling', locals: { f: f, scan: scan } %>
+            </div>
+            <div class="modal-footer">
+                <%= f.button :submit, class: 'btn btn-small btn-primary', value: 'Update' %>
+                <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        <% end %>
+    </div>
+
+    <script type="text/javascript">
+        // If we have a scan table then we're probably inside it and since
+        // the table will keep being updated by AJAX we must move the modal dialog
+        // out of it otherwise it'll keep vanishing with each AJAX refresh.
+        if( refreshModal ) {
+            // Move the new one out of the table.
+            $('#scans').parent().before( $(selector) );
+        }
+    </script>
+<% end %>

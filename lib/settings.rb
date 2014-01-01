@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ class Settings
     class << self
         [:scan_global_limit, :scan_per_user_limit, :profile_allowed_modules,
          :profile_allowed_plugins, :scan_target_whitelist_patterns,
-         :scan_target_blacklist_patterns, :welcomed?].each do |sym|
+         :scan_target_blacklist_patterns, :welcomed?, :timezone, :scan_auto_refresh?
+        ].each do |sym|
             define_method sym do
                 Setting.first.send( sym )
             end
@@ -70,5 +71,7 @@ class Settings
             Scan.limit_exceeded?
         end
     end
+
+    Time.zone = self.timezone
 
 end

@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -75,4 +75,23 @@ module IssuesHelper
         end
     end
 
+    def severities_from_issues( issues )
+        h = {}
+        issues.each do |issue|
+            h[issue.severity] ||= []
+            h[issue.severity] << issue
+        end
+
+        h.each { |severity, cissues| h[severity] = cissues.size }
+        h
+    end
+
+    def group_issues_by_type( issues )
+        h = {}
+        issues.each do |issue|
+            h[issue.name] ||= []
+            h[issue.name] << issue
+        end
+        h
+    end
 end
