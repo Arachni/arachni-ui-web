@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.4.3 _(January 1, 2014)_
 
 - Removed Turbolinks as it breaks Bootstrap modals.
 - Updated to use HTML5 `localStorage` instead of cookies to store UI state.
