@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.4.4 _(April 12, 2014)_
+
+- External links now open in new windows.
+
 ## 0.4.3 _(January 1, 2014)_
 
 - Removed Turbolinks as it breaks Bootstrap modals.
