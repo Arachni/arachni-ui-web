@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.4.4 _(April 12, 2014)_
 
 - External links now open in new windows.
 
