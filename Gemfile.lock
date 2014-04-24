@@ -8,7 +8,7 @@ PATH
       bundler
       highline
       json
-      nokogiri (>= 1.5.7.rc1)
+      nokogiri (~> 1.5.7.rc1)
       pony
       rb-readline
       sys-proctable (>= 0.9.1)
@@ -120,12 +120,10 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mini_portile (0.5.3)
     minitest (4.7.5)
     multi_json (1.9.2)
     multi_test (0.1.1)
-    nokogiri (1.6.2.rc2)
-      mini_portile (~> 0.5.2)
+    nokogiri (1.5.11)
     orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.4)
@@ -148,7 +146,7 @@ GEM
       activesupport (= 4.0.3)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.2.2)
+    rake (10.3.1)
     rb-readline (0.5.1)
     ref (1.0.5)
     rolify (3.2.0)
