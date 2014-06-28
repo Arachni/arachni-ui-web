@@ -27,14 +27,44 @@ user = User.create! name:                  'Regular User',
                     password_confirmation: 'regular_user'
 puts 'Regular user created: ' << user.name
 
+ignore  = Set.new(%w(http_cookie_jar_filepath http_proxy http_cookies).map(&:to_sym))
+columns = []
+
+Arachni::Options.to_rpc_data.each do |name, _|
+    name = name.to_sym
+
+    if Arachni::Options.group_classes.include?( name )
+        Arachni::Options.send(name).attributes.each do |k|
+            columns << "#{name}_#{k}".to_sym
+        end
+    else
+        columns << name
+    end
+end
+
+ap columns.reject { |column| ignore.include? column }
+exit
+
 arachni_defaults = {}
+profile_columns  = Profile.column_names
 
-ignore = %w(max_slaves)
-profile_columns = Profile.column_names
-Arachni::Options.to_h.each do |k, v|
-    next if v.nil? || !profile_columns.include?( k ) || ignore.include?( k )
+Arachni::Options.to_rpc_data.each do |name, value|
+    name = name.to_sym
+    next if value.nil?
 
-    arachni_defaults[k.to_sym] = v
+    if Arachni::Options.group_classes.include?( name )
+        value.each do |k, v|
+            next if v.nil?
+
+            key = "#{name}_#{k}".to_sym
+            # next if !profile_columns.include?( key )
+
+            arachni_defaults[key] = v
+        end
+    else
+        # next if !profile_columns.include?( name )
+        arachni_defaults[name] = value
+    end
 end
 
 arachni_defaults.merge!(
@@ -48,6 +78,10 @@ arachni_defaults.merge!(
     audit_cookies: true,
     plugins:       :default
 )
+
+ap arachni_defaults
+
+exit
 
 puts
 

@@ -40,34 +40,38 @@ class Profile < ActiveRecord::Base
     # authorized so this is not strictly required.
     validate :validate_checks
 
-    serialize :cookies,         Hash
-    serialize :custom_headers,  Hash
-    serialize :exclude,         Array
-    serialize :exclude_pages,   Array
-    serialize :include,         Array
-    serialize :exclude_cookies, Array
-    serialize :exclude_vectors, Array
-    serialize :extend_paths,    Array
-    serialize :restrict_paths,  Array
-    serialize :checks,         Array
-    serialize :platforms,       Array
-    serialize :plugins,         Hash
-    serialize :redundant,       Hash
+    serialize :http_cookies,                   Hash
+    serialize :http_request_headers,           Hash
+    serialize :scope_exclude_path_patterns,    Array
+    serialize :scope_exclude_content_patterns, Array
+    serialize :scope_include_path_patterns,    Array
+    serialize :scope_extend_paths,             Array
+    serialize :scope_restrict_paths,           Array
+    serialize :scope_redundant_path_patterns,  Hash,
+    serialize :audit_exclude_vectors,          Array
+    serialize :checks,                         Array
+    serialize :platforms,                      Array
+    serialize :plugins,                        Hash
 
     before_save :sanitize_platforms
     before_save :add_owner_to_subscribers
 
-    RPC_OPTS = [ :audit_cookies, :audit_cookies_extensively, :audit_forms,
-                 :audit_headers, :audit_links, :authed_by, :auto_redundant,
-                 :cookies, :custom_headers, :depth_limit, :exclude,
-                 :exclude_binaries, :exclude_cookies, :exclude_vectors,
-                 :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
-                 :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                 :max_slaves, :min_pages_per_instance, :checks, :plugins, :proxy_host,
-                 :proxy_password, :proxy_port, :proxy_type, :proxy_username,
-                 :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                 :http_timeout, :https_only, :exclude_pages, :platforms,
-                 :no_fingerprinting, :http_username, :http_password ]
+    RPC_OPTS = [
+        :audit_cookies, :audit_cookies_extensively, :audit_forms, :audit_headers,
+        :audit_links, :authorized_by, :scope_auto_redundant, :http_cookies,
+        :http_request_headers, :scope_directory_depth_limit,
+        :scope_exclude_path_patterns, :scope_exclude_binaries,
+        :audit_exclude_vectors, :scope_extend_paths, :scope_include_subdomains,
+        :audit_with_both_http_methods, :http_request_concurrency,
+        :scope_include_path_patterns, :scope_page_limit, :login_check_pattern,
+        :login_check_url, :spawns, :checks, :plugins, :http_proxy_host,
+        :http_proxy_password, :http_proxy_port, :http_proxy_type,
+        :http_proxy_username, :http_request_redirect_limit,
+        :scope_redundant_path_patterns, :scope_restrict_paths, :http_user_agent,
+        :http_request_timeout, :scope_https_only, :scope_exclude_content_patterns,
+        :platforms, :no_fingerprinting, :http_authentication_username,
+        :http_authentication_password
+    ]
 
     scope :global, -> { where global: true }
 
@@ -135,11 +139,8 @@ class Profile < ActiveRecord::Base
         attributes.each do |k, v|
             next if !RPC_OPTS.include?( k.to_sym ) || v.nil? ||
                 (v.respond_to?( :empty? ) ? v.empty? : false)
-            opts[k.to_sym] = v
-        end
 
-        if (cookies = opts.delete(:cookies))
-            opts[:cookies] = cookies.map { |k, v| { k => v } }
+            opts[k.to_sym] = v
         end
 
         opts
@@ -176,44 +177,18 @@ class Profile < ActiveRecord::Base
         ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
-    def redundant=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash, ':' )
+    %w(scope_exclude_path_patterns scope_exclude_content_patterns
+        scope_include_path_patterns scope_restrict_paths scope_extend_paths
+        audit_exclude_vectors).each do |m|
+        define_method m do |string_or_array|
+            super self.class.string_list_to_array( string_or_array )
+        end
     end
 
-    def exclude=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def exclude_pages=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def include=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def restrict_paths=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def extend_paths=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def exclude_vectors=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def exclude_cookies=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def cookies=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash )
-    end
-
-    def custom_headers=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash )
+    %w(scope_redundant_path_patterns http_cookies http_request_headers).each do |m|
+        define_method m do |string_or_hash|
+            super self.class.string_list_to_hash( string_or_hash )
+        end
     end
 
     def checks=( m )
