@@ -31,9 +31,9 @@ class Profile < ActiveRecord::Base
     validate :validate_description
     validate :validate_plugins
     validate :validate_plugin_options
-    validate :validate_redundant
-    validate :validate_cookies
-    validate :validate_custom_headers
+    validate :validate_scope_redundant_path_patterns
+    validate :validate_http_cookies
+    validate :validate_http_request_headers
     validate :validate_login_check
 
     # #checks= will ignore any any checks which have not specifically been
@@ -47,7 +47,7 @@ class Profile < ActiveRecord::Base
     serialize :scope_include_path_patterns,    Array
     serialize :scope_extend_paths,             Array
     serialize :scope_restrict_paths,           Array
-    serialize :scope_redundant_path_patterns,  Hash,
+    serialize :scope_redundant_path_patterns,  Hash
     serialize :audit_exclude_vectors,          Array
     serialize :checks,                         Array
     serialize :platforms,                      Array
@@ -299,22 +299,23 @@ class Profile < ActiveRecord::Base
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
 
-    def validate_redundant
-        redundant.each do |pattern, counter|
+    def validate_scope_redundant_path_patterns
+        scope_redundant_path_patterns.each do |pattern, counter|
             next if counter.to_i > 0
-            errors.add :redundant, "rule '#{pattern}' needs an integer counter greater than 0"
+            errors.add :scope_redundant_path_patterns,
+                       "rule '#{pattern}' needs an integer counter greater than 0"
         end
     end
 
-    def validate_cookies
-        cookies.each do |name, value|
-            errors.add :cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
+    def validate_http_cookies
+        http_cookies.each do |name, value|
+            errors.add :http_cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
-    def validate_custom_headers
-        custom_headers.each do |name, value|
-            errors.add :custom_headers, "name cannot be blank ('#{name}=#{value}')" if name.empty?
+    def validate_http_request_headers
+        http_request_headers.each do |name, value|
+            errors.add :http_request_headers, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
