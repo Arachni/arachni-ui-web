@@ -39,17 +39,16 @@ module FrameworkHelper
     end
 
     def content_type_for_report( format )
-        reports[format.to_s][:content_type] || 'application/octet-stream'
+        reporters[format.to_s][:content_type] || 'application/octet-stream'
     end
 
-    def reports
-        components_for( :reports ).
-            reject { |name, _| ['metareport', 'txt'].include? name }
+    def reporters
+        components_for( :reporters ).reject { |name, _| name == 'txt' }
     end
 
     def reports_with_outfile
         h = {}
-        reports.
+        reporters.
             reject { |_, info| !info[:options] || !info[:options].
                 map { |o| o.name  }.include?( 'outfile' ) }.
             map do |name, info|
@@ -74,7 +73,7 @@ module FrameworkHelper
                     h[name][:author]    = [ h[name][:author] ].flatten
                     h[name][:authors]   = h[name][:author]
 
-                    if manager[name] <= Arachni::Report::Base && manager[name].has_outfile?
+                    if manager[name] <= Arachni::Reporter::Base && manager[name].has_outfile?
                         h[name][:extension] = manager[name].outfile_option.default.split( '.' ).last
                     end
                     h
