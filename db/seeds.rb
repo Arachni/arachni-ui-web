@@ -63,13 +63,14 @@ puts 'Default profile created: ' << p.name
 p = Profile.create! arachni_defaults.merge(
                         name: 'Cross-Site Scripting (XSS)',
                         description: 'Scans for Cross-Site Scripting (XSS) vulnerabilities.',
-                        checks: %w(xss xss_path xss_tag xss_script_tag xss_event)
+                        checks: %w(xss xss_path xss_tag xss_script_context xss_event
+                                    xss_dom xss_dom_inputs xss_dom_script_context)
                     )
 puts 'XSS profile created: ' << p.name
 
 p = Profile.create! arachni_defaults.merge(
                         name: 'SQL injection',
                         description: 'Scans for SQL injection vulnerabilities.',
-                        checks: %w(sqli sqli_blind_rdiff sqli_blind_timing)
+                        checks: %w(sqli sqli_blind_differential sqli_blind_timing)
                     )
 puts 'SQLi profile created: ' << p.name
