@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131109011550) do
+ActiveRecord::Schema.define(version: 20140628184455) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20131109011550) do
     t.boolean  "audit_forms"
     t.boolean  "audit_cookies"
     t.boolean  "audit_headers"
-    t.text     "modules"
+    t.text     "checks"
     t.text     "authed_by"
     t.string   "proxy_host"
     t.integer  "proxy_port"
@@ -231,7 +231,7 @@ ActiveRecord::Schema.define(version: 20131109011550) do
     t.text     "scan_target_whitelist_patterns"
     t.text     "scan_target_blacklist_patterns"
     t.text     "scan_allowed_types"
-    t.text     "profile_allowed_modules"
+    t.text     "profile_allowed_checks"
     t.text     "profile_allowed_plugins"
     t.datetime "created_at"
     t.datetime "updated_at"

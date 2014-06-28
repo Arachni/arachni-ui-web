@@ -18,7 +18,12 @@ module FrameworkHelper
 
     def framework( opts = Arachni::Options.instance, &block )
         fail 'This method requires a block.' if !block_given?
-        Arachni::Framework.new( opts, &block )
+        f = Arachni::Framework.new( opts )
+        begin
+            block.call f
+        ensure
+            f.reset
+        end
     end
 
     def checks

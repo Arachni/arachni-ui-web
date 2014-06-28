@@ -38,7 +38,7 @@ class Profile < ActiveRecord::Base
 
     # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
-    validate :validate_modules
+    validate :validate_checks
 
     serialize :cookies,         Hash
     serialize :custom_headers,  Hash
@@ -158,9 +158,9 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def modules
+    def checks
         # Only allow authorized checks.
-        super & Settings.profile_allowed_modules
+        super & Settings.profile_allowed_checks
     end
 
     def plugins
@@ -216,14 +216,14 @@ class Profile < ActiveRecord::Base
         super self.class.string_list_to_hash( string_or_hash )
     end
 
-    def modules=( m )
+    def checks=( m )
         # Only allow authorized checks.
 
         if m == :all || m == :default
-            return super( ::FrameworkHelper.checks.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
+            return super( ::FrameworkHelper.checks.keys.map( &:to_s ) & Settings.profile_allowed_checks.to_a )
         end
 
-        super m & Settings.profile_allowed_modules.to_a
+        super m & Settings.profile_allowed_checks.to_a
     end
 
     def plugins=( p )
@@ -237,12 +237,12 @@ class Profile < ActiveRecord::Base
         super p.select { |k, _| Settings.profile_allowed_plugins.include? k }
     end
 
-    def modules_with_info
-        modules.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
+    def checks_with_info
+        checks.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
     end
 
-    def has_modules?
-        self.modules.any?
+    def has_checks?
+        self.checks.any?
     end
 
     def has_plugins?
@@ -358,11 +358,11 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def validate_modules
+    def validate_checks
         available = ::FrameworkHelper.checks.keys.map( &:to_s )
-        modules.each do |mod|
-            next if available.include? mod.to_s
-            errors.add :checks, "'#{mod}' does not exist"
+        checks.each do |check|
+            next if available.include? check.to_s
+            errors.add :checks, "'#{check}' does not exist"
         end
     end
 
@@ -381,7 +381,7 @@ class Profile < ActiveRecord::Base
                 next if !available.include? plugin.to_s
 
                 begin
-                    f.plugins.prep_opts( plugin, f.plugins[plugin], options )
+                    f.plugins.prepare_options( plugin, f.plugins[plugin], options )
                 rescue Arachni::Component::Options::Error::Invalid => e
                     errors.add :plugins, e.to_s
                 end

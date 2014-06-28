@@ -2,7 +2,7 @@ class Setting < ActiveRecord::Base
     serialize :scan_target_whitelist_patterns, Array
     serialize :scan_target_blacklist_patterns, Array
     serialize :scan_allowed_types, Array
-    serialize :profile_allowed_modules, Array
+    serialize :profile_allowed_checks,  Array
     serialize :profile_allowed_plugins, Array
 
     after_save :save_callback
