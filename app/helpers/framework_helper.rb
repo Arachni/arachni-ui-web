@@ -92,7 +92,7 @@ module FrameworkHelper
 
     def unsupported_component?( options )
         return false if !options
-        options.each { |option| return true if option.type == 'path' && option.required? }
+        options.each { |option| return true if option.type == :path && option.required? }
         false
     end
 
