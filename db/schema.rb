@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20140628211607) do
     t.string   "http_proxy_username"
     t.text     "http_proxy_password"
     t.string   "http_proxy_type"
-    t.text     "http_cookie_string"
+    t.text     "http_cookies"
     t.text     "http_user_agent"
     t.text     "scope_exclude_path_patterns"
     t.text     "scope_exclude_content_patterns"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20140628211607) do
     t.boolean  "audit_with_both_http_methods"
     t.boolean  "audit_cookies_extensively"
     t.boolean  "scope_exclude_binaries"
-    t.integer  "scope_auto_redundant_path_patterns"
+    t.integer  "scope_auto_redundant"
     t.boolean  "scope_https_only"
     t.text     "login_check_url"
     t.text     "login_check_pattern"
@@ -136,7 +136,17 @@ ActiveRecord::Schema.define(version: 20140628211607) do
     t.text     "platforms"
     t.string   "http_authentication_username"
     t.string   "http_authentication_password"
-    t.integer  "http_request_queue_size",            default: 500
+    t.integer  "http_request_queue_size",             default: 500
+    t.text     "input_values"
+    t.text     "audit_link_templates"
+    t.text     "scope_url_rewrites"
+    t.integer  "scope_dom_depth_limit"
+    t.integer  "browser_cluster_pool_size"
+    t.integer  "browser_cluster_job_timeout"
+    t.integer  "browser_cluster_worker_time_to_live"
+    t.boolean  "browser_cluster_ignore_images"
+    t.integer  "browser_cluster_screen_width"
+    t.integer  "browser_cluster_screen_height"
   end
 
   create_table "profiles_users", id: false, force: true do |t|

@@ -48,10 +48,14 @@ class Profile < ActiveRecord::Base
     serialize :scope_extend_paths,             Array
     serialize :scope_restrict_paths,           Array
     serialize :scope_redundant_path_patterns,  Hash
+    serialize :scope_link_templates,           Array
+    serialize :scope_url_rewrites,             Hash
     serialize :audit_exclude_vectors,          Array
+    serialize :audit_link_templates,           Array
     serialize :checks,                         Array
     serialize :platforms,                      Array
     serialize :plugins,                        Hash
+    serialize :input_values,                   Hash
 
     before_save :sanitize_platforms
     before_save :add_owner_to_subscribers
@@ -70,7 +74,7 @@ class Profile < ActiveRecord::Base
         :scope_redundant_path_patterns, :scope_restrict_paths, :http_user_agent,
         :http_request_timeout, :scope_https_only, :scope_exclude_content_patterns,
         :platforms, :no_fingerprinting, :http_authentication_username,
-        :http_authentication_password
+        :http_authentication_password, :input_values
     ]
 
     scope :global, -> { where global: true }
@@ -179,14 +183,15 @@ class Profile < ActiveRecord::Base
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns
         scope_include_path_patterns scope_restrict_paths scope_extend_paths
-        audit_exclude_vectors).each do |m|
-        define_method m do |string_or_array|
+        audit_exclude_vectors scope_link_templates).each do |m|
+        define_method "#{m}=" do |string_or_array|
             super self.class.string_list_to_array( string_or_array )
         end
     end
 
-    %w(scope_redundant_path_patterns http_cookies http_request_headers).each do |m|
-        define_method m do |string_or_hash|
+    %w(scope_redundant_path_patterns scope_url_rewrites http_cookies http_request_headers
+        input_values).each do |m|
+        define_method "#{m}=" do |string_or_hash|
             super self.class.string_list_to_hash( string_or_hash )
         end
     end

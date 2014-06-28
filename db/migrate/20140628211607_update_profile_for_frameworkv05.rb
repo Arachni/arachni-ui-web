@@ -35,5 +35,18 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
         }.each { |k, v| rename_column :profiles, k, v }
 
         remove_column :profiles, :audit_exclude_cookies
+
+        add_column :profiles, :input_values,         :text
+        add_column :profiles, :audit_link_templates, :text
+
+        add_column :profiles, :scope_url_rewrites,    :text
+        add_column :profiles, :scope_dom_depth_limit, :integer
+
+        add_column :profiles, :browser_cluster_pool_size,           :integer
+        add_column :profiles, :browser_cluster_job_timeout,         :integer
+        add_column :profiles, :browser_cluster_worker_time_to_live, :integer
+        add_column :profiles, :browser_cluster_ignore_images,       :boolean
+        add_column :profiles, :browser_cluster_screen_width,        :integer
+        add_column :profiles, :browser_cluster_screen_height,       :integer
     end
 end
