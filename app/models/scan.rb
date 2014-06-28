@@ -298,9 +298,9 @@ class Scan < ActiveRecord::Base
         self.active = false
         save
 
-        instance.service.abort_and_report :auditstore  do |auditstore|
-            if !auditstore.rpc_exception?
-                create_report( auditstore )
+        instance.service.native_abort_and_report do |report|
+            if !report.rpc_exception?
+                create_report( report )
                 instance.service.shutdown { delete_client }
             end
 
@@ -441,7 +441,7 @@ class Scan < ActiveRecord::Base
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
-            progress( with:    [ :instances, :native_issues,
+            native_progress( with:    [ :instances, :native_issues,
                                  errors: error_messages.to_s.lines.count ],
                       without: [ issues: issue_digests ] ) do |progress_data|
 
@@ -457,18 +457,18 @@ class Scan < ActiveRecord::Base
 
             begin
                 self.active     = true
-                self.status     = progress_data['status']
-                self.statistics = progress_data['stats']
+                self.status     = progress_data[:status]
+                self.statistics = progress_data[:statistics]
 
                 if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
                     self.error_messages ||= ''
                     self.error_messages  += "\n" + progress_data['errors'].join( "\n" )
                 end
 
-                push_framework_issues( progress_data['issues'] )
+                push_framework_issues( progress_data[:issues] )
 
                 # If the scan has completed grab the report and mark it as such.
-                if progress_data['busy']
+                if progress_data[:busy]
                     block.call if block_given?
                 else
                     finish
@@ -577,23 +577,23 @@ class Scan < ActiveRecord::Base
 
     def save_report_and_shutdown( &block )
         # Grab the report and save the scan, we're all done now. :)
-        instance.service.abort_and_report :auditstore do |auditstore|
-            create_report( auditstore )
+        instance.service.native_abort_and_report do |report|
+            create_report( report )
             instance.service.shutdown { delete_client }
 
             block.call if block_given?
         end
     end
 
-    def create_report( auditstore )
+    def create_report( r )
         begin
-            self.report = Report.create( object: auditstore, scan_id: id )
+            self.report = Report.create( object: r, scan_id: id )
             save
 
-            push_framework_issues( auditstore.issues )
-            update_from_framework_issues( auditstore.issues )
+            push_framework_issues( r.issues )
+            update_from_framework_issues( r.issues )
 
-            auditstore
+            r
         rescue => e
             ap e
             ap e.backtrace

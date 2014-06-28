@@ -24,7 +24,7 @@ class Setting < ActiveRecord::Base
 
     def profile_allowed_modules_with_info
         profile_allowed_modules.
-            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
+            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
     end
 
     private

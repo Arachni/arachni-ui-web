@@ -8,7 +8,7 @@
 
 puts 'SETTING UP EMPTY SETTINGS'
 Setting.create! scan_allowed_types: Setting::SCAN_TYPES,
-                profile_allowed_modules: FrameworkHelper.modules.keys,
+                profile_allowed_modules: FrameworkHelper.checks.keys,
                 profile_allowed_plugins: FrameworkHelper.plugins.keys
 
 puts 'SETTING UP DEFAULT USERS'
@@ -55,7 +55,7 @@ puts 'SETTING UP DEFAULT PROFILES'
 p = Profile.create! arachni_defaults.merge(
                         name:          'Default',
                         description:   'Sensible, default settings.',
-                        modules:       :all
+                        checks:       :all
                     )
 p.make_default
 puts 'Default profile created: ' << p.name
@@ -63,13 +63,13 @@ puts 'Default profile created: ' << p.name
 p = Profile.create! arachni_defaults.merge(
                         name: 'Cross-Site Scripting (XSS)',
                         description: 'Scans for Cross-Site Scripting (XSS) vulnerabilities.',
-                        modules: %w(xss xss_path xss_tag xss_script_tag xss_event)
+                        checks: %w(xss xss_path xss_tag xss_script_tag xss_event)
                     )
 puts 'XSS profile created: ' << p.name
 
 p = Profile.create! arachni_defaults.merge(
                         name: 'SQL injection',
                         description: 'Scans for SQL injection vulnerabilities.',
-                        modules: %w(sqli sqli_blind_rdiff sqli_blind_timing)
+                        checks: %w(sqli sqli_blind_rdiff sqli_blind_timing)
                     )
 puts 'SQLi profile created: ' << p.name

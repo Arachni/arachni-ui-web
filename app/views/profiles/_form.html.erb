@@ -343,14 +343,14 @@
                 Audit (Active)
                 <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
             </h4>
-            <% audit = modules.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
+            <% audit = checks.select { |n, i| i[:path].include?( '/checks/audit' ) } %>
             <% if audit.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
                            locals: {
                                    components: audit,
                                    form:       f,
-                                   selected:   @profile.modules,
-                                   input:      :modules,
+                                   selected:   @profile.checks,
+                                   input:      :checks,
                                    class_name: 'span6'
                            } %>
             <% else %>
@@ -362,14 +362,14 @@
                 Recon (Passive)
                 <small>These checks will passively collect data</small>
             </h4>
-            <% recon = modules.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
+            <% recon = checks.select { |n, i| i[:path].include?( '/checks/recon' ) } %>
             <% if recon.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
                            locals: {
                                    components: recon,
                                    form:       f,
-                                   selected:   @profile.modules,
-                                   input:      :modules,
+                                   selected:   @profile.checks,
+                                   input:      :checks,
                                    class_name: 'span6'
                            } %>
             <% else %>

@@ -36,7 +36,7 @@ class Profile < ActiveRecord::Base
     validate :validate_custom_headers
     validate :validate_login_check
 
-    # #modules= will ignore any any modules which have not specifically been
+    # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
     validate :validate_modules
 
@@ -49,7 +49,7 @@ class Profile < ActiveRecord::Base
     serialize :exclude_vectors, Array
     serialize :extend_paths,    Array
     serialize :restrict_paths,  Array
-    serialize :modules,         Array
+    serialize :checks,         Array
     serialize :platforms,       Array
     serialize :plugins,         Hash
     serialize :redundant,       Hash
@@ -63,7 +63,7 @@ class Profile < ActiveRecord::Base
                  :exclude_binaries, :exclude_cookies, :exclude_vectors,
                  :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
                  :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                 :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
+                 :max_slaves, :min_pages_per_instance, :checks, :plugins, :proxy_host,
                  :proxy_password, :proxy_port, :proxy_type, :proxy_username,
                  :redirect_limit, :redundant, :restrict_paths, :user_agent,
                  :http_timeout, :https_only, :exclude_pages, :platforms,
@@ -159,7 +159,7 @@ class Profile < ActiveRecord::Base
     end
 
     def modules
-        # Only allow authorized modules.
+        # Only allow authorized checks.
         super & Settings.profile_allowed_modules
     end
 
@@ -217,10 +217,10 @@ class Profile < ActiveRecord::Base
     end
 
     def modules=( m )
-        # Only allow authorized modules.
+        # Only allow authorized checks.
 
         if m == :all || m == :default
-            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
+            return super( ::FrameworkHelper.checks.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
         end
 
         super m & Settings.profile_allowed_modules.to_a
@@ -238,7 +238,7 @@ class Profile < ActiveRecord::Base
     end
 
     def modules_with_info
-        modules.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
+        modules.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
     end
 
     def has_modules?
@@ -316,7 +316,6 @@ class Profile < ActiveRecord::Base
 
         return if !h.is_a?( Hash )
 
-        h['modules'] ||= h.delete( 'mods' )
         new h.select { |attribute, _| attribute_names.include? attribute }
     end
 
@@ -360,10 +359,10 @@ class Profile < ActiveRecord::Base
     end
 
     def validate_modules
-        available = ::FrameworkHelper.modules.keys.map( &:to_s )
+        available = ::FrameworkHelper.checks.keys.map( &:to_s )
         modules.each do |mod|
             next if available.include? mod.to_s
-            errors.add :modules, "'#{mod}' does not exist"
+            errors.add :checks, "'#{mod}' does not exist"
         end
     end
 

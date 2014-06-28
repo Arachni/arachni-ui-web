@@ -217,7 +217,7 @@ class ProfilesController < ApplicationController
                    :exclude_binaries, :exclude_cookies, :exclude_vectors,
                    :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
                    :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                   :max_slaves, :min_pages_per_instance, { modules: [] }, { selected_plugins: []},
+                   :max_slaves, :min_pages_per_instance, { checks: [] }, { selected_plugins: []},
                    { plugins: plugin_with_options }, :proxy_host, :proxy_password, :proxy_port,
                    :proxy_type, :proxy_username, :redirect_limit, :redundant,
                    :restrict_paths, :user_agent, :http_timeout, :description,

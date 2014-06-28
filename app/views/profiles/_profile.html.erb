@@ -458,13 +458,13 @@
         <small>The security checks to be run again the web application</small>
     </h2>
 
-    <% if profile.modules.any? %>
+    <% if profile.checks.any? %>
     <h3>
         Audit (Active)
         <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
     </h3>
 
-    <% audit = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
+    <% audit = profile.modules_with_info.select { |n, i| i[:path].include?( '/checks/audit' ) } %>
     <% if audit.any? %>
     <%= render partial: '/shared/components_twin_accordion',
                locals: {
@@ -480,7 +480,7 @@
         <small>These checks will passively collect data</small>
     </h3>
 
-    <% recon = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
+    <% recon = profile.modules_with_info.select { |n, i| i[:path].include?( '/checks/recon' ) } %>
     <% if recon.any? %>
     <%= render partial: '/shared/components_twin_accordion',
                locals: {

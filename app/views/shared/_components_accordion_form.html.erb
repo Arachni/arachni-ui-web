@@ -4,7 +4,7 @@
             <div class="accordion-heading">
 
                 <input id="profile_<%= input %>_<%= shortname %>"
-                       <% if input.to_s != 'modules' %>
+                       <% if input.to_s != 'checks' %>
                         name="profile[selected_<%=input%>][]"
                        <% else %>
                         name="profile[<%=input%>][]"

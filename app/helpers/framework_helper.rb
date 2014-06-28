@@ -26,8 +26,8 @@ module FrameworkHelper
         end
     end
 
-    def modules
-        components_for( :modules )
+    def checks
+        components_for( :checks )
     end
 
     def plugins

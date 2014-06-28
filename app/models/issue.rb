@@ -38,38 +38,39 @@ class Issue < ActiveRecord::Base
     serialize :remarks,       Hash
     serialize :tags,          Array
     serialize :headers,       Hash
-    serialize :audit_options, Hash
+    serialize :vector_inputs, Hash
 
+    # Add 'request' and 'response' as strings, add 'vector_inputs'.
+    # Remove 'headers' and 'audit_options'.
     FRAMEWORK_ISSUE_MAP = {
-        name:            :name,
-        description:     :description,
-        url:             :url,
-        var:             :vector_name,
-        elem:            :vector_type,
-        verification:    :requires_verification,
-        cvssv2:          :cvssv2,
-        cwe:             :cwe,
-        method:          :http_method,
-        tags:            :tags,
-        headers:         :headers,
-        regexp:          :signature,
-        injected:        :seed,
-        regexp_match:    :proof,
-        response:        :response_body,
-        opts:            :audit_options,
-        references:      :references,
-        remedy_code:     :remedy_code,
-        remedy_guidance: :remedy_guidance,
-        severity:        :severity,
-        remarks:         :remarks,
-        digest:          :digest
+        name:                  nil,
+        description:           nil,
+        references:            nil,
+        remedy_code:           nil,
+        remedy_guidance:       nil,
+        digest:                nil,
+        cwe:                   nil,
+        tags:                  nil,
+        vector_type:           { vector:     :type },
+        url:                   { vector:     :action },
+        severity:              { severity:   { to_s:  :capitalize } },
+        signature:             { variations: { first: :signature } },
+        proof:                 { variations: { first: :proof } },
+        requires_verification: { variations: { first: :untrusted? } },
+        remarks:               { variations: { first: :remarks } },
+        http_method:           { variations: { first: { vector:   :method } } },
+        vector_name:           { variations: { first: { vector:   :affected_input_name } } },
+        seed:                  { variations: { first: { vector:   :affected_input_value } } },
+        response_body:         { variations: { first: { response: :body } } },
+        response:              { variations: { first: { response: :to_s } } },
+        request:               { variations: { first: { request:  :to_s } } }
     }
 
     ORDERED_SEVERITIES = [
-        Arachni::Issue::Severity::HIGH,
-        Arachni::Issue::Severity::MEDIUM,
-        Arachni::Issue::Severity::LOW,
-        Arachni::Issue::Severity::INFORMATIONAL
+        Arachni::Issue::Severity::HIGH.to_s.capitalize,
+        Arachni::Issue::Severity::MEDIUM.to_s.capitalize,
+        Arachni::Issue::Severity::LOW.to_s.capitalize,
+        Arachni::Issue::Severity::INFORMATIONAL.to_s.capitalize
     ]
 
     PROTECTED = [:remediation_steps, :verification_steps, :false_positive, :fixed]
@@ -87,11 +88,11 @@ class Issue < ActiveRecord::Base
     end
 
     def self.order_by_severity
-        ret = "CASE"
+        ret = 'CASE'
         ORDERED_SEVERITIES.each_with_index do |p, i|
             ret << " WHEN severity = '#{p}' THEN #{i}"
         end
-        ret << " END"
+        ret << ' END'
     end
     scope :by_severity, -> { order order_by_severity }
     default_scope { by_severity }
@@ -103,10 +104,6 @@ class Issue < ActiveRecord::Base
 
     def id_name
         name.parameterize
-    end
-
-    def audit_options
-        super.with_indifferent_access
     end
 
     def url
@@ -227,14 +224,8 @@ class Issue < ActiveRecord::Base
     def self.translate_framework_issue( issue )
         h  = {}
         FRAMEWORK_ISSUE_MAP.each do |k, v|
-            val =  if !(iv = issue.send( k )).nil?
-                        iv
-                    else issue.variations.first &&
-                        !(iv = issue.variations.first.send( k )).nil?
-                    iv
-                    end
-
-            h[v] = val.is_a?( String ) ? val.recode : val
+            val = attribute_from_framework_issue( issue, v || k )
+            h[k] = val.is_a?( String ) ? val.recode : val
         end
 
         h.reject!{ |k, v| PROTECTED.include? k }
@@ -243,6 +234,26 @@ class Issue < ActiveRecord::Base
     end
 
     private
+
+    def self.attribute_from_framework_issue( issue, attribute )
+        traverse_attributes( issue, FRAMEWORK_ISSUE_MAP[attribute] )
+    end
+
+    def self.traverse_attributes( object, path )
+        return if object.nil?
+
+        if path.is_a? Symbol
+            return if !object.respond_to?( path )
+            return object.send( path )
+        end
+
+        child_attribute = path.keys.first
+        child_path      = path.values.first
+
+        return if !object.respond_to?( child_attribute )
+
+        traverse_attributes( object.send( child_attribute ), child_path )
+    end
 
     def validate_review_options
         if false_positive && (requires_verification || verified)

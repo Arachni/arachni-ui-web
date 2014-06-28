@@ -104,8 +104,8 @@
                     <h3>Audit (Active)</h3>
 
                     <div class="modules">
-                        <% FrameworkHelper.modules.
-                                   select { |n, i| i[:path].include?( '/modules/audit' ) }.
+                        <% FrameworkHelper.checks.
+                                   select { |n, i| i[:path].include?( '/checks/audit' ) }.
                                    each do |shortname, info| %>
                             <%= render partial: 'component_list', locals: {
                                     selected:  @setting.profile_allowed_modules,
@@ -121,8 +121,8 @@
                     <h3>Recon (Passive)</h3>
 
                     <div class="modules">
-                        <% FrameworkHelper.modules.
-                                   select { |n, i| i[:path].include?( '/modules/recon' ) }.
+                        <% FrameworkHelper.checks.
+                                   select { |n, i| i[:path].include?( '/checks/recon' ) }.
                                    each do |shortname, info| %>
                             <%= render partial: 'component_list', locals: {
                                     selected:  @setting.profile_allowed_modules,

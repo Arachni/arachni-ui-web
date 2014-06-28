@@ -166,10 +166,10 @@ describe Profile do
             end
         end
 
-        #describe :modules do
+        #describe :checks do
         #    context 'when given a module that does not exist' do
         #        it 'should be invalid' do
-        #            FactoryGirl.build( :profile, modules: %w(stuff) ).should be_invalid
+        #            FactoryGirl.build( :profile, checks: %w(stuff) ).should be_invalid
         #        end
         #    end
         #end
@@ -458,27 +458,27 @@ describe Profile do
     #    end
     #end
     #
-    #describe '#modules=' do
+    #describe '#checks=' do
     #    context 'when the parameter is' do
     #        context :all do
-    #            it 'should save all available modules' do
+    #            it 'should save all available checks' do
     #                p = FactoryGirl.create( :profile )
-    #                p.modules = :all
-    #                p.modules.should == ::FrameworkHelper.modules.keys
+    #                p.checks = :all
+    #                p.checks.should == ::FrameworkHelper.checks.keys
     #            end
     #        end
     #        context :default do
-    #            it 'should save all available modules' do
+    #            it 'should save all available checks' do
     #                p = FactoryGirl.create( :profile )
-    #                p.modules = :default
-    #                p.modules.should == ::FrameworkHelper.modules.keys
+    #                p.checks = :default
+    #                p.checks.should == ::FrameworkHelper.checks.keys
     #            end
     #        end
     #        context Array do
     #            it 'should be saved' do
     #                p = FactoryGirl.create( :profile )
-    #                p.modules = [ :xss, 'sqli' ]
-    #                p.modules.should == [ :xss, 'sqli' ]
+    #                p.checks = [ :xss, 'sqli' ]
+    #                p.checks.should == [ :xss, 'sqli' ]
     #            end
     #        end
     #    end
@@ -489,15 +489,15 @@ describe Profile do
     #        context :default do
     #            it 'should save all default plugins' do
     #                p = FactoryGirl.create( :profile )
-    #                p.modules = :default
-    #                p.modules.should == ::FrameworkHelper.modules.keys
+    #                p.checks = :default
+    #                p.checks.should == ::FrameworkHelper.checks.keys
     #            end
     #        end
     #        context Hash do
     #            it 'should be saved' do
     #                p = FactoryGirl.create( :profile )
-    #                p.modules = [ :xss, 'sqli' ]
-    #                p.modules.should == [ :xss, 'sqli' ]
+    #                p.checks = [ :xss, 'sqli' ]
+    #                p.checks.should == [ :xss, 'sqli' ]
     #            end
     #        end
     #    end

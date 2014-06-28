@@ -17,7 +17,7 @@
 class Report < ActiveRecord::Base
     belongs_to :scan
 
-    serialize :object,  Arachni::AuditStore
+    serialize :object,  Arachni::Report
     serialize :sitemap, Array
 
     def object=( report )

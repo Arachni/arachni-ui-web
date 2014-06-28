@@ -21,7 +21,7 @@ depth_limit: 'Limits how deep the crawler can go into the directory structure of
 exclude: 'Excludes crawling and auditing URLs which match the given patterns.'
 exclude_binaries:
     description: 'Excludes pages with a non-text content type from the audit.'
-    notice: 'Binary content may fool pattern matching recon modules into logging false positives.'
+    notice: 'Binary content may fool pattern matching recon checks into logging false positives.'
 exclude_pages: 'Excludes pages whose content matches any of the given patterns.'
 exclude_cookies: 'Excludes the given cookies from the audit.'
 exclude_vectors: 'Excludes the given input vectors (parameters) from the audit.'
