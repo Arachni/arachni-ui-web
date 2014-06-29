@@ -25,7 +25,7 @@ class ScanManager
 
     def monitor
         return if Rails.env == 'test'
-        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ) do
+        @timer ||= Arachni::Reactor.global.at_interval( HardSettings.scan_refresh_rate / 1000 ) do
             keep_schedule
             refresh
         end
@@ -119,7 +119,7 @@ class ScanManager
     def refresh
         Rails.logger.info "#{self.class}##{__method__}"
 
-        ::EM::Iterator.new( Scan.active ).each do |scan, iter|
+        Arachni::Reactor.global.create_iterator( Scan.active, 10 ).each do |scan, iter|
             scan.refresh { iter.next } rescue iter.next
         end
     end
@@ -140,12 +140,12 @@ class ScanManager
         # take any of them with it.
         ::ActiveRecord::Base.clear_all_connections!
 
-        Process.detach ::EM.fork_reactor {
+        Process.detach fork {
             # redirect the Instance's RPC server's output to /dev/null
             $stdout.reopen( '/dev/null', 'w' )
             $stderr.reopen( '/dev/null', 'w' )
 
-            Arachni::Options.rpc_port = port
+            Arachni::Options.rpc.server_port = port
             Arachni::RPC::Server::Instance.new( Arachni::Options.instance, token )
         }
 
@@ -155,7 +155,7 @@ class ScanManager
         # Re-establish the connection to the DB.
         ::ActiveRecord::Base.establish_connection
 
-        [ "#{Arachni::Options.rpc_address}:#{port}", token ]
+        [ "#{Arachni::Options.rpc.server_address}:#{port}", token ]
     end
 
 end
