@@ -95,7 +95,7 @@
             <div class="row-fluid">
                 <div class="span6">
                     <%= f.input :scope_redundant_path_patterns, input_html: {
-                            value: @profile.redundant.
+                            value: @profile.scope_redundant_path_patterns.
                                            map { |k, v| "#{k}:#{v}" }.join( "\n" )
                     } %>
 
@@ -106,7 +106,7 @@
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_pages, input_html: { value: @profile.exclude_pages.join( "\n" ) } %>
+                    <%= f.input :scope_exclude_path_patterns_pages, input_html: { value: @profile.scope_exclude_path_patterns_pages.join( "\n" ) } %>
 
                     <%=  messages_for( :scope_exclude_path_patterns_pages ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
@@ -114,24 +114,24 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns, input_html: { value: @profile.exclude.join( "\n" ) } %>
+                    <%= f.input :scope_exclude_path_patterns, input_html: { value: @profile.scope_exclude_path_patterns.join( "\n" ) } %>
                     <%=  messages_for( :scope_exclude_path_patterns ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :scope_include_path_patterns, input_html: { value: @profile.include.join( "\n" ) } %>
+                    <%= f.input :scope_include_path_patterns, input_html: { value: @profile.scope_include_path_patterns.join( "\n" ) } %>
                     <%=  messages_for( :scope_include_path_patterns ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :scope_restrict_paths, input_html: { value: @profile.restrict_paths.join( "\n" ) } %>
+                    <%= f.input :scope_restrict_paths, input_html: { value: @profile.scope_restrict_paths.join( "\n" ) } %>
                     <%=  messages_for( :scope_restrict_paths ) %>
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :scope_extend_paths, input_html: { value: @profile.extend_paths.join( "\n" ) } %>
+                    <%= f.input :scope_extend_paths, input_html: { value: @profile.scope_extend_paths.join( "\n" ) } %>
                     <%=  messages_for( :scope_extend_paths ) %>
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
@@ -205,7 +205,7 @@
             <div class="row-fluid">
                 <div class="span6">
                     <%= f.input :http_cookies, input_html: {
-                            value: @profile.cookies.map { |k, v| "#{k}=#{v}" }.join( "\n" )
+                            value: @profile.http_cookies.map { |k, v| "#{k}=#{v}" }.join( "\n" )
                         } %>
 
                     <%= messages_for( :http_cookies ) %>
@@ -216,7 +216,7 @@
                 </div>
                 <div class="span6">
                     <%= f.input :http_request_headers, input_html: {
-                            value: @profile.custom_headers.map { |k, v| "#{k}=#{v}" }.join( "\n" )
+                            value: @profile.http_request_headers.map { |k, v| "#{k}=#{v}" }.join( "\n" )
                         } %>
 
                     <%= messages_for( :http_request_headers ) %>
@@ -268,13 +268,13 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_vectors, input_html: { value: @profile.exclude_vectors.join( "\n" ) } %>
+                    <%= f.input :scope_exclude_path_patterns_vectors, input_html: { value: @profile.scope_exclude_path_patterns_vectors.join( "\n" ) } %>
 
                     <%= messages_for( :scope_exclude_path_patterns_vectors ) %>
                     <p class="alert alert-info">Input each parameter/input/vector name in its own line.</p>
                 </div>
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_cookies, input_html: { value: @profile.exclude_cookies.join( "\n" ) } %>
+                    <%= f.input :scope_exclude_path_patterns_cookies, input_html: { value: @profile.scope_exclude_path_patterns_cookies.join( "\n" ) } %>
                     <%= messages_for( :scope_exclude_path_patterns_cookies ) %>
                     <p class="alert alert-info">Input each cookie's name in its own line.</p>
                 </div>

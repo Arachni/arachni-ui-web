@@ -106,7 +106,7 @@
                 <%
                    max_concurrency_class, info = concurrent_requests_to_alert(
                            @scan.statistics['max_concurrency'],
-                           @scan.profile.http_req_limit
+                           @scan.profile.http_request_concurrency
                    )
                 %>
 
