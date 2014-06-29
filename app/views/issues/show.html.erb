@@ -174,23 +174,7 @@
             <h3 id="http_data">HTTP data</h3>
 
             <h4 class="pull-left" id="request">Request</h4>
-            <% request_params = @issue.audit_options[:params] %>
-
-            <% if (@issue.vector_type.downcase == 'form' || @issue.vector_type.downcase == 'link') &&
-                    (@issue.http_method.downcase == 'get' || @issue.http_method.downcase == 'post')  %>
-                <form class="pull-left" action="<%= @issue.url %>"
-                      target="_blank" method="<%= @issue.http_method.downcase %>">
-                    <% if request_params %>
-                        <% request_params.each_pair do |name, value|%>
-                            <input type="hidden" name="<%= name.recode %>" value="<%= value.gsub( "\0", "&#00;" ).recode %>" />
-                        <%end%>
-                    <%end%>
-                    <button title="Replay the request" type="submit"
-                            class="btn btn-mini btn-inverse repeat-request-btn">
-                        <i class="icon-repeat"></i>
-                    </button>
-                </form>
-            <% end %>
+            <% request_params = @issue.vector_inputs %>
 
             <table class="table">
                 <thead>
@@ -282,57 +266,7 @@
                     Response is not available
                 </p>
             <% end %>
-
             <hr/>
-
-            <h4 id="headers">Headers</h4>
-            <table class="table key-values">
-                <tr>
-                    <td colspan="2">
-                        <table class="table">
-                            <tr>
-                                <th class="top" colspan="2">Request</th>
-                            </tr>
-
-                            <% if @issue.headers['request'] %>
-                                <% @issue.headers['request'].each do |k, v| %>
-                                    <tr>
-                                        <th><%= k %></th>
-                                        <td><%= v %></td>
-                                    </tr>
-                                <% end %>
-                            <% else %>
-                                <tr>
-                                    <td class="alert alert-info">
-                                        No request headers are available
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </table>
-                    </td>
-                    <td colspan="2">
-                        <table class="table">
-                            <tr>
-                                <th class="top" colspan="2">Response</th>
-                            </tr>
-                            <% if @issue.headers['response'] %>
-                                <% @issue.headers['response'].each do |k, v| %>
-                                    <tr>
-                                        <th><%= k %></th>
-                                        <td><%= v %></td>
-                                    </tr>
-                                <% end %>
-                            <% else %>
-                                <tr>
-                                    <td class="alert alert-info">
-                                        No response headers are available
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </table>
-                    </td>
-                </tr>
-            </table>
         </div>
 
         <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane">
