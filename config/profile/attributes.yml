@@ -1,5 +1,5 @@
 name: 'Profile name.'
-audit_cookies: 'Audits cookies.'
+audit_http_cookies: 'Audits cookies.'
 audit_cookies_extensively:
     description: 'Submits all links and forms of the page along with the cookie permutations.'
     warning: 'Will severely increase the scan-time.'
@@ -11,45 +11,45 @@ audit_headers:
         that the web app uses them."
     warning: "Enabling this option will result in increased requests, maybe by an order of magnitude."
 audit_links: 'Audits links.'
-authed_by:
+authorized_by:
     description: "Name and e-mail address of the person who authorized the scan."
     notice: "It'll make it easier on the sys-admins during log reviews -- will be appended to the user-agent string."
-auto_redundant: 'Limits following the amount of URLs with identical query parameter names.
+auto_scope_redundant_path_patterns: 'Limits following the amount of URLs with identical query parameter names.
     Helps avoid auditing pages like calendars and catalogs over and over.'
-custom_headers: 'Adds custom headers to every HTTP request.'
-depth_limit: 'Limits how deep the crawler can go into the directory structure of the web application.'
-exclude: 'Excludes crawling and auditing URLs which match the given patterns.'
-exclude_binaries:
+http_request_headers: 'Adds custom headers to every HTTP request.'
+scope_directory_depth_limit: 'Limits how deep the crawler can go into the directory structure of the web application.'
+scope_exclude_path_patterns: 'Excludes crawling and auditing URLs which match the given patterns.'
+scope_exclude_binaries:
     description: 'Excludes pages with a non-text content type from the audit.'
     notice: 'Binary content may fool pattern matching recon checks into logging false positives.'
-exclude_pages: 'Excludes pages whose content matches any of the given patterns.'
-exclude_cookies: 'Excludes the given cookies from the audit.'
-exclude_vectors: 'Excludes the given input vectors (parameters) from the audit.'
-extend_paths: 'Uses the provided list of paths to extend the scope of the crawl.'
-follow_subdomains: 'Allows the crawler to follow paths to subdomains.'
-fuzz_methods:
+scope_exclude_content_patterns: 'Excludes pages whose content matches any of the given patterns.'
+exclude_http_cookies: 'Excludes the given cookies from the audit.'
+audit_exclude_vectors: 'Excludes the given input vectors (parameters) from the audit.'
+scope_extend_paths: 'Uses the provided list of paths to extend the scope of the crawl.'
+scope_include_subdomains: 'Allows the crawler to follow paths to subdomains.'
+audit_with_both_http_methods:
     description: 'Audits elements with both GET and POST requests.'
     warning: 'Will double the scan-time.'
-http_req_limit:
+http_request_concurrency:
     description: 'Maximum HTTP request concurrency.'
     warning: 'Using a high concurrency level could kill the web server and lead to corrupted results.'
-http_queue_size:
+http_request_queue_size:
     description: 'Maximum amount of HTTP requests to keep in the queue.'
     warning: 'More means better scheduling and better performance, fewer means less RAM consumption.'
-include: 'Only crawls and audits URLs matching the given patterns.'
-link_count_limit: 'Limits the amount of URLs to follow.'
+scope_include_path_patterns: 'Only crawls and audits URLs matching the given patterns.'
+scope_page_limit: 'Limits the amount of URLs to follow.'
 login_check_pattern: 'Matches the given pattern against the body of the login-check
     URL to determine whether or not the scanner is logged in to the web application.'
 login_check_url: 'URL used to verify that the scanner is still logged in to the web application.'
-proxy_host: 'Hostname or IP address of the proxy server to use.'
-proxy_password: 'Proxy server password.'
-proxy_port: 'Proxy server port.'
-proxy_type: 'Proxy server type.'
-proxy_username: 'Proxy server username.'
-redirect_limit: 'Limits the amount of total redirects to be followed.'
-redundant: 'Limits crawl on redundant pages like galleries or catalogs by following
+http_proxy_host: 'Hostname or IP address of the proxy server to use.'
+http_proxy_password: 'Proxy server password.'
+http_proxy_port: 'Proxy server port.'
+http_proxy_type: 'Proxy server type.'
+http_proxy_username: 'Proxy server username.'
+http_request_redirect_limit: 'Limits the amount of total redirects to be followed.'
+scope_redundant_path_patterns: 'Limits crawl on redundant pages like galleries or catalogs by following
     URLs that match certain patterns a limited amount of times.'
-restrict_paths: 'Uses the given paths instead of crawling.'
-user_agent: 'User-agent string to be used for HTTP requests.'
-http_timeout: 'HTTP Request timeout (in milliseconds).'
-https_only: 'Only follow HTTPS URLs.'
+scope_restrict_paths: 'Uses the given paths instead of crawling.'
+http_user_agent: 'User-agent string to be used for HTTP requests.'
+http_request_timeout: 'HTTP Request timeout (in milliseconds).'
+scope_https_only: 'Only follow HTTPS URLs.'
