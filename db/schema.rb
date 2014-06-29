@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140628211607) do
+ActiveRecord::Schema.define(version: 20140629003131) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -51,13 +51,11 @@ ActiveRecord::Schema.define(version: 20140628211607) do
     t.string   "vector_type"
     t.string   "http_method"
     t.text     "tags"
-    t.text     "headers"
     t.text     "signature"
     t.text     "seed"
     t.text     "proof"
     t.text     "response_body"
     t.boolean  "requires_verification"
-    t.text     "audit_options"
     t.text     "references"
     t.text     "remedy_code"
     t.text     "remedy_guidance"
@@ -72,6 +70,9 @@ ActiveRecord::Schema.define(version: 20140628211607) do
     t.integer  "scan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "vector_inputs"
+    t.text     "response"
+    t.text     "request"
   end
 
   create_table "notifications", force: true do |t|
