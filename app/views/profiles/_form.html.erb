@@ -85,8 +85,8 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_binaries %>
-                    <%=  messages_for( :scope_exclude_path_patterns_binaries ) %>
+                    <%= f.input :scope_exclude_binaries %>
+                    <%=  messages_for( :scope_exclude_binaries ) %>
                 </div>
 
                 <div class="span6">
@@ -106,9 +106,9 @@
                     </p>
                 </div>
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_pages, input_html: { value: @profile.scope_exclude_path_patterns_pages.join( "\n" ) } %>
+                    <%= f.input :scope_exclude_content_patterns, input_html: { value: @profile.scope_exclude_content_patterns.join( "\n" ) } %>
 
-                    <%=  messages_for( :scope_exclude_path_patterns_pages ) %>
+                    <%=  messages_for( :scope_exclude_content_patterns ) %>
                     <p class="alert alert-info">Input each rule in its own line.</p>
                 </div>
             </div>
@@ -268,15 +268,10 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_vectors, input_html: { value: @profile.scope_exclude_path_patterns_vectors.join( "\n" ) } %>
+                    <%= f.input :audit_exclude_vectors, input_html: { value: @profile.audit_exclude_vectors.join( "\n" ) } %>
 
-                    <%= messages_for( :scope_exclude_path_patterns_vectors ) %>
+                    <%= messages_for( :audit_exclude_vectors ) %>
                     <p class="alert alert-info">Input each parameter/input/vector name in its own line.</p>
-                </div>
-                <div class="span6">
-                    <%= f.input :scope_exclude_path_patterns_cookies, input_html: { value: @profile.scope_exclude_path_patterns_cookies.join( "\n" ) } %>
-                    <%= messages_for( :scope_exclude_path_patterns_cookies ) %>
-                    <p class="alert alert-info">Input each cookie's name in its own line.</p>
                 </div>
             </div>
         </fieldset>

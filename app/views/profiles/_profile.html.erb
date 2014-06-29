@@ -102,14 +102,14 @@
         </div>
     </div>
     <div class="row-fluid">
-        <% if profile.scope_exclude_path_patterns_binaries %>
+        <% if profile.scope_exclude_binaries %>
         <div class="span6">
             <p>
                 <b>Exclude binaries:</b>
-                <input <%= 'checked' if profile.scope_exclude_path_patterns_binaries %>
+                <input <%= 'checked' if profile.scope_exclude_binaries %>
                        disabled type="checkbox">
             </p>
-            <%= messages_for :scope_exclude_path_patterns_binaries %>
+            <%= messages_for :scope_exclude_binaries %>
         </div>
         <% end %>
         <% if profile.scope_https_only %>
@@ -171,14 +171,14 @@
         <% end %>
     </div>
     <div class="row-fluid">
-        <% if profile.scope_exclude_path_patterns_pages.any? %>
+        <% if profile.scope_exclude_content_patterns.any? %>
             <div class="span6">
                 <p>
                     <b>Exclude pages:</b> <br/>
                     <textarea disabled
-                              id="profile_exclude_pages"><%= profile.scope_exclude_path_patterns_pages.join( "\n" ) %></textarea>
+                              id="profile_exclude_pages"><%= profile.scope_exclude_content_patterns.join( "\n" ) %></textarea>
                 </p>
-                <%= messages_for :scope_exclude_path_patterns_pages %>
+                <%= messages_for :scope_exclude_content_patterns %>
             </div>
         <% end %>
     </div>
@@ -382,25 +382,14 @@
     </div>
 
     <div class="row-fluid">
-        <% if profile.scope_exclude_path_patterns_cookies.any? %>
-        <div class="span6">
-            <p>
-                <b>Exclude cookies:</b>
-                <textarea disabled
-                          id="profile_exclude_cookies"><%= profile.scope_exclude_path_patterns_cookies .join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :scope_exclude_path_patterns_cookies %>
-        </div>
-        <% end %>
-
-        <% if profile.scope_exclude_path_patterns_vectors.any? %>
+        <% if profile.audit_exclude_vectors.any? %>
         <div class="span6">
             <p>
                 <b>Exclude vectors:</b>
                 <textarea disabled
-                          id="profile_exclude_vectors"><%= profile.scope_exclude_path_patterns_vectors.join( "\n" ) %></textarea>
+                          id="profile_exclude_vectors"><%= profile.audit_exclude_vectors.join( "\n" ) %></textarea>
             </p>
-            <%= messages_for :scope_exclude_path_patterns_vectors %>
+            <%= messages_for :audit_exclude_vectors %>
         </div>
         <% end %>
     </div>
