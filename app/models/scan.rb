@@ -372,9 +372,9 @@ class Scan < ActiveRecord::Base
 
         if revision?
             if extend_from_revision_sitemaps?
-                sitemap_opts[:extend_paths] = revisions_sitemap
+                sitemap_opts[:scope_extend_paths] = revisions_sitemap
             elsif restrict_to_revision_sitemaps?
-                sitemap_opts[:restrict_paths] = revisions_sitemap
+                sitemap_opts[:scope_restrict_paths] = revisions_sitemap
             end
         end
 
