@@ -48,5 +48,15 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
         add_column :profiles, :browser_cluster_ignore_images,       :boolean
         add_column :profiles, :browser_cluster_screen_width,        :integer
         add_column :profiles, :browser_cluster_screen_height,       :integer
+
+        Profile.update_all(
+            scope_dom_depth_limit:               Arachni::Options.scope.dom_depth_limit,
+            browser_cluster_pool_size:           Arachni::Options.browser_cluster.pool_size,
+            browser_cluster_job_timeout:         Arachni::Options.browser_cluster.job_timeout,
+            browser_cluster_worker_time_to_live: Arachni::Options.browser_cluster.worker_time_to_live,
+            browser_cluster_ignore_images:       Arachni::Options.browser_cluster.ignore_images,
+            browser_cluster_screen_width:        Arachni::Options.browser_cluster.screen_width,
+            browser_cluster_screen_height:       Arachni::Options.browser_cluster.screen_height
+        )
     end
 end
