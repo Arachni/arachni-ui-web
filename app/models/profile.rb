@@ -310,15 +310,30 @@ class Profile < ActiveRecord::Base
     def self.import( file )
         serialized = file.read
 
-        h = begin
+        data = begin
                 JSON.load serialized
             rescue
                 YAML.safe_load serialized rescue nil
             end
 
-        return if !h.is_a?( Hash )
+        return if !data.is_a?( Hash )
 
-        new h.select { |attribute, _| attribute_names.include? attribute }
+        options = {}
+        data.each do |name, value|
+            if Arachni::Options.group_classes.include?( name.to_sym )
+                value.each do |k, v|
+                    key = "#{name}_#{k}"
+                    next if !attribute_names.include?( key )
+
+                    options[key] = v
+                end
+            else
+                next if !attribute_names.include?( name )
+                options[name] = value
+            end
+        end
+
+        new options
     end
 
     def validate_description
