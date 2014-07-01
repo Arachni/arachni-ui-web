@@ -18,11 +18,15 @@ class Report < ActiveRecord::Base
     belongs_to :scan
 
     serialize :object,  Arachni::Report
-    serialize :sitemap, Array
+    serialize :sitemap, Hash
 
     def object=( report )
         self.sitemap = report.sitemap
         super( report )
+    end
+
+    def sitemap_urls
+        sitemap.keys
     end
 
     def method_missing( name, *args, &block )

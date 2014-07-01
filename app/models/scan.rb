@@ -86,7 +86,7 @@ class Scan < ActiveRecord::Base
     end
 
     def to_s
-        s = "#{url} (#{profile} profile)"
+        "#{url} (#{profile} profile)"
     end
 
     def issues
@@ -169,7 +169,7 @@ class Scan < ActiveRecord::Base
 
         Report.select( [:sitemap, :scan_id] ).
             where( scan_id: [revisions_with_root.select( :id ).map( &:id ) - [id]] ).
-            map( &:sitemap ).flatten.uniq
+            map( &:sitemap_urls ).flatten.uniq
     end
 
     def revisions_issue_count
@@ -257,16 +257,8 @@ class Scan < ActiveRecord::Base
         schedule.recurring? && (revisions.active.any? || revisions.scheduled.any?)
     end
 
-    def eta
-        statistics[:eta]
-    end
-
     def runtime
         statistics[:runtime]
-    end
-
-    def progress
-        statistics[:progress]
     end
 
     def current_page
@@ -275,6 +267,10 @@ class Scan < ActiveRecord::Base
 
     def sitemap_size
         statistics[:sitemap_size]
+    end
+
+    def statistics
+        (h = super).empty? ? { http: {} } : h
     end
 
     def type
