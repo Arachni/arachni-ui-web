@@ -124,7 +124,7 @@
                 <td><%= @scan.statistics[:found_pages] %></td>
 
                 <th class="hidden-phone">Running for</th>
-                <td class="hidden-phone"><%= @scan.runtime %></td>
+                <td class="hidden-phone"><%= Arachni::Utilities.secs_to_hms @scan.runtime %></td>
 
             </tr>
             </thead>
