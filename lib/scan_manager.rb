@@ -138,7 +138,7 @@ class ScanManager
         # Set some RPC server info for the Instance
         token   = Arachni::Utilities.generate_token
         port    = Arachni::Utilities.available_port
-        address = 'localhost'
+        address = '127.0.0.1'
 
         # Clear all connections so the child we're about to spawn won't
         # take any of them with it.
