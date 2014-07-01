@@ -156,7 +156,7 @@ class Profile < ActiveRecord::Base
             end
         end
 
-        # The defualts will be in the Profile.
+        # The defaults will be in the Profile.
         opts['input']['without_defaults'] = true
 
         opts
