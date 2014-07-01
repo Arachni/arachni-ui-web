@@ -15,6 +15,7 @@
 =end
 
 require 'arachni/rpc/server/instance'
+require 'arachni/processes/instances'
 
 class ScanManager
     include Singleton
@@ -72,7 +73,9 @@ class ScanManager
             begin
                 if scan.type == :direct
                     scan.instance_url, scan.instance_token = spawn_instance
-                    scan.start
+                    Arachni::RPC::Client::Instance.when_ready scan.instance_url, scan.instance_token do
+                        scan.start
+                    end
                 else
                     owner = "WebUI v#{ArachniWebui::Application::VERSION}"
 
@@ -120,42 +123,37 @@ class ScanManager
         Rails.logger.info "#{self.class}##{__method__}"
 
         Arachni::Reactor.global.create_iterator( Scan.active, 10 ).each do |scan, iter|
-            scan.refresh { iter.next } rescue iter.next
+            begin
+                scan.refresh { iter.next }
+            rescue => e
+                ap e
+                ap e.backtrace
+                iter.next
+            end
+
         end
     end
 
     def spawn_instance
-        # Global address to bind to.
-        Arachni::Options.rpc_address = 'localhost'
-
         # Set some RPC server info for the Instance
-        token = Arachni::Utilities.generate_token
-        port  = Arachni::Utilities.available_port
-
-        # Prevents "Connection was reset" errors on the client-side.
-        # (i.e. Let Rails send the response back before forking EM.)
-        sleep 1
+        token   = Arachni::Utilities.generate_token
+        port    = Arachni::Utilities.available_port
+        address = 'localhost'
 
         # Clear all connections so the child we're about to spawn won't
         # take any of them with it.
-        ::ActiveRecord::Base.clear_all_connections!
+        # ::ActiveRecord::Base.clear_all_connections!
 
-        Process.detach fork {
-            # redirect the Instance's RPC server's output to /dev/null
-            $stdout.reopen( '/dev/null', 'w' )
-            $stderr.reopen( '/dev/null', 'w' )
-
-            Arachni::Options.rpc.server_port = port
-            Arachni::RPC::Server::Instance.new( Arachni::Options.instance, token )
-        }
-
-        # Wait for the instance server to become active.
-        sleep 1
+        Arachni::Processes::Instances.spawn(
+            token:   token,
+            port:    port,
+            address: address
+        )
 
         # Re-establish the connection to the DB.
-        ::ActiveRecord::Base.establish_connection
+        # ::ActiveRecord::Base.establish_connection
 
-        [ "#{Arachni::Options.rpc.server_address}:#{port}", token ]
+        [ "#{address}:#{port}", token ]
     end
 
 end

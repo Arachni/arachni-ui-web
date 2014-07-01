@@ -137,13 +137,13 @@ module ScansHelper
             },
             issues:           {},
             elements:         {
-                Arachni::Element::FORM   => 0,
-                Arachni::Element::LINK   => 0,
-                Arachni::Element::COOKIE => 0,
-                Arachni::Element::HEADER => 0,
-                Arachni::Element::BODY   => 0,
-                Arachni::Element::PATH   => 0,
-                Arachni::Element::SERVER => 0
+                Arachni::Element::Form.type   => 0,
+                Arachni::Element::Link.type   => 0,
+                Arachni::Element::Cookie.type => 0,
+                Arachni::Element::Header.type => 0,
+                Arachni::Element::Body.type   => 0,
+                Arachni::Element::Path.type   => 0,
+                Arachni::Element::Server.type => 0
             }
         }
 

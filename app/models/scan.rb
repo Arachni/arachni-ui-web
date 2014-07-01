@@ -258,23 +258,23 @@ class Scan < ActiveRecord::Base
     end
 
     def eta
-        statistics['eta']
+        statistics[:eta]
     end
 
     def runtime
-        statistics['time']
+        statistics[:runtime]
     end
 
     def progress
-        statistics['progress']
+        statistics[:progress]
     end
 
     def current_page
-        statistics['current_page']
+        statistics[:current_page]
     end
 
     def sitemap_size
-        statistics['sitemap_size']
+        statistics[:sitemap_size]
     end
 
     def type
@@ -441,10 +441,12 @@ class Scan < ActiveRecord::Base
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
-            native_progress( with:    [ :instances, :native_issues,
-                                 errors: error_messages.to_s.lines.count ],
-                      without: [ issues: issue_digests ] ) do |progress_data|
+            native_progress(
+                with:    [ :instances, :issues,
+                            errors: error_messages.to_s.lines.count ],
+                without: [ issues: issue_digests ] ) do |progress_data|
 
+            # ap progress_data
             if progress_data.rpc_exception?
                 self.status = :error
                 finish
@@ -460,9 +462,9 @@ class Scan < ActiveRecord::Base
                 self.status     = progress_data[:status]
                 self.statistics = progress_data[:statistics]
 
-                if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
+                if progress_data[:errors] && !(msgs = progress_data[:errors].join( "\n" )).empty?
                     self.error_messages ||= ''
-                    self.error_messages  += "\n" + progress_data['errors'].join( "\n" )
+                    self.error_messages  += "\n" + progress_data[:errors].join( "\n" )
                 end
 
                 push_framework_issues( progress_data[:issues] )

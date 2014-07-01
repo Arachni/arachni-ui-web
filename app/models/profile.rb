@@ -74,7 +74,10 @@ class Profile < ActiveRecord::Base
         :scope_redundant_path_patterns, :scope_restrict_paths, :http_user_agent,
         :http_request_timeout, :scope_https_only, :scope_exclude_content_patterns,
         :platforms, :no_fingerprinting, :http_authentication_username,
-        :http_authentication_password, :input_values
+        :http_authentication_password, :input_values, :browser_cluster_pool_size,
+        :browser_cluster_job_timeout, :browser_cluster_worker_time_to_live,
+        :browser_cluster_ignore_images, :browser_cluster_screen_width,
+        :browser_cluster_screen_height, :scope_dom_depth_limit
     ]
 
     scope :global, -> { where global: true }
@@ -144,10 +147,21 @@ class Profile < ActiveRecord::Base
             next if !RPC_OPTS.include?( k.to_sym ) || v.nil? ||
                 (v.respond_to?( :empty? ) ? v.empty? : false)
 
-            opts[k.to_sym] = v
+            if (group_name = find_group_option( k ))
+                group_name = group_name.to_s
+                opts[group_name] ||= {}
+                opts[group_name][k[group_name.size+1..-1]] = v
+            else
+                opts[k.to_sym] = v
+            end
         end
 
         opts
+    end
+
+    def find_group_option( name )
+        Arachni::Options.group_classes.keys.
+            find { |n| name.start_with? "#{n}_" }
     end
 
     def export( serializer = YAML )
