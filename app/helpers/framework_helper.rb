@@ -50,10 +50,8 @@ module FrameworkHelper
         h = {}
         reporters.
             reject { |_, info| !info[:options] || !info[:options].
-                map { |o| o.name  }.include?( 'outfile' ) }.
-            map do |name, info|
-                h[info[:extension]] = [info[:name], info[:description]]
-            end
+                                map { |o| o.name  }.include?( :outfile ) }.
+            map { |shortname, info| h[shortname] = [info[:name], info[:description]] }
         h
     end
 
@@ -74,7 +72,7 @@ module FrameworkHelper
                     h[name][:authors]   = h[name][:author]
 
                     if manager[name] <= Arachni::Reporter::Base && manager[name].has_outfile?
-                        h[name][:extension] = manager[name].outfile_option.default.split( '.' ).last
+                        h[name][:extension] = manager[name].outfile_option.default.split( '.', 2 ).last
                     end
                     h
                 end

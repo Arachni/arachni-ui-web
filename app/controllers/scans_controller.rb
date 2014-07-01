@@ -98,9 +98,9 @@ class ScansController < ApplicationController
         @scan = find_scan( params.require( :id ) )
 
         format = URI( request.url ).path.split( '.' ).last
-        render layout: false,
-               content_type: FrameworkHelper.content_type_for_report( format ),
-               text: FrameworkHelper.framework { |f| f.report_as format, @scan.report.object }
+        send_data FrameworkHelper.framework { |f| f.report_as format, @scan.report.object },
+                  type: FrameworkHelper.content_type_for_report( format ),
+                  disposition: "attachment; filename=#{1}.#{FrameworkHelper.reporters[format][:extension]}"
     end
 
     # GET /scans/new
