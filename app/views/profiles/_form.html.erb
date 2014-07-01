@@ -47,11 +47,11 @@
         </div>
     </header>
 
-    <section id="spider">
+    <section id="scope">
         <fieldset>
-            <legend id="spider-h">
-                Spider
-                <small>How the scanner will crawl the web application</small>
+            <legend id="scope-h">
+                Scope
+                <small>Rules about which resources to include</small>
             </legend>
             <div class="row-fluid">
                 <div class="span6">
@@ -75,10 +75,6 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :http_request_redirect_limit %>
-                    <%=  messages_for( :http_request_redirect_limit ) %>
-                </div>
-                <div class="span6">
                     <%= f.input :scope_include_subdomains %>
                     <%=  messages_for( :scope_include_subdomains ) %>
                 </div>
@@ -87,9 +83,6 @@
                 <div class="span6">
                     <%= f.input :scope_exclude_binaries %>
                     <%=  messages_for( :scope_exclude_binaries ) %>
-                </div>
-
-                <div class="span6">
                 </div>
             </div>
             <div class="row-fluid">
@@ -136,7 +129,110 @@
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
             </div>
+          <div class="row-fluid">
+            <div class="span6">
+              <%= f.input :scope_url_rewrites, input_html: {
+                      value: @profile.scope_url_rewrites.
+                                     map { |k, v| "#{k}:#{v}" }.join( "\n" )
+              } %>
+              <%=  messages_for( :scope_url_rewrites ) %>
+              <p class="alert alert-info">
+                Rules take the format of <em>pattern:substitution</em>,
+                input each rule in its own line.<br/>
+
+                For example, to convert <code>http://test.com/articles/some-stuff/23</code> to
+                <code>http://test.com/articles.php?id=23</code> use
+                <code>/articles\/[\w-]+\/(\d+)/:articles.php?id=\1</code>.
+              </p>
+            </div>
+            <div class="span6">
+              <%= f.input :scope_dom_depth_limit %>
+              <%=  messages_for( :scope_dom_depth_limit ) %>
+            </div>
+          </div>
+
         </fieldset>
+    </section>
+
+    <section id="audit">
+      <fieldset>
+        <legend id="audit-h">
+          Audit
+          <small>How the scanner will audit web application inputs</small>
+        </legend>
+
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :audit_forms %>
+            <%= messages_for( :audit_forms ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :audit_links %>
+            <%= messages_for( :audit_links ) %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :audit_cookies %>
+            <%= messages_for( :audit_cookies ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :audit_headers %>
+            <%= messages_for( :audit_headers ) %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :audit_with_both_http_methods %>
+            <%= messages_for( :audit_with_both_http_methods ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :audit_cookies_extensively %>
+            <%= messages_for( :audit_cookies_extensively ) %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :audit_exclude_vectors, input_html: { value: @profile.audit_exclude_vectors.join( "\n" ) } %>
+
+            <%= messages_for( :audit_exclude_vectors ) %>
+            <p class="alert alert-info">Input each parameter/input/vector name in its own line.</p>
+          </div>
+          <div class="span6">
+            <%= f.input :audit_link_templates, input_html: { value: @profile.audit_link_templates.join( "\n" ) } %>
+
+            <%= messages_for( :audit_link_templates ) %>
+            <p class="alert alert-info">
+              For example, to extract the <code>input1</code> and <code>input2</code> inputs from
+              <code>http://test.com/input1/value1/input2/value2</code> use
+              <code>/input1\/(?&lt;input1&gt;\w+)\/input2\/(?&lt;input2&gt;\w+)/</code>.
+            </p>
+          </div>
+        </div>
+      </fieldset>
+    </section>
+
+    <section id="input">
+      <fieldset>
+        <legend id="input-h">
+          Input
+          <small>Values to use to fill in inputs</small>
+        </legend>
+
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :input_values, input_html: {
+                    value: @profile.input_values.
+                                   map { |k, v| "#{k}=#{v}" }.join( "\n" )
+            } %>
+            <%= messages_for( :input_values ) %>
+            <p class="alert alert-info">
+              Rules take the format of <em>name=value</em>,
+              input each rule in its own line -- <kbd>name</kbd> can be a pattern.
+            </p>
+          </div>
+        </div>
+      </fieldset>
     </section>
 
     <section id="http">
@@ -167,7 +263,11 @@
                 </div>
             </div>
             <div class="row-fluid">
-                <div class="span6">
+              <div class="span6">
+                <%= f.input :http_request_redirect_limit %>
+                <%=  messages_for( :http_request_redirect_limit ) %>
+              </div>
+              <div class="span6">
                     <%= f.input :http_request_queue_size %>
                     <%=  messages_for( :http_request_queue_size ) %>
                 </div>
@@ -229,54 +329,6 @@
         </fieldset>
     </section>
 
-    <section id="auditor">
-        <fieldset>
-            <legend id="auditor-h">
-                Auditor
-                <small>How the scanner will audit the web application</small>
-            </legend>
-
-            <div class="row-fluid">
-                <div class="span6">
-                    <%= f.input :audit_forms %>
-                    <%= messages_for( :audit_forms ) %>
-                </div>
-                <div class="span6">
-                    <%= f.input :audit_links %>
-                    <%= messages_for( :audit_links ) %>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                    <%= f.input :audit_cookies %>
-                    <%= messages_for( :audit_cookies ) %>
-                </div>
-                <div class="span6">
-                    <%= f.input :audit_headers %>
-                    <%= messages_for( :audit_headers ) %>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                    <%= f.input :audit_with_both_http_methods %>
-                    <%= messages_for( :audit_with_both_http_methods ) %>
-                </div>
-                <div class="span6">
-                    <%= f.input :audit_cookies_extensively %>
-                    <%= messages_for( :audit_cookies_extensively ) %>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                    <%= f.input :audit_exclude_vectors, input_html: { value: @profile.audit_exclude_vectors.join( "\n" ) } %>
-
-                    <%= messages_for( :audit_exclude_vectors ) %>
-                    <p class="alert alert-info">Input each parameter/input/vector name in its own line.</p>
-                </div>
-            </div>
-        </fieldset>
-    </section>
-
     <section id="fingerprinting">
         <fieldset>
             <legend id="fingerprinting-h">
@@ -315,10 +367,10 @@
         </fieldset>
     </section>
 
-    <section id="modules">
+    <section id="checks">
         <fieldset>
-            <legend id="modules-h">
-                Modules
+            <legend id="checks-h">
+                Checks
                 <small>The security checks to be run again the web application</small>
             </legend>
 
@@ -335,10 +387,10 @@
             </div>
 
             <h4>
-                Audit (Active)
+                Active
                 <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
             </h4>
-            <% audit = checks.select { |n, i| i[:path].include?( '/checks/audit' ) } %>
+            <% audit = checks.select { |n, i| i[:path].include?( '/checks/active' ) } %>
             <% if audit.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
                            locals: {
@@ -349,15 +401,15 @@
                                    class_name: 'span6'
                            } %>
             <% else %>
-                <p class="alert alert-info">No audit modules are available.</p>
+                <p class="alert alert-info">No active checks are available.</p>
             <% end %>
 
 
             <h4>
-                Recon (Passive)
+                Passive
                 <small>These checks will passively collect data</small>
             </h4>
-            <% recon = checks.select { |n, i| i[:path].include?( '/checks/recon' ) } %>
+            <% recon = checks.select { |n, i| i[:path].include?( '/checks/passive' ) } %>
             <% if recon.any? %>
                 <%= render partial: '/shared/components_twin_accordion_form',
                            locals: {
@@ -368,7 +420,7 @@
                                    class_name: 'span6'
                            } %>
             <% else %>
-                <p class="alert alert-info">No recon modules are available.</p>
+                <p class="alert alert-info">No passive checks are available.</p>
             <% end %>
 
         </fieldset>

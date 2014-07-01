@@ -77,7 +77,7 @@ class Profile < ActiveRecord::Base
         :http_authentication_password, :input_values, :browser_cluster_pool_size,
         :browser_cluster_job_timeout, :browser_cluster_worker_time_to_live,
         :browser_cluster_ignore_images, :browser_cluster_screen_width,
-        :browser_cluster_screen_height, :scope_dom_depth_limit
+        :browser_cluster_screen_height, :scope_dom_depth_limit, :scope_url_rewrites
     ]
 
     scope :global, -> { where global: true }
@@ -206,10 +206,15 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    %w(scope_redundant_path_patterns scope_url_rewrites http_cookies http_request_headers
-        input_values).each do |m|
+    %w(scope_redundant_path_patterns scope_url_rewrites).each do |m|
         define_method "#{m}=" do |string_or_hash|
-            super self.class.string_list_to_hash( string_or_hash )
+            super self.class.string_list_to_hash( string_or_hash, ':' )
+        end
+    end
+
+    %w(http_cookies http_request_headers input_values).each do |m|
+        define_method "#{m}=" do |string_or_hash|
+            super self.class.string_list_to_hash( string_or_hash, '=' )
         end
     end
 
@@ -292,7 +297,7 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def self.string_list_to_hash( string_or_hash, hash_delimiter = '=' )
+    def self.string_list_to_hash( string_or_hash, hash_delimiter )
         case string_or_hash
             when Hash
                 string_or_hash
