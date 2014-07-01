@@ -204,8 +204,8 @@ class ProfilesController < ApplicationController
         plugins_with_options = []
         plugins_with_info = ::FrameworkHelper.plugins
         plugins_with_info.each do |name, info|
-            plugins_with_options << info[:options] ?
-                { name => info[:options].map( &:name ) } : name
+            plugins_with_options << (info[:options] ?
+                { name => info[:options].map( &:name ) } : name)
         end
 
         allowed = [

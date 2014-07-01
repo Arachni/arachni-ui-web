@@ -200,7 +200,7 @@ class Profile < ActiveRecord::Base
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns
         scope_include_path_patterns scope_restrict_paths scope_extend_paths
-        audit_exclude_vectors scope_link_templates).each do |m|
+        audit_exclude_vectors audit_link_templates).each do |m|
         define_method "#{m}=" do |string_or_array|
             super self.class.string_list_to_array( string_or_array )
         end
