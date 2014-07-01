@@ -152,9 +152,12 @@ class Profile < ActiveRecord::Base
                 opts[group_name] ||= {}
                 opts[group_name][k[group_name.size+1..-1]] = v
             else
-                opts[k.to_sym] = v
+                opts[k] = v
             end
         end
+
+        # The defualts will be in the Profile.
+        opts['input']['without_defaults'] = true
 
         opts
     end
