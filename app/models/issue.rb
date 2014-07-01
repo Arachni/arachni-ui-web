@@ -43,27 +43,31 @@ class Issue < ActiveRecord::Base
     # Add 'request' and 'response' as strings, add 'vector_inputs'.
     # Remove 'headers' and 'audit_options'.
     FRAMEWORK_ISSUE_MAP = {
-        name:                  nil,
-        description:           nil,
-        references:            nil,
-        remedy_code:           nil,
-        remedy_guidance:       nil,
-        digest:                nil,
-        cwe:                   nil,
-        tags:                  nil,
-        vector_type:           { vector:     :type },
-        url:                   { vector:     :action },
-        severity:              { severity:   { to_s:  :capitalize } },
-        signature:             { variations: { first: :signature } },
-        proof:                 { variations: { first: :proof } },
-        requires_verification: { variations: { first: :untrusted? } },
-        remarks:               { variations: { first: :remarks } },
-        http_method:           { variations: { first: { vector:   :method } } },
-        vector_name:           { variations: { first: { vector:   :affected_input_name } } },
-        seed:                  { variations: { first: { vector:   :affected_input_value } } },
-        response_body:         { variations: { first: { response: :body } } },
-        response:              { variations: { first: { response: :to_s } } },
-        request:               { variations: { first: { request:  :to_s } } }
+        name:            nil,
+        description:     nil,
+        references:      nil,
+        remedy_code:     nil,
+        remedy_guidance: nil,
+        digest:          nil,
+        cwe:             nil,
+        tags:            nil,
+        vector_type:     { vector:   :type },
+        url:             { vector:   :action },
+        severity:        { severity: { to_s: :capitalize } },
+    }
+
+    FRAMEWORK_ISSUE_VARIATION_MAP = {
+        signature:             :signature,
+        proof:                 :proof,
+        requires_verification: :untrusted?,
+        remarks:               :remarks,
+        http_method:           { vector:   :http_method },
+        vector_inputs:         { vector:   :inputs },
+        vector_name:           { vector:   :affected_input_name },
+        seed:                  { vector:   :affected_input_value },
+        response_body:         { response: :body },
+        response:              { response: :to_s },
+        request:               { request:  :to_s }
     }
 
     ORDERED_SEVERITIES = [
@@ -228,6 +232,11 @@ class Issue < ActiveRecord::Base
             h[k] = val.is_a?( String ) ? val.recode : val
         end
 
+        FRAMEWORK_ISSUE_VARIATION_MAP.each do |k, v|
+            val = attribute_from_framework_issue( issue.variations.first || issue, v || k )
+            h[k] = val.is_a?( String ) ? val.recode : val
+        end
+
         h.reject!{ |k, v| PROTECTED.include? k }
 
         h
@@ -236,7 +245,7 @@ class Issue < ActiveRecord::Base
     private
 
     def self.attribute_from_framework_issue( issue, attribute )
-        traverse_attributes( issue, FRAMEWORK_ISSUE_MAP[attribute] )
+     traverse_attributes( issue, attribute )
     end
 
     def self.traverse_attributes( object, path )

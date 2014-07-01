@@ -130,10 +130,10 @@ module ScansHelper
     def issues_to_graph_data( issues )
         graph_data = {
             severities:       {
-                Arachni::Severity::HIGH          => 0,
-                Arachni::Severity::MEDIUM        => 0,
-                Arachni::Severity::LOW           => 0,
-                Arachni::Severity::INFORMATIONAL => 0
+                Arachni::Severity::HIGH.to_sym          => 0,
+                Arachni::Severity::MEDIUM.to_sym        => 0,
+                Arachni::Severity::LOW.to_sym           => 0,
+                Arachni::Severity::INFORMATIONAL.to_sym => 0
             },
             issues:           {},
             elements:         {
@@ -151,13 +151,13 @@ module ScansHelper
         total_elements   = 0
 
         issues.each.with_index do |issue, i|
-            graph_data[:severities][issue.severity] += 1
+            graph_data[:severities][issue.severity.downcase.to_sym] += 1
             total_severities += 1
 
             graph_data[:issues][issue.name] ||= 0
             graph_data[:issues][issue.name] += 1
 
-            graph_data[:elements][issue.vector_type] += 1
+            graph_data[:elements][issue.vector_type.to_sym] += 1
             total_elements += 1
         end
 

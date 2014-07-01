@@ -569,6 +569,9 @@ class Scan < ActiveRecord::Base
             next if skip
             issues.create_from_framework_issue i
         end
+    rescue => e
+        ap e
+        ap e.backtrace
     end
 
     def update_from_framework_issues( a_issues )
