@@ -222,9 +222,9 @@ class ProfilesController < ApplicationController
             :scope_https_only, :scope_exclude_path_patterns_pages, { user_ids: [] }, :no_fingerprinting,
             { platforms: [] }, :http_authentication_username, :http_authentication_password,
             :input_values, :browser_cluster_pool_size, :browser_cluster_job_timeout,
-            :browser_cluster_worker_time_to_live, :browser_cluster_worker_time_to_live,
-            :browser_cluster_ignore_images, :browser_cluster_screen_width,
-            :browser_cluster_screen_height, :scope_dom_depth_limit, :audit_link_templates]
+            :browser_cluster_worker_time_to_live, :browser_cluster_ignore_images,
+            :browser_cluster_screen_width, :browser_cluster_screen_height,
+            :scope_dom_depth_limit, :audit_link_templates]
 
         allowed << :global if current_user.admin?
 

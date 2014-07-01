@@ -458,6 +458,46 @@
         </fieldset>
     </section>
 
+    <section id="browser_cluster">
+      <fieldset>
+        <legend id="browser_cluster-h">
+          Browser cluster
+          <small>Browser-related options</small>
+        </legend>
+
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :browser_cluster_pool_size %>
+            <%= messages_for( :browser_cluster_pool_size ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :browser_cluster_job_timeout %>
+            <%= messages_for( :browser_cluster_job_timeout ) %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :browser_cluster_worker_time_to_live %>
+            <%= messages_for( :browser_cluster_worker_time_to_live ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :browser_cluster_ignore_images %>
+            <%= messages_for( :browser_cluster_ignore_images ) %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <%= f.input :browser_cluster_screen_width %>
+            <%= messages_for( :browser_cluster_screen_width ) %>
+          </div>
+          <div class="span6">
+            <%= f.input :browser_cluster_screen_height %>
+            <%= messages_for( :browser_cluster_screen_height ) %>
+          </div>
+        </div>
+      </fieldset>
+    </section>
+
     <section id="login">
         <fieldset>
             <legend id="login-h">
@@ -479,7 +519,6 @@
             </div>
         </fieldset>
     </section>
-
 
     <div class="form-actions">
         <%= f.button :submit %>
