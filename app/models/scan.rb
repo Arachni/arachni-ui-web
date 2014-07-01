@@ -266,7 +266,7 @@ class Scan < ActiveRecord::Base
     end
 
     def sitemap_size
-        statistics[:sitemap_size]
+        statistics[:found_pages]
     end
 
     def statistics

@@ -102,7 +102,6 @@
 
     <% if treat_as_running %>
         <td class="hidden-phone"><%= scan.status.to_s.capitalize %></td>
-        <td><%= scan.progress.to_f %>%</td>
     <% end %>
 
     <td>
@@ -112,9 +111,6 @@
     <% if treat_as_running %>
         <td class="hidden-phone"><%= scan.sitemap_size %></td>
         <td class="hidden-phone"><%= scan.runtime %></td>
-        <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            <%= scan.eta %>
-        </td>
     <% else %>
         <td class="hidden-phone">
             <% if !show_as_revision && scan.has_revisions? %>
