@@ -89,7 +89,9 @@ gem 'ethon',    github: 'typhoeus/ethon'
 gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
 
 # The Arachni Framework.
-if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
+if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni-v0.5' ) || 
+    File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
+
     gem 'arachni', path: p
 else
     # Nightly builds use a local git repo for performance reasons.
