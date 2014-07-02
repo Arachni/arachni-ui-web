@@ -320,7 +320,10 @@ class Profile < ActiveRecord::Base
 
         return if !data.is_a?( Hash )
 
-        options = {}
+        options = {
+            name:        file.original_filename,
+            description: "Imported from '#{file.original_filename}'."
+        }
         data.each do |name, value|
             if Arachni::Options.group_classes.include?( name.to_sym )
                 value.each do |k, v|
