@@ -1,5 +1,5 @@
 name: 'Profile name.'
-audit_http_cookies: 'Audits cookies.'
+audit_cookies: 'Audits cookies.'
 audit_cookies_extensively:
     description: 'Submits all links and forms of the page along with the cookie permutations.'
     warning: 'Will severely increase the scan-time.'

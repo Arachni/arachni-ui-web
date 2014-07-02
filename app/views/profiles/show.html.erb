@@ -1,14 +1,7 @@
 <% title @profile.name %>
 
 <% breadcrumb_add 'Profiles', profiles_path %>
-
-<% subnav spider: 'Spider <small>&mdash; Crawler and scope settings</small>',
-          http: 'HTTP <small>&mdash; Network settings</small>',
-          auditor: 'Auditor <small>&mdash; Fuzzing settings</small>',
-          fingerprinting: 'Fingerprinting <small>&mdash; Platform identification</small>',
-          checks: 'Modules <small>&mdash; Security checks</small>',
-          plugins: 'Plugins <small>&mdash; Extra functionality</small>',
-          login: 'Login <small>&mdash; Session settings</small>' %>
+<% render partial: 'subnav' %>
 
 <% add_to_affixed_sidebar do %>
     <%= render partial: 'actions', locals: { profile: @profile } %>
