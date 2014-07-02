@@ -31,9 +31,9 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            <li>
+          <li>
                 <%= link_to profile_path( profile, format: :yaml ) do %>
-                    YAML (Also suitable for the CLI interface.)
+                    YAML
                 <% end %>
             </li>
             <li>
@@ -41,6 +41,11 @@
                     JSON
                 <% end %>
             </li>
+          <li>
+            <%= link_to profile_path( profile, format: :afp ) do %>
+                AFP (Suitable for the CLI interface.)
+            <% end %>
+          </li>
         </ul>
     </div>
 <% end %>

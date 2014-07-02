@@ -61,6 +61,10 @@ class ProfilesController < ApplicationController
                 set_download_header.call 'yaml'
                 render text: @profile.export( YAML )
             end
+            format.afp do
+                set_download_header.call 'afp'
+                render text: @profile.to_rpc_options.to_yaml
+            end
         end
     end
 
