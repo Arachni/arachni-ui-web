@@ -382,16 +382,27 @@
     </div>
 
     <div class="row-fluid">
-        <% if profile.audit_exclude_vectors.any? %>
+        <% if profile.audit_exclude_vector_patterns.any? %>
         <div class="span6">
             <p>
                 <b>Exclude vectors:</b>
                 <textarea disabled
-                          id="profile_exclude_vectors"><%= profile.audit_exclude_vectors.join( "\n" ) %></textarea>
+                          id="profile_exclude_vectors"><%= profile.audit_exclude_vector_patterns.join( "\n" ) %></textarea>
             </p>
-            <%= messages_for :audit_exclude_vectors %>
+            <%= messages_for :audit_exclude_vector_patterns %>
         </div>
         <% end %>
+
+      <% if profile.audit_include_vector_patterns.any? %>
+          <div class="span6">
+            <p>
+              <b>Exclude vectors:</b>
+              <textarea disabled
+                        id="profile_exclude_vectors"><%= profile.audit_include_vector_patterns.join( "\n" ) %></textarea>
+            </p>
+            <%= messages_for :audit_include_vector_patterns %>
+          </div>
+      <% end %>
     </div>
 </section>
 

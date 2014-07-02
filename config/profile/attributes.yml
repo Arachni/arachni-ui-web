@@ -26,7 +26,8 @@ scope_exclude_content_patterns: 'Excludes pages whose content matches any of the
 scope_dom_depth_limit: 'How deep to go into the DOM tree of each page, for pages with JavaScript code.'
 scope_url_rewrites: 'Rewrites URLs based on the given rules.'
 exclude_http_cookies: 'Excludes the given cookies from the audit.'
-audit_exclude_vectors: 'Excludes the given input vectors (parameters) from the audit.'
+audit_exclude_vector_patterns: 'Excludes input vectors (parameters) whose name matches the given patterns from the audit.'
+audit_include_vector_patterns: 'Only includes input vectors (parameters) whose name matches the given patterns in the audit.'
 scope_extend_paths: 'Uses the provided list of paths to extend the scope of the crawl.'
 scope_include_subdomains: 'Allows the crawler to follow paths to subdomains.'
 audit_with_both_http_methods:

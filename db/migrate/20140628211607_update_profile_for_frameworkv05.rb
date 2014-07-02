@@ -28,7 +28,7 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
             auto_redundant:    :scope_auto_redundant,
             https_only:        :scope_https_only,
             fuzz_methods:      :audit_with_both_http_methods,
-            exclude_vectors:   :audit_exclude_vectors,
+            exclude_vectors:   :audit_exclude_vector_patterns,
             modules:           :checks,
             max_slaves:        :spawns,
             authed_by:         :authorized_by,
@@ -38,6 +38,7 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
 
         add_column :profiles, :input_values,         :text
         add_column :profiles, :audit_link_templates, :text
+        add_column :profiles, :audit_include_vector_patterns,  :text
 
         add_column :profiles, :scope_url_rewrites,    :text
         add_column :profiles, :scope_dom_depth_limit, :integer

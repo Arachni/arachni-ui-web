@@ -50,7 +50,8 @@ class Profile < ActiveRecord::Base
     serialize :scope_redundant_path_patterns,  Hash
     serialize :scope_link_templates,           Array
     serialize :scope_url_rewrites,             Hash
-    serialize :audit_exclude_vectors,          Array
+    serialize :audit_exclude_vector_patterns,  Array
+    serialize :audit_include_vector_patterns,  Array
     serialize :audit_link_templates,           Array
     serialize :checks,                         Array
     serialize :platforms,                      Array
@@ -65,7 +66,7 @@ class Profile < ActiveRecord::Base
         :audit_links, :authorized_by, :scope_auto_redundant, :http_cookies,
         :http_request_headers, :scope_directory_depth_limit,
         :scope_exclude_path_patterns, :scope_exclude_binaries,
-        :audit_exclude_vectors, :scope_extend_paths, :scope_include_subdomains,
+        :audit_exclude_vector_patterns, :scope_extend_paths, :scope_include_subdomains,
         :audit_with_both_http_methods, :http_request_concurrency,
         :scope_include_path_patterns, :scope_page_limit, :login_check_pattern,
         :login_check_url, :spawns, :checks, :plugins, :http_proxy_host,
@@ -77,7 +78,8 @@ class Profile < ActiveRecord::Base
         :http_authentication_password, :input_values, :browser_cluster_pool_size,
         :browser_cluster_job_timeout, :browser_cluster_worker_time_to_live,
         :browser_cluster_ignore_images, :browser_cluster_screen_width,
-        :browser_cluster_screen_height, :scope_dom_depth_limit, :scope_url_rewrites
+        :browser_cluster_screen_height, :scope_dom_depth_limit, :scope_url_rewrites,
+        :audit_include_vectors
     ]
 
     scope :global, -> { where global: true }
@@ -200,7 +202,7 @@ class Profile < ActiveRecord::Base
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns
         scope_include_path_patterns scope_restrict_paths scope_extend_paths
-        audit_exclude_vectors audit_link_templates).each do |m|
+        audit_exclude_vector_patterns audit_include_vector_patterns audit_link_templates).each do |m|
         define_method "#{m}=" do |string_or_array|
             super self.class.string_list_to_array( string_or_array )
         end

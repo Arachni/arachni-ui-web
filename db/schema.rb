@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20140629003131) do
     t.text     "scope_exclude_path_patterns"
     t.text     "scope_exclude_content_patterns"
     t.text     "exclude_cookies"
-    t.text     "audit_exclude_vectors"
+    t.text     "audit_exclude_vector_patterns"
     t.text     "scope_include_path_patterns"
     t.boolean  "scope_include_subdomains"
     t.text     "plugins"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20140629003131) do
     t.integer  "http_request_queue_size",             default: 500
     t.text     "input_values"
     t.text     "audit_link_templates"
+    t.text     "audit_include_vector_patterns"
     t.text     "scope_url_rewrites"
     t.integer  "scope_dom_depth_limit"
     t.integer  "browser_cluster_pool_size"
