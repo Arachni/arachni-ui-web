@@ -140,19 +140,12 @@ class ScanManager
         port    = Arachni::Utilities.available_port
         address = '127.0.0.1'
 
-        # Clear all connections so the child we're about to spawn won't
-        # take any of them with it.
-        # ::ActiveRecord::Base.clear_all_connections!
-
         Arachni::Processes::Instances.spawn(
             fork:    false, # For some reason we can't Process.fork from the WebUI.
             token:   token,
             port:    port,
             address: address
         )
-
-        # Re-establish the connection to the DB.
-        # ::ActiveRecord::Base.establish_connection
 
         [ "#{address}:#{port}", token ]
     end
