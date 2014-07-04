@@ -157,7 +157,7 @@
                     </tr>
                 </thead>
                 <tr>
-                    <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
+                    <td class="wrap"><%= @issue.seed ? @issue.seed : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
                     <td class="wrap">
                         <% if @issue.proof %>
@@ -202,10 +202,10 @@
                     <% @issue.vector_inputs.each do |k, v| %>
                         <tr>
                           <th>
-                            <%= u k %>
+                            <%= k %>
                           </th>
                           <td>
-                            <%= u v %>
+                            <%= v %>
                           </td>
                         </tr>
                     <% end %>
