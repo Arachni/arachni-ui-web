@@ -320,6 +320,9 @@ class Profile < ActiveRecord::Base
 
         return if !data.is_a?( Hash )
 
+        # Old Profile, not supported.
+        return if data.include?( 'modules' ) || data.include?( 'mods' )
+
         options = {}
         data.each do |name, value|
             if Arachni::Options.group_classes.include?( name.to_sym )

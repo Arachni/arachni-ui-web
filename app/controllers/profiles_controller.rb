@@ -139,7 +139,9 @@ class ProfilesController < ApplicationController
         @profile = Profile.import( params[:profile][:file] )
 
         if !@profile
-            redirect_to profiles_url, alert: 'Could not understand the Profile format.'
+            redirect_to profiles_url,
+                        alert: 'Could not understand the Profile format, please' <<
+                            ' ensure that you are using a v0.5 profile.'
             return
         end
 
