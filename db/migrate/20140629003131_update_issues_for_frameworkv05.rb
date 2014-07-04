@@ -3,9 +3,11 @@ class UpdateIssuesForFrameworkv05 < ActiveRecord::Migration
         remove_column :issues, :headers
         remove_column :issues, :audit_options
 
-        add_column :issues, :vector_inputs, :text
-        add_column :issues, :response,      :text
-        add_column :issues, :request,       :text
+        add_column :issues, :vector_inputs,   :text
+        add_column :issues, :vector_html,     :text
+        add_column :issues, :dom_transitions, :text
+        add_column :issues, :response,        :text
+        add_column :issues, :request,         :text
 
         (Issue.find_each || []).each do |issue|
             inputs = issue.schedule.audit_options[:params]
@@ -13,6 +15,5 @@ class UpdateIssuesForFrameworkv05 < ActiveRecord::Migration
 
             Issue.update_all( { vector_inputs: inputs }, { id: issue.id } )
         end
-
     end
 end

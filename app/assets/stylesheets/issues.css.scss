@@ -132,6 +132,10 @@
         }
     }
 
+    .table tr.request-transition td:nth-child(2) {
+        padding-left: 30px;
+    }
+
     #legend {
         overflow-x: hidden;
         overflow-y: auto;

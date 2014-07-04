@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 20140629003131) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "vector_inputs"
+    t.text     "vector_html"
+    t.text     "dom_transitions"
     t.text     "response"
     t.text     "request"
   end

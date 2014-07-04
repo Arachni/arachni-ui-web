@@ -427,7 +427,7 @@ describe Issue do
     #     end
     # end
     #
-    # describe '#response_body_contains_proof?' do
+    # describe '#response_contains_proof?' do
     #     context 'when the issue has a proof' do
     #         context 'and a response_body' do
     #             context 'and the response_body contains the proof' do
@@ -435,7 +435,7 @@ describe Issue do
     #                     FactoryGirl.create( :issue,
     #                                         response_body: 'stuff here!',
     #                                         proof: 'stuff' ).
-    #                         response_body_contains_proof?.should be_true
+    #                         response_contains_proof?.should be_true
     #                 end
     #             end
     #             context 'and the response_body does not contain the proof' do
@@ -443,7 +443,7 @@ describe Issue do
     #                     FactoryGirl.create( :issue,
     #                                         response_body: 'stuff here!',
     #                                         proof: 'stufff' ).
-    #                         response_body_contains_proof?.should be_false
+    #                         response_contains_proof?.should be_false
     #                 end
     #             end
     #         end
@@ -454,7 +454,7 @@ describe Issue do
     #             FactoryGirl.create( :issue,
     #                                 response_body: nil,
     #                                 proof: 'stuff' ).
-    #                 response_body_contains_proof?.should be_false
+    #                 response_contains_proof?.should be_false
     #         end
     #     end
     #
@@ -463,7 +463,7 @@ describe Issue do
     #             FactoryGirl.create( :issue,
     #                                 response_body: 'stuff here!',
     #                                 proof: nil ).
-    #                 response_body_contains_proof?.should be_false
+    #                 response_contains_proof?.should be_false
     #         end
     #     end
     # end

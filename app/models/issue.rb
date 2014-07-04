@@ -34,14 +34,13 @@ class Issue < ActiveRecord::Base
     #serialize :proof,         String
     #serialize :response_body, String
 
-    serialize :references,    Hash
-    serialize :remarks,       Hash
-    serialize :tags,          Array
-    serialize :headers,       Hash
-    serialize :vector_inputs, Hash
+    serialize :references,      Hash
+    serialize :remarks,         Hash
+    serialize :tags,            Array
+    serialize :dom_transitions, Array
+    serialize :headers,         Hash
+    serialize :vector_inputs,   Hash
 
-    # Add 'request' and 'response' as strings, add 'vector_inputs'.
-    # Remove 'headers' and 'audit_options'.
     FRAMEWORK_ISSUE_MAP = {
         name:            nil,
         description:     nil,
@@ -52,8 +51,9 @@ class Issue < ActiveRecord::Base
         cwe:             nil,
         tags:            nil,
         vector_type:     { vector:   :type },
+        vector_html:     { vector:   :html },
         url:             { vector:   :action },
-        severity:        { severity: { to_s: :capitalize } },
+        severity:        { severity: { to_s: :capitalize } }
     }
 
     FRAMEWORK_ISSUE_VARIATION_MAP = {
@@ -61,6 +61,7 @@ class Issue < ActiveRecord::Base
         proof:                 :proof,
         requires_verification: :untrusted?,
         remarks:               :remarks,
+        dom_transitions:       { page:     { dom: :transitions } },
         http_method:           { vector:   :http_method },
         vector_inputs:         { vector:   :inputs },
         vector_name:           { vector:   :affected_input_name },
@@ -159,8 +160,8 @@ class Issue < ActiveRecord::Base
         !remediation_steps.to_s.empty?
     end
 
-    def response_body_contains_proof?
-        proof && response_body && response_body.include?( proof )
+    def response_contains_proof?
+        proof && response && response.include?( proof )
     end
 
     def base64_response_body
