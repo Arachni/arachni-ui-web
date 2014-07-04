@@ -145,6 +145,7 @@ class ScanManager
         # ::ActiveRecord::Base.clear_all_connections!
 
         Arachni::Processes::Instances.spawn(
+            fork:    false, # For some reason we can't Process.fork from the WebUI.
             token:   token,
             port:    port,
             address: address
