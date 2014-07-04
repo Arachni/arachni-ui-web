@@ -72,7 +72,15 @@ class ScanManager
         Thread.new do
             begin
                 if scan.type == :direct
-                    scan.instance_url, scan.instance_token = spawn_instance
+
+                    # For some reason we can't Process.fork from the WebUI.
+                    instance = Arachni::Processes::Instances.spawn( fork: false )
+
+                    scan.instance_url   = instance.url
+                    scan.instance_token = instance.token
+
+                    instance.close
+
                     Arachni::RPC::Client::Instance.when_ready scan.instance_url, scan.instance_token do
                         scan.start
                     end
@@ -130,24 +138,7 @@ class ScanManager
                 ap e.backtrace
                 iter.next
             end
-
         end
-    end
-
-    def spawn_instance
-        # Set some RPC server info for the Instance
-        token   = Arachni::Utilities.generate_token
-        port    = Arachni::Utilities.available_port
-        address = '127.0.0.1'
-
-        Arachni::Processes::Instances.spawn(
-            fork:    false, # For some reason we can't Process.fork from the WebUI.
-            token:   token,
-            port:    port,
-            address: address
-        )
-
-        [ "#{address}:#{port}", token ]
     end
 
 end
