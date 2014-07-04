@@ -364,21 +364,21 @@ class Scan < ActiveRecord::Base
         self.started_at = Time.now
         save
 
-        sitemap_opts = {}
-
-        if revision?
-            if extend_from_revision_sitemaps?
-                sitemap_opts[:scope_extend_paths] = revisions_sitemap
-            elsif restrict_to_revision_sitemaps?
-                sitemap_opts[:scope_restrict_paths] = revisions_sitemap
-            end
-        end
-
-        instance.service.scan( profile.to_rpc_options.merge(
+        options = profile.to_rpc_options.merge(
             url:    url,
             spawns: spawns,
             grid:   spawns > 1 ? grid? : nil
-        ).merge( sitemap_opts )) { refresh }
+        )
+
+        if revision?
+            if extend_from_revision_sitemaps?
+                options['scope']['extend_paths'] = revisions_sitemap
+            elsif restrict_to_revision_sitemaps?
+                options['scope']['restrict_paths'] = revisions_sitemap
+            end
+        end
+
+        instance.service.scan( options ) { refresh }
 
         self
     rescue => e
