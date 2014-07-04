@@ -4,19 +4,29 @@
 <% breadcrumb_add @issue.scan, @issue.scan %>
 
 <%
+
+   browser_subnav = {}
+   if @issue.dom_transitions.any?
+       browser_subnav = {
+           browser_data: 'Browser data',
+           browser_data_transitions: '<small>&mdash; Transitions</small>',
+           browser_data_body: '<small>&mdash; Body</small>',
+       }
+   end
+
    subnav(
        {
            identification_data: 'Identification data',
            vector_data: 'Vector data',
+       }.merge(browser_subnav).merge({
            http_data: 'HTTP data',
-           request: '<small>&mdash; Request</small>',
-           response: '<small>&mdash; Response</small>'
-       },
+           http_data_request: '<small>&mdash; Request</small>',
+           http_data_response: '<small>&mdash; Response</small>'
+       }),
        top: 'Overview'
    )
 
    not_available = '<p class="alert alert-info">Not available</p>'.html_safe
-
 %>
 
 <% if @issue.references.any? %>
@@ -215,19 +225,38 @@
               </tr>
             </table>
 
-            <% if @issue.dom_transitions.any? %>
-                <h4>Transitions</h4>
-                <%= render 'transitions' %>
-            <% end %>
+          <hr/>
 
-            <hr/>
+          <% if @issue.dom_transitions.any? %>
+              <h3 id="browser_data">Browser data</h3>
+
+              <h4 id="browser_data_transitions">Transitions</h4>
+              <%= render 'transitions' %>
+
+              <h4 id="browser_data_body">Body</h4>
+              <% if @issue.dom_body %>
+                  <% if @issue.dom_body_contains_proof? %>
+                      <p class="muted">
+                        Proof is highlighted in red and scroll-centered.
+                      </p>
+                  <% end %>
+
+                  <pre id="browser_body_container"><%= highlight_proof( @issue.dom_body, @issue.proof, 'proof' ).recode.html_safe %></pre>
+
+              <% else %>
+                  <p class="alert alert-info">
+                    Response is not available
+                  </p>
+              <% end %>
+              <hr/>
+            <% end %>
 
             <h3 id="http_data">HTTP data</h3>
 
-            <h4 id="request">Request</h4>
+            <h4 id="http_data_request">Request</h4>
             <pre><%= @issue.request %></pre>
 
-            <h4 id="response">Response</h4>
+            <h4 id="http_data_response">Response</h4>
 
             <% if @issue.response %>
                 <% if @issue.response_contains_proof? %>
@@ -236,25 +265,13 @@
                     </p>
                 <% end %>
 
-                <div id="rendered-response-container" class="modal hide fade">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &#10006;
-                        </button>
-                        <h3>Rendered response</h3>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                </div>
-
-                <pre id="response_body_container"><%= highlight_issue_response( @issue, 'proof' ).recode.html_safe %></pre>
+                <pre id="http_response_container"><%= highlight_proof( @issue.response, @issue.proof, 'proof' ).recode.html_safe %></pre>
 
             <% else %>
                 <p class="alert alert-info">
                     Response is not available
                 </p>
             <% end %>
-            <hr/>
         </div>
 
         <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane">

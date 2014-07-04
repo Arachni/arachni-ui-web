@@ -27,13 +27,6 @@ class Issue < ActiveRecord::Base
 
     validates_uniqueness_of :digest, scope: :scan_id
 
-    # These can contain lots of junk characters which may blow up the SQL
-    # statement (like null-bytes) so let the serializer deal with them.
-    #serialize :url,           String
-    #serialize :seed,          String
-    #serialize :proof,         String
-    #serialize :response_body, String
-
     serialize :references,      Hash
     serialize :remarks,         Hash
     serialize :tags,            Array
@@ -62,6 +55,7 @@ class Issue < ActiveRecord::Base
         requires_verification: :untrusted?,
         remarks:               :remarks,
         dom_transitions:       { page:     { dom: :transitions } },
+        dom_body:              { page:     :body },
         http_method:           { vector:   :http_method },
         vector_inputs:         { vector:   :inputs },
         vector_name:           { vector:   :affected_input_name },
@@ -160,12 +154,12 @@ class Issue < ActiveRecord::Base
         !remediation_steps.to_s.empty?
     end
 
-    def response_contains_proof?
-        proof && response && response.include?( proof )
+    def dom_body_contains_proof?
+        proof && dom_body && dom_body.include?( proof )
     end
 
-    def base64_response_body
-        Base64.encode64( response_body ).gsub( /\n/, '' )
+    def response_contains_proof?
+        proof && response && response.include?( proof )
     end
 
     def to_s

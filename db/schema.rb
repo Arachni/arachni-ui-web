@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20140629003131) do
     t.text     "vector_inputs"
     t.text     "vector_html"
     t.text     "dom_transitions"
+    t.text     "dom_body"
     t.text     "response"
     t.text     "request"
   end

@@ -6,6 +6,7 @@ class UpdateIssuesForFrameworkv05 < ActiveRecord::Migration
         add_column :issues, :vector_inputs,   :text
         add_column :issues, :vector_html,     :text
         add_column :issues, :dom_transitions, :text
+        add_column :issues, :dom_body,        :text
         add_column :issues, :response,        :text
         add_column :issues, :request,         :text
 
