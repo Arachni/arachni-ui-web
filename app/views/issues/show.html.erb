@@ -236,14 +236,6 @@
                     </p>
                 <% end %>
 
-                <% if @issue.response_body %>
-                    <a id="render-response-button"
-                       class="btn btn-small btn-inverse hidden-phone"
-                       data-html="<%= @issue.base64_response_body %>" >
-                        Render the response
-                    </a>
-                <% end %>
-
                 <div id="rendered-response-container" class="modal hide fade">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
