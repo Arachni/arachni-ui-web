@@ -72,63 +72,81 @@
   <div class="span10">
     <div class="row-fluid">
 
-      <div class="span12">
-        <div class="collapse" id="statistics">
+      <div class="span12 alert alert-info">
+        <strong>Currently auditing:</strong>
 
-          <table class="table table-condensed">
-            <thead>
-            <tr>
-              <th>Requests per second</th>
-              <td><%= @scan.statistics[:http][:total_responses_per_second] %></td>
-
-              <th class="hidden-phone">Timed out requests</th>
-              <td class="hidden-phone"><%= @scan.statistics[:http][:time_out_count] %></td>
-
-              <th class="hidden-phone">Requests performed</th>
-              <td class="hidden-phone"><%= @scan.statistics[:http][:response_count] %></td>
-
-              <%
-                 curr_res_time_class, info = response_times_to_alert(@scan.statistics[:http][:total_average_response_time])
-              %>
-              <th>Response times</th>
-              <td class="alert <%= curr_res_time_class %>">
-                <abbr data-placement="bottom" title="<%= info %>">
-                  <%= '%.3f' % @scan.statistics[:http][:total_average_response_time].to_f %>
-                  s
-                </abbr>
-              </td>
-            </tr>
-            <tr>
-
-              <%
-                 max_concurrency_class, info = concurrent_requests_to_alert(
-                         @scan.statistics[:http][:max_concurrency],
-                         @scan.profile.http_request_concurrency
-                 )
-              %>
-
-              <th>Request concurrency</th>
-              <td class='alert <%= max_concurrency_class %>'>
-                <abbr title="<%= info %>">
-                  <%= @scan.statistics[:http][:max_concurrency].to_i %>
-                </abbr>
-              </td>
-
-              <th class="hidden-phone">Responses received</th>
-              <td class="hidden-phone"><%= @scan.statistics[:http][:request_count] %> </td>
-
-              <th>Pages discovered</th>
-              <td><%= @scan.statistics[:found_pages] %></td>
-
-              <th class="hidden-phone">Running for</th>
-              <td class="hidden-phone"><%= Arachni::Utilities.secs_to_hms @scan.runtime %></td>
-
-            </tr>
-            </thead>
-          </table>
-        </div>
+        <ul>
+          <% [@scan.statistics[:current_page] || @scan.statistics[:current_pages]].
+                     flatten.compact.each do |url| %>
+              <li>
+                <% if url.to_s.empty? %>
+                    <em>Waiting for workload.</em>
+                <% else %>
+                    <%= link_to url, url %>
+                <% end %>
+              </li>
+          <% end %>
+        </ul>
       </div>
     </div>
+  </div>
+</div>
+
+<hr/>
+
+<div class="row-fluid collapse" id="statistics">
+  <div class="span12">
+      <table class="table table-condensed">
+        <thead>
+        <tr>
+          <th>Requests per second</th>
+          <td><%= @scan.statistics[:http][:total_responses_per_second] %></td>
+
+          <th class="hidden-phone">Timed out requests</th>
+          <td class="hidden-phone"><%= @scan.statistics[:http][:time_out_count] %></td>
+
+          <th class="hidden-phone">Requests performed</th>
+          <td class="hidden-phone"><%= @scan.statistics[:http][:response_count] %></td>
+
+          <%
+             curr_res_time_class, info = response_times_to_alert(@scan.statistics[:http][:total_average_response_time])
+          %>
+          <th>Response times</th>
+          <td class="alert <%= curr_res_time_class %>">
+            <abbr data-placement="bottom" title="<%= info %>">
+              <%= '%.3f' % @scan.statistics[:http][:total_average_response_time].to_f %>
+              s
+            </abbr>
+          </td>
+        </tr>
+        <tr>
+
+          <%
+             max_concurrency_class, info = concurrent_requests_to_alert(
+                     @scan.statistics[:http][:max_concurrency],
+                     @scan.profile.http_request_concurrency
+             )
+          %>
+
+          <th>Request concurrency</th>
+          <td class='alert <%= max_concurrency_class %>'>
+            <abbr title="<%= info %>">
+              <%= @scan.statistics[:http][:max_concurrency].to_i %>
+            </abbr>
+          </td>
+
+          <th class="hidden-phone">Responses received</th>
+          <td class="hidden-phone"><%= @scan.statistics[:http][:request_count] %> </td>
+
+          <th>Pages discovered</th>
+          <td><%= @scan.statistics[:found_pages] %></td>
+
+          <th class="hidden-phone">Running for</th>
+          <td class="hidden-phone"><%= Arachni::Utilities.secs_to_hms @scan.runtime %></td>
+
+        </tr>
+        </thead>
+      </table>
   </div>
 </div>
 
