@@ -32,7 +32,7 @@ gem "devise", "~> 3.2.2"
 gem 'cancan', '~> 1.6.10'
 
 # User role management.
-gem 'rolify', '~> 3.2.0'
+gem 'rolify', '~> 3.4.0'
 
 # Pagination helper.
 gem 'kaminari'

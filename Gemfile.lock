@@ -176,7 +176,7 @@ GEM
     rake (10.3.2)
     rb-readline (0.5.1)
     ref (1.0.5)
-    rolify (3.2.0)
+    rolify (3.4.0)
     rspec-core (3.0.2)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.2)
@@ -269,7 +269,7 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   psych
   rails (= 4.1.4)
-  rolify (~> 3.2.0)
+  rolify (~> 3.4.0)
   rspec-rails (>= 2.11.0)
   sass-rails (~> 4.0.0)
   simple_form (~> 3.0.1)
