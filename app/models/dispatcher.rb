@@ -195,7 +195,7 @@ class Dispatcher < ActiveRecord::Base
 
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
-        client.stats do |stats|
+        client.statistics do |stats|
             if stats.rpc_exception?
                 if alive?
                     self.alive = false
