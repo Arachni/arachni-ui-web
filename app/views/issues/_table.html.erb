@@ -7,7 +7,7 @@ active_tab = params[:tab]
 
 counts = Hash.new( 0 )
 %w(all verified pending-verification false-positives awaiting-review fixed).each do |type|
-   counts[type] = issue_filter( type ).count
+   counts[type] = issue_filter( type ).count(:all)
 end
 
 issues = issue_filter( active_tab )
