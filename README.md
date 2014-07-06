@@ -130,7 +130,7 @@ security scanner framework.
             - Mark them as verified
     - Receive Notifications for:
         - Shared Profiles -- Created, updated, shared, deleted.
-        - Shared Scans -- Started, paused, resumed, aborted, commented.
+        - Shared Scans -- Started, paused, resumed, aborted, commented, timed out, suspended.
         - Issues of shared Scans -- Reviewed, verified, commented.
     - Review their Activity.
     - Export reports, review and comment on Scans which have been shared with them by other users.
