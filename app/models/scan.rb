@@ -525,6 +525,7 @@ class Scan < ActiveRecord::Base
                     self.error_messages ||= ''
                     self.error_messages  += "\n" + progress_data[:errors].join( "\n" )
                 end
+                save
 
                 push_framework_issues( progress_data[:issues] )
 
