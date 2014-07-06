@@ -3,6 +3,7 @@
 ## _Under development_
 
 - External links now open in new windows.
+- Added support for suspending scans.
 
 ## 0.4.3 _(January 1, 2014)_
 

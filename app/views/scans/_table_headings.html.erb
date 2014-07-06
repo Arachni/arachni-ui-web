@@ -25,7 +25,8 @@
     <% else %>
         <th class="hidden-phone">Started at</th>
         <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            Finished at</th>
+            <%= type.to_s == 'suspended' ? 'Suspended' : 'Finished' %> at
+        </th>
     <% end %>
 
     <% if !yours %>

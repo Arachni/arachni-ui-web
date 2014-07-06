@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629003131) do
+ActiveRecord::Schema.define(version: 20140705233412) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -221,6 +221,8 @@ ActiveRecord::Schema.define(version: 20140629003131) do
     t.datetime "started_at"
     t.integer  "schedule_id"
     t.boolean  "load_balance"
+    t.datetime "suspended_at"
+    t.string   "snapshot_path"
   end
 
   create_table "scans_users", id: false, force: true do |t|

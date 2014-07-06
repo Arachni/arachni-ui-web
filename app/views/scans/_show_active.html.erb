@@ -1,8 +1,7 @@
 <div class="row-fluid">
-  <div class="span1">
+  <div class="span2">
     <div class="row-fluid">
       <div class="span12">
-
         <%
            status_label = if @scan.paused?
                               'label-warning'
@@ -13,29 +12,10 @@
                           else
                               'label-info'
                           end
-
-           tooltip = case @scan.status
-                         when :auditing
-                             'Vectors of the web application are being audited' +
-                                     ' in order to determine their security status.'
-
-                         when :crawling
-                             'The web application is being analyzed in an effort' +
-                                     ' to find all available pages and attack vectors.'
-                     end
         %>
-        <p>
-            <span class="label <%= status_label %>">
-                <%= @scan.status.to_s.capitalize %>
-            </span>
-
-          <% if tooltip %>
-              <a href="#" rel="tooltip" data-placement="bottom"
-                 title="<%= tooltip %>">
-                <i class="icon-info-sign"></i>
-              </a>
-          <% end %>
-        </p>
+        <span class="label <%= status_label %>">
+            <%= @scan.status.to_s.capitalize %>
+        </span>
       </div>
     </div>
 
@@ -43,25 +23,37 @@
       <div class="span12">
         <% if can? :pause, @scan %>
             <% if @scan.paused? %>
-                <%= link_to resume_scan_url(@scan), remote: true,
-                            title:                          'Resume scan', method: :patch, class: 'btn btn-small btn-success',
-                            data:                           { confirm: 'Are you sure you want to resume the scan?' } do %>
+                <%= link_to resume_scan_url(@scan),
+                            remote: true,
+                            title:  'Resume scan', method: :patch, class: 'btn btn-small btn-success',
+                            data:   { confirm: 'Are you sure you want to resume the scan?' } do %>
                     <i class=" icon-play-circle"></i>
                 <% end %>
 
             <% else %>
-                <%= link_to pause_scan_url(@scan), remote: true,
-                            title:                         'Pause scan', method: :patch, class: 'btn btn-small btn-warning',
-                            data:                          { confirm: 'Are you sure you want to pause the scan?' } do %>
+                <%= link_to pause_scan_url(@scan),
+                            remote: true,
+                            title:  'Pause scan', method: :patch, class: 'btn btn-small btn-warning',
+                            data:   { confirm: 'Are you sure you want to pause the scan?' } do %>
                     <i class="icon-pause"></i>
                 <% end %>
             <% end %>
         <% end %>
 
+        <% if @scan.scanning? && @scan.spawns == 0 && can?( :suspend, @scan ) %>
+            <%= link_to suspend_scan_url(@scan),
+                        remote: true,
+                        title:  'Suspend scan', method: :patch, class: 'btn btn-small',
+                        data:   { confirm: 'Are you sure you want to suspend the scan?' } do %>
+                <i class="icon-eject"></i>
+            <% end %>
+        <% end %>
+
         <% if can? :abort, @scan %>
-            <%= link_to abort_scan_url(@scan), remote: true,
-                        title:                         'Abort scan', method: :patch, class: 'btn btn-small btn-danger',
-                        data:                          { confirm: 'Are you sure you want to abort the scan?' } do %>
+            <%= link_to abort_scan_url(@scan),
+                        remote: true,
+                        title:  'Abort scan', method: :patch, class: 'btn btn-small btn-danger',
+                        data:   { confirm: 'Are you sure you want to abort the scan?' } do %>
                 <i class="icon-stop"></i>
             <% end %>
         <% end %>
@@ -87,6 +79,17 @@
               </li>
           <% end %>
         </ul>
+
+        <% if @scan.messages.any? %>
+            <strong>Messages:</strong>
+
+            <ul>
+            <% @scan.messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
       </div>
     </div>
   </div>

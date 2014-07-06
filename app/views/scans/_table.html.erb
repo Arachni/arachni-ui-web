@@ -3,7 +3,6 @@
 
    show_revision_legend, show_error_legend, show_aborted_legend = false
 
-   type = (treat_as_running ? 'active' : 'finished')
    filter = "filter_#{type}"
    opts = params.dup
    opts.delete( :format )
@@ -135,7 +134,8 @@
     <table class="table table-striped table-hover table-condensed">
         <%= render partial: 'table_headings', locals: {
                 treat_as_running:   treat_as_running,
-                yours:              yours
+                yours:              yours,
+                type:               type
         } %>
 
         <% scans.each do |scan| %>
@@ -150,7 +150,7 @@
             >
 
             <%= render partial: 'table_row',
-                       locals: { scan: scan, treat_as_running: treat_as_running } %>
+                       locals: { scan: scan, treat_as_running: treat_as_running, type: type } %>
         <% end %>
     </table>
 

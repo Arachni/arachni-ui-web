@@ -17,26 +17,30 @@
 module ScansHelper
 
     def prepare_tables_data
-        params[:filter_finished] ||= params[:filter_active] ||= 'yours'
+        params[:filter_finished]  ||= 'yours'
+        params[:filter_active]    ||= 'yours'
+        params[:filter_suspended] ||= 'yours'
 
         @counts = {
             active: {},
-            finished: {}
+            finished: {},
+            suspended: {}
         }
         %w(yours shared others).each do |type|
             begin
                 @counts[:active][type] = scan_filter( type ).active.count
-
                 @counts[:active]['total'] ||= 0
                 @counts[:active]['total']  += @counts[:active][type]
 
                 @counts[:finished][type] = scan_filter( type ).finished.count
-
                 @counts[:finished]['total'] ||= 0
                 @counts[:finished]['total']  += @counts[:finished][type]
+
+                @counts[:suspended][type] = scan_filter( type ).suspended.count
+                @counts[:suspended]['total'] ||= 0
+                @counts[:suspended]['total']  += @counts[:suspended][type]
             rescue
             end
-
         end
 
         @active_scans = scan_filter( params[:filter_active] ).active.
@@ -49,6 +53,10 @@ module ScansHelper
                             per( HardSettings.finished_scan_pagination_entries ).
                             order( 'id DESC' )
 
+        @suspended_scans = scan_filter( params[:filter_suspended] ).roots.suspended.
+                            page( params[:suspended_page] ).
+                            per( HardSettings.finished_scan_pagination_entries ).
+                            order( 'id DESC' )
     end
 
     def prepare_schedule_data

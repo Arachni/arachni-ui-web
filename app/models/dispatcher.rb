@@ -180,6 +180,14 @@ class Dispatcher < ActiveRecord::Base
         statistics['node']
     end
 
+    def snapshots
+        statistics['snapshots'] || []
+    end
+
+    def snapshot_filenames
+        snapshots.map { |s| File.basename s }
+    end
+
     def url
         "#{address}:#{port}"
     end

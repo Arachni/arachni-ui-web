@@ -55,6 +55,31 @@ class ScanManager
         true
     end
 
+    def self.restore( scan )
+        instance.restore scan
+    end
+
+    def restore( scan )
+        if scan.dispatcher
+            fail 'Dispatcher is not alive.' if !scan.dispatcher.alive?
+
+            scan.dispatcher.client.dispatch( "WebUI v#{ArachniWebui::Application::VERSION}" ) do |info|
+                scan.instance_url   = info['url']
+                scan.instance_token = info['token']
+                scan.save
+
+                scan.restore
+            end
+        else
+            instance = Arachni::Processes::Instances.spawn( fork: false )
+            scan.instance_url   = instance.url
+            scan.instance_token = instance.token
+            instance.close
+
+            scan.restore
+        end
+    end
+
     private
 
     def keep_schedule

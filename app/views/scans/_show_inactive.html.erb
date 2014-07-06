@@ -85,6 +85,16 @@
         </p>
     <% end %>
 
+    <% if @scan.messages.any? %>
+        <div class="alert alert-info">
+            <ul>
+              <% @scan.messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+        </div>>
+    <% end %>
+
     <script type="text/javascript">
         window.setupScanCallbacks();
 

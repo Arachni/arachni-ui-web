@@ -368,6 +368,65 @@ class ScansController < ApplicationController
         end
     end
 
+    # PUT /scans/1/suspend
+    def suspend
+        @scan = find_scan( params.require( :id ) )
+
+        fail 'Cannot suspend a multi-Instance scan.' if @scan.spawns > 0
+        @scan.suspend
+
+        notify @scan
+
+        respond_to do |format|
+            format.js {
+                if params[:render] == 'index'
+                    prepare_scan_group_tab_data
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
+        end
+    end
+
+    # PATCH /scans/abort
+    def suspend_all
+        current_user.own_scans.active.each do |scan|
+            scan.suspend
+            notify scan
+        end
+
+        respond_to do |format|
+            format.js {
+                prepare_scan_group_tab_data
+                prepare_tables_data
+                render '_tables.js'
+            }
+        end
+    end
+
+    # PUT /scans/1/restore
+    def restore
+        @scan = find_scan( params.require( :id ) )
+        fail 'Scan not suspended.' if !@scan.suspended?
+
+        ScanManager.restore @scan
+        notify @scan
+
+        respond_to do |format|
+            format.js {
+                if params[:render] == 'index'
+                    prepare_scan_group_tab_data
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
+        end
+    end
+
     # DELETE /scans/1
     # DELETE /scans/1.json
     def destroy
