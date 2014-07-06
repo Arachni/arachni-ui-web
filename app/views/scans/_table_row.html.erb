@@ -109,7 +109,7 @@
 
     <% if treat_as_running %>
         <td class="hidden-phone"><%= scan.sitemap_size %></td>
-        <td class="hidden-phone"><%= Arachni::Utilities.secs_to_hms scan.runtime %></td>
+        <td class="hidden-phone"><%= Arachni::Utilities.seconds_to_hms scan.runtime %></td>
     <% else %>
         <td class="hidden-phone">
             <% if !show_as_revision && scan.has_revisions? %>
