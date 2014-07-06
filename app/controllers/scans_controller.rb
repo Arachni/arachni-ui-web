@@ -478,6 +478,11 @@ class ScansController < ApplicationController
             params[:scan][sitemap_option] = true
         end
 
+        if params[:scan][:schedule] && params[:scan][:schedule][:stop_after]
+            params[:scan][:schedule][:stop_after] =
+                Arachni::Utilities.hms_to_seconds( params[:scan][:schedule][:stop_after] )
+        end
+
         params.delete( 'grid_dispatcher_id' )
         params.delete( 'remote_dispatcher_id' )
 
@@ -491,7 +496,7 @@ class ScansController < ApplicationController
         if !scan || !scan.finished?
             allowed_params << {
                 schedule: [ :start_at, :every_minute, :every_hour, :every_day,
-                            :every_month, :basetime ]
+                            :every_month, :basetime, :stop_after, :stop_suspend ]
             }
         end
 

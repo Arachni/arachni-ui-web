@@ -16,7 +16,13 @@
                     The scan completed in
             <% end %>
 
-            <%= @scan.report.delta_time %>.
+            <%= @scan.report.delta_time %>
+
+            <% if @scan.timed_out? %>
+                , due to a configured timeout
+            <% end %>
+
+            .
             </p>
 
             <% reports_links = reports_with_outfile.

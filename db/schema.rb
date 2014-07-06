@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140705233412) do
+ActiveRecord::Schema.define(version: 20140706182925) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -239,6 +239,8 @@ ActiveRecord::Schema.define(version: 20140705233412) do
     t.string   "basetime"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "stop_after"
+    t.boolean  "stop_suspend"
   end
 
   create_table "settings", force: true do |t|

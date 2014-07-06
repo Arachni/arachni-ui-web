@@ -70,6 +70,7 @@ class Schedule < ActiveRecord::Base
 
     validates :start_at, datetime: true
     validates :basetime, inclusion: { in: BASETIME_OPTIONS.keys }
+    validate  :validate_stop_after
 
     def recurring?
         interval > 0
@@ -82,6 +83,15 @@ class Schedule < ActiveRecord::Base
 
     def basetime
         super.to_s.to_sym
+    end
+
+    private
+
+    def validate_stop_after
+        return if !stop_after || stop_after > 0
+
+        errors.add :stop_after,
+                   'needs to be in HOURS:MINUTES:SECONDS and greater than 00:00:00'
     end
 
 end

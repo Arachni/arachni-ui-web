@@ -1,3 +1,34 @@
+<% if @scan.schedule.stop_after %>
+    <% if !@scan.timed_out? %>
+        <div class="row-fluid">
+          <% if @scan.scanning? %>
+            <div class="span12 alert alert-info">
+                <i class="icon-calendar"></i>
+
+                Will <%= @scan.schedule.stop_suspend? ? 'suspend' : 'abort' %> in
+                <%= Arachni::Utilities.seconds_to_hms @scan.schedule.stop_after - @scan.runtime %>.
+            </div>
+            <% elsif @scan.schedule.stop_suspend? %>
+
+              <div class="span12 alert alert-warning">
+                <i class="icon-calendar"></i>
+
+                Configured to be suspended in
+                <%= Arachni::Utilities.seconds_to_hms @scan.schedule.stop_after - @scan.runtime %>
+                but won't do so unless the scan state is restored to "Scanning".
+              </div>
+
+        <% end %>
+        </div>
+    <% elsif @scan.schedule.stop_suspend? && !@scan.scanning? %>
+        <div class="span12 alert alert-warning">
+          <i class="icon-calendar"></i>
+
+          The scan will suspend as soon as its state is restored to "Scanning".
+        </div>
+    <% end %>
+<% end %>
+
 <div class="row-fluid">
   <div class="span2">
     <div class="row-fluid">

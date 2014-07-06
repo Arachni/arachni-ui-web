@@ -271,7 +271,7 @@ class Scan < ActiveRecord::Base
     end
 
     def runtime
-        statistics[:runtime]
+        statistics[:runtime].to_i
     end
 
     def current_page
@@ -339,7 +339,6 @@ class Scan < ActiveRecord::Base
             Arachni::Reactor.global.delay( probe_freq ) do |task|
                 instance.service.snapshot_path do |path|
                     next error_out if path.rpc_exception?
-
                     next Arachni::Reactor.global.delay( probe_freq, &task ) if !path
 
                     self.snapshot_path = path
@@ -394,6 +393,8 @@ class Scan < ActiveRecord::Base
                 'was deleted'
             when :abort, :abort_all
                 'was aborted'
+            when :timed_out
+                'timed out'
             when :restore
                 'was restored'
             when :suspend, :suspend_all
@@ -496,6 +497,10 @@ class Scan < ActiveRecord::Base
         true
     end
 
+    def timed_out?
+        schedule.stop_after && runtime >= schedule.stop_after
+    end
+
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
@@ -522,6 +527,21 @@ class Scan < ActiveRecord::Base
                 end
 
                 push_framework_issues( progress_data[:issues] )
+
+                if timed_out?
+
+                    if schedule.stop_suspend?
+                        if scanning?
+                            notify action: :timed_out
+                            suspend
+                        end
+                    else
+                        notify action: :timed_out
+                        abort
+                    end
+
+                    next
+                end
 
                 # If the scan has completed grab the report and mark it as such,
                 # otherwise just call the block.
@@ -723,7 +743,12 @@ class Scan < ActiveRecord::Base
     def validate_instance_count
         if instance_count < 1
             errors.add :instance_count, 'must be at least 1'
+            return
         end
+
+        return if !schedule.stop_suspend || instance_count == 1
+
+        errors.add :instance_count, 'cannot be greater than 1 for a scheduled suspension'
     end
 
     def validate_description

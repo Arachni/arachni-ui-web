@@ -6,7 +6,12 @@
       </div>
 
       <div class="span11 alert">
-        Suspended at <%= l @scan.suspended_at %>.
+        <% if @scan.timed_out? %>
+            Suspended on <%= l @scan.suspended_at %>, due to a configured timeout,
+            after <%= Arachni::Utilities.seconds_to_hms @scan.runtime %>.
+        <% else %>
+            Suspended on <%= l @scan.suspended_at %>.
+        <% end %>
       </div>
     </div>
 
