@@ -522,13 +522,15 @@ class Scan < ActiveRecord::Base
                 self.status     = progress_data[:status]
                 self.statistics = progress_data[:statistics].merge( messages: progress_data[:messages] )
 
-                if progress_data[:errors].any?
+                if progress_data[:errors] && progress_data[:errors].any?
                     self.error_messages ||= ''
                     self.error_messages  += "\n#{progress_data[:errors].join( "\n" )}"
                 end
                 save
 
                 push_framework_issues( progress_data[:issues] )
+
+                next if aborted? || suspended?
 
                 if timed_out?
 
@@ -547,7 +549,7 @@ class Scan < ActiveRecord::Base
 
                 # If the scan has completed grab the report and mark it as such,
                 # otherwise just call the block.
-                if progress_data[:busy] || suspended?
+                if progress_data[:busy]
                     block.call if block_given?
                 else
                     finish
