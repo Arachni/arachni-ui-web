@@ -521,9 +521,9 @@ class Scan < ActiveRecord::Base
                 self.status     = progress_data[:status]
                 self.statistics = progress_data[:statistics].merge( messages: progress_data[:messages] )
 
-                if progress_data[:errors] && !(msgs = progress_data[:errors].join( "\n" )).empty?
+                if progress_data[:errors].any?
                     self.error_messages ||= ''
-                    self.error_messages  += "\n" + progress_data[:errors].join( "\n" )
+                    self.error_messages  += "\n#{progress_data[:errors].join( "\n" )}"
                 end
                 save
 
