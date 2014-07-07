@@ -345,6 +345,7 @@ class Scan < ActiveRecord::Base
                     self.status        = :suspended
                     self.suspended_at  = Time.now
                     self.active        = false
+                    self.statistics    = {}
                     save
 
                     instance.service.shutdown { delete_client }
