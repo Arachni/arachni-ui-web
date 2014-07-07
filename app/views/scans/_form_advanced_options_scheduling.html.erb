@@ -37,8 +37,10 @@
                                                           nil : Arachni::Utilities.seconds_to_hms(scan.schedule.stop_after)
               %>
 
+              <% if scan.spawns == 0 %>
               <%= schedule.label :stop_suspend, 'Suspend' %>
               <%= schedule.check_box :stop_suspend %>
+              <% end %>
             </fieldset>
           </div>
         </div>
