@@ -3,7 +3,9 @@
            if !scan.dispatcher.alive?
                error = "Dispatcher #{scan.dispatcher} is unreachable."
            elsif !scan.dispatcher.snapshots.include? scan.snapshot_path
-               error = "Snapshot could not be located by Dispatcher #{scan.dispatcher}."
+               error = "Snapshot could not be located by Dispatcher #{scan.dispatcher}." <<
+                       ' If the associated Dispatcher has been moved please edit' <<
+                       ' the scan\'s distribution options and assign the new Dispatcher to it.'
            end
        elsif scan.cannot_locate_snapshot?
            error = 'Snapshot could not be located.'
