@@ -6,6 +6,7 @@
 - Updated Profile options for Framework v0.5.
 - Updated Issue data to include DOM information.
 - Scans
+    - Added suspension support.
     - Added import support via AFR report files.
     - Added support for scheduled scan termination.
         - With optional suspension.
