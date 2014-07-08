@@ -85,20 +85,12 @@ end
 
 gem 'typhoeus', github: 'typhoeus/typhoeus'
 gem 'ethon',    github: 'typhoeus/ethon'
+gem 'arachni-reactor',    github: 'arachni/arachni-reactor'
 
-gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
-
-# The Arachni Framework.
-if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni-v0.5' ) || 
-    File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
-
-    gem 'arachni', path: p
+if RbConfig::CONFIG['host_os'].include? 'darwin'
+    gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
+    gem 'arachni',     path: File.dirname( __FILE__ ) + '/../arachni'
 else
-    # Nightly builds use a local git repo for performance reasons.
-    repo = 'https://github.com/Arachni/arachni.git'
-    if !ENV['ARACHNI_FRAMEWORK_REPOSITORY_URL'].to_s.empty?
-        repo = ENV['ARACHNI_FRAMEWORK_REPOSITORY_URL']
-    end
-
-    gem 'arachni', git: repo, branch: 'experimental'
+    gem 'arachni-rpc', path: '/home/zapotek/workspace/arachni-rpc-v0.2'
+    gem 'arachni',     path: '/home/zapotek/workspace/arachni-v0.5'
 end
