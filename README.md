@@ -47,7 +47,7 @@ and DBs for things to work again:
 <table>
     <tr>
         <th>Version</th>
-        <td>1.0dev</td>
+        <td>0.5dev</td>
     </tr>
     <tr>
         <th>Homepage</th>
