@@ -176,7 +176,9 @@ class ScansController < ApplicationController
         end
 
         if !(report = Arachni::Report.load( file.path ))
-            redirect_to scans_url, alert: 'Report format could not be understood.'
+            redirect_to scans_url,
+                        alert: 'Could not understand the Report format, please' <<
+                                   ' ensure that you are using a v0.5 report.'
             return
         end
 
