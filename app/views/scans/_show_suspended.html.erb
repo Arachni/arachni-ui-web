@@ -6,6 +6,8 @@
       </div>
 
       <div class="span11 alert">
+        <i class="icon-eject"></i>
+
         <% if @scan.timed_out? %>
             Suspended on <%= l @scan.suspended_at %>, due to a configured timeout,
             after <%= Arachni::Utilities.seconds_to_hms @scan.runtime %>.
