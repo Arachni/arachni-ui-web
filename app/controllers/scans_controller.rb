@@ -36,7 +36,7 @@ class ScansController < ApplicationController
 
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
-    before_filter :new_scan, only: [ :create ]
+    before_filter :new_scan, only: [ :create, :import ]
 
     before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
 
@@ -163,6 +163,48 @@ class ScansController < ApplicationController
                 format.html { render action: "new" }
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
+        end
+    end
+
+    # POST /scans/create
+    def import
+        if !params[:scan] ||
+            !((file = params[:scan][:file]).is_a?( ActionDispatch::Http::UploadedFile ))
+
+            redirect_to scans_url, alert: 'No file selected for import.'
+            return
+        end
+
+        if !(report = Arachni::Report.load( file.path ))
+            redirect_to scans_url, alert: 'Report format could not be understood.'
+            return
+        end
+
+        # First, we need a profile.
+        profile             = Profile.import_from_data( report.options )
+        profile.owner       = current_user
+        profile.name        = "Placeholder #{Profile.count + 1}"
+        profile.description = profile.name
+
+        @scan.owner = current_user
+        @scan.schedule.basetime = Schedule::BASETIME_OPTIONS.keys.first
+
+        @scan.url         = report.url
+        @scan.description = "Imported from '#{file.original_filename}'."
+        @scan.type        = :direct
+        @scan.profile     = profile
+        @scan.started_at  = report.start_datetime
+        @scan.finished_at = report.finish_datetime
+
+        @scan.create_report( report )
+        @scan.save
+
+        profile.name  = "Created for imported scan ##{@scan.id}"
+        profile.description = "#{profile.name}."
+        profile.save
+
+        respond_to do |format|
+            format.html { redirect_to @scan }
         end
     end
 

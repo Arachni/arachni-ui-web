@@ -5,9 +5,10 @@
 - External links now open in new windows.
 - Updated Profile options for Framework v0.5.
 - Updated Issue data to include DOM information.
-- Added support for suspending scans.
-- Added support for scheduled scan termination.
-    = With optional suspension.
+- Scans
+    - Added import support via AFR report files.
+    - Added support for scheduled scan termination.
+        - With optional suspension.
 
 ## 0.4.3 _(January 1, 2014)_
 

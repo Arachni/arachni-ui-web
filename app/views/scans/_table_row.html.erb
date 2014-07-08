@@ -169,7 +169,8 @@
                     <%= render partial: 'table_headings', locals: {
                             treat_as_running:   treat_as_running,
                             contains_revisions: true,
-                            yours:              yours
+                            yours:              yours,
+                            type:               type
                     } %>
 
                     <% scan.revisions_with_root.finished.each do |revision| %>
@@ -177,7 +178,8 @@
                                    locals: {
                                         scan:             revision,
                                         treat_as_running: treat_as_running,
-                                        show_as_revision: true
+                                        show_as_revision: true,
+                                        type:             type
                                    } %>
                     <% end %>
                 </table>

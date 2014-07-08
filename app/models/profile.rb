@@ -158,9 +158,6 @@ class Profile < ActiveRecord::Base
             end
         end
 
-        # The defaults will be in the Profile.
-        opts['input']['without_defaults'] = true
-
         opts
     end
 
@@ -323,23 +320,27 @@ class Profile < ActiveRecord::Base
         # Old Profile, not supported.
         return if data.include?( 'modules' ) || data.include?( 'mods' )
 
+        data['name']        ||= file.original_filename
+        data['description'] ||= "Imported from '#{file.original_filename}'."
+
+        import_from_data( data )
+    end
+
+    def self.import_from_data( data )
         options = {}
         data.each do |name, value|
             if Arachni::Options.group_classes.include?( name.to_sym )
                 value.each do |k, v|
                     key = "#{name}_#{k}"
-                    next if !attribute_names.include?( key )
+                    next if !attribute_names.include?( key.to_s )
 
                     options[key] = v
                 end
             else
-                next if !attribute_names.include?( name )
+                next if !attribute_names.include?( name.to_s )
                 options[name] = value
             end
         end
-
-        options['name']        ||= file.original_filename
-        options['description'] ||= "Imported from '#{file.original_filename}'."
 
         new options
     end

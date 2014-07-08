@@ -594,6 +594,21 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def create_report( r )
+        begin
+            self.report = Report.create( object: r, scan_id: id )
+            save
+
+            push_framework_issues( r.issues )
+            update_from_framework_issues( r.issues )
+
+            r
+        rescue => e
+            ap e
+            ap e.backtrace
+        end
+    end
+
     def error_messages
         super.to_s
     end
@@ -677,21 +692,6 @@ class Scan < ActiveRecord::Base
             instance.service.shutdown { delete_client }
 
             block.call if block_given?
-        end
-    end
-
-    def create_report( r )
-        begin
-            self.report = Report.create( object: r, scan_id: id )
-            save
-
-            push_framework_issues( r.issues )
-            update_from_framework_issues( r.issues )
-
-            r
-        rescue => e
-            ap e
-            ap e.backtrace
         end
     end
 
