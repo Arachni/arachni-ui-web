@@ -82,7 +82,7 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>License</th>
-        <td><a href="file.LICENSE.html">Apache License Version 2.0</a></td>
+        <td><a href="file.LICENSE.html">All rights reserved.</a></td>
     </tr>
 </table>
 
@@ -177,7 +177,6 @@ for working with the source code.
 
 ## License
 
-Arachni WebUI is licensed under the Apache License Version 2.0.<br/>
 See the [LICENSE](file.LICENSE.html) file for more information.
 
 ## Disclaimer
