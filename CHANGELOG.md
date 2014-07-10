@@ -10,6 +10,8 @@
     - Added import support via AFR report files.
     - Added support for scheduled scan termination.
         - With optional suspension.
+- Added `scan_import` script, allowing AFR reports to be imported as scans via
+    a CLI.
 
 ## 0.4.3 _(January 1, 2014)_
 
