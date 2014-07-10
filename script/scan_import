@@ -43,7 +43,7 @@ OptionParser.new do |opts|
         options[:users] = v.split( ',' )
     end
 
-    opts.on( '--groups ID1,ID2,[...]', 'Assign to scan group.' ) do |v|
+    opts.on( '--groups ID1,ID2,[...]', 'Assign to scan groups.' ) do |v|
         options[:groups] = v.split( ',' )
     end
 end.parse!
