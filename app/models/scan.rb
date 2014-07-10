@@ -594,6 +594,45 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def self.import( owner, file )
+        report = begin
+            Arachni::Report.load( file.path )
+        rescue
+            return
+        end
+
+        # First, we need a profile.
+        profile             = Profile.import_from_data( report.options )
+        profile.owner       = owner
+        profile.name        = "Placeholder #{Profile.count + 1}"
+        profile.description = profile.name
+
+        scan = new(
+            url:         report.url,
+            description: "Imported from '#{file.original_filename}'.",
+            type:        :direct,
+            profile:     profile,
+            started_at:  report.start_datetime,
+            finished_at: report.finish_datetime,
+            owner:       owner,
+            schedule:    Schedule.create(
+                basetime: Schedule::BASETIME_OPTIONS.keys.first
+            )
+        )
+        scan.create_report( report )
+        scan.save
+
+        profile.name        = "Created for imported scan ##{scan.id}"
+        profile.description = "#{profile.name}."
+        profile.save
+
+        scan
+    end
+
+    def error_messages
+        super.to_s
+    end
+
     def create_report( r )
         begin
             self.report = Report.create( object: r, scan_id: id )
@@ -607,10 +646,6 @@ class Scan < ActiveRecord::Base
             ap e
             ap e.backtrace
         end
-    end
-
-    def error_messages
-        super.to_s
     end
 
     private

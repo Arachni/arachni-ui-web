@@ -166,7 +166,7 @@ class ScansController < ApplicationController
         end
     end
 
-    # POST /scans/create
+    # POST /scans/import
     def import
         if !params[:scan] ||
             !((file = params[:scan][:file]).is_a?( ActionDispatch::Http::UploadedFile ))
@@ -175,38 +175,15 @@ class ScansController < ApplicationController
             return
         end
 
-        if !(report = Arachni::Report.load( file.path ))
+        if !(scan = Scan.import( current_user, file ))
             redirect_to scans_url,
                         alert: 'Could not understand the Report format, please' <<
                                    ' ensure that you are using a v0.5 report.'
             return
         end
 
-        # First, we need a profile.
-        profile             = Profile.import_from_data( report.options )
-        profile.owner       = current_user
-        profile.name        = "Placeholder #{Profile.count + 1}"
-        profile.description = profile.name
-
-        @scan.owner = current_user
-        @scan.schedule.basetime = Schedule::BASETIME_OPTIONS.keys.first
-
-        @scan.url         = report.url
-        @scan.description = "Imported from '#{file.original_filename}'."
-        @scan.type        = :direct
-        @scan.profile     = profile
-        @scan.started_at  = report.start_datetime
-        @scan.finished_at = report.finish_datetime
-
-        @scan.create_report( report )
-        @scan.save
-
-        profile.name  = "Created for imported scan ##{@scan.id}"
-        profile.description = "#{profile.name}."
-        profile.save
-
         respond_to do |format|
-            format.html { redirect_to @scan }
+            format.html { redirect_to scan }
         end
     end
 
