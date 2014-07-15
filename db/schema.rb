@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20140706182925) do
     t.boolean  "audit_with_both_http_methods"
     t.boolean  "audit_cookies_extensively"
     t.boolean  "scope_exclude_binaries"
-    t.integer  "scope_auto_redundant"
+    t.integer  "scope_auto_redundant_paths"
     t.boolean  "scope_https_only"
     t.text     "login_check_url"
     t.text     "login_check_pattern"
