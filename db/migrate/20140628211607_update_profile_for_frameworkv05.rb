@@ -25,7 +25,7 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
             redundant:         :scope_redundant_path_patterns,
             depth_limit:       :scope_directory_depth_limit,
             link_count_limit:  :scope_page_limit,
-            auto_redundant:    :scope_auto_redundant,
+            auto_redundant:    :scope_auto_redundant_paths,
             https_only:        :scope_https_only,
             fuzz_methods:      :audit_with_both_http_methods,
             exclude_vectors:   :audit_exclude_vector_patterns,

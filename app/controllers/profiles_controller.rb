@@ -216,7 +216,7 @@ class ProfilesController < ApplicationController
 
         allowed = [
             :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
-            :audit_headers, :audit_links, :authorized_by, :scope_auto_redundant,
+            :audit_headers, :audit_links, :authorized_by, :scope_auto_redundant_paths,
             :http_cookies, :http_request_headers, :scope_directory_depth_limit, :scope_exclude_path_patterns,
             :scope_exclude_path_patterns_binaries, :scope_exclude_path_patterns_cookies, :scope_exclude_path_patterns_vectors,
             :scope_extend_paths, :scope_include_subdomains, :audit_with_both_http_methods, :http_request_concurrency,

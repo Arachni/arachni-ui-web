@@ -63,7 +63,7 @@ class Profile < ActiveRecord::Base
 
     RPC_OPTS = [
         :audit_cookies, :audit_cookies_extensively, :audit_forms, :audit_headers,
-        :audit_links, :authorized_by, :scope_auto_redundant, :http_cookies,
+        :audit_links, :authorized_by, :scope_auto_redundant_paths, :http_cookies,
         :http_request_headers, :scope_directory_depth_limit,
         :scope_exclude_path_patterns, :scope_exclude_binaries,
         :audit_exclude_vector_patterns, :scope_extend_paths, :scope_include_subdomains,
@@ -162,8 +162,7 @@ class Profile < ActiveRecord::Base
     end
 
     def find_group_option( name )
-        Arachni::Options.group_classes.keys.
-            find { |n| name.start_with? "#{n}_" }
+        Arachni::Options.group_classes.keys.find { |n| name.start_with? "#{n}_" }
     end
 
     def export( serializer = YAML )
