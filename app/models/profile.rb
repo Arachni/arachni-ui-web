@@ -32,6 +32,7 @@ class Profile < ActiveRecord::Base
     validate :validate_plugins
     validate :validate_plugin_options
     validate :validate_scope_redundant_path_patterns
+    validate :validate_http_request_concurrency
     validate :validate_http_cookies
     validate :validate_http_request_headers
     validate :validate_login_check
@@ -361,6 +362,11 @@ class Profile < ActiveRecord::Base
         http_cookies.each do |name, value|
             errors.add :http_cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
+    end
+
+    def validate_http_request_concurrency
+        return if http_request_concurrency.to_i > 0
+        errors.add :http_request_concurrency, 'must be higher than 0'
     end
 
     def validate_http_request_headers
