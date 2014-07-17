@@ -49,7 +49,6 @@ class Profile < ActiveRecord::Base
     serialize :scope_extend_paths,             Array
     serialize :scope_restrict_paths,           Array
     serialize :scope_redundant_path_patterns,  Hash
-    serialize :scope_link_templates,           Array
     serialize :scope_url_rewrites,             Hash
     serialize :audit_exclude_vector_patterns,  Array
     serialize :audit_include_vector_patterns,  Array
@@ -63,24 +62,59 @@ class Profile < ActiveRecord::Base
     before_save :add_owner_to_subscribers
 
     RPC_OPTS = [
-        :audit_cookies, :audit_cookies_extensively, :audit_forms, :audit_headers,
-        :audit_links, :authorized_by, :scope_auto_redundant_paths, :http_cookies,
-        :http_request_headers, :scope_directory_depth_limit,
-        :scope_exclude_path_patterns, :scope_exclude_binaries,
-        :audit_exclude_vector_patterns, :scope_extend_paths, :scope_include_subdomains,
-        :audit_with_both_http_methods, :http_request_concurrency,
-        :scope_include_path_patterns, :scope_page_limit, :login_check_pattern,
-        :login_check_url, :spawns, :checks, :plugins, :http_proxy_host,
-        :http_proxy_password, :http_proxy_port, :http_proxy_type,
-        :http_proxy_username, :http_request_redirect_limit,
-        :scope_redundant_path_patterns, :scope_restrict_paths, :http_user_agent,
-        :http_request_timeout, :scope_https_only, :scope_exclude_content_patterns,
-        :platforms, :no_fingerprinting, :http_authentication_username,
-        :http_authentication_password, :input_values, :browser_cluster_pool_size,
-        :browser_cluster_job_timeout, :browser_cluster_worker_time_to_live,
-        :browser_cluster_ignore_images, :browser_cluster_screen_width,
-        :browser_cluster_screen_height, :scope_dom_depth_limit, :scope_url_rewrites,
-        :audit_include_vectors
+        :audit_cookies,
+        :audit_cookies_extensively,
+        :audit_exclude_vector_patterns,
+        :audit_forms,
+        :audit_headers,
+        :audit_include_vector_patterns,
+        :audit_include_vectors,
+        :audit_link_templates,
+        :audit_links,
+        :audit_with_both_http_methods,
+        :authorized_by,
+        :browser_cluster_ignore_images,
+        :browser_cluster_job_timeout,
+        :browser_cluster_pool_size,
+        :browser_cluster_screen_height,
+        :browser_cluster_screen_width,
+        :browser_cluster_worker_time_to_live,
+        :checks,
+        :http_authentication_password,
+        :http_authentication_username,
+        :http_cookies,
+        :http_proxy_host,
+        :http_proxy_password,
+        :http_proxy_port,
+        :http_proxy_type,
+        :http_proxy_username,
+        :http_request_concurrency,
+        :http_request_headers,
+        :http_request_queue_size,
+        :http_request_redirect_limit,
+        :http_request_timeout,
+        :http_user_agent,
+        :input_values,
+        :login_check_pattern,
+        :login_check_url,
+        :no_fingerprinting,
+        :platforms,
+        :plugins,
+        :scope_auto_redundant_paths,
+        :scope_directory_depth_limit,
+        :scope_dom_depth_limit,
+        :scope_exclude_binaries,
+        :scope_exclude_content_patterns,
+        :scope_exclude_path_patterns,
+        :scope_extend_paths,
+        :scope_https_only,
+        :scope_include_path_patterns,
+        :scope_include_subdomains,
+        :scope_page_limit,
+        :scope_redundant_path_patterns,
+        :scope_restrict_paths,
+        :scope_url_rewrites,
+        :spawns
     ]
 
     scope :global, -> { where global: true }
