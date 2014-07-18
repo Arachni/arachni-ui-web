@@ -137,7 +137,7 @@
             <td><%= @scan.statistics[:found_pages] %></td>
 
             <th class="hidden-phone">Requests performed</th>
-            <td class="hidden-phone"><%= @scan.statistics[:http][:response_count] %></td>
+            <td class="hidden-phone"><%= @scan.statistics[:http][:request_count] %></td>
 
             <th>Requests per second</th>
             <td><%= @scan.statistics[:http][:total_responses_per_second] %></td>
@@ -161,7 +161,7 @@
             <td class="hidden-phone"><%= Arachni::Utilities.seconds_to_hms @scan.runtime %></td>
 
             <th class="hidden-phone">Responses received</th>
-            <td class="hidden-phone"><%= @scan.statistics[:http][:request_count] %> </td>
+            <td class="hidden-phone"><%= @scan.statistics[:http][:response_count] %> </td>
 
             <th class="hidden-phone">Timed out requests</th>
             <td class="hidden-phone"><%= @scan.statistics[:http][:time_out_count] %></td>
