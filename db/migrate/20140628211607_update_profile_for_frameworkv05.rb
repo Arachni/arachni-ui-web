@@ -34,7 +34,7 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
             authed_by:         :authorized_by,
         }.each { |k, v| rename_column :profiles, k, v }
 
-        remove_column :profiles, :audit_exclude_cookies
+        remove_column :profiles, :exclude_cookies
 
         add_column :profiles, :input_values,         :text
         add_column :profiles, :audit_link_templates, :text
