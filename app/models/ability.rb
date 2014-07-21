@@ -25,6 +25,8 @@ class Ability
         user ||= User.new # guest user (not logged in)
         if user.has_role? :admin
             can :manage, :all
+
+            cannot :destroy, User, id: user.id
         else
             #
             # User access rules
