@@ -7,9 +7,9 @@
 
     <%= 'disabled' if disabled %>
 
-    <% if option.type == 'path' %>
+    <% if option.type == :path %>
         disabled="disabled" type="file"
-    <% elsif option.type == 'bool' %>
+    <% elsif option.type == :bool %>
         type="checkbox" class='boolean <%= required %>'
 
         <% if !value.nil? %>
@@ -20,7 +20,7 @@
 
     <% else %>
 
-        <% if option.type == 'integer' || option.type == 'port' %>
+        <% if option.type == :integer || option.type == :port %>
             class="numeric integer <%= required %>"
             type='number'
         <% else %>

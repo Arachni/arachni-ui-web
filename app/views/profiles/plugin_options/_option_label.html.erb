@@ -1,4 +1,4 @@
-<label for="profile[plugins][<%= plugin_name %>][<%= option.name %>]" >
+<label for="profile_plugins_<%= plugin_name %>_<%= option.name %>" >
     <% description = (option.description.ends_with?( '.' ) ?
             option.description[0...-1] : option.description)  %>
     <% if option.required? %>
