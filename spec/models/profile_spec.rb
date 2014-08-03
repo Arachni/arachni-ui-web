@@ -130,37 +130,37 @@ describe Profile do
     #     end
     #
     #     describe :login_check do
-    #         context 'when it has a login_check_url' do
-    #             context 'but not a login_check_pattern' do
+    #         context 'when it has a session_check_url' do
+    #             context 'but not a session_check_pattern' do
     #                 it 'should be invalid' do
     #                     FactoryGirl.build( :profile,
-    #                                        login_check_url: 'http://test.com' ).should be_invalid
+    #                                        session_check_url: 'http://test.com' ).should be_invalid
     #                 end
     #             end
     #         end
     #
-    #         context 'when it has a login_check_pattern' do
-    #             context 'but not a login_check_url' do
+    #         context 'when it has a session_check_pattern' do
+    #             context 'but not a session_check_url' do
     #                 it 'should be invalid' do
     #                     FactoryGirl.build( :profile,
-    #                                        login_check_pattern: /stuff/ ).should be_invalid
+    #                                        session_check_pattern: /stuff/ ).should be_invalid
     #                 end
     #             end
     #         end
     #
-    #         context 'when login_check_url is not a valid absolute URL' do
+    #         context 'when session_check_url is not a valid absolute URL' do
     #             it 'should be invalid' do
     #                 FactoryGirl.build( :profile,
-    #                                    login_check_url: '/stuff/' ).should be_invalid
+    #                                    session_check_url: '/stuff/' ).should be_invalid
     #             end
     #         end
     #
-    #         context 'when it has a valid login_check_url' do
-    #             context 'and a login_check_pattern' do
+    #         context 'when it has a valid session_check_url' do
+    #             context 'and a session_check_pattern' do
     #                 it 'should be valid' do
     #                     FactoryGirl.build( :profile,
-    #                                        login_check_url:     'http://test.com/stuff/',
-    #                                        login_check_pattern: /stuff/ ).should be_valid
+    #                                        session_check_url:     'http://test.com/stuff/',
+    #                                        session_check_pattern: /stuff/ ).should be_valid
     #                 end
     #             end
     #         end

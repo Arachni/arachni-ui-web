@@ -15,7 +15,7 @@ GIT
 PATH
   remote: /Users/zapotek/workspace/arachni
   specs:
-    arachni (0.5dev)
+    arachni (1.0)
       addressable (= 2.3.6)
       arachni-rpc (= 0.2.0)
       awesome_print (= 1.2.0)

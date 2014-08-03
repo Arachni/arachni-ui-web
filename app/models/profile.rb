@@ -35,7 +35,7 @@ class Profile < ActiveRecord::Base
     validate :validate_http_request_concurrency
     validate :validate_http_cookies
     validate :validate_http_request_headers
-    validate :validate_login_check
+    validate :validate_session_check
 
     # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
@@ -95,8 +95,8 @@ class Profile < ActiveRecord::Base
         :http_request_timeout,
         :http_user_agent,
         :input_values,
-        :login_check_pattern,
-        :login_check_url,
+        :session_check_pattern,
+        :session_check_url,
         :no_fingerprinting,
         :platforms,
         :plugins,
@@ -193,6 +193,7 @@ class Profile < ActiveRecord::Base
             end
         end
 
+        ap opts
         opts
     end
 
@@ -409,18 +410,18 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def validate_login_check
-        return if login_check_url.to_s.empty? && login_check_pattern.to_s.empty?
-        if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
-            errors.add :login_check_url, 'not a valid absolute URL'
+    def validate_session_check
+        return if session_check_url.to_s.empty? && session_check_pattern.to_s.empty?
+        if (url = Arachni::URI( session_check_url )).to_s.empty? || !url.absolute?
+            errors.add :session_check_url, 'not a valid absolute URL'
         end
 
-        errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
+        errors.add :session_check_pattern, 'cannot be blank' if session_check_pattern.to_s.empty?
 
         begin
-            Regexp.new( login_check_pattern )
+            Regexp.new( session_check_pattern )
         rescue RegexpError => e
-            errors.add :login_check_pattern, "not a valid regular expression (#{e})"
+            errors.add :session_check_pattern, "not a valid regular expression (#{e})"
         end
     end
 

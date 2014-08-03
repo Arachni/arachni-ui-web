@@ -509,23 +509,23 @@
       </fieldset>
     </section>
 
-    <section id="login">
+    <section id="session">
         <fieldset>
-            <legend id="login-h">
-                Login check
+            <legend id="session-h">
+                Session check
                 <small>How the scanner will determine its session's validity</small>
             </legend>
 
             <div class="row-fluid">
                 <div class="span6">
-                    <%= f.input :login_check_url, as: :string, label: false,
-                        placeholder: 'Login check URL' %>
-                    <%= messages_for( :login_check_url ) %>
+                    <%= f.input :session_check_url, as: :string, label: false,
+                        placeholder: 'Session check URL' %>
+                    <%= messages_for( :session_check_url ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :login_check_pattern, as: :string, label: false,
-                                placeholder: 'Login check pattern' %>
-                    <%= messages_for( :login_check_pattern ) %>
+                    <%= f.input :session_check_pattern, as: :string, label: false,
+                                placeholder: 'Session check pattern' %>
+                    <%= messages_for( :session_check_pattern ) %>
                 </div>
             </div>
         </fieldset>

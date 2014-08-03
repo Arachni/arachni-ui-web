@@ -32,6 +32,8 @@ class UpdateProfileForFrameworkv05 < ActiveRecord::Migration
             modules:           :checks,
             max_slaves:        :spawns,
             authed_by:         :authorized_by,
+            login_check_url:   :session_check_url,
+            login_check_pattern: :session_check_pattern
         }.each { |k, v| rename_column :profiles, k, v }
 
         remove_column :profiles, :exclude_cookies

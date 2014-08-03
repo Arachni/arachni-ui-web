@@ -221,7 +221,7 @@ class ProfilesController < ApplicationController
             :http_cookies, :http_request_headers, :scope_directory_depth_limit, :scope_exclude_path_patterns,
             :scope_exclude_path_patterns_binaries, :scope_exclude_path_patterns_cookies, :scope_exclude_path_patterns_vectors,
             :scope_extend_paths, :scope_include_subdomains, :audit_with_both_http_methods, :http_request_concurrency,
-            :scope_include_path_patterns, :scope_page_limit, :login_check_pattern, :login_check_url,
+            :scope_include_path_patterns, :scope_page_limit, :session_check_pattern, :session_check_url,
             :spawns, :min_pages_per_instance, { checks: [] }, { selected_plugins: []},
             { plugins: plugins_with_options }, :http_proxy_host, :http_proxy_password, :http_proxy_port,
             :http_proxy_type, :http_proxy_username, :http_request_redirect_limit, :scope_redundant_path_patterns,

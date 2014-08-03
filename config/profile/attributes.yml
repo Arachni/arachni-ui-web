@@ -41,9 +41,9 @@ http_request_queue_size:
     warning: 'More means better scheduling and better performance, fewer means less RAM consumption.'
 scope_include_path_patterns: 'Only crawls and audits URLs matching the given patterns.'
 scope_page_limit: 'Limits the amount of URLs to follow.'
-login_check_pattern: 'Matches the given pattern against the body of the login-check
+session_check_pattern: 'Matches the given pattern against the body of the session-check
     URL to determine whether or not the scanner is logged in to the web application.'
-login_check_url: 'URL used to verify that the scanner is still logged in to the web application.'
+session_check_url: 'URL used to verify that the scanner is still logged in to the web application.'
 http_proxy_host: 'Hostname or IP address of the proxy server to use.'
 http_proxy_password: 'Proxy server password.'
 http_proxy_port: 'Proxy server port.'
