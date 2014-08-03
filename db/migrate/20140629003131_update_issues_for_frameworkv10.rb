@@ -1,4 +1,4 @@
-class UpdateIssuesForFrameworkv05 < ActiveRecord::Migration
+class UpdateIssuesForFrameworkv10 < ActiveRecord::Migration
     def change
         remove_column :issues, :headers
         remove_column :issues, :audit_options
