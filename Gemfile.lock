@@ -13,7 +13,13 @@ GIT
       ethon (>= 0.7.1)
 
 PATH
-  remote: /Users/zapotek/workspace/arachni
+  remote: /home/zapotek/workspace/arachni-rpc-v0.2
+  specs:
+    arachni-rpc (0.2.0)
+      arachni-reactor (~> 0.1.0.beta2)
+
+PATH
+  remote: /home/zapotek/workspace/arachni-v0.5
   specs:
     arachni (1.0)
       addressable (= 2.3.6)
@@ -22,6 +28,7 @@ PATH
       bundler
       childprocess (= 0.5.3)
       coderay (= 1.1.0)
+      github-markdown (= 0.6.5)
       json (= 1.8.1)
       msgpack (= 0.5.8)
       nokogiri (= 1.6.2.1)
@@ -31,12 +38,6 @@ PATH
       terminal-table (= 1.4.5)
       typhoeus (= 0.6.9)
       watir-webdriver (= 0.6.9)
-
-PATH
-  remote: /Users/zapotek/workspace/arachni-rpc-v0.2
-  specs:
-    arachni-rpc (0.2.0)
-      arachni-reactor (~> 0.1.0.beta2)
 
 GEM
   remote: https://rubygems.org/
