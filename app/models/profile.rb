@@ -193,7 +193,6 @@ class Profile < ActiveRecord::Base
             end
         end
 
-        ap opts
         opts
     end
 
