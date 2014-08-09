@@ -64,7 +64,7 @@ module ApplicationHelper
     end
 
     def m( string )
-        GitHub::Markdown.render( string ).html_safe
+        GitHub::Markdown.render( string.to_s ).to_s.html_safe
     end
 
     def truncate_html( html, length = 500, append = ' [...]' )
