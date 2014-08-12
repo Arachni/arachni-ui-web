@@ -3,8 +3,12 @@
 ## _Under development_
 
 - External links now open in new windows.
-- Updated Profile options for Framework v0.5.
-- Updated Issue data to include DOM information.
+- Issue
+    - Data to include DOM information.
+    - Description and remedy guidance textx are now rendered as GitHub-flavored Markdown.
+- Profiles
+    - Updated options for Framework v1.0.
+    - Check and plugin information now rendered as GitHub-flavored Markdown.
 - Scans
     - Added suspension support.
     - Added import support via AFR report files.
