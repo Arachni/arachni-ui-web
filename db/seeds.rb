@@ -112,6 +112,6 @@ puts 'XSS profile created: ' << p.name
 p = Profile.create! arachni_defaults.merge(
                         name: 'SQL injection',
                         description: 'Scans for SQL injection vulnerabilities.',
-                        checks: %w(sqli sqli_blind_differential sqli_blind_timing)
+                        checks: %w(sql_injection sql_injection_differential sql_injection_timing)
                     )
 puts 'SQLi profile created: ' << p.name
