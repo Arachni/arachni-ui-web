@@ -14,13 +14,15 @@
                     value="<%=shortname%>">
 
                 <a class="accordion-toggle accordion-component-title" data-toggle="collapse"
-                   data-parent="#modules-accordion" href="#<%= shortname %>">
+                   data-parent="#component-accordion" href="#<%= shortname %>">
                     <%= info[:name] %> (<%= shortname %>)
                 </a>
             </div>
             <div style="height: 0px;" id="<%= shortname %>" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <pre> <%= prepare_description info[:description] %> </pre>
+                    <div class="markdown">
+                        <%= m info[:description] %>
+                    </div>
                 </div>
 
                 <div class="accordion-inner">
