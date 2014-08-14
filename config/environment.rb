@@ -24,8 +24,6 @@ require File.expand_path( '../application', __FILE__ )
 ArachniWebui::Application.initialize!
 
 if Rails.env != 'test'
-    ::EM.next_tick do
-        ScanManager.monitor
-        DispatcherManager.monitor
-    end
+    ScanManager.monitor
+    DispatcherManager.monitor
 end
