@@ -83,9 +83,6 @@ group :test do
     gem 'faker'
 end
 
-gem 'typhoeus', github: 'typhoeus/typhoeus'
-gem 'ethon',    github: 'typhoeus/ethon'
-
 if RbConfig::CONFIG['host_os'].include? 'darwin'
     gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
     gem 'arachni',     path: File.dirname( __FILE__ ) + '/../arachni'
