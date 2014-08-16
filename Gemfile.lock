@@ -128,6 +128,8 @@ GEM
     launchy (2.4.2)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
+    loofah (2.0.0)
+      nokogiri (>= 1.5.9)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -257,6 +259,7 @@ DEPENDENCIES
   kaminari
   launchy (>= 2.2.0)
   libv8 (~> 3.11.8)
+  loofah
   psych
   rails (= 4.1.4)
   rolify (~> 3.4.0)

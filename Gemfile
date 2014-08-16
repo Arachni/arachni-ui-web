@@ -37,6 +37,8 @@ gem 'rolify', '~> 3.4.0'
 # Pagination helper.
 gem 'kaminari'
 
+gem 'loofah'
+
 group :development do
     # Model factory.
     gem 'factory_girl_rails'
