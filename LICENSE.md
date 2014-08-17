@@ -1,6 +1,6 @@
 # License
 
-Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+Copyright 2013-2014 [Tasos Laskos](mailto:tasos.laskos@gmail.com).
 
 The Arachni WebUI is dual-licensed.
 
