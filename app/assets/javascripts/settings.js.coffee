@@ -20,17 +20,17 @@ searchModules = ( val ) ->
     $("#settings ").show()
 
     if( val != '' )
-        $("#settings .module:not(:icontains(" + val + "))").hide()
+        $("#settings .check:not(:icontains(" + val + "))").hide()
     else
-        $("#settings .module").show()
+        $("#settings .check").show()
 
 jQuery ->
     $('#settings input#search').keyup ->
         searchModules $(this).val()
 
     $('#settings #profile button.check').click ->
-        $('#settings .module input:visible:checkbox').attr('checked','checked')
+        $('#settings .check input:visible:checkbox').attr('checked','checked')
         false
     $('#settings #profile button.uncheck').click ->
-        $('#settings .module input:visible:checkbox').removeAttr('checked')
+        $('#settings .check input:visible:checkbox').removeAttr('checked')
         false
