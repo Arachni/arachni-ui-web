@@ -85,10 +85,5 @@ group :test do
     gem 'faker'
 end
 
-if RbConfig::CONFIG['host_os'].include? 'darwin'
-    gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
-    gem 'arachni',     path: File.dirname( __FILE__ ) + '/../arachni'
-else
-    gem 'arachni-rpc', path: '/home/zapotek/workspace/arachni-rpc-v0.2'
-    gem 'arachni',     path: '/home/zapotek/workspace/arachni-v0.5'
-end
+gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
+gem 'arachni',     path: File.dirname( __FILE__ ) + '/../arachni'

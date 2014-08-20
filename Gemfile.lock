@@ -1,11 +1,5 @@
 PATH
-  remote: /home/zapotek/workspace/arachni-rpc-v0.2
-  specs:
-    arachni-rpc (0.2.0)
-      arachni-reactor (~> 0.1.0.beta2)
-
-PATH
-  remote: /home/zapotek/workspace/arachni-v0.5
+  remote: /home/zapotek/workspace/arachni
   specs:
     arachni (1.0)
       addressable (= 2.3.6)
@@ -16,6 +10,7 @@ PATH
       coderay (= 1.1.0)
       github-markdown (= 0.6.5)
       json (= 1.8.1)
+      loofah (= 2.0.0)
       msgpack (= 0.5.8)
       nokogiri (= 1.6.2.1)
       pony (= 1.8)
@@ -24,6 +19,12 @@ PATH
       terminal-table (= 1.4.5)
       typhoeus (= 0.6.9)
       watir-webdriver (= 0.6.9)
+
+PATH
+  remote: /home/zapotek/workspace/arachni-rpc-v0.2
+  specs:
+    arachni-rpc (0.2.0)
+      arachni-reactor (~> 0.1.0.beta2)
 
 GEM
   remote: https://rubygems.org/
