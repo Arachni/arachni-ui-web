@@ -3,6 +3,20 @@
 ## _Under development_
 
 - External links now open in new windows.
+- Admin can no longer delete self.
+- Issue
+    - Data to include DOM information.
+    - Description and remedy guidance textx are now rendered as GitHub-flavored Markdown.
+- Profiles
+    - Updated options for Framework v1.0.
+    - Check and plugin information now rendered as GitHub-flavored Markdown.
+- Scans
+    - Added suspension support.
+    - Added import support via AFR report files.
+    - Added support for scheduled scan termination.
+        - With optional suspension.
+- Added `scan_import` script, allowing AFR reports to be imported as scans via
+    a CLI.
 
 ## 0.4.3 _(January 1, 2014)_
 
