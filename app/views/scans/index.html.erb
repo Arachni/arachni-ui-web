@@ -23,6 +23,13 @@
         <%= link_to schedule_scans_path, class: 'btn btn-inverse' do %>
             <i class="icon-calendar"></i> Schedule
         <% end %>
+
+          <a href="#scan-import" title="Import a scan via a report"
+             role="button" class="btn btn-inverse" data-toggle="modal">
+            <i class="icon-upload-alt"></i> Import
+        </a>
+
+      <%= render partial: 'import' %>
     </p>
 
     <div id="revision-form-modal" class="modal hide fade"

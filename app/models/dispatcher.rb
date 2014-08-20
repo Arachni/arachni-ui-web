@@ -180,6 +180,14 @@ class Dispatcher < ActiveRecord::Base
         statistics['node']
     end
 
+    def snapshots
+        statistics['snapshots'] || []
+    end
+
+    def snapshot_filenames
+        snapshots.map { |s| File.basename s }
+    end
+
     def url
         "#{address}:#{port}"
     end
@@ -195,7 +203,7 @@ class Dispatcher < ActiveRecord::Base
 
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
-        client.stats do |stats|
+        client.statistics do |stats|
             if stats.rpc_exception?
                 if alive?
                     self.alive = false

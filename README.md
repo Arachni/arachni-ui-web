@@ -1,53 +1,15 @@
-# Experimental/unstable branch -- used for development/integration
+**NOTICE**:
+Arachni's <a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">license</a>
+has changed, please review it before working with the project.
 
-This branch is where all development takes place, once its code has been tested and
-is considered stable, it is then merged into the `master` branch and released.
-
-Do not be confused by the version of this branch, `1.0dev` is a placeholder
-which simply means _next release_.
-
-## Nightlies
-
-For self-contained, nightly snapshot packages take a look at:
-http://downloads.arachni-scanner.com/nightlies/
-
-## Source
-
-To run from source you first need to setup a
-[development environment](https://github.com/Arachni/arachni/wiki/Development-environment).
-
-**After** you've setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment),
-run the following to checkout the source code of the `experimental` branch and
-resolve its dependencies:
-
-    git clone https://github.com/Arachni/arachni-ui-web
-    cd arachni-ui-web
-    git checkout experimental
-
-    bundle install
-
-    rake db:migrate
-    rake db:setup
-    script/rails s thin
-
-For seed data (default user accounts etc) take a look in `db/seeds.rb`.
-
-Also, the DB schema is pretty fluid during development so migrate after each
-`git pull` and don't be surprised if you'll have to remove the existing schema
-and DBs for things to work again:
-
-    rm db/development.sqlite3
-    rm db/test.sqlite3
-    rm db/schema.rb
-    rake db:migrate
-    rake db:setup
+<hr/>
 
 # Arachni - Web User Interface
 
 <table>
     <tr>
         <th>Version</th>
-        <td>1.0dev</td>
+        <td>0.5</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -82,7 +44,7 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>License</th>
-        <td><a href="file.LICENSE.html">Apache License Version 2.0</a></td>
+        <td><a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">Dual-licensed (Apache License v2.0/Commercial)</a></td>
     </tr>
 </table>
 
@@ -130,7 +92,7 @@ security scanner framework.
             - Mark them as verified
     - Receive Notifications for:
         - Shared Profiles -- Created, updated, shared, deleted.
-        - Shared Scans -- Started, paused, resumed, aborted, commented.
+        - Shared Scans -- Started, paused, resumed, aborted, commented, timed out, suspended.
         - Issues of shared Scans -- Reviewed, verified, commented.
     - Review their Activity.
     - Export reports, review and comment on Scans which have been shared with them by other users.
@@ -177,8 +139,7 @@ for working with the source code.
 
 ## License
 
-Arachni WebUI is licensed under the Apache License Version 2.0.<br/>
-See the [LICENSE](file.LICENSE.html) file for more information.
+<a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">Dual-licensed (Apache License v2.0/Commercial)</a>
 
 ## Disclaimer
 

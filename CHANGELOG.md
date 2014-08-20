@@ -3,7 +3,6 @@
 ## _Under development_
 
 - External links now open in new windows.
-- Admin user can no longer delete self.
 
 ## 0.4.3 _(January 1, 2014)_
 

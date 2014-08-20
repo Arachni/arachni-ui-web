@@ -17,26 +17,30 @@
 module ScansHelper
 
     def prepare_tables_data
-        params[:filter_finished] ||= params[:filter_active] ||= 'yours'
+        params[:filter_finished]  ||= 'yours'
+        params[:filter_active]    ||= 'yours'
+        params[:filter_suspended] ||= 'yours'
 
         @counts = {
             active: {},
-            finished: {}
+            finished: {},
+            suspended: {}
         }
         %w(yours shared others).each do |type|
             begin
                 @counts[:active][type] = scan_filter( type ).active.count
-
                 @counts[:active]['total'] ||= 0
                 @counts[:active]['total']  += @counts[:active][type]
 
                 @counts[:finished][type] = scan_filter( type ).finished.count
-
                 @counts[:finished]['total'] ||= 0
                 @counts[:finished]['total']  += @counts[:finished][type]
+
+                @counts[:suspended][type] = scan_filter( type ).suspended.count
+                @counts[:suspended]['total'] ||= 0
+                @counts[:suspended]['total']  += @counts[:suspended][type]
             rescue
             end
-
         end
 
         @active_scans = scan_filter( params[:filter_active] ).active.
@@ -49,6 +53,10 @@ module ScansHelper
                             per( HardSettings.finished_scan_pagination_entries ).
                             order( 'id DESC' )
 
+        @suspended_scans = scan_filter( params[:filter_suspended] ).roots.suspended.
+                            page( params[:suspended_page] ).
+                            per( HardSettings.finished_scan_pagination_entries ).
+                            order( 'id DESC' )
     end
 
     def prepare_schedule_data
@@ -130,20 +138,26 @@ module ScansHelper
     def issues_to_graph_data( issues )
         graph_data = {
             severities:       {
-                Arachni::Severity::HIGH          => 0,
-                Arachni::Severity::MEDIUM        => 0,
-                Arachni::Severity::LOW           => 0,
-                Arachni::Severity::INFORMATIONAL => 0
+                Arachni::Severity::HIGH.to_sym          => 0,
+                Arachni::Severity::MEDIUM.to_sym        => 0,
+                Arachni::Severity::LOW.to_sym           => 0,
+                Arachni::Severity::INFORMATIONAL.to_sym => 0
             },
             issues:           {},
             elements:         {
-                Arachni::Element::FORM   => 0,
-                Arachni::Element::LINK   => 0,
-                Arachni::Element::COOKIE => 0,
-                Arachni::Element::HEADER => 0,
-                Arachni::Element::BODY   => 0,
-                Arachni::Element::PATH   => 0,
-                Arachni::Element::SERVER => 0
+                Arachni::Element::Form.type              => 0,
+                Arachni::Element::Form::DOM.type         => 0,
+                Arachni::Element::Link.type              => 0,
+                Arachni::Element::Link::DOM.type         => 0,
+                Arachni::Element::Cookie.type            => 0,
+                Arachni::Element::Cookie::DOM.type       => 0,
+                Arachni::Element::Header.type            => 0,
+                Arachni::Element::LinkTemplate.type      => 0,
+                Arachni::Element::LinkTemplate::DOM.type => 0,
+                Arachni::Element::GenericDOM.type        => 0,
+                Arachni::Element::Body.type              => 0,
+                Arachni::Element::Path.type              => 0,
+                Arachni::Element::Server.type            => 0
             }
         }
 
@@ -151,13 +165,13 @@ module ScansHelper
         total_elements   = 0
 
         issues.each.with_index do |issue, i|
-            graph_data[:severities][issue.severity] += 1
+            graph_data[:severities][issue.severity.downcase.to_sym] += 1
             total_severities += 1
 
             graph_data[:issues][issue.name] ||= 0
             graph_data[:issues][issue.name] += 1
 
-            graph_data[:elements][issue.vector_type] += 1
+            graph_data[:elements][issue.vector_type.to_sym] += 1
             total_elements += 1
         end
 

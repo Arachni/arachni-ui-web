@@ -30,8 +30,8 @@
 
                 <tr>
                     <td colspan="5">
-                        <p class="description well">
-                            <%= ref_issue.description %>
+                        <div class="description well">
+                            <%= m ref_issue.description %>
 
                             <% if ref_issue.cwe_url %>
                                 (<a href="<%=ref_issue.cwe_url%>"
@@ -39,7 +39,7 @@
                                     target="_blank"
                                     title="Vulnerability definitions from Common Weakness Enumeration project.">CWE</a>)
                             <% end %>
-                        </p>
+                        </div>
                     </td>
                 </tr>
 

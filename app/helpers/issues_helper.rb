@@ -16,14 +16,14 @@
 
 module IssuesHelper
 
-    def highlight_issue_response_body( issue, span_class )
-        return h( issue.response_body ) if !issue.response_body_contains_proof?
+    def highlight_proof( text, proof, span_class )
+        return h( text ) if !proof || !text.include?( proof )
 
-        escaped_proof         = h( issue.proof )
-        escaped_response_body = h( issue.response_body )
+        escaped_proof    = h( proof )
+        escaped_response = h( text )
 
-        escaped_response_body.gsub( escaped_proof,
-                                  "<span class=\"#{span_class}\">#{escaped_proof}</span>" )
+        escaped_response.gsub( escaped_proof,
+                               "<span class=\"#{span_class}\">#{escaped_proof}</span>" )
     end
 
     def scan

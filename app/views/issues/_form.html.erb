@@ -53,9 +53,9 @@
         <% if !@issue.remedy_guidance.to_s.empty? %>
             <h4>Guidance</h4>
 
-            <blockquote>
-                <%= @issue.remedy_guidance %>
-            </blockquote>
+            <div class="remedy_guidance">
+                <%= m @issue.remedy_guidance %>
+            </div>
         <% end %>
 
         <% if !@issue.remedy_code.to_s.empty? %>

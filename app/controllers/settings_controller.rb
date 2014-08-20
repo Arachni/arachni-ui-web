@@ -50,7 +50,7 @@ class SettingsController < ApplicationController
     def strong_params
         params.require( :setting ).
             permit( :scan_global_limit, :scan_per_user_limit, { scan_allowed_types: [] },
-                    { profile_allowed_modules: [] }, { profile_allowed_plugins: [] },
+                    { profile_allowed_checks: [] }, { profile_allowed_plugins: [] },
                     :scan_target_whitelist_patterns, :scan_target_blacklist_patterns,
                     :timezone, :scan_auto_refresh )
     end

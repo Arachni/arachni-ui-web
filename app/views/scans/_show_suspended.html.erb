@@ -1,0 +1,52 @@
+<% if @scan.suspended_at %>
+
+    <div class="row-fluid">
+      <div class="span1">
+        <%= render 'restore_button', scan: @scan %>
+      </div>
+
+      <div class="span11 alert">
+        <i class="icon-eject"></i>
+
+        <% if @scan.timed_out? %>
+            Suspended on <%= l @scan.suspended_at %>, due to a configured timeout,
+            after <%= Arachni::Utilities.seconds_to_hms @scan.runtime %>.
+        <% else %>
+            Suspended on <%= l @scan.suspended_at %>.
+        <% end %>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+        window.setupScanCallbacks();
+
+        $('#issues').show();
+        $('#scan-sidebar').show('slow');
+        $('li#toggle-statistics').fadeOut('slow');
+        $('li#toggle-charts').fadeIn('slow');
+        $('li#download-report').hide();
+    </script>
+
+<% else %>
+    <div class="alert alert-info">
+      <i class="icon-spinner icon-spin"></i>
+      Suspending the scan, please wait, this may take a while...
+
+      <% if @scan.messages.any? %>
+          <ul>
+          <% @scan.messages.each do |message| %>
+              <li><%= message %></li>
+          <% end %>
+          </ul>
+      <% end %>
+
+    </div>
+
+    <script type="text/javascript">
+        window.setupScanCallbacks();
+
+        $( '#issues' ).show();
+        $( '#scan-sidebar' ).show();
+        $( 'li#toggle-statistics' ).hide();
+    </script>
+<% end %>

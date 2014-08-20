@@ -17,20 +17,20 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 searchModules = ( val ) ->
-    $(".profile-modules").show()
+    $(".profile-checks").show()
 
     if( val != '' )
-        $(".profile-modules:not(:icontains(" + val + "))").hide()
+        $(".profile-checks:not(:icontains(" + val + "))").hide()
     else
-        $(".profile-modules").show()
+        $(".profile-checks").show()
 
 jQuery ->
     $('#profiles input#search').keyup ->
         searchModules $(this).val()
 
     $('#profiles button.check').click ->
-        $('.profile-modules input:visible:checkbox').attr('checked','checked')
+        $('.profile-checks input:visible:checkbox').attr('checked','checked')
         false
     $('#profiles button.uncheck').click ->
-        $('.profile-modules input:visible:checkbox').removeAttr('checked')
+        $('.profile-checks input:visible:checkbox').removeAttr('checked')
         false

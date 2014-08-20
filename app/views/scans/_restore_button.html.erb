@@ -1,0 +1,28 @@
+<% if can? :restore, scan %>
+    <% if scan.dispatcher
+           if !scan.dispatcher.alive?
+               error = "Dispatcher #{scan.dispatcher} is unreachable."
+           elsif !scan.dispatcher.snapshots.include? scan.snapshot_path
+               error = "Snapshot could not be located by Dispatcher #{scan.dispatcher}." <<
+                       ' If the associated Dispatcher has been moved please edit' <<
+                       ' the scan\'s distribution options and assign the new Dispatcher to it.'
+           end
+       elsif scan.cannot_locate_snapshot?
+           error = 'Snapshot could not be located.'
+       end %>
+
+    <% if error %>
+        <a href="javascript:void(0);" rel="tooltip"
+           title="<%= error %>"
+           class="btn btn-small btn-success disabled">
+          <i class=" icon-play-circle"></i>
+        </a>
+    <% else %>
+        <%= link_to restore_scan_url(scan),
+                    remote: true,
+                    title:  'Restore scan', method: :patch, class: 'btn btn-small btn-success',
+                    data:   { confirm: 'Are you sure you want to restore the scan?' } do %>
+            <i class=" icon-play-circle"></i>
+        <% end %>
+    <% end %>
+<% end %>

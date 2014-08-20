@@ -94,3 +94,5 @@ module ArachniWebui
         FULL_VERSION = "#{Arachni::VERSION}-#{ArachniWebui::Application::VERSION}"
     end
 end
+
+Arachni::Reactor.global.run_in_thread

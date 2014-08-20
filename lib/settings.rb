@@ -22,7 +22,7 @@ class Settings
     SCAN_TYPES = Setting::SCAN_TYPES
 
     class << self
-        [:scan_global_limit, :scan_per_user_limit, :profile_allowed_modules,
+        [:scan_global_limit, :scan_per_user_limit, :profile_allowed_checks,
          :profile_allowed_plugins, :scan_target_whitelist_patterns,
          :scan_target_blacklist_patterns, :welcomed?, :timezone, :scan_auto_refresh?
         ].each do |sym|

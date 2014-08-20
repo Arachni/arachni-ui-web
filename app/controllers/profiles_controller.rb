@@ -61,6 +61,10 @@ class ProfilesController < ApplicationController
                 set_download_header.call 'yaml'
                 render text: @profile.export( YAML )
             end
+            format.afp do
+                set_download_header.call 'afp'
+                render text: @profile.to_rpc_options.to_yaml
+            end
         end
     end
 
@@ -135,7 +139,9 @@ class ProfilesController < ApplicationController
         @profile = Profile.import( params[:profile][:file] )
 
         if !@profile
-            redirect_to profiles_url, alert: 'Could not understand the Profile format.'
+            redirect_to profiles_url,
+                        alert: 'Could not understand the Profile format, please' <<
+                            ' ensure that you are using a v0.5 profile.'
             return
         end
 
@@ -201,28 +207,31 @@ class ProfilesController < ApplicationController
     end
 
     def strong_params
-        plugin_with_options = []
+        plugins_with_options = []
         plugins_with_info = ::FrameworkHelper.plugins
         plugins_with_info.each do |name, info|
-            plugin_with_options << if opts = info[:options]
-                                        { name => info[:options].map( &:name ) }
-                                    else
-                                        name
-                                    end
+            plugins_with_options << (info[:options] ?
+                { name => info[:options].map( &:name ) } : name)
         end
 
-        allowed = [:name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
-                   :audit_headers, :audit_links, :authed_by, :auto_redundant,
-                   :cookies, :custom_headers, :depth_limit, :exclude,
-                   :exclude_binaries, :exclude_cookies, :exclude_vectors,
-                   :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
-                   :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                   :max_slaves, :min_pages_per_instance, { modules: [] }, { selected_plugins: []},
-                   { plugins: plugin_with_options }, :proxy_host, :proxy_password, :proxy_port,
-                   :proxy_type, :proxy_username, :redirect_limit, :redundant,
-                   :restrict_paths, :user_agent, :http_timeout, :description,
-                   :https_only, :exclude_pages, { user_ids: [] }, :no_fingerprinting,
-                   { platforms: [] }, :http_username, :http_password ]
+        allowed = [
+            :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
+            :audit_headers, :audit_links, :authorized_by, :scope_auto_redundant_paths,
+            :audit_exclude_vector_patterns, :audit_include_vector_patterns,
+            :http_cookies, :http_request_headers, :scope_directory_depth_limit, :scope_exclude_path_patterns,
+            :scope_exclude_path_patterns_binaries, :scope_exclude_path_patterns_cookies, :scope_exclude_path_patterns_vectors,
+            :scope_extend_paths, :scope_include_subdomains, :audit_with_both_http_methods, :http_request_concurrency,
+            :scope_include_path_patterns, :scope_page_limit, :session_check_pattern, :session_check_url,
+            :spawns, :min_pages_per_instance, { checks: [] }, { selected_plugins: []},
+            { plugins: plugins_with_options }, :http_proxy_host, :http_proxy_password, :http_proxy_port,
+            :http_proxy_type, :http_proxy_username, :http_request_redirect_limit, :scope_redundant_path_patterns,
+            :scope_restrict_paths, :http_user_agent, :http_request_timeout, :description,
+            :scope_https_only, :scope_exclude_path_patterns_pages, { user_ids: [] }, :no_fingerprinting,
+            { platforms: [] }, :http_authentication_username, :http_authentication_password,
+            :input_values, :browser_cluster_pool_size, :browser_cluster_job_timeout,
+            :browser_cluster_worker_time_to_live, :browser_cluster_ignore_images,
+            :browser_cluster_screen_width, :browser_cluster_screen_height,
+            :scope_dom_depth_limit, :audit_link_templates]
 
         allowed << :global if current_user.admin?
 

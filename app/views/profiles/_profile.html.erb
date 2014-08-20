@@ -1,547 +1,700 @@
 <div class="row-fluid">
-    <div class="span10">
-        <div class="page-header">
-            <h1><%= profile.name %></h1>
-            <div class="lead"><%= profile.html_description %></div>
-        </div>
-    </div>
+  <div class="span10">
+    <div class="page-header">
+      <h1><%= profile.name %></h1>
 
-    <div class="span2">
-        <% if profile.global? %>
-            <p class="label label-info">
-                Global
-            </p>
-        <% end %>
-
-        <div class="visible-phone">
-            <%= render partial: 'actions', locals: { profile: profile } %>
-        </div>
+      <div class="lead"><%= profile.html_description %></div>
     </div>
+  </div>
+
+  <div class="span2">
+    <% if profile.global? %>
+        <p class="label label-info">
+          Global
+        </p>
+    <% end %>
+
+    <div class="visible-phone">
+      <%= render partial: 'actions', locals: { profile: profile } %>
+    </div>
+  </div>
 </div>
 
-<section id="spider">
-    <h2 id="spider-h">
-        Spider
-        <small>How the scanner will crawl the web application</small>
-    </h2>
+<section id="scope">
+  <h2 id="scope-h">
+    Scope
+    <small>Rules about which resources to include</small>
+  </h2>
 
-    <div class="row-fluid">
-        <% if profile.redundant.any? %>
+  <div class="row-fluid">
+    <% if profile.scope_redundant_path_patterns.any? %>
         <div class="span6">
-            <div>
-                <b>Redundant:</b>
-                <table class="table table-hover">
-                    <tr>
-                        <th>Paths matching</th>
-                        <th>will be followed this amount of times</th>
-                    </tr>
-                <% profile.redundant.each do |pattern, counter| %>
-                    <tr>
-                        <td>
-                            <%= pattern %>
-                        </td>
-                        <td>
-                            <%= counter %>
-                        </td>
-                    </tr>
-                <% end %>
+          <div>
+            <b>Redundant:</b>
+            <table class="table table-hover">
+              <tr>
+                <th>Paths matching</th>
+                <th>will be followed this amount of times</th>
+              </tr>
+              <% profile.scope_redundant_path_patterns.each do |pattern, counter| %>
+                  <tr>
+                    <td>
+                      <%= pattern %>
+                    </td>
+                    <td>
+                      <%= counter %>
+                    </td>
+                  </tr>
+              <% end %>
 
-                </table>
-            </div>
-            <%= messages_for :redundant %>
+            </table>
+          </div>
+          <%= messages_for :scope_redundant_path_patterns %>
         </div>
-        <% end %>
+    <% end %>
 
-        <% if profile.auto_redundant %>
+    <% if profile.scope_auto_redundant_paths %>
         <div class="span6">
-            <p>
-                <b>Auto redundant:</b>
-                <%= profile.auto_redundant %>
-            </p>
-            <%= messages_for :auto_redundant %>
+          <p>
+            <b>Auto redundant:</b>
+            <%= profile.scope_auto_redundant_paths %>
+          </p>
+          <%= messages_for :scope_auto_redundant_paths %>
         </div>
-        <% end %>
+    <% end %>
+  </div>
+
+  <div class="row-fluid">
+    <% if profile.scope_directory_depth_limit %>
+        <div class="span6">
+          <p>
+            <b>Depth limit:</b>
+            <%= profile.scope_directory_depth_limit %>
+          </p>
+          <%= messages_for :scope_directory_depth_limit %>
+        </div>
+    <% end %>
+
+    <% if profile.scope_page_limit %>
+        <div class="span6">
+          <p>
+            <b>Page:</b>
+            <%= profile.scope_page_limit %>
+          </p>
+          <%= messages_for :scope_page_limit %>
+        </div>
+    <% end %>
+  </div>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Follow subdomains:</b>
+        <input <%= 'checked' if profile.scope_include_subdomains %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :scope_include_subdomains %>
     </div>
 
-    <div class="row-fluid">
-        <% if profile.depth_limit %>
+    <% if profile.scope_url_rewrites.any? %>
         <div class="span6">
-            <p>
-                <b>Depth limit:</b>
-                <%= profile.depth_limit %>
-            </p>
-            <%= messages_for :depth_limit %>
-        </div>
-        <% end %>
+          <div>
+            <b>URL rewrite rules:</b>
+            <table class="table table-hover">
+              <tr>
+                <th>Paths matching</th>
+                <th>will be rewritten as</th>
+              </tr>
+              <% profile.scope_url_rewrites.each do |pattern, counter| %>
+                  <tr>
+                    <td>
+                      <%= pattern %>
+                    </td>
+                    <td>
+                      <%= counter %>
+                    </td>
+                  </tr>
+              <% end %>
 
-        <% if profile.link_count_limit %>
-        <div class="span6">
-            <p>
-                <b>Link count limit:</b>
-                <%= profile.link_count_limit %>
-            </p>
-            <%= messages_for :link_count_limit %>
+            </table>
+          </div>
+          <%= messages_for :scope_url_rewrites %>
         </div>
-        <% end %>
-    </div>
-    <div class="row-fluid">
+    <% end %>
+  </div>
+  <div class="row-fluid">
+    <% if profile.scope_exclude_binaries %>
         <div class="span6">
-            <p>
-                <b>Redirect limit:</b>
-                <%= profile.redirect_limit %>
-            </p>
-            <%= messages_for :redirect_limit %>
+          <p>
+            <b>Exclude binaries:</b>
+            <input <%= 'checked' if profile.scope_exclude_binaries %>
+                   disabled type="checkbox">
+          </p>
+          <%= messages_for :scope_exclude_binaries %>
         </div>
+    <% end %>
+    <% if profile.scope_https_only %>
         <div class="span6">
-            <p>
-                <b>Follow subdomains:</b>
-                <input <%= 'checked' if profile.follow_subdomains %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :follow_subdomains %>
+          <p>
+            <b>HTTPS only:</b>
+            <input <%= 'checked' if profile.scope_https_only %>
+                   disabled type="checkbox">
+          </p>
+          <%= messages_for :scope_https_only %>
         </div>
-    </div>
-    <div class="row-fluid">
-        <% if profile.exclude_binaries %>
-        <div class="span6">
-            <p>
-                <b>Exclude binaries:</b>
-                <input <%= 'checked' if profile.exclude_binaries %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :exclude_binaries %>
-        </div>
-        <% end %>
-        <% if profile.https_only %>
-            <div class="span6">
-                <p>
-                    <b>HTTPS only:</b>
-                    <input <%= 'checked' if profile.https_only %>
-                           disabled type="checkbox">
-                </p>
-                <%= messages_for :https_only %>
-            </div>
-        <% end %>
+    <% end %>
 
-    </div>
-    <div class="row-fluid">
-        <% if profile.exclude.any? %>
+  </div>
+  <div class="row-fluid">
+    <% if profile.scope_exclude_path_patterns.any? %>
         <div class="span6">
-            <p>
-                <b>Exclude:</b>
-                <textarea disabled
-                          id="profile_exclude"><%= profile.exclude.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :exclude %>
+          <p>
+            <b>Exclude:</b>
+            <textarea disabled
+                      id="profile_exclude"><%= profile.scope_exclude_path_patterns.join("\n") %></textarea>
+          </p>
+          <%= messages_for :scope_exclude_path_patterns %>
         </div>
-        <% end %>
+    <% end %>
 
-        <% if profile.include.any? %>
+    <% if profile.scope_include_path_patterns.any? %>
         <div class="span6">
-            <p>
-                <b>Include:</b>
-                <textarea disabled
-                          id="profile_include"><%= profile.include.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :include %>
+          <p>
+            <b>Include:</b>
+            <textarea disabled
+                      id="profile_include"><%= profile.scope_include_path_patterns.join("\n") %></textarea>
+          </p>
+          <%= messages_for :scope_include_path_patterns %>
         </div>
-        <% end %>
-    </div>
-    <div class="row-fluid">
-        <% if profile.restrict_paths.any? %>
+    <% end %>
+  </div>
+  <div class="row-fluid">
+    <% if profile.scope_restrict_paths.any? %>
         <div class="span6">
-            <p>
-                <b>Restrict paths:</b> <br/>
-                <textarea disabled
-                          id="profile_restrict_paths"><%= profile.restrict_paths.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :restrict_paths %>
+          <p>
+            <b>Restrict paths:</b> <br/>
+            <textarea disabled
+                      id="profile_restrict_paths"><%= profile.scope_restrict_paths.join("\n") %></textarea>
+          </p>
+          <%= messages_for :scope_restrict_paths %>
         </div>
-        <% end %>
+    <% end %>
 
-        <% if profile.extend_paths.any? %>
+    <% if profile.scope_extend_paths.any? %>
         <div class="span6">
-            <p>
-                <b>Extend paths:</b>
-                <textarea disabled
-                          id="profile_extend_paths"><%= profile.extend_paths.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :extend_paths %>
+          <p>
+            <b>Extend paths:</b>
+            <textarea disabled
+                      id="profile_extend_paths"><%= profile.scope_extend_paths.join("\n") %></textarea>
+          </p>
+          <%= messages_for :scope_extend_paths %>
         </div>
-        <% end %>
+    <% end %>
+  </div>
+  <div class="row-fluid">
+    <% if profile.scope_dom_depth_limit %>
+        <div class="span6">
+          <p>
+            <b>DOM depth limit:</b>
+            <%= profile.scope_dom_depth_limit %>
+          </p>
+          <%= messages_for :scope_dom_depth_limit %>
+        </div>
+    <% end %>
+
+    <% if profile.scope_exclude_content_patterns.any? %>
+        <div class="span6">
+          <p>
+            <b>Exclude pages:</b> <br/>
+            <textarea disabled
+                      id="profile_exclude_pages"><%= profile.scope_exclude_content_patterns.join("\n") %></textarea>
+          </p>
+          <%= messages_for :scope_exclude_content_patterns %>
+        </div>
+    <% end %>
+  </div>
+</section>
+
+<hr/>
+
+<section id="audit">
+  <h2 id="audit-h">
+    Audit
+    <small>How the scanner will audit web application inputs</small>
+  </h2>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Forms:</b>
+        <input <%= 'checked' if profile.audit_forms %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :audit_forms %>
     </div>
-    <div class="row-fluid">
-        <% if profile.exclude_pages.any? %>
-            <div class="span6">
-                <p>
-                    <b>Exclude pages:</b> <br/>
-                    <textarea disabled
-                              id="profile_exclude_pages"><%= profile.exclude_pages.join( "\n" ) %></textarea>
-                </p>
-                <%= messages_for :exclude_pages %>
-            </div>
-        <% end %>
+    <div class="span6">
+      <p>
+        <b>Links:</b>
+        <input <%= 'checked' if profile.audit_links %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :audit_links %>
     </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Cookies:</b>
+        <input <%= 'checked' if profile.audit_cookies %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :audit_cookies %>
+    </div>
+    <div class="span6">
+      <p>
+        <b>Headers:</b>
+        <input <%= 'checked' if profile.audit_headers %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :audit_headers %>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <% if profile.audit_with_both_http_methods %>
+        <div class="span6">
+          <p>
+            <b>Fuzz methods:</b>
+            <input <%= 'checked' if profile.audit_with_both_http_methods %>
+                   disabled type="checkbox">
+          </p>
+          <%= messages_for :audit_with_both_http_methods %>
+        </div>
+    <% end %>
+
+    <% if profile.audit_cookies_extensively %>
+        <div class="span6">
+          <p>
+            <b>Audit cookies extensively:</b>
+            <input <%= 'checked' if profile.audit_cookies_extensively %>
+                   disabled type="checkbox">
+          </p>
+          <%= messages_for :audit_cookies_extensively %>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="row-fluid">
+    <% if profile.audit_exclude_vector_patterns.any? %>
+        <div class="span6">
+          <p>
+            <b>Exclude input vectors:</b>
+            <textarea disabled
+                      id="profile_exclude_vectors"><%= profile.audit_exclude_vector_patterns.join("\n") %></textarea>
+          </p>
+          <%= messages_for :audit_exclude_vector_patterns %>
+        </div>
+    <% end %>
+
+    <% if profile.audit_include_vector_patterns.any? %>
+        <div class="span6">
+          <p>
+            <b>Include input vectors:</b>
+            <textarea disabled
+                      id="profile_exclude_vectors"><%= profile.audit_include_vector_patterns.join("\n") %></textarea>
+          </p>
+          <%= messages_for :audit_include_vector_patterns %>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="row-fluid">
+    <% if profile.audit_link_templates.any? %>
+        <div class="span6">
+          <p>
+            <b>Link templates:</b>
+            <textarea disabled
+                      id="profile_exclude_vectors"><%= profile.audit_link_templates.join("\n") %></textarea>
+          </p>
+          <%= messages_for :audit_link_templates %>
+        </div>
+    <% end %>
+  </div>
+
+</section>
+
+<hr/>
+
+<section id="input">
+  <h2 id="input-h">
+    Input
+    <small>Values to use to fill in inputs</small>
+  </h2>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <div>
+        <b>Input values:</b>
+        <table class="table table-hover">
+          <tr>
+            <th>Input names matching</th>
+            <th>will be filled-in with</th>
+          </tr>
+          <% profile.input_values.each do |pattern, counter| %>
+              <tr>
+                <td>
+                  <%= pattern %>
+                </td>
+                <td>
+                  <%= counter %>
+                </td>
+              </tr>
+          <% end %>
+
+        </table>
+      </div>
+      <%= messages_for :input_values %>
+    </div>
+  </div>
 </section>
 
 <hr/>
 
 <section id="http">
-    <h2 id="http-h">
-        HTTP
-        <small>How the scanner will communicate with the web application</small>
-    </h2>
+  <h2 id="http-h">
+    HTTP
+    <small>How the scanner will communicate with the web application</small>
+  </h2>
 
-    <% if !profile.http_username.to_s.empty? && !profile.http_password.to_s.empty? %>
-    <div class="row-fluid">
+  <% if !profile.http_authentication_username.to_s.empty? && !profile.http_authentication_password.to_s.empty? %>
+      <div class="row-fluid">
         <div class="span6">
-            <p>
-                <b>HTTP username:</b>
-                <%= profile.http_username %>
-            </p>
-            <%= messages_for :http_username %>
+          <p>
+            <b>HTTP username:</b>
+            <%= profile.http_authentication_username %>
+          </p>
+          <%= messages_for :http_authentication_username %>
         </div>
         <div class="span6">
-            <p>
-                <b>HTTP password:</b>
-                <%= profile.http_password %>
-            </p>
-            <%= messages_for :http_password %>
+          <p>
+            <b>HTTP password:</b>
+            <%= profile.http_authentication_password %>
+          </p>
+          <%= messages_for :http_authentication_password %>
         </div>
-    </div>
-    <%end%>
+      </div>
+  <% end %>
 
-    <div class="row-fluid">
-        <div class="span6">
-            <p>
-                <b>HTTP request concurrency limit:</b>
-                <%= profile.http_req_limit %>
-            </p>
-            <%= messages_for :http_req_limit %>
-        </div>
-        <div class="span6">
-            <p>
-                <b>HTTP request queue size:</b>
-                <%= profile.http_queue_size %>
-            </p>
-            <%= messages_for :http_queue_size %>
-        </div>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>HTTP request concurrency limit:</b>
+        <%= profile.http_request_concurrency %>
+      </p>
+      <%= messages_for :http_request_concurrency %>
     </div>
+    <div class="span6">
+      <p>
+        <b>HTTP request queue size:</b>
+        <%= profile.http_request_queue_size %>
+      </p>
+      <%= messages_for :http_request_queue_size %>
+    </div>
+  </div>
 
-    <% if !profile.proxy_host.to_s.empty? && profile.proxy_port %>
-    <div class="row-fluid">
+  <% if !profile.http_proxy_host.to_s.empty? && profile.http_proxy_port %>
+      <div class="row-fluid">
         <div class="span6">
-            <p>
-                <b>Proxy host:</b>
-                <%= profile.proxy_host %>
-            </p>
-            <%= messages_for :proxy_host %>
+          <p>
+            <b>Proxy host:</b>
+            <%= profile.http_proxy_host %>
+          </p>
+          <%= messages_for :http_proxy_host %>
         </div>
         <div class="span6">
-            <p>
-                <b>Proxy port:</b>
-                <%= profile.proxy_port %>
-            </p>
-            <%= messages_for :proxy_port %>
+          <p>
+            <b>Proxy port:</b>
+            <%= profile.http_proxy_port %>
+          </p>
+          <%= messages_for :http_proxy_port %>
         </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span6">
+          <p>
+            <b>Proxy username:</b>
+            <%= profile.http_proxy_username %>
+          </p>
+          <%= messages_for :http_proxy_username %>
+        </div>
+        <div class="span6">
+          <p>
+            <b>Proxy password:</b>
+            <%= profile.http_proxy_password %>
+          </p>
+          <%= messages_for :http_proxy_password %>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span6">
+          <p>
+            <b>Proxy type:</b>
+            <%= profile.http_proxy_type %>
+          </p>
+          <%= messages_for :http_proxy_type %>
+        </div>
+      </div>
+  <% end %>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>User agent:</b>
+        <%= profile.http_user_agent %>
+      </p>
+      <%= messages_for :http_user_agent %>
     </div>
-    <div class="row-fluid">
-        <div class="span6">
-            <p>
-                <b>Proxy username:</b>
-                <%= profile.proxy_username %>
-            </p>
-            <%= messages_for :proxy_username %>
-        </div>
-        <div class="span6">
-            <p>
-                <b>Proxy password:</b>
-                <%= profile.proxy_password %>
-            </p>
-            <%= messages_for :proxy_password %>
-        </div>
+    <div class="span6">
+      <p>
+        <b>Request timeout:</b>
+        <%= profile.http_request_timeout %>
+      </p>
+      <%= messages_for :http_request_timeout %>
     </div>
-    <div class="row-fluid">
+  </div>
+  <div class="row-fluid">
+    <% if profile.http_cookies.any? %>
         <div class="span6">
-            <p>
-                <b>Proxy type:</b>
-                <%= profile.proxy_type %>
-            </p>
-            <%= messages_for :proxy_type %>
+          <p>
+            <b>Cookies:</b>
+            <textarea disabled
+                      id="profile_cookies"><%= profile.http_cookies.map { |k, v| "#{k}=#{v}" }.join("\n") %></textarea>
+          </p>
+          <%= messages_for :http_cookies %>
         </div>
-    </div>
     <% end %>
 
-    <div class="row-fluid">
+    <% if profile.http_request_headers.any? %>
         <div class="span6">
-            <p>
-                <b>User agent:</b>
-                <%= profile.user_agent %>
-            </p>
-            <%= messages_for :user_agent %>
+          <p>
+            <b>Custom headers:</b>
+            <textarea disabled
+                      id="profile_custom_headers"><%= profile.http_request_headers.map { |k, v| "#{k}=#{v}" }.join("\n") %></textarea>
+          </p>
+          <%= messages_for :http_request_headers %>
         </div>
-        <div class="span6">
-            <p>
-                <b>Request timeout:</b>
-                <%= profile.http_timeout %>
-            </p>
-            <%= messages_for :http_timeout %>
-        </div>
+    <% end %>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Redirect limit:</b>
+        <%= profile.http_request_redirect_limit %>
+      </p>
+      <%= messages_for :http_request_redirect_limit %>
     </div>
-    <div class="row-fluid">
-        <% if profile.cookies.any? %>
-        <div class="span6">
-            <p>
-                <b>Cookies:</b>
-                <textarea disabled
-                          id="profile_cookies"><%= profile.cookies.map { |k, v| "#{k}=#{v}" }.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :cookies %>
-        </div>
-        <% end %>
+  </div>
 
-        <% if profile.custom_headers.any? %>
-        <div class="span6">
-            <p>
-                <b>Custom headers:</b>
-                <textarea disabled
-                          id="profile_custom_headers"><%= profile.custom_headers.map { |k, v| "#{k}=#{v}" }.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :custom_headers %>
-        </div>
-        <% end %>
-    </div>
-</section>
-
-<hr/>
-
-<section id="auditor">
-    <h2 id="auditor-h">
-        Auditor
-        <small>How the scanner will audit the web application</small>
-    </h2>
-
-    <div class="row-fluid">
-        <div class="span6">
-            <p>
-                <b>Audit forms:</b>
-                <input <%= 'checked' if profile.audit_forms %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :audit_forms %>
-        </div>
-        <div class="span6">
-            <p>
-                <b>Audit links:</b>
-                <input <%= 'checked' if profile.audit_links %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :audit_links %>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span6">
-            <p>
-                <b>Audit cookies:</b>
-                <input <%= 'checked' if profile.audit_cookies %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :audit_cookies %>
-        </div>
-        <div class="span6">
-            <p>
-                <b>Audit headers:</b>
-                <input <%= 'checked' if profile.audit_headers %>
-                       disabled type="checkbox">
-            </p>
-            <%= messages_for :audit_headers %>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <% if profile.fuzz_methods %>
-            <div class="span6">
-                <p>
-                    <b>Fuzz methods:</b>
-                    <input <%= 'checked' if profile.fuzz_methods %>
-                           disabled type="checkbox">
-                </p>
-                <%= messages_for :fuzz_methods %>
-            </div>
-        <% end %>
-
-        <% if profile.audit_cookies_extensively %>
-            <div class="span6">
-                <p>
-                    <b>Audit cookies extensively:</b>
-                    <input <%= 'checked' if profile.audit_cookies_extensively %>
-                           disabled type="checkbox">
-                </p>
-                <%= messages_for :audit_cookies_extensively %>
-            </div>
-        <% end %>
-    </div>
-
-    <div class="row-fluid">
-        <% if profile.exclude_cookies.any? %>
-        <div class="span6">
-            <p>
-                <b>Exclude cookies:</b>
-                <textarea disabled
-                          id="profile_exclude_cookies"><%= profile.exclude_cookies .join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :exclude_cookies %>
-        </div>
-        <% end %>
-
-        <% if profile.exclude_vectors.any? %>
-        <div class="span6">
-            <p>
-                <b>Exclude vectors:</b>
-                <textarea disabled
-                          id="profile_exclude_vectors"><%= profile.exclude_vectors.join( "\n" ) %></textarea>
-            </p>
-            <%= messages_for :exclude_vectors %>
-        </div>
-        <% end %>
-    </div>
 </section>
 
 <hr/>
 
 <section id="fingerprinting">
-    <fieldset>
-        <legend id="fingerprinting-h">
-            Platform fingerprinting
-            <small>What platforms should the scanner anticipate</small>
-        </legend>
+  <fieldset>
+    <h2 id="fingerprinting-h">
+      Platform fingerprinting
+      <small>What platforms should the scanner anticipate</small>
+    </h2>
 
-        <div class="row-fluid">
-            <div class="span6">
-                <b>Disable fingerprinting:</b>
-                <input <%= 'checked' if profile.no_fingerprinting %>
-                       disabled type="checkbox">
+    <div class="row-fluid">
+      <div class="span6">
+        <b>Disable fingerprinting:</b>
+        <input <%= 'checked' if profile.no_fingerprinting %>
+               disabled type="checkbox">
 
-            </div>
-        </div>
+      </div>
+    </div>
 
-        <h4>
-            Platforms
-            <small>Explicitly specify platforms to improve efficiency</small>
-        </h4>
+    <h4>
+      Platforms
+      <small>Explicitly specify platforms to improve efficiency</small>
+    </h4>
 
 
-        <div class="row-fluid">
-            <% [:os, :db, :servers, :languages, :frameworks].each_with_index do |type, i| %>
+    <div class="row-fluid">
+      <% [:os, :db, :servers, :languages, :frameworks].each_with_index do |type, i| %>
 
-                <div class="span2">
-                    <h5><%= platform_type_fullname( type ) %></h5>
+          <div class="span2">
+            <h5><%= platform_type_fullname(type) %></h5>
 
-                    <% valid_platforms( type ).each do |platform| %>
-                        <p>
-                            <%= platform_fullname( platform ) %>
-                            <input <%= 'checked' if profile.platforms.include?( platform ) %>
-                                   disabled type="checkbox">
-                        </p>
-                <% end %>
-                </div>
+            <% valid_platforms(type).each do |platform| %>
+                <p>
+                  <%= platform_fullname(platform) %>
+                  <input <%= 'checked' if profile.platforms.include?(platform) %>
+                         disabled type="checkbox">
+                </p>
             <% end %>
-        </div>
+          </div>
+      <% end %>
+    </div>
 
-    </fieldset>
+  </fieldset>
 </section>
 
 <hr/>
 
-<section id="modules">
-    <h2 id="modules-h">
-        Modules
-        <small>The security checks to be run again the web application</small>
-    </h2>
+<section id="checks">
+  <h2 id="checks-h">
+    Checks
+    <small>The security checks to be run again the web application</small>
+  </h2>
 
-    <% if profile.modules.any? %>
-    <h3>
-        Audit (Active)
-        <small>These checks will actively engage the web application via its inputs (links, forms, etc.)</small>
-    </h3>
+  <% if profile.checks.any? %>
+      <h3>
+        Active
+        <small>These checks will actively engage the web application via its
+          inputs (links, forms, etc.)
+        </small>
+      </h3>
 
-    <% audit = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/audit' ) } %>
-    <% if audit.any? %>
-    <%= render partial: '/shared/components_twin_accordion',
-               locals: {
-                   components: audit,
-                   class_name: 'span6'
-               } %>
-    <% else %>
-    <p class="alert alert-info">No audit modules have been selected.</p>
-    <% end %>
+      <% audit = profile.checks_with_info.select { |n, i| i[:path].include?('/checks/active') } %>
+      <% if audit.any? %>
+          <%= render partial: '/shared/components_twin_accordion',
+                     locals:  {
+                             components: audit,
+                             class_name: 'span6'
+                     } %>
+      <% else %>
+          <p class="alert alert-info">No active checks have been selected.</p>
+      <% end %>
 
-    <h3>
-        Recon (Passive)
+      <h3>
+        Passive
         <small>These checks will passively collect data</small>
-    </h3>
+      </h3>
 
-    <% recon = profile.modules_with_info.select { |n, i| i[:path].include?( '/modules/recon' ) } %>
-    <% if recon.any? %>
-    <%= render partial: '/shared/components_twin_accordion',
-               locals: {
-                   components: recon,
-                   class_name: 'span6'
-               } %>
-    <% else %>
-    <p class="alert alert-info">No recon modules have been selected.</p>
-    <% end %>
-    <% else %>
-        <p class="alert alert-info">No modules have been selected.</p>
-    <% end %>
+      <% recon = profile.checks_with_info.select { |n, i| i[:path].include?('/checks/passive') } %>
+      <% if recon.any? %>
+          <%= render partial: '/shared/components_twin_accordion',
+                     locals:  {
+                             components: recon,
+                             class_name: 'span6'
+                     } %>
+      <% else %>
+          <p class="alert alert-info">No passive checks have been selected.</p>
+      <% end %>
+  <% else %>
+      <p class="alert alert-info">No checks have been selected.</p>
+  <% end %>
 
 </section>
 
 <hr/>
 
 <section id="plugins">
-    <h2 id="plugins-h">
-        Plugins
-        <small>Assisting components to be enabled during the process</small>
-    </h2>
+  <h2 id="plugins-h">
+    Plugins
+    <small>Assisting components to be enabled during the process</small>
+  </h2>
 
-    <% if profile.has_plugins? %>
-    <%= render partial: '/shared/components_twin_accordion',
-               locals: { components: profile.plugins_with_info, class_name: 'span6' }  %>
-    <% else %>
-    <p class="alert alert-info">No plugins have been selected.</p>
-    <% end %>
+  <% if profile.has_plugins? %>
+      <%= render partial: '/shared/components_twin_accordion',
+                 locals:  { components: profile.plugins_with_info, class_name: 'span6' } %>
+  <% else %>
+      <p class="alert alert-info">No plugins have been selected.</p>
+  <% end %>
 
 </section>
 
 <hr/>
 
-<section id="login">
-    <h2 id="login-h">
-        Login check
-        <small>How the scanner will determine its session's validity</small>
-    </h2>
+<section id="browser_cluster">
+  <h2 id="browser_cluster-h">
+    Browser cluster
+    <small>Browser-related options</small>
+  </h2>
 
-    <div class="row-fluid">
-
-        <% if !profile.login_check_url.to_s.empty? && !profile.login_check_pattern.to_s.empty? %>
-        <div class="span6">
-            <p>
-                <b>URL:</b>
-                <%= profile.login_check_url %>
-            </p>
-            <%= messages_for :login_check_url %>
-        </div>
-        <div class="span6">
-            <p>
-                <b>Pattern:</b>
-                <%= profile.login_check_pattern %>
-            </p>
-            <%= messages_for :login_check_pattern %>
-        </div>
-        <% else %>
-            <div class="span12">
-                <p class="alert alert-info">Not configured.</p>
-            </div>
-        <% end %>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Pool size:</b>
+        <%= profile.browser_cluster_pool_size %>
+      </p>
+      <%= messages_for :browser_cluster_pool_size %>
     </div>
+    <div class="span6">
+      <p>
+        <b>Job timeout:</b>
+        <%= profile.browser_cluster_job_timeout %>
+      </p>
+      <%= messages_for :browser_cluster_job_timeout  %>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Worker time-to-live:</b>
+        <%= profile.browser_cluster_worker_time_to_live  %>
+      </p>
+      <%= messages_for :browser_cluster_worker_time_to_live  %>
+    </div>
+    <div class="span6">
+      <p>
+        <b>Ignore images:</b>
+        <%= profile.browser_cluster_ignore_images %>
+      </p>
+      <%= messages_for :browser_cluster_ignore_images %>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b>Screen width:</b>
+        <%= profile.browser_cluster_screen_width %>
+      </p>
+      <%= messages_for :browser_cluster_screen_width %>
+    </div>
+    <div class="span6">
+      <p>
+        <b>Screen height:</b>
+        <%= profile.browser_cluster_screen_height %>
+      </p>
+      <%= messages_for :browser_cluster_screen_height %>
+    </div>
+  </div>
+
+</section>
+
+<hr/>
+
+<section id="session">
+  <h2 id="session-h">
+    Session check
+    <small>How the scanner will determine its session's validity</small>
+  </h2>
+
+  <div class="row-fluid">
+
+    <% if !profile.session_check_url.to_s.empty? && !profile.session_check_pattern.to_s.empty? %>
+        <div class="span6">
+          <p>
+            <b>URL:</b>
+            <%= profile.session_check_url %>
+          </p>
+          <%= messages_for :session_check_url %>
+        </div>
+        <div class="span6">
+          <p>
+            <b>Pattern:</b>
+            <%= profile.session_check_pattern %>
+          </p>
+          <%= messages_for :session_check_pattern %>
+        </div>
+    <% else %>
+        <div class="span12">
+          <p class="alert alert-info">Not configured.</p>
+        </div>
+    <% end %>
+  </div>
 </section>

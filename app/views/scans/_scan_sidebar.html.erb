@@ -75,7 +75,7 @@
         </li>
     <% end %>
 
-    <% if !@scan.finished? && can?( :update, @scan ) %>
+    <% if !@scan.suspended? && !@scan.finished? && can?( :update, @scan ) %>
         <li>
             <a href="#updateScanSchedule_<%= @scan.id %>"
                title="Update schedule"
@@ -112,7 +112,7 @@
         </li>
     <% end %>
 
-    <% if @scan.finished? && !@scan.overview? %>
+    <% if !@scan.suspended? && @scan.finished? && !@scan.overview? %>
         <li id="download-report">
             <i class="icon-download-alt"></i>
             Download report as:

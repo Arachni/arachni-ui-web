@@ -48,7 +48,7 @@
         width: 240px;
     }
 
-    input#profile_plugins, input#profile_modules {
+    input#profile_plugins, input#profile_checks {
         float: left;
         margin-right: 10px;
         margin-top: 10px;
@@ -85,42 +85,47 @@
         height: 135px;
     }
 
-    #profile_redundant {
+    #profile_scope_redundant_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_restrict_paths {
+    #profile_scope_url_rewrites {
         width:  100%;
         height: 150px;
     }
 
-    #profile_extend_paths {
+    #profile_scope_restrict_paths {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude {
+    #profile_scope_extend_paths {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_pages {
+    #profile_scope_exclude_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_include {
+    #profile_scope_exclude_content_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_cookies {
+    #profile_scope_include_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_modules {
+    #profile_http_cookies {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_checks {
         display: inline;
     }
 
@@ -133,27 +138,37 @@
         display: inline;
     }
 
-    #profile_custom_headers {
+    #profile_http_request_headers {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_vectors {
+    #profile_audit_exclude_vector_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_cookies {
+    #profile_audit_include_vector_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_login_check_url {
+    #profile_audit_link_templates {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_input_values {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_session_check_url {
         width:  90%;
         float: left;
     }
 
-    #profile_login_check_pattern {
+    #profile_session_check_pattern {
         width:  90%;
         float: left;
     }
@@ -168,7 +183,7 @@
         }
     }
 
-    #modules, #plugins {
+    #checks, #plugins {
         .accordion-group:nth-child(even) {
             background-color: #E9E9E9;
         }

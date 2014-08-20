@@ -132,6 +132,10 @@
         }
     }
 
+    .table tr.request-transition td:nth-child(2) {
+        padding-left: 30px;
+    }
+
     #legend {
         overflow-x: hidden;
         overflow-y: auto;
@@ -213,7 +217,7 @@
         margin-left: 10px;
     }
 
-    #response_body_container {
+  #browser_body_container, #http_response_container {
         overflow: scroll;
         height: 400px;
         position: relative;
@@ -222,20 +226,6 @@
             color: red;
             font-weight: bold;
         }
-    }
-
-    #rendered-response-container {
-        width: 80%;
-        height: 80%;
-        margin-top: 40px;
-        top: 10%;
-        left: 30%;
-    }
-
-    #rendered-response-container .modal-body {
-        width: 100%;
-        height: 85%;
-        max-height: none;
     }
 
     iframe.rendered-response {

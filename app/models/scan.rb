@@ -60,10 +60,11 @@ class Scan < ActiveRecord::Base
     scope :roots,       -> { where root_id: nil }
     scope :active,      -> { where active: true }
     scope :scheduled,   -> { where status: 'scheduled' }
-    scope :running,     -> { where status: %w(crawling auditing) }
+    scope :running,     -> { where status: %w(scanning) }
     scope :paused,      -> { where status: %w(paused pausing) }
     scope :inactive,    -> { where active: false }
     scope :finished,    -> { where 'finished_at IS NOT NULL' }
+    scope :suspended,   -> { where 'suspended_at IS NOT NULL' }
 
     SENSITIVE = [ :instance_token ]
 
@@ -86,7 +87,7 @@ class Scan < ActiveRecord::Base
     end
 
     def to_s
-        s = "#{url} (#{profile} profile)"
+        "#{url} (#{profile} profile)"
     end
 
     def issues
@@ -169,7 +170,7 @@ class Scan < ActiveRecord::Base
 
         Report.select( [:sitemap, :scan_id] ).
             where( scan_id: [revisions_with_root.select( :id ).map( &:id ) - [id]] ).
-            map( &:sitemap ).flatten.uniq
+            map( &:sitemap_urls ).flatten.uniq
     end
 
     def revisions_issue_count
@@ -218,7 +219,7 @@ class Scan < ActiveRecord::Base
     end
 
     def cleaning_up?
-        !active? && !finished?
+        !active? && !finished? && !suspended?
     end
 
     def scheduled?
@@ -233,12 +234,20 @@ class Scan < ActiveRecord::Base
         status == :initializing
     end
 
+    def scanning?
+        status == :scanning
+    end
+
     def paused?
         status == :pausing || status == :paused
     end
 
     def aborted?
         status == :aborted || status == :aborting
+    end
+
+    def suspended?
+        status == :suspended || status == :suspending
     end
 
     def error?
@@ -249,6 +258,10 @@ class Scan < ActiveRecord::Base
         type == :grid
     end
 
+    def cannot_locate_snapshot?
+        !snapshot_path || !File.exist?( snapshot_path )
+    end
+
     def any_scheduled?
         schedule.start_at? && (revisions.active.any? || revisions.scheduled.any?)
     end
@@ -257,24 +270,24 @@ class Scan < ActiveRecord::Base
         schedule.recurring? && (revisions.active.any? || revisions.scheduled.any?)
     end
 
-    def eta
-        statistics['eta']
-    end
-
     def runtime
-        statistics['time']
-    end
-
-    def progress
-        statistics['progress']
+        statistics[:runtime].to_i
     end
 
     def current_page
-        statistics['current_page']
+        statistics[:current_page]
     end
 
     def sitemap_size
-        statistics['sitemap_size']
+        statistics[:found_pages]
+    end
+
+    def messages
+        statistics[:messages] || []
+    end
+
+    def statistics
+        (h = super).empty? ? { http: {} } : h
     end
 
     def type
@@ -298,9 +311,9 @@ class Scan < ActiveRecord::Base
         self.active = false
         save
 
-        instance.service.abort_and_report :auditstore  do |auditstore|
-            if !auditstore.rpc_exception?
-                create_report( auditstore )
+        instance.service.native_abort_and_report do |report|
+            if !report.rpc_exception?
+                create_report( report )
                 instance.service.shutdown { delete_client }
             end
 
@@ -309,6 +322,48 @@ class Scan < ActiveRecord::Base
         end
 
         true
+    end
+
+    def suspend
+        fail 'Scan not scanning.' if !scanning?
+
+        self.status = :suspending
+        save
+
+        instance.service.suspend do |r|
+            next error_out if r.rpc_exception?
+
+            # Might take a while for the scan to finish suspending.
+            probe_freq = 5
+
+            Arachni::Reactor.global.delay( probe_freq ) do |task|
+                instance.service.snapshot_path do |path|
+                    next error_out if path.rpc_exception?
+                    next Arachni::Reactor.global.delay( probe_freq, &task ) if !path
+
+                    self.snapshot_path = path
+                    self.status        = :suspended
+                    self.suspended_at  = Time.now
+                    self.active        = false
+                    self.statistics    = {}
+                    save
+
+                    instance.service.shutdown { delete_client }
+                end
+            end
+        end
+    end
+
+    def restore
+        self.status = :restoring
+        self.active = true
+        self.save
+
+        instance.service.restore( snapshot_path ) do
+            self.suspended_at  = nil
+            self.snapshot_path = nil
+            self.save
+        end
     end
 
     def pause
@@ -339,6 +394,12 @@ class Scan < ActiveRecord::Base
                 'was deleted'
             when :abort, :abort_all
                 'was aborted'
+            when :timed_out
+                'timed out'
+            when :restore
+                'was restored'
+            when :suspend, :suspend_all
+                'was suspended'
             when :pause, :pause_all
                 'was paused'
             when :resume, :resume_all
@@ -368,21 +429,21 @@ class Scan < ActiveRecord::Base
         self.started_at = Time.now
         save
 
-        sitemap_opts = {}
-
-        if revision?
-            if extend_from_revision_sitemaps?
-                sitemap_opts[:extend_paths] = revisions_sitemap
-            elsif restrict_to_revision_sitemaps?
-                sitemap_opts[:restrict_paths] = revisions_sitemap
-            end
-        end
-
-        instance.service.scan( profile.to_rpc_options.merge(
+        options = profile.to_rpc_options.merge(
             url:    url,
             spawns: spawns,
             grid:   spawns > 1 ? grid? : nil
-        ).merge( sitemap_opts )) { refresh }
+        )
+
+        if revision?
+            if extend_from_revision_sitemaps?
+                options['scope']['extend_paths'] = revisions_sitemap
+            elsif restrict_to_revision_sitemaps?
+                options['scope']['restrict_paths'] = revisions_sitemap
+            end
+        end
+
+        instance.service.scan( options ) { refresh }
 
         self
     rescue => e
@@ -437,38 +498,58 @@ class Scan < ActiveRecord::Base
         true
     end
 
+    def timed_out?
+        schedule.stop_after && runtime >= schedule.stop_after
+    end
+
     def refresh( &block )
         Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
-            progress( with:    [ :instances, :native_issues,
-                                 errors: error_messages.to_s.lines.count ],
-                      without: [ issues: issue_digests ] ) do |progress_data|
+            native_progress(
+                with:    [ :instances, :issues,
+                            errors: error_messages.to_s.lines.count ],
+                without: [ issues: issue_digests ] ) do |progress_data|
 
+            # ap progress_data
             if progress_data.rpc_exception?
-                self.status = :error
-                finish
-
-                notify action: self.status
-                delete_client
-
+                error_out
                 next
             end
 
             begin
                 self.active     = true
-                self.status     = progress_data['status']
-                self.statistics = progress_data['stats']
+                self.status     = progress_data[:status]
+                self.statistics = progress_data[:statistics].merge( messages: progress_data[:messages] )
 
-                if progress_data['errors'] && !(msgs = progress_data['errors'].join( "\n" )).empty?
+                if progress_data[:errors] && progress_data[:errors].any?
                     self.error_messages ||= ''
-                    self.error_messages  += "\n" + progress_data['errors'].join( "\n" )
+                    self.error_messages  += "\n#{progress_data[:errors].join( "\n" )}"
+                end
+                save
+
+                push_framework_issues( progress_data[:issues] )
+
+                next if aborted? || suspended?
+
+                if timed_out?
+
+                    if schedule.stop_suspend?
+                        if scanning?
+                            notify action: :timed_out
+                            suspend
+                        end
+                    else
+                        notify action: :timed_out
+                        abort
+                    end
+
+                    next
                 end
 
-                push_framework_issues( progress_data['issues'] )
-
-                # If the scan has completed grab the report and mark it as such.
-                if progress_data['busy']
+                # If the scan has completed grab the report and mark it as such,
+                # otherwise just call the block.
+                if progress_data[:busy]
                     block.call if block_given?
                 else
                     finish
@@ -513,14 +594,75 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def self.import( owner, file )
+        report = begin
+            Arachni::Report.load( file.path )
+        rescue
+            return
+        end
+
+        # First, we need a profile.
+        profile             = Profile.import_from_data( report.options )
+        profile.owner       = owner
+        profile.name        = "Placeholder #{Profile.count + 1}"
+        profile.description = profile.name
+
+        scan = new(
+            url:         report.url,
+            description: "Imported from '#{file.original_filename}'.",
+            type:        :direct,
+            profile:     profile,
+            started_at:  report.start_datetime,
+            finished_at: report.finish_datetime,
+            owner:       owner,
+            schedule:    Schedule.create(
+                basetime: Schedule::BASETIME_OPTIONS.keys.first
+            )
+        )
+        scan.create_report( report )
+        scan.save
+
+        profile.name        = "Created for imported scan ##{scan.id}"
+        profile.description = "#{profile.name}."
+        profile.save
+
+        scan
+    end
+
     def error_messages
         super.to_s
     end
 
+    def create_report( r )
+        begin
+            self.report = Report.create( object: r, scan_id: id )
+            save
+
+            push_framework_issues( r.issues )
+            update_from_framework_issues( r.issues )
+
+            r
+        rescue => e
+            ap e
+            ap e.backtrace
+        end
+    end
+
     private
 
+    def error_out
+        self.status = :error
+        finish
+
+        notify action: self.status
+        delete_client
+    end
+
     def delete_client
-        client_synchronize { client_factory.delete client_key }
+        client_synchronize do
+            i = client_factory.delete( client_key )
+            i.close if i
+        end
     end
 
     def client_factory
@@ -567,6 +709,9 @@ class Scan < ActiveRecord::Base
             next if skip
             issues.create_from_framework_issue i
         end
+    rescue => e
+        ap e
+        ap e.backtrace
     end
 
     def update_from_framework_issues( a_issues )
@@ -577,26 +722,11 @@ class Scan < ActiveRecord::Base
 
     def save_report_and_shutdown( &block )
         # Grab the report and save the scan, we're all done now. :)
-        instance.service.abort_and_report :auditstore do |auditstore|
-            create_report( auditstore )
+        instance.service.native_abort_and_report do |report|
+            create_report( report )
             instance.service.shutdown { delete_client }
 
             block.call if block_given?
-        end
-    end
-
-    def create_report( auditstore )
-        begin
-            self.report = Report.create( object: auditstore, scan_id: id )
-            save
-
-            push_framework_issues( auditstore.issues )
-            update_from_framework_issues( auditstore.issues )
-
-            auditstore
-        rescue => e
-            ap e
-            ap e.backtrace
         end
     end
 
@@ -652,7 +782,12 @@ class Scan < ActiveRecord::Base
     def validate_instance_count
         if instance_count < 1
             errors.add :instance_count, 'must be at least 1'
+            return
         end
+
+        return if !schedule.stop_suspend || instance_count == 1
+
+        errors.add :instance_count, 'cannot be greater than 1 for a scheduled suspension'
     end
 
     def validate_description

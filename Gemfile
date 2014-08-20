@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.1.4'
 
 gem 'psych'
 
@@ -11,7 +11,7 @@ gem 'thin'
 gem 'sqlite3'
 
 # Postgres DB (Optional)
-gem 'pg'
+# gem 'pg'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -32,10 +32,12 @@ gem "devise", "~> 3.2.2"
 gem 'cancan', '~> 1.6.10'
 
 # User role management.
-gem 'rolify', '~> 3.2.0'
+gem 'rolify', '~> 3.4.0'
 
 # Pagination helper.
 gem 'kaminari'
+
+gem 'loofah'
 
 group :development do
     # Model factory.
@@ -83,15 +85,5 @@ group :test do
     gem 'faker'
 end
 
-# The Arachni Framework.
-if File.exist?( p = File.dirname( __FILE__ ) + '/../arachni' )
-    gem 'arachni', path: p
-else
-    # Nightly builds use a local git repo for performance reasons.
-    repo = 'https://github.com/Arachni/arachni.git'
-    if !ENV['ARACHNI_FRAMEWORK_REPOSITORY_URL'].to_s.empty?
-        repo = ENV['ARACHNI_FRAMEWORK_REPOSITORY_URL']
-    end
-
-    gem 'arachni', git: repo, branch: 'experimental'
-end
+gem 'arachni-rpc', path: File.dirname( __FILE__ ) + '/../arachni-rpc-v0.2'
+gem 'arachni',     path: File.dirname( __FILE__ ) + '/../arachni'

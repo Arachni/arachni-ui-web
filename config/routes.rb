@@ -40,11 +40,16 @@ ArachniWebui::Application.routes.draw do
         post :repeat,   on: :member
 
         patch :update_memberships,    on: :member
+        patch :suspend,  on: :member
+        patch :restore,  on: :member
         patch :share,    on: :member
         patch :pause,    on: :member
         patch :resume,   on: :member
         patch :abort,    on: :member
 
+        post  :import,   on: :collection
+
+        patch :suspend,  on: :collection, to: :suspend_all
         patch :pause,    on: :collection, to: :pause_all
         patch :resume,   on: :collection, to: :resume_all
         patch :abort,    on: :collection, to: :abort_all

@@ -151,5 +151,6 @@ jQuery ->
     $('#issue_fixed').change ->
         updateElementsVisibility()
     updateElementsVisibility()
-    scrollToChild( '#response_body_container', '#response_body_container .proof' )
+    scrollToChild( '#http_response_container', '#http_response_container .proof' )
+    scrollToChild( '#browser_body_container', '#browser_body_container .proof' )
     window.restoreIssueVisibility()

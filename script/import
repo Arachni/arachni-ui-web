@@ -15,6 +15,9 @@
     limitations under the License.
 =end
 
+puts "We're sorry, the current version is incompatible with previous ones."
+exit 0
+
 require 'yaml'
 require 'fileutils'
 
