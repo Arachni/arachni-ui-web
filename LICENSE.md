@@ -2,7 +2,7 @@
 
 Copyright 2013-2014 [Tasos Laskos](mailto:tasos.laskos@gmail.com).
 
-The Arachni WebUI is dual-licensed.
+The Arachni WebUI (henceforth referred to simply as "Arachni") is dual-licensed.
 
 Cases that include **direct commercialization** of Arachni require a commercial,
 non-free license. Otherwise, the system can be used under the terms of
