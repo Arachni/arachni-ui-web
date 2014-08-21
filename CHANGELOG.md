@@ -4,6 +4,7 @@
 
 - External links now open in new windows.
 - Admin can no longer delete self.
+- Fixed XSS on Markdown inputs [Issue #71].
 - Issue
     - Data to include DOM information.
     - Description and remedy guidance textx are now rendered as GitHub-flavored Markdown.
