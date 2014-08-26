@@ -16,6 +16,7 @@
     - Added import support via AFR report files.
     - Added support for scheduled scan termination.
         - With optional suspension.
+    - Report filenames now include scan URL, profile name and scan ID.
 - Added `scan_import` script, allowing AFR reports to be imported as scans via
     a CLI.
 

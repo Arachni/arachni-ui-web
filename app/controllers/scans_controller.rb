@@ -97,10 +97,13 @@ class ScansController < ApplicationController
     def report
         @scan = find_scan( params.require( :id ) )
 
+        name = "#{URI( @scan.url ).host} - #{@scan.profile.name} - #{@scan.id}".
+            gsub( '/', '_' ).gsub( '.', '_' ).gsub( "\n", '' ).gsub( "\r", '' )
+
         format = URI( request.url ).path.split( '.' ).last
         send_data FrameworkHelper.framework { |f| f.report_as format, @scan.report.object },
                   type: FrameworkHelper.content_type_for_report( format ),
-                  disposition: "attachment; filename=#{1}.#{FrameworkHelper.reporters[format][:extension]}"
+                  disposition: "attachment; filename=\"#{name}.#{FrameworkHelper.reporters[format][:extension]}\""
     end
 
     # GET /scans/new
