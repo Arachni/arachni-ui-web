@@ -56,8 +56,8 @@ module ApplicationHelper
     end
 
     def m( string )
-        Loofah.fragment( GitHub::Markdown.render( string.to_s ).to_s ).
-            scrub!(:prune).to_s.html_safe
+        html = Kramdown::Document.new( string ).to_html.recode
+        Loofah.fragment( html ).scrub!(:prune).to_s.html_safe
     end
 
     def truncate_html( html, length = 500, append = ' [...]' )

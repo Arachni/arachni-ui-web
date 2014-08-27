@@ -20,7 +20,7 @@ gem 'jquery-rails', '2.1.4'
 gem 'bootstrap-sass', '2.3.1.0'
 
 # Markdown to HTML conversion.
-gem 'github-markdown'
+gem 'kramdown'
 
 # HTML form helper.
 gem 'simple_form', '~> 3.0.1'
