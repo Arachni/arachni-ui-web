@@ -56,8 +56,8 @@ module ApplicationHelper
     end
 
     def m( string )
-        html = Kramdown::Document.new( string ).to_html.recode
-        Loofah.fragment( html ).scrub!(:prune).to_s.html_safe.force_encoding( 'binary')
+        html = Kramdown::Document.new( string.recode ).to_html
+        Loofah.fragment( html ).scrub!(:prune).to_s.html_safe
     end
 
     def truncate_html( html, length = 500, append = ' [...]' )
