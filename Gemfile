@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.1.4'
 
 gem 'psych'
 
@@ -11,7 +11,7 @@ gem 'thin'
 gem 'sqlite3'
 
 # Postgres DB (Optional)
-gem 'pg'
+# gem 'pg'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -20,7 +20,7 @@ gem 'jquery-rails', '2.1.4'
 gem 'bootstrap-sass', '2.3.1.0'
 
 # Markdown to HTML conversion.
-gem 'github-markdown'
+gem 'kramdown'
 
 # HTML form helper.
 gem 'simple_form', '~> 3.0.1'
@@ -32,10 +32,12 @@ gem "devise", "~> 3.2.2"
 gem 'cancan', '~> 1.6.10'
 
 # User role management.
-gem 'rolify', '~> 3.2.0'
+gem 'rolify', '~> 3.4.0'
 
 # Pagination helper.
 gem 'kaminari'
+
+gem 'loofah'
 
 group :development do
     # Model factory.
@@ -83,5 +85,4 @@ group :test do
     gem 'faker'
 end
 
-# The Arachni Framework.
-gem 'arachni'
+gem 'arachni', '~> 1.0'

@@ -1,7 +1,6 @@
 <%
    show_as_revision ||= false
 
-   type = (treat_as_running ? 'active' : 'finished')
    filter = "filter_#{type}"
 
    yours = (params[filter] == 'yours')
@@ -102,7 +101,6 @@
 
     <% if treat_as_running %>
         <td class="hidden-phone"><%= scan.status.to_s.capitalize %></td>
-        <td><%= scan.progress.to_f %>%</td>
     <% end %>
 
     <td>
@@ -111,10 +109,7 @@
 
     <% if treat_as_running %>
         <td class="hidden-phone"><%= scan.sitemap_size %></td>
-        <td class="hidden-phone"><%= scan.runtime %></td>
-        <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            <%= scan.eta %>
-        </td>
+        <td class="hidden-phone"><%= Arachni::Utilities.seconds_to_hms scan.runtime %></td>
     <% else %>
         <td class="hidden-phone">
             <% if !show_as_revision && scan.has_revisions? %>
@@ -125,11 +120,14 @@
         </td>
 
         <td <%= 'class="hidden-phone"'.html_safe if !yours %>>
-
-            <% if (!show_as_revision && scan.has_revisions?) || !scan.finished_at %>
-                N/A
+            <% if scan.suspended? %>
+              <%= l scan.suspended_at %>
             <% else %>
-                <%= l scan.finished_at %>
+                <% if (!show_as_revision && scan.has_revisions?) || !scan.finished_at %>
+                    N/A
+                <% else %>
+                    <%= l scan.finished_at %>
+                <% end %>
             <% end %>
         </td>
     <% end %>
@@ -171,7 +169,8 @@
                     <%= render partial: 'table_headings', locals: {
                             treat_as_running:   treat_as_running,
                             contains_revisions: true,
-                            yours:              yours
+                            yours:              yours,
+                            type:               type
                     } %>
 
                     <% scan.revisions_with_root.finished.each do |revision| %>
@@ -179,7 +178,8 @@
                                    locals: {
                                         scan:             revision,
                                         treat_as_running: treat_as_running,
-                                        show_as_revision: true
+                                        show_as_revision: true,
+                                        type:             type
                                    } %>
                     <% end %>
                 </table>

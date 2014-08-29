@@ -15,7 +15,6 @@
 
     <% if treat_as_running %>
         <th class="hidden-phone">Status</th>
-        <th>Progress</th>
     <% end %>
 
     <th>Issue count</th>
@@ -23,13 +22,11 @@
     <% if treat_as_running %>
         <th class="hidden-phone">Sitemap size</th>
         <th class="hidden-phone">Running for</th>
-        <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            ETA
-        </th>
     <% else %>
         <th class="hidden-phone">Started at</th>
         <th <%= 'class="hidden-phone"'.html_safe if !yours %>>
-            Finished at</th>
+            <%= type.to_s == 'suspended' ? 'Suspended' : 'Finished' %> at
+        </th>
     <% end %>
 
     <% if !yours %>

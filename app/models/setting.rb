@@ -2,7 +2,7 @@ class Setting < ActiveRecord::Base
     serialize :scan_target_whitelist_patterns, Array
     serialize :scan_target_blacklist_patterns, Array
     serialize :scan_allowed_types, Array
-    serialize :profile_allowed_modules, Array
+    serialize :profile_allowed_checks,  Array
     serialize :profile_allowed_plugins, Array
 
     after_save :save_callback
@@ -24,7 +24,7 @@ class Setting < ActiveRecord::Base
 
     def profile_allowed_modules_with_info
         profile_allowed_modules.
-            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
+            inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
     end
 
     private

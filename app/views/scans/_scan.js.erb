@@ -35,7 +35,11 @@ $("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html',
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );
 $("#scan-sidebar").html( "<%= escape_javascript( render( partial: 'scan_sidebar' ).force_encoding( 'utf-8' ) ) %>" );
 
-$("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
+<% if @scan.suspended? %>
+    $("#scan").html( "<%= escape_javascript( render 'show_suspended' ) %>" );
+<% else %>
+    $("#scan").html( "<%= escape_javascript( render @scan.active? ? 'show_active' : 'show_inactive' ) %>" );
+<% end %>
 
 <% if !params['_method'] || params['_method'] == 'get' %>
     $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
@@ -65,7 +69,7 @@ window.restoreIssueVisibility();
 // Restore the scroll value to where it was prior to the AJAX refresh.
 $("html, body").scrollTop( pageYOffset );
 
-var legend = $('div#legend')
+var legend = $('div#legend');
 legend.attr('class', legendClass);
 legend.width(legendWidth);
 

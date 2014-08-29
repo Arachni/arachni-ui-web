@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+=begin
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
+=end
+
+require 'optparse'
+
+APP_PATH = File.expand_path( '../../config/application',  __FILE__ )
+
+class UploadedFileStub
+
+    attr_reader :path
+    attr_reader :original_filename
+
+    def initialize( path )
+        @path = path
+        @original_filename = File.basename( path )
+    end
+
+end
+
+options = {
+    users:  [],
+    groups: []
+}
+
+OptionParser.new do |opts|
+    opts.banner = "Usage: #{__FILE__} REPORT OWNER_USER_ID [options]"
+
+    opts.on( '--users ID1,ID2,[...]', 'Share with users.' ) do |v|
+        options[:users] = v.split( ',' )
+    end
+
+    opts.on( '--groups ID1,ID2,[...]', 'Assign to scan groups.' ) do |v|
+        options[:groups] = v.split( ',' )
+    end
+end.parse!
+
+require File.expand_path( '../../config/boot',  __FILE__ )
+require APP_PATH
+
+Rails.application.require_environment!
+
+report_path = ARGV.shift
+owner_id    = ARGV.shift
+
+if !report_path
+    $stderr.puts 'Report not specified.'
+    exit 1
+end
+
+if !owner_id
+    $stderr.puts 'Owner not specified.'
+    exit 1
+end
+
+if !File.exist?( report_path )
+    $stderr.puts "Report could not be found at: #{report_path}"
+    exit 1
+end
+
+scan = Scan.import(
+    User.find( owner_id ),
+    UploadedFileStub.new( report_path )
+)
+
+if !scan
+    $stderr.puts 'Report format could not be understood.'
+    exit 1
+end
+
+scan.user_ids       |= options[:users]
+scan.scan_group_ids |= options[:groups]
+scan.save
+
+if scan.errors.empty?
+    puts "Report imported successfully as scan with id: #{scan.id}"
+    exit
+end
+
+scan.errors.messages.each do |field, messages|
+    $stderr.puts "'#{field}' field:"
+    messages.each do |msg|
+        $stderr.puts "  * #{msg}"
+    end
+end
+
+exit 1

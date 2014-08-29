@@ -1,17 +1,9 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
 =end
 
 class Profile < ActiveRecord::Base
@@ -31,43 +23,91 @@ class Profile < ActiveRecord::Base
     validate :validate_description
     validate :validate_plugins
     validate :validate_plugin_options
-    validate :validate_redundant
-    validate :validate_cookies
-    validate :validate_custom_headers
-    validate :validate_login_check
+    validate :validate_scope_redundant_path_patterns
+    validate :validate_http_request_concurrency
+    validate :validate_http_cookies
+    validate :validate_http_request_headers
+    validate :validate_session_check
 
-    # #modules= will ignore any any modules which have not specifically been
+    # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
-    validate :validate_modules
+    validate :validate_checks
 
-    serialize :cookies,         Hash
-    serialize :custom_headers,  Hash
-    serialize :exclude,         Array
-    serialize :exclude_pages,   Array
-    serialize :include,         Array
-    serialize :exclude_cookies, Array
-    serialize :exclude_vectors, Array
-    serialize :extend_paths,    Array
-    serialize :restrict_paths,  Array
-    serialize :modules,         Array
-    serialize :platforms,       Array
-    serialize :plugins,         Hash
-    serialize :redundant,       Hash
+    serialize :http_cookies,                   Hash
+    serialize :http_request_headers,           Hash
+    serialize :scope_exclude_path_patterns,    Array
+    serialize :scope_exclude_content_patterns, Array
+    serialize :scope_include_path_patterns,    Array
+    serialize :scope_extend_paths,             Array
+    serialize :scope_restrict_paths,           Array
+    serialize :scope_redundant_path_patterns,  Hash
+    serialize :scope_url_rewrites,             Hash
+    serialize :audit_exclude_vector_patterns,  Array
+    serialize :audit_include_vector_patterns,  Array
+    serialize :audit_link_templates,           Array
+    serialize :checks,                         Array
+    serialize :platforms,                      Array
+    serialize :plugins,                        Hash
+    serialize :input_values,                   Hash
 
     before_save :sanitize_platforms
     before_save :add_owner_to_subscribers
 
-    RPC_OPTS = [ :audit_cookies, :audit_cookies_extensively, :audit_forms,
-                 :audit_headers, :audit_links, :authed_by, :auto_redundant,
-                 :cookies, :custom_headers, :depth_limit, :exclude,
-                 :exclude_binaries, :exclude_cookies, :exclude_vectors,
-                 :extend_paths, :follow_subdomains, :fuzz_methods, :http_req_limit,
-                 :include, :link_count_limit, :login_check_pattern, :login_check_url,
-                 :max_slaves, :min_pages_per_instance, :modules, :plugins, :proxy_host,
-                 :proxy_password, :proxy_port, :proxy_type, :proxy_username,
-                 :redirect_limit, :redundant, :restrict_paths, :user_agent,
-                 :http_timeout, :https_only, :exclude_pages, :platforms,
-                 :no_fingerprinting, :http_username, :http_password ]
+    RPC_OPTS = [
+        :audit_cookies,
+        :audit_cookies_extensively,
+        :audit_exclude_vector_patterns,
+        :audit_forms,
+        :audit_headers,
+        :audit_include_vector_patterns,
+        :audit_include_vectors,
+        :audit_link_templates,
+        :audit_links,
+        :audit_with_both_http_methods,
+        :authorized_by,
+        :browser_cluster_ignore_images,
+        :browser_cluster_job_timeout,
+        :browser_cluster_pool_size,
+        :browser_cluster_screen_height,
+        :browser_cluster_screen_width,
+        :browser_cluster_worker_time_to_live,
+        :checks,
+        :http_authentication_password,
+        :http_authentication_username,
+        :http_cookies,
+        :http_proxy_host,
+        :http_proxy_password,
+        :http_proxy_port,
+        :http_proxy_type,
+        :http_proxy_username,
+        :http_request_concurrency,
+        :http_request_headers,
+        :http_request_queue_size,
+        :http_request_redirect_limit,
+        :http_request_timeout,
+        :http_user_agent,
+        :input_values,
+        :session_check_pattern,
+        :session_check_url,
+        :no_fingerprinting,
+        :platforms,
+        :plugins,
+        :scope_auto_redundant_paths,
+        :scope_directory_depth_limit,
+        :scope_dom_depth_limit,
+        :scope_exclude_binaries,
+        :scope_exclude_content_patterns,
+        :scope_exclude_path_patterns,
+        :scope_extend_paths,
+        :scope_https_only,
+        :scope_include_path_patterns,
+        :scope_include_subdomains,
+        :scope_page_limit,
+        :scope_redundant_path_patterns,
+        :scope_restrict_paths,
+        :scope_url_rewrites,
+        :spawns
+    ]
 
     scope :global, -> { where global: true }
 
@@ -135,14 +175,21 @@ class Profile < ActiveRecord::Base
         attributes.each do |k, v|
             next if !RPC_OPTS.include?( k.to_sym ) || v.nil? ||
                 (v.respond_to?( :empty? ) ? v.empty? : false)
-            opts[k.to_sym] = v
-        end
 
-        if (cookies = opts.delete(:cookies))
-            opts[:cookies] = cookies.map { |k, v| { k => v } }
+            if (group_name = find_group_option( k ))
+                group_name = group_name.to_s
+                opts[group_name] ||= {}
+                opts[group_name][k[group_name.size+1..-1]] = v
+            else
+                opts[k] = v
+            end
         end
 
         opts
+    end
+
+    def find_group_option( name )
+        Arachni::Options.group_classes.keys.find { |n| name.start_with? "#{n}_" }
     end
 
     def export( serializer = YAML )
@@ -158,9 +205,9 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def modules
-        # Only allow authorized modules.
-        super & Settings.profile_allowed_modules
+    def checks
+        # Only allow authorized checks.
+        super & Settings.profile_allowed_checks
     end
 
     def plugins
@@ -176,54 +223,34 @@ class Profile < ActiveRecord::Base
         ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
-    def redundant=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash, ':' )
+    %w(scope_exclude_path_patterns scope_exclude_content_patterns
+        scope_include_path_patterns scope_restrict_paths scope_extend_paths
+        audit_exclude_vector_patterns audit_include_vector_patterns audit_link_templates).each do |m|
+        define_method "#{m}=" do |string_or_array|
+            super self.class.string_list_to_array( string_or_array )
+        end
     end
 
-    def exclude=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
+    %w(scope_redundant_path_patterns scope_url_rewrites).each do |m|
+        define_method "#{m}=" do |string_or_hash|
+            super self.class.string_list_to_hash( string_or_hash, ':' )
+        end
     end
 
-    def exclude_pages=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
+    %w(http_cookies http_request_headers input_values).each do |m|
+        define_method "#{m}=" do |string_or_hash|
+            super self.class.string_list_to_hash( string_or_hash, '=' )
+        end
     end
 
-    def include=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def restrict_paths=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def extend_paths=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def exclude_vectors=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def exclude_cookies=( string_or_array )
-        super self.class.string_list_to_array( string_or_array )
-    end
-
-    def cookies=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash )
-    end
-
-    def custom_headers=( string_or_hash )
-        super self.class.string_list_to_hash( string_or_hash )
-    end
-
-    def modules=( m )
-        # Only allow authorized modules.
+    def checks=( m )
+        # Only allow authorized checks.
 
         if m == :all || m == :default
-            return super( ::FrameworkHelper.modules.keys.map( &:to_s ) & Settings.profile_allowed_modules.to_a )
+            return super( ::FrameworkHelper.checks.keys.map( &:to_s ) & Settings.profile_allowed_checks.to_a )
         end
 
-        super m & Settings.profile_allowed_modules.to_a
+        super m & Settings.profile_allowed_checks.to_a
     end
 
     def plugins=( p )
@@ -237,12 +264,12 @@ class Profile < ActiveRecord::Base
         super p.select { |k, _| Settings.profile_allowed_plugins.include? k }
     end
 
-    def modules_with_info
-        modules.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.modules[name]; h }
+    def checks_with_info
+        checks.inject( {} ) { |h, name| h[name] = ::FrameworkHelper.checks[name]; h }
     end
 
-    def has_modules?
-        self.modules.any?
+    def has_checks?
+        self.checks.any?
     end
 
     def has_plugins?
@@ -295,7 +322,7 @@ class Profile < ActiveRecord::Base
         end
     end
 
-    def self.string_list_to_hash( string_or_hash, hash_delimiter = '=' )
+    def self.string_list_to_hash( string_or_hash, hash_delimiter )
         case string_or_hash
             when Hash
                 string_or_hash
@@ -308,16 +335,40 @@ class Profile < ActiveRecord::Base
     def self.import( file )
         serialized = file.read
 
-        h = begin
+        data = begin
                 JSON.load serialized
             rescue
                 YAML.safe_load serialized rescue nil
             end
 
-        return if !h.is_a?( Hash )
+        return if !data.is_a?( Hash )
 
-        h['modules'] ||= h.delete( 'mods' )
-        new h.select { |attribute, _| attribute_names.include? attribute }
+        # Old Profile, not supported.
+        return if data.include?( 'modules' ) || data.include?( 'mods' )
+
+        data['name']        ||= file.original_filename
+        data['description'] ||= "Imported from '#{file.original_filename}'."
+
+        import_from_data( data )
+    end
+
+    def self.import_from_data( data )
+        options = {}
+        data.each do |name, value|
+            if Arachni::Options.group_classes.include?( name.to_sym )
+                value.each do |k, v|
+                    key = "#{name}_#{k}"
+                    next if !attribute_names.include?( key.to_s )
+
+                    options[key] = v
+                end
+            else
+                next if !attribute_names.include?( name.to_s )
+                options[name] = value
+            end
+        end
+
+        new options
     end
 
     def validate_description
@@ -325,45 +376,51 @@ class Profile < ActiveRecord::Base
         errors.add :description, 'cannot contain HTML, please use Markdown instead'
     end
 
-    def validate_redundant
-        redundant.each do |pattern, counter|
+    def validate_scope_redundant_path_patterns
+        scope_redundant_path_patterns.each do |pattern, counter|
             next if counter.to_i > 0
-            errors.add :redundant, "rule '#{pattern}' needs an integer counter greater than 0"
+            errors.add :scope_redundant_path_patterns,
+                       "rule '#{pattern}' needs an integer counter greater than 0"
         end
     end
 
-    def validate_cookies
-        cookies.each do |name, value|
-            errors.add :cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
+    def validate_http_cookies
+        http_cookies.each do |name, value|
+            errors.add :http_cookies, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
-    def validate_custom_headers
-        custom_headers.each do |name, value|
-            errors.add :custom_headers, "name cannot be blank ('#{name}=#{value}')" if name.empty?
+    def validate_http_request_concurrency
+        return if http_request_concurrency.to_i > 0
+        errors.add :http_request_concurrency, 'must be higher than 0'
+    end
+
+    def validate_http_request_headers
+        http_request_headers.each do |name, value|
+            errors.add :http_request_headers, "name cannot be blank ('#{name}=#{value}')" if name.empty?
         end
     end
 
-    def validate_login_check
-        return if login_check_url.to_s.empty? && login_check_pattern.to_s.empty?
-        if (url = Arachni::URI( login_check_url )).to_s.empty? || !url.absolute?
-            errors.add :login_check_url, 'not a valid absolute URL'
+    def validate_session_check
+        return if session_check_url.to_s.empty? && session_check_pattern.to_s.empty?
+        if (url = Arachni::URI( session_check_url )).to_s.empty? || !url.absolute?
+            errors.add :session_check_url, 'not a valid absolute URL'
         end
 
-        errors.add :login_check_pattern, 'cannot be blank' if login_check_pattern.to_s.empty?
+        errors.add :session_check_pattern, 'cannot be blank' if session_check_pattern.to_s.empty?
 
         begin
-            Regexp.new( login_check_pattern )
+            Regexp.new( session_check_pattern )
         rescue RegexpError => e
-            errors.add :login_check_pattern, "not a valid regular expression (#{e})"
+            errors.add :session_check_pattern, "not a valid regular expression (#{e})"
         end
     end
 
-    def validate_modules
-        available = ::FrameworkHelper.modules.keys.map( &:to_s )
-        modules.each do |mod|
-            next if available.include? mod.to_s
-            errors.add :modules, "'#{mod}' does not exist"
+    def validate_checks
+        available = ::FrameworkHelper.checks.keys.map( &:to_s )
+        checks.each do |check|
+            next if available.include? check.to_s
+            errors.add :checks, "'#{check}' does not exist"
         end
     end
 
@@ -382,7 +439,7 @@ class Profile < ActiveRecord::Base
                 next if !available.include? plugin.to_s
 
                 begin
-                    f.plugins.prep_opts( plugin, f.plugins[plugin], options )
+                    f.plugins.prepare_options( plugin, f.plugins[plugin], options )
                 rescue Arachni::Component::Options::Error::Invalid => e
                     errors.add :plugins, e.to_s
                 end

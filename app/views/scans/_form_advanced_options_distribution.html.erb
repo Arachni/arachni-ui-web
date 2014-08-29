@@ -8,6 +8,10 @@
             result in significantly diminished scan times and better utilization
             of multi-core/multi-CPU systems.
         </p>
+
+        <p class="alert">
+            Multi-Instance scans cannot be suspended.
+        </p>
     <% end %>
 
     <% if (type_errors = @scan.errors.messages[:type]).any? %>
@@ -62,8 +66,6 @@
             </div>
         <% end %>
     </div>
-
-    <hr />
 
     <div class="hide well" id="dispatcher-remote">
         <% if @dispatchers.any? %>

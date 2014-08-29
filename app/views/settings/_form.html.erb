@@ -83,14 +83,14 @@
 
         <div id="profile" class="tab-pane">
             <h2>
-                Modules
+                Checks
                 <small>Security checks to appear as Profile options.</small>
             </h2>
 
             <div class="row-fluid">
                 <div class="span3">
                     <input id="search" type="text" class="string optional"
-                           placeholder="Filter modules by name or description">
+                           placeholder="Filter checks by name or description">
                 </div>
 
                 <div class="span2">
@@ -101,16 +101,16 @@
 
             <div class="row-fluid">
                 <div class="span6">
-                    <h3>Audit (Active)</h3>
+                    <h3>Active</h3>
 
-                    <div class="modules">
-                        <% FrameworkHelper.modules.
-                                   select { |n, i| i[:path].include?( '/modules/audit' ) }.
+                    <div class="checks">
+                        <% FrameworkHelper.checks.
+                                   select { |n, i| i[:path].include?( '/checks/active' ) }.
                                    each do |shortname, info| %>
                             <%= render partial: 'component_list', locals: {
-                                    selected:  @setting.profile_allowed_modules,
+                                    selected:  @setting.profile_allowed_checks,
                                     shortname: shortname,
-                                    type:      :module,
+                                    type:      :check,
                                     info:      info
                             } %>
                         <% end %>
@@ -118,23 +118,23 @@
                 </div>
 
                 <div class="span6">
-                    <h3>Recon (Passive)</h3>
+                    <h3>Passive</h3>
 
-                    <div class="modules">
-                        <% FrameworkHelper.modules.
-                                   select { |n, i| i[:path].include?( '/modules/recon' ) }.
+                    <div class="checks">
+                        <% FrameworkHelper.checks.
+                                   select { |n, i| i[:path].include?( '/checks/passive' ) }.
                                    each do |shortname, info| %>
                             <%= render partial: 'component_list', locals: {
-                                    selected:  @setting.profile_allowed_modules,
+                                    selected:  @setting.profile_allowed_checks,
                                     shortname: shortname,
-                                    type:      :module,
+                                    type:      :check,
                                     info:      info
                             } %>
                         <% end %>
                     </div>
                 </div>
 
-                <input name="setting[profile_allowed_modules][]"
+                <input name="setting[profile_allowed_checks][]"
                        type="hidden" checked="checked">
             </div>
 

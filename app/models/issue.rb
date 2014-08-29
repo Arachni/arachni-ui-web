@@ -1,17 +1,9 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
 =end
 
 class Issue < ActiveRecord::Base
@@ -27,49 +19,49 @@ class Issue < ActiveRecord::Base
 
     validates_uniqueness_of :digest, scope: :scan_id
 
-    # These can contain lots of junk characters which may blow up the SQL
-    # statement (like null-bytes) so let the serializer deal with them.
-    #serialize :url,           String
-    #serialize :seed,          String
-    #serialize :proof,         String
-    #serialize :response_body, String
-
-    serialize :references,    Hash
-    serialize :remarks,       Hash
-    serialize :tags,          Array
-    serialize :headers,       Hash
-    serialize :audit_options, Hash
+    serialize :references,      Hash
+    serialize :remarks,         Hash
+    serialize :tags,            Array
+    serialize :dom_transitions, Array
+    serialize :headers,         Hash
+    serialize :vector_inputs,   Hash
 
     FRAMEWORK_ISSUE_MAP = {
-        name:            :name,
-        description:     :description,
-        url:             :url,
-        var:             :vector_name,
-        elem:            :vector_type,
-        verification:    :requires_verification,
-        cvssv2:          :cvssv2,
-        cwe:             :cwe,
-        method:          :http_method,
-        tags:            :tags,
-        headers:         :headers,
-        regexp:          :signature,
-        injected:        :seed,
-        regexp_match:    :proof,
-        response:        :response_body,
-        opts:            :audit_options,
-        references:      :references,
-        remedy_code:     :remedy_code,
-        remedy_guidance: :remedy_guidance,
-        severity:        :severity,
-        remarks:         :remarks,
-        digest:          :digest
+        name:            nil,
+        description:     nil,
+        references:      nil,
+        remedy_code:     nil,
+        remedy_guidance: nil,
+        digest:          nil,
+        cwe:             nil,
+        tags:            nil,
+        vector_type:     { vector:   :type },
+        vector_html:     { vector:   :html },
+        url:             { vector:   :action },
+        severity:        { severity: { to_s: :capitalize } }
+    }
+
+    FRAMEWORK_ISSUE_VARIATION_MAP = {
+        signature:             :signature,
+        proof:                 :proof,
+        requires_verification: :untrusted?,
+        remarks:               :remarks,
+        dom_transitions:       { page:     { dom: :transitions } },
+        dom_body:              { page:     :body },
+        http_method:           { vector:   :http_method },
+        vector_inputs:         { vector:   :inputs },
+        vector_name:           { vector:   :affected_input_name },
+        seed:                  { vector:   :affected_input_value },
+        response_body:         { response: :body },
+        response:              { response: :to_s },
+        request:               { request:  :to_s }
     }
 
     ORDERED_SEVERITIES = [
-        Arachni::Issue::Severity::HIGH,
-        Arachni::Issue::Severity::MEDIUM,
-        Arachni::Issue::Severity::LOW,
-        Arachni::Issue::Severity::INFORMATIONAL
+        Arachni::Issue::Severity::HIGH.to_s.capitalize,
+        Arachni::Issue::Severity::MEDIUM.to_s.capitalize,
+        Arachni::Issue::Severity::LOW.to_s.capitalize,
+        Arachni::Issue::Severity::INFORMATIONAL.to_s.capitalize
     ]
 
     PROTECTED = [:remediation_steps, :verification_steps, :false_positive, :fixed]
@@ -87,11 +79,11 @@ class Issue < ActiveRecord::Base
     end
 
     def self.order_by_severity
-        ret = "CASE"
+        ret = 'CASE'
         ORDERED_SEVERITIES.each_with_index do |p, i|
             ret << " WHEN severity = '#{p}' THEN #{i}"
         end
-        ret << " END"
+        ret << ' END'
     end
     scope :by_severity, -> { order order_by_severity }
     default_scope { by_severity }
@@ -103,10 +95,6 @@ class Issue < ActiveRecord::Base
 
     def id_name
         name.parameterize
-    end
-
-    def audit_options
-        super.with_indifferent_access
     end
 
     def url
@@ -158,12 +146,12 @@ class Issue < ActiveRecord::Base
         !remediation_steps.to_s.empty?
     end
 
-    def response_body_contains_proof?
-        proof && response_body && response_body.include?( proof )
+    def dom_body_contains_proof?
+        proof && dom_body && dom_body.include?( proof )
     end
 
-    def base64_response_body
-        Base64.encode64( response_body ).gsub( /\n/, '' )
+    def response_contains_proof?
+        proof && response && response.include?( proof )
     end
 
     def to_s
@@ -227,14 +215,13 @@ class Issue < ActiveRecord::Base
     def self.translate_framework_issue( issue )
         h  = {}
         FRAMEWORK_ISSUE_MAP.each do |k, v|
-            val =  if !(iv = issue.send( k )).nil?
-                        iv
-                    else issue.variations.first &&
-                        !(iv = issue.variations.first.send( k )).nil?
-                    iv
-                    end
+            val = attribute_from_framework_issue( issue, v || k )
+            h[k] = val.is_a?( String ) ? val.recode : val
+        end
 
-            h[v] = val.is_a?( String ) ? val.recode : val
+        FRAMEWORK_ISSUE_VARIATION_MAP.each do |k, v|
+            val = attribute_from_framework_issue( issue.variations.first || issue, v || k )
+            h[k] = val.is_a?( String ) ? val.recode : val
         end
 
         h.reject!{ |k, v| PROTECTED.include? k }
@@ -243,6 +230,26 @@ class Issue < ActiveRecord::Base
     end
 
     private
+
+    def self.attribute_from_framework_issue( issue, attribute )
+     traverse_attributes( issue, attribute )
+    end
+
+    def self.traverse_attributes( object, path )
+        return if object.nil?
+
+        if path.is_a? Symbol
+            return if !object.respond_to?( path )
+            return object.send( path )
+        end
+
+        child_attribute = path.keys.first
+        child_path      = path.values.first
+
+        return if !object.respond_to?( child_attribute )
+
+        traverse_attributes( object.send( child_attribute ), child_path )
+    end
 
     def validate_review_options
         if false_positive && (requires_verification || verified)

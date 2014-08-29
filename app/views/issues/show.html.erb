@@ -4,19 +4,29 @@
 <% breadcrumb_add @issue.scan, @issue.scan %>
 
 <%
+
+   browser_subnav = {}
+   if @issue.dom_transitions.any?
+       browser_subnav = {
+           browser_data: 'Browser data',
+           browser_data_transitions: '<small>&mdash; Transitions</small>',
+           browser_data_body: '<small>&mdash; Body</small>',
+       }
+   end
+
    subnav(
        {
            identification_data: 'Identification data',
+           vector_data: 'Vector data',
+       }.merge(browser_subnav).merge({
            http_data: 'HTTP data',
-           request: '<small>&mdash; Request</small>',
-           response: '<small>&mdash; Response</small>',
-           headers: '<small>&mdash; Headers</small>'
-       },
+           http_data_request: '<small>&mdash; Request</small>',
+           http_data_response: '<small>&mdash; Response</small>'
+       }),
        top: 'Overview'
    )
 
    not_available = '<p class="alert alert-info">Not available</p>'.html_safe
-
 %>
 
 <% if @issue.references.any? %>
@@ -47,9 +57,9 @@
         </p>
     </div>
 
-    <blockquote>
-        <%= @issue.description %>
-    </blockquote>
+    <div class="description">
+        <%= m @issue.description %>
+    </div>
 
     <hr/>
 
@@ -157,7 +167,7 @@
                     </tr>
                 </thead>
                 <tr>
-                    <td class="wrap"><%= @issue.seed ? u( @issue.seed ) : not_available %></td>
+                    <td class="wrap"><%= @issue.seed ? @issue.seed : not_available %></td>
                     <td class="wrap"><%= @issue.signature || not_available %></td>
                     <td class="wrap">
                         <% if @issue.proof %>
@@ -171,168 +181,97 @@
 
             <hr/>
 
-            <h3 id="http_data">HTTP data</h3>
+            <h3 id="vector_data">Vector data</h3>
 
-            <h4 class="pull-left" id="request">Request</h4>
-            <% request_params = @issue.audit_options[:params] %>
-
-            <% if (@issue.vector_type.downcase == 'form' || @issue.vector_type.downcase == 'link') &&
-                    (@issue.http_method.downcase == 'get' || @issue.http_method.downcase == 'post')  %>
-                <form class="pull-left" action="<%= @issue.url %>"
-                      target="_blank" method="<%= @issue.http_method.downcase %>">
-                    <% if request_params %>
-                        <% request_params.each_pair do |name, value|%>
-                            <input type="hidden" name="<%= name.recode %>" value="<%= value.gsub( "\0", "&#00;" ).recode %>" />
-                        <%end%>
-                    <%end%>
-                    <button title="Replay the request" type="submit"
-                            class="btn btn-mini btn-inverse repeat-request-btn">
-                        <i class="icon-repeat"></i>
-                    </button>
-                </form>
+            <% if @issue.vector_html %>
+                <pre><%= @issue.vector_html.recode %></pre>
             <% end %>
 
             <table class="table">
-                <thead>
-                <tr>
-                    <th>
-                        Method
-                    </th>
-                    <th>
-                        Resource
+              <thead>
+              <tr>
+                <th>Type</th>
+                <th>URL</th>
 
-                        <a href="#" rel="tooltip"
-                           title="This resource handled the logged vector's data.">
-                            <i class="icon-info-sign"></i>
-                        </a>
-                    </th>
+                <% if @issue.vector_inputs.any? %>
+                    <th>Inputs</th>
+                <% end %>
+              </tr>
+              </thead>
+              <tr>
+                <td>
+                    <code><%= @issue.vector_type %></code>
+                </td>
+                <td>
+                  <%= link_to @issue.url, @issue.url %>
+                </td>
 
-                    <% if request_params %>
-                        <th colspan="2">
-                            Parameters
-
-                            <a href="#" rel="tooltip"
-                               title="Full request parameters.">
-                                <i class="icon-info-sign"></i>
-                            </a>
-                        </th>
+                <% if @issue.vector_inputs.any? %>
+                <td>
+                  <table id="parameters" class="table key-values">
+                    <% @issue.vector_inputs.each do |k, v| %>
+                        <tr>
+                          <th>
+                            <%= k %>
+                          </th>
+                          <td>
+                            <%= v %>
+                          </td>
+                        </tr>
                     <% end %>
-                </tr>
-                </thead>
-                <tr>
-                    <td class="wrap"><%= @issue.http_method || not_available %></td>
-                    <td class="wrap">
-                        <%= @issue.url ?
-                                    link_to( @issue.url, @issue.url ) :
-                                    not_available %>
-                    </td>
-
-                    <% if request_params %>
-                    <td>
-                        <table id="parameters" class="table key-values">
-                            <% request_params.each do |k, v| %>
-                                <tr>
-                                    <th>
-                                        <%= u k %>
-                                    </th>
-                                    <td>
-                                        <%= u v %>
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </table>
-                    </td>
-                    <% end %>
-
-                </tr>
+                  </table>
+                </td>
+                <% end %>
+              </tr>
             </table>
 
-            <hr/>
+          <hr/>
 
-            <h4 id="response">Response</h4>
+          <% if @issue.dom_transitions.any? %>
+              <h3 id="browser_data">Browser data</h3>
 
-            <% if @issue.response_body %>
-                <% if @issue.response_body_contains_proof? %>
+              <h4 id="browser_data_transitions">Transitions</h4>
+              <%= render 'transitions' %>
+
+              <h4 id="browser_data_body">Body</h4>
+              <% if @issue.dom_body %>
+                  <% if @issue.dom_body_contains_proof? %>
+                      <p class="muted">
+                        Proof is highlighted in red and scroll-centered.
+                      </p>
+                  <% end %>
+
+                  <pre id="browser_body_container"><%= highlight_proof( @issue.dom_body, @issue.proof, 'proof' ).recode.html_safe %></pre>
+
+              <% else %>
+                  <p class="alert alert-info">
+                    Response is not available
+                  </p>
+              <% end %>
+              <hr/>
+            <% end %>
+
+            <h3 id="http_data">HTTP data</h3>
+
+            <h4 id="http_data_request">Request</h4>
+            <pre><%= @issue.request %></pre>
+
+            <h4 id="http_data_response">Response</h4>
+
+            <% if @issue.response %>
+                <% if @issue.response_contains_proof? %>
                     <p class="muted">
                         Proof is highlighted in red and scroll-centered.
                     </p>
                 <% end %>
 
-                <a id="render-response-button"
-                   class="btn btn-small btn-inverse hidden-phone"
-                   data-html="<%= @issue.base64_response_body %>" >
-                    Render the response
-                </a>
-
-                <div id="rendered-response-container" class="modal hide fade">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &#10006;
-                        </button>
-                        <h3>Rendered response</h3>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                </div>
-
-                <pre id="response_body_container"><%= highlight_issue_response_body( @issue, 'proof' ).recode.html_safe %></pre>
+                <pre id="http_response_container"><%= highlight_proof( @issue.response, @issue.proof, 'proof' ).recode.html_safe %></pre>
 
             <% else %>
                 <p class="alert alert-info">
                     Response is not available
                 </p>
             <% end %>
-
-            <hr/>
-
-            <h4 id="headers">Headers</h4>
-            <table class="table key-values">
-                <tr>
-                    <td colspan="2">
-                        <table class="table">
-                            <tr>
-                                <th class="top" colspan="2">Request</th>
-                            </tr>
-
-                            <% if @issue.headers['request'] %>
-                                <% @issue.headers['request'].each do |k, v| %>
-                                    <tr>
-                                        <th><%= k %></th>
-                                        <td><%= v %></td>
-                                    </tr>
-                                <% end %>
-                            <% else %>
-                                <tr>
-                                    <td class="alert alert-info">
-                                        No request headers are available
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </table>
-                    </td>
-                    <td colspan="2">
-                        <table class="table">
-                            <tr>
-                                <th class="top" colspan="2">Response</th>
-                            </tr>
-                            <% if @issue.headers['response'] %>
-                                <% @issue.headers['response'].each do |k, v| %>
-                                    <tr>
-                                        <th><%= k %></th>
-                                        <td><%= v %></td>
-                                    </tr>
-                                <% end %>
-                            <% else %>
-                                <tr>
-                                    <td class="alert alert-info">
-                                        No response headers are available
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </table>
-                    </td>
-                </tr>
-            </table>
         </div>
 
         <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane">

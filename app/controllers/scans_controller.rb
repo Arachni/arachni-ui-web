@@ -1,17 +1,9 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
 =end
 
 class ScansController < ApplicationController
@@ -36,7 +28,7 @@ class ScansController < ApplicationController
 
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
-    before_filter :new_scan, only: [ :create ]
+    before_filter :new_scan, only: [ :create, :import ]
 
     before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
 
@@ -97,10 +89,13 @@ class ScansController < ApplicationController
     def report
         @scan = find_scan( params.require( :id ) )
 
+        name = "#{URI( @scan.url ).host} - #{@scan.profile.name} - #{@scan.id}".
+            gsub( '/', '_' ).gsub( '.', '_' ).gsub( "\n", '' ).gsub( "\r", '' )
+
         format = URI( request.url ).path.split( '.' ).last
-        render layout: false,
-               content_type: FrameworkHelper.content_type_for_report( format ),
-               text: FrameworkHelper.framework { |f| f.report_as format, @scan.report.object }
+        send_data FrameworkHelper.framework { |f| f.report_as format, @scan.report.object },
+                  type: FrameworkHelper.content_type_for_report( format ),
+                  disposition: "attachment; filename=\"#{name}.#{FrameworkHelper.reporters[format][:extension]}\""
     end
 
     # GET /scans/new
@@ -163,6 +158,27 @@ class ScansController < ApplicationController
                 format.html { render action: "new" }
                 format.json { render json: @scan.errors, status: :unprocessable_entity }
             end
+        end
+    end
+
+    # POST /scans/import
+    def import
+        if !params[:scan] ||
+            !((file = params[:scan][:file]).is_a?( ActionDispatch::Http::UploadedFile ))
+
+            redirect_to scans_url, alert: 'No file selected for import.'
+            return
+        end
+
+        if !(scan = Scan.import( current_user, file ))
+            redirect_to scans_url,
+                        alert: 'Could not understand the Report format, please' <<
+                                   ' ensure that you are using a v0.5 report.'
+            return
+        end
+
+        respond_to do |format|
+            format.html { redirect_to scan }
         end
     end
 
@@ -368,6 +384,65 @@ class ScansController < ApplicationController
         end
     end
 
+    # PUT /scans/1/suspend
+    def suspend
+        @scan = find_scan( params.require( :id ) )
+
+        fail 'Cannot suspend a multi-Instance scan.' if @scan.spawns > 0
+        @scan.suspend
+
+        notify @scan
+
+        respond_to do |format|
+            format.js {
+                if params[:render] == 'index'
+                    prepare_scan_group_tab_data
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
+        end
+    end
+
+    # PATCH /scans/abort
+    def suspend_all
+        current_user.own_scans.active.each do |scan|
+            scan.suspend
+            notify scan
+        end
+
+        respond_to do |format|
+            format.js {
+                prepare_scan_group_tab_data
+                prepare_tables_data
+                render '_tables.js'
+            }
+        end
+    end
+
+    # PUT /scans/1/restore
+    def restore
+        @scan = find_scan( params.require( :id ) )
+        fail 'Scan not suspended.' if !@scan.suspended?
+
+        ScanManager.restore @scan
+        notify @scan
+
+        respond_to do |format|
+            format.js {
+                if params[:render] == 'index'
+                    prepare_scan_group_tab_data
+                    prepare_tables_data
+                    render '_tables.js'
+                else
+                    render '_scan.js'
+                end
+            }
+        end
+    end
+
     # DELETE /scans/1
     # DELETE /scans/1.json
     def destroy
@@ -419,6 +494,11 @@ class ScansController < ApplicationController
             params[:scan][sitemap_option] = true
         end
 
+        if params[:scan][:schedule] && params[:scan][:schedule][:stop_after]
+            params[:scan][:schedule][:stop_after] =
+                Arachni::Utilities.hms_to_seconds( params[:scan][:schedule][:stop_after] )
+        end
+
         params.delete( 'grid_dispatcher_id' )
         params.delete( 'remote_dispatcher_id' )
 
@@ -432,7 +512,7 @@ class ScansController < ApplicationController
         if !scan || !scan.finished?
             allowed_params << {
                 schedule: [ :start_at, :every_minute, :every_hour, :every_day,
-                            :every_month, :basetime ]
+                            :every_month, :basetime, :stop_after, :stop_suspend ]
             }
         end
 

@@ -8,15 +8,25 @@
 
                 <% report_type = 'partial' %>
                 <p class="alert alert-warning">
+                  <i class="icon-stop"></i>
+
                 The scan was aborted after
             <% else %>
                 <% report_type = 'full' %>
 
                 <p class="alert alert-success">
+                    <i class="icon-ok"></i>
+
                     The scan completed in
             <% end %>
 
-            <%= @scan.report.delta_time %>.
+            <%= @scan.report.delta_time %>
+
+            <% if @scan.timed_out? %>
+                , due to a configured timeout
+            <% end %>
+
+            .
             </p>
 
             <% reports_links = reports_with_outfile.
@@ -83,6 +93,16 @@
             <i class="icon-warning-sign"></i>
             This scan is in limbo, its scheduling options have been removed.
         </p>
+    <% end %>
+
+    <% if @scan.messages.any? %>
+        <div class="alert alert-info">
+            <ul>
+              <% @scan.messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+        </div>>
     <% end %>
 
     <script type="text/javascript">

@@ -1,29 +1,21 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
 =end
 
 module IssuesHelper
 
-    def highlight_issue_response_body( issue, span_class )
-        return h( issue.response_body ) if !issue.response_body_contains_proof?
+    def highlight_proof( text, proof, span_class )
+        return h( text ) if !proof || !text.include?( proof )
 
-        escaped_proof         = h( issue.proof )
-        escaped_response_body = h( issue.response_body )
+        escaped_proof    = h( proof )
+        escaped_response = h( text )
 
-        escaped_response_body.gsub( escaped_proof,
-                                  "<span class=\"#{span_class}\">#{escaped_proof}</span>" )
+        escaped_response.gsub( escaped_proof,
+                               "<span class=\"#{span_class}\">#{escaped_proof}</span>" )
     end
 
     def scan

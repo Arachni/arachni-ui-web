@@ -1,36 +1,28 @@
-# Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+# Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http:#www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# This file is part of the Arachni WebUI project and is subject to
+# redistribution and commercial restrictions. Please see the Arachni WebUI
+# web site for more information on licensing and terms of use.
 
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 searchModules = ( val ) ->
-    $(".profile-modules").show()
+    $(".profile-checks").show()
 
     if( val != '' )
-        $(".profile-modules:not(:icontains(" + val + "))").hide()
+        $(".profile-checks:not(:icontains(" + val + "))").hide()
     else
-        $(".profile-modules").show()
+        $(".profile-checks").show()
 
 jQuery ->
     $('#profiles input#search').keyup ->
         searchModules $(this).val()
 
     $('#profiles button.check').click ->
-        $('.profile-modules input:visible:checkbox').attr('checked','checked')
+        $('.profile-checks input:visible:checkbox').attr('checked','checked')
         false
     $('#profiles button.uncheck').click ->
-        $('.profile-modules input:visible:checkbox').removeAttr('checked')
+        $('.profile-checks input:visible:checkbox').removeAttr('checked')
         false

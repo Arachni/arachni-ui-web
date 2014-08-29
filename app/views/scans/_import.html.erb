@@ -1,0 +1,21 @@
+<div id="scan-import" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+            &#10006;
+        </button>
+        <h3>Import scan report:</h3>
+    </div>
+
+    <%= simple_form_for :scan, url: import_scans_url, html: { multipart: true } do |f| %>
+        <div class="modal-body">
+            <%= f.error_notification %>
+            <%= f.input :file, as: :file, label: false,
+                        hint: 'Please specify an AFR file.'
+            %>
+        </div>
+        <div class="modal-footer">
+            <%= f.button :submit, value: 'Import', class: 'btn btn-small btn-primary' %>
+            <button class="btn btn-small" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    <% end %>
+</div>

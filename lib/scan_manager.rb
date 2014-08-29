@@ -1,20 +1,13 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    This file is part of the Arachni WebUI project and is subject to
+    redistribution and commercial restrictions. Please see the Arachni WebUI
+    web site for more information on licensing and terms of use.
 =end
 
 require 'arachni/rpc/server/instance'
+require 'arachni/processes/instances'
 
 class ScanManager
     include Singleton
@@ -25,7 +18,7 @@ class ScanManager
 
     def monitor
         return if Rails.env == 'test'
-        @timer ||= ::EM.add_periodic_timer( HardSettings.scan_refresh_rate / 1000 ) do
+        @timer ||= Arachni::Reactor.global.at_interval( HardSettings.scan_refresh_rate / 1000 ) do
             keep_schedule
             refresh
         end
@@ -54,6 +47,31 @@ class ScanManager
         true
     end
 
+    def self.restore( scan )
+        instance.restore scan
+    end
+
+    def restore( scan )
+        if scan.dispatcher
+            fail 'Dispatcher is not alive.' if !scan.dispatcher.alive?
+
+            scan.dispatcher.client.dispatch( "WebUI v#{ArachniWebui::Application::VERSION}" ) do |info|
+                scan.instance_url   = info['url']
+                scan.instance_token = info['token']
+                scan.save
+
+                scan.restore
+            end
+        else
+            instance = Arachni::Processes::Instances.spawn( fork: false )
+            scan.instance_url   = instance.url
+            scan.instance_token = instance.token
+            instance.close
+
+            scan.restore
+        end
+    end
+
     private
 
     def keep_schedule
@@ -71,8 +89,18 @@ class ScanManager
         Thread.new do
             begin
                 if scan.type == :direct
-                    scan.instance_url, scan.instance_token = spawn_instance
-                    scan.start
+
+                    # For some reason we can't Process.fork from the WebUI.
+                    instance = Arachni::Processes::Instances.spawn( fork: false )
+
+                    scan.instance_url   = instance.url
+                    scan.instance_token = instance.token
+
+                    instance.close
+
+                    Arachni::RPC::Client::Instance.when_ready scan.instance_url, scan.instance_token do
+                        scan.start
+                    end
                 else
                     owner = "WebUI v#{ArachniWebui::Application::VERSION}"
 
@@ -119,43 +147,15 @@ class ScanManager
     def refresh
         Rails.logger.info "#{self.class}##{__method__}"
 
-        ::EM::Iterator.new( Scan.active ).each do |scan, iter|
-            scan.refresh { iter.next } rescue iter.next
+        Arachni::Reactor.global.create_iterator( Scan.active, 10 ).each do |scan, iter|
+            begin
+                scan.refresh { iter.next }
+            rescue => e
+                ap e
+                ap e.backtrace
+                iter.next
+            end
         end
-    end
-
-    def spawn_instance
-        # Global address to bind to.
-        Arachni::Options.rpc_address = 'localhost'
-
-        # Set some RPC server info for the Instance
-        token = Arachni::Utilities.generate_token
-        port  = Arachni::Utilities.available_port
-
-        # Prevents "Connection was reset" errors on the client-side.
-        # (i.e. Let Rails send the response back before forking EM.)
-        sleep 1
-
-        # Clear all connections so the child we're about to spawn won't
-        # take any of them with it.
-        ::ActiveRecord::Base.clear_all_connections!
-
-        Process.detach ::EM.fork_reactor {
-            # redirect the Instance's RPC server's output to /dev/null
-            $stdout.reopen( '/dev/null', 'w' )
-            $stderr.reopen( '/dev/null', 'w' )
-
-            Arachni::Options.rpc_port = port
-            Arachni::RPC::Server::Instance.new( Arachni::Options.instance, token )
-        }
-
-        # Wait for the instance server to become active.
-        sleep 1
-
-        # Re-establish the connection to the DB.
-        ::ActiveRecord::Base.establish_connection
-
-        [ "#{Arachni::Options.rpc_address}:#{port}", token ]
     end
 
 end

@@ -1,9 +1,17 @@
+**NOTICE**:
+
+* Arachni's license has changed, please see the _LICENSE_ file before working
+    with the project.
+* v0.5 is not backwards compatible.
+
+<hr/>
+
 # Arachni - Web User Interface
 
 <table>
     <tr>
         <th>Version</th>
-        <td>0.4.4</td>
+        <td>0.5</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -26,7 +34,7 @@
     </tr>
     <tr>
        <th>Author</th>
-       <td><a href="mailto:tasos.laskos@gmail.com">Tasos Laskos</a> (<a href="http://twitter.com/Zap0tek">@Zap0tek</a>)</td>
+       <td><a href="mailto:tasos.laskos@arachni-scanner.com">Tasos Laskos</a> (<a href="http://twitter.com/Zap0tek">@Zap0tek</a>)</td>
     </tr>
     <tr>
         <th>Twitter</th>
@@ -38,7 +46,7 @@
     </tr>
     <tr>
         <th>License</th>
-        <td><a href="file.LICENSE.html">Apache License Version 2.0</a></td>
+        <td>Dual-licensed (Apache License v2.0/Commercial) - (see LICENSE file)</td>
     </tr>
 </table>
 
@@ -86,7 +94,7 @@ security scanner framework.
             - Mark them as verified
     - Receive Notifications for:
         - Shared Profiles -- Created, updated, shared, deleted.
-        - Shared Scans -- Started, paused, resumed, aborted, commented.
+        - Shared Scans -- Started, paused, resumed, aborted, commented, timed out, suspended.
         - Issues of shared Scans -- Reviewed, verified, commented.
     - Review their Activity.
     - Export reports, review and comment on Scans which have been shared with them by other users.
@@ -133,8 +141,8 @@ for working with the source code.
 
 ## License
 
-Arachni WebUI is licensed under the Apache License Version 2.0.<br/>
-See the [LICENSE](file.LICENSE.html) file for more information.
+Dual-licensed (Apache License v2.0/Commercial) -- please see the _LICENSE_ file
+for more information.
 
 ## Disclaimer
 

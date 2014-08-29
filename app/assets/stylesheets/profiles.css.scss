@@ -1,17 +1,9 @@
 /*
- * Copyright 2013-2014 Tasos Laskos <tasos.laskos@gmail.com>
+ * Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This file is part of the Arachni WebUI project and is subject to
+ * redistribution and commercial restrictions. Please see the Arachni WebUI
+ * web site for more information on licensing and terms of use.
 */
 
 // Place all the styles related to the Profiles controller here.
@@ -48,7 +40,7 @@
         width: 240px;
     }
 
-    input#profile_plugins, input#profile_modules {
+    input#profile_plugins, input#profile_checks {
         float: left;
         margin-right: 10px;
         margin-top: 10px;
@@ -85,42 +77,47 @@
         height: 135px;
     }
 
-    #profile_redundant {
+    #profile_scope_redundant_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_restrict_paths {
+    #profile_scope_url_rewrites {
         width:  100%;
         height: 150px;
     }
 
-    #profile_extend_paths {
+    #profile_scope_restrict_paths {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude {
+    #profile_scope_extend_paths {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_pages {
+    #profile_scope_exclude_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_include {
+    #profile_scope_exclude_content_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_cookies {
+    #profile_scope_include_path_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_modules {
+    #profile_http_cookies {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_checks {
         display: inline;
     }
 
@@ -133,27 +130,37 @@
         display: inline;
     }
 
-    #profile_custom_headers {
+    #profile_http_request_headers {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_vectors {
+    #profile_audit_exclude_vector_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_exclude_cookies {
+    #profile_audit_include_vector_patterns {
         width:  100%;
         height: 150px;
     }
 
-    #profile_login_check_url {
+    #profile_audit_link_templates {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_input_values {
+        width:  100%;
+        height: 150px;
+    }
+
+    #profile_session_check_url {
         width:  90%;
         float: left;
     }
 
-    #profile_login_check_pattern {
+    #profile_session_check_pattern {
         width:  90%;
         float: left;
     }
@@ -168,7 +175,7 @@
         }
     }
 
-    #modules, #plugins {
+    #checks, #plugins {
         .accordion-group:nth-child(even) {
             background-color: #E9E9E9;
         }

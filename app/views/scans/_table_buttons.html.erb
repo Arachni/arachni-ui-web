@@ -32,6 +32,15 @@
         <% end  %>
     <% end  %>
 
+    <% if scan.scanning? && scan.spawns == 0 && can?( :suspend, scan ) %>
+        <%= link_to suspend_scan_url(scan),
+                    remote: true,
+                    title:  'Suspend scan', method: :patch, class: 'btn btn-small',
+                    data:   { confirm: 'Are you sure you want to suspend the scan?' } do %>
+            <i class="icon-eject"></i>
+        <% end %>
+    <% end %>
+
     <% if can? :abort, scan %>
         <%= link_to abort_scan_url( scan, render: :index ), title: 'Abort scan',
                     method: :patch, class: 'btn btn-small btn-danger',
@@ -50,6 +59,15 @@
         <%= render partial: 'scan_group_form', locals: { scan: scan, nodisplay: true } %>
         <%= render partial: 'shared/share_form', locals: { model: scan, nodisplay: true } %>
     <% end %>
+<% elsif scan.suspended? %>
+
+    <%= render 'restore_button', scan: scan %>
+
+    <% if show_as_revision && can?( :share, scan ) %>
+        <%= render partial: 'scan_group_form', locals: { scan: scan, nodisplay: true } %>
+        <%= render partial: 'shared/share_form', locals: { model: scan, nodisplay: true } %>
+    <% end %>
+
 <% else %>
     <% if can? :delete, scan %>
         <%= link_to scan, title: 'Delete scan', method: :delete,
