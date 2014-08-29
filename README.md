@@ -46,7 +46,7 @@
     </tr>
     <tr>
         <th>License</th>
-        <td><a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">Dual-licensed (Apache License v2.0/Commercial)</a></td>
+        <td>Dual-licensed (Apache License v2.0/Commercial) - (see LICENSE file)</td>
     </tr>
 </table>
 
