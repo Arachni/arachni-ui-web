@@ -85,5 +85,4 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni-rpc', path: '/home/zapotek/workspace/arachni-rpc'
-gem 'arachni',     path: '/home/zapotek/workspace/arachni'
+gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
