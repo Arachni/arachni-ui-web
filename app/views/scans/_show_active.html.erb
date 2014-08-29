@@ -140,7 +140,7 @@
             <td class="hidden-phone"><%= @scan.statistics[:http][:request_count] %></td>
 
             <th>Requests per second</th>
-            <td><%= @scan.statistics[:http][:total_responses_per_second] %></td>
+            <td><%= '%.2f' % @scan.statistics[:http][:total_responses_per_second].to_f %></td>
 
             <%
                max_concurrency_class, info = concurrent_requests_to_alert(
