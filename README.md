@@ -1,7 +1,7 @@
 **NOTICE**:
 
-* Arachni's <a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">license</a>
-    has changed, please review it before working with the project.
+* Arachni's license has changed, please see the _LICENSE_ file before working
+    with the project.
 * v0.5 is not backwards compatible.
 
 <hr/>
@@ -141,7 +141,8 @@ for working with the source code.
 
 ## License
 
-<a href="https://github.com/Arachni/arachni-ui-web/blob/master/LICENSE.md">Dual-licensed (Apache License v2.0/Commercial)</a>
+Dual-licensed (Apache License v2.0/Commercial) -- please see the _LICENSE_ file
+for more information.
 
 ## Disclaimer
 
