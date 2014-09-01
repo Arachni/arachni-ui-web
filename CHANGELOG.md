@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- `Gemfile`: Include `pg` gem.
+
 ## 0.5 _(August 29, 2014)_
 
 - Admin can no longer delete self.
