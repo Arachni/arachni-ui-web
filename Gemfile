@@ -11,7 +11,7 @@ gem 'thin'
 gem 'sqlite3'
 
 # Postgres DB (Optional)
-# gem 'pg'
+gem 'pg'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'

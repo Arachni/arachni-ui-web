@@ -135,6 +135,7 @@ GEM
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     polyglot (0.3.5)
     pony (1.8)
       mail (>= 2.0)
@@ -252,6 +253,7 @@ DEPENDENCIES
   launchy (>= 2.2.0)
   libv8 (~> 3.11.8)
   loofah
+  pg
   psych
   rails (= 4.1.4)
   rolify (~> 3.4.0)

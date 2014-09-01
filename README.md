@@ -2,7 +2,7 @@
 
 * Arachni's license has changed, please see the _LICENSE_ file before working
     with the project.
-* v0.5 is not backwards compatible.
+* v0.5.x is not backwards compatible with v0.4.x.
 
 <hr/>
 
@@ -11,7 +11,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5</td>
+        <td>0.5.1</td>
     </tr>
     <tr>
         <th>Homepage</th>

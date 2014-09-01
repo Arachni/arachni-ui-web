@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.5.1 _(September 01, 2014)_
+
+- `Gemfile`: Include `pg` gem.
+
 ## 0.5 _(August 29, 2014)_
 
 - Admin can no longer delete self.
