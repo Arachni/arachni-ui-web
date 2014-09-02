@@ -1,5 +1,7 @@
 # ChangeLog
 
+## _Under development_
+
 ## 0.5.1 _(September 01, 2014)_
 
 - `Gemfile`: Include `pg` gem.
