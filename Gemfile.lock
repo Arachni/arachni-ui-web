@@ -1,3 +1,27 @@
+GIT
+  remote: git://github.com/Arachni/arachni.git
+  revision: c37f3369293a3327e803c1abb1b5a7ecc3c344eb
+  branch: experimental
+  specs:
+    arachni (2.0dev)
+      addressable (= 2.3.6)
+      arachni-rpc (= 0.2.0)
+      awesome_print (= 1.2.0)
+      bundler
+      childprocess (= 0.5.3)
+      coderay (= 1.1.0)
+      json (= 1.8.1)
+      kramdown (= 1.4.1)
+      loofah (= 2.0.0)
+      msgpack (= 0.5.8)
+      nokogiri (= 1.6.2.1)
+      pony (= 1.8)
+      rb-readline (= 0.5.1)
+      rubyzip (= 1.1.6)
+      terminal-table (= 1.4.5)
+      typhoeus (= 0.6.9)
+      watir-webdriver (= 0.6.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -28,24 +52,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.6)
-    arachni (1.0)
-      addressable (= 2.3.6)
-      arachni-rpc (= 0.2.0)
-      awesome_print (= 1.2.0)
-      bundler
-      childprocess (= 0.5.3)
-      coderay (= 1.1.0)
-      json (= 1.8.1)
-      kramdown (= 1.4.1)
-      loofah (= 2.0.0)
-      msgpack (= 0.5.8)
-      nokogiri (= 1.6.2.1)
-      pony (= 1.8)
-      rb-readline (= 0.5.1)
-      rubyzip (= 1.1.6)
-      terminal-table (= 1.4.5)
-      typhoeus (= 0.6.9)
-      watir-webdriver (= 0.6.9)
     arachni-reactor (0.1.0.beta3)
     arachni-rpc (0.2.0)
       arachni-reactor (~> 0.1.0.beta2)
@@ -236,7 +242,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  arachni (~> 1.0)
+  arachni!
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
