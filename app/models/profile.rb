@@ -185,7 +185,7 @@ class Profile < ActiveRecord::Base
             end
         end
 
-        opts
+        Arachni::Options.hash_to_rpc_data opts
     end
 
     def find_group_option( name )
