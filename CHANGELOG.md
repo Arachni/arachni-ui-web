@@ -2,6 +2,10 @@
 
 ## _Under development_
 
+- `Scan`
+    - `#start` -- Only set status to `active` after the RPC call, to avoid a race
+        condition.
+
 ## 0.5.1 _(September 01, 2014)_
 
 - `Gemfile`: Include `pg` gem.

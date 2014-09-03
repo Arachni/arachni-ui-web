@@ -417,7 +417,6 @@ class Scan < ActiveRecord::Base
 
     def start
         self.status     = :starting
-        self.active     = true
         self.started_at = Time.now
         save
 
