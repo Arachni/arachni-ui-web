@@ -71,7 +71,7 @@
 
 <% else %>
 
-    <% if @scan.initializing? %>
+    <% if @scan.initializing? || @scan.starting? %>
         <p class="alert alert-info">
             <i class="icon-spinner icon-spin"></i>
             The scan is initializing, please wait...
