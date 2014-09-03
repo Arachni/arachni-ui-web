@@ -7,6 +7,7 @@
 - `Scan`
     - `#start` -- Only set status to `active` after the RPC call, to avoid a race
         condition.
+    - Improved logging of RPC errors.
 - `Profile`
     - `#to_rpc_options` -- Sanitize hash via `Arachni::Options.hash_to_rpc_data`.
 
