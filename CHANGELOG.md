@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- `Dispatcher`
+    - Remove RPC clients of deleted or unreachable Dispatchers from the cache.
 - `Scan`
     - `#start` -- Only set status to `active` after the RPC call, to avoid a race
         condition.

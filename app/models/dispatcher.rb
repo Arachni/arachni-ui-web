@@ -26,7 +26,9 @@ class Dispatcher < ActiveRecord::Base
     validate :server_reachability
     validate :validate_description
 
-    before_save   :add_owner_to_subscribers
+    before_save    :add_owner_to_subscribers
+    before_destroy :delete_client
+
     after_create  DispatcherManager.instance
 
     serialize :statistics, Hash
@@ -202,6 +204,7 @@ class Dispatcher < ActiveRecord::Base
                     save( validate: false )
                 end
 
+                delete_client
                 block.call if block_given?
                 next
             end
@@ -235,6 +238,13 @@ class Dispatcher < ActiveRecord::Base
 
     def client_key
         url.hash
+    end
+
+    def delete_client
+        client_synchronize do
+            i = client_factory.delete( client_key )
+            i.close if i
+        end
     end
 
     def server_reachability
