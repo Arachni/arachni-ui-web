@@ -210,6 +210,10 @@ class Scan < ActiveRecord::Base
         active? && !initializing?
     end
 
+    def starting?
+        status == :starting
+    end
+
     def cleaning_up?
         !active? && !finished? && !suspended?
     end
