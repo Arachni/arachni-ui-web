@@ -66,7 +66,7 @@ class Dispatcher < ActiveRecord::Base
     end
 
     def self.preferred
-        order( 'score ASC' ).first
+        alive.order( 'score ASC' ).first
     end
 
     def family

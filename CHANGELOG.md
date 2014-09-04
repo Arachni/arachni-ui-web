@@ -4,6 +4,7 @@
 
 - `Dispatcher`
     - Remove RPC clients of deleted or unreachable Dispatchers from the cache.
+    - `#preferred` -- Only include reachable Dispatchers.
 - `Scan`
     - `#start` -- Only set status to `active` after the RPC call, to avoid a race
         condition.
