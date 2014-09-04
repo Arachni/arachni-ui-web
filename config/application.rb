@@ -88,3 +88,10 @@ module ArachniWebui
 end
 
 Arachni::Reactor.global.run_in_thread
+Arachni::Reactor.global.on_error do |_, e|
+    Rails.logger.error "Arachni::Reactor: #{e}"
+
+    e.backtrace.each do |l|
+        Rails.logger.error "Arachni::Reactor: #{l}"
+    end
+end
