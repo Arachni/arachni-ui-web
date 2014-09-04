@@ -74,7 +74,7 @@
     <% if @scan.initializing? || @scan.starting? %>
         <p class="alert alert-info">
             <i class="icon-spinner icon-spin"></i>
-            The scan is initializing, please wait...
+            The scan is <%= @scan.status %>, please wait...
         </p>
     <% elsif @scan.scheduled? && @scan.schedule.start_at? %>
         <p class="alert alert-info">
