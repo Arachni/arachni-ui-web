@@ -86,3 +86,4 @@ group :test do
 end
 
 gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+# gem 'arachni', path: '../arachni'

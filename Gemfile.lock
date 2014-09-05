@@ -1,5 +1,7 @@
-PATH
-  remote: ../arachni
+GIT
+  remote: git://github.com/Arachni/arachni.git
+  revision: 325db8ca5cbc250339f40fe7009a9d87e2ba7786
+  branch: experimental
   specs:
     arachni (2.0dev)
       addressable (= 2.3.6)
