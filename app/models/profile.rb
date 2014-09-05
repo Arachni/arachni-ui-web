@@ -185,7 +185,10 @@ class Profile < ActiveRecord::Base
             end
         end
 
-        Arachni::Options.hash_to_rpc_data opts
+        opts = Arachni::Options.hash_to_rpc_data( opts )
+        opts['input']['without_defaults'] = true
+        opts['input'].delete 'default_values'
+        opts
     end
 
     def find_group_option( name )

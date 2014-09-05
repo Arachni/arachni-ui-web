@@ -10,7 +10,9 @@
         condition.
     - Improved logging of RPC errors.
 - `Profile`
-    - `#to_rpc_options` -- Sanitize hash via `Arachni::Options.hash_to_rpc_data`.
+    - `#to_rpc_options`
+        - Sanitize hash via `Arachni::Options.hash_to_rpc_data`.
+        - Only use the configured input values and ignore Framework defaults.
 
 ## 0.5.1 _(September 01, 2014)_
 
