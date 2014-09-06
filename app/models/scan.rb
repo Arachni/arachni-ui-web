@@ -308,10 +308,13 @@ class Scan < ActiveRecord::Base
         save
 
         instance.service.native_abort_and_report do |report|
-            if !report.rpc_exception?
+            if report.rpc_exception?
+                error_out report
+            else
                 create_report( report )
-                instance.service.shutdown { delete_client }
             end
+
+            instance.service.shutdown { delete_client }
 
             self.status = :aborted
             finish
