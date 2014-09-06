@@ -659,7 +659,7 @@ class Scan < ActiveRecord::Base
             self.error_messages ||= ''
             self.error_messages  += "#{error}\n"
 
-            if error.respond_to? :backtrace
+            if error.respond_to?( :backtrace ) && (error.backtrace || []).any?
                 self.error_messages += "#{error.backtrace.join("\n")}\n"
             end
 
