@@ -9,6 +9,7 @@
     - `#start` -- Only set status to `active` after the RPC call, to avoid a race
         condition.
     - Improved logging of RPC errors.
+    - Fixed loose-typing bug when using PostgreSQL.
 - `Issue`
     - Fixed loose-typing bug when using PostgreSQL.
 - `Profile`

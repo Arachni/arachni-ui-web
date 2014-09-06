@@ -713,7 +713,7 @@ class Scan < ActiveRecord::Base
             if revision?
                 previously_fixed_issue =
                     Issue.where( scan_id: previous_rev_ids,
-                                 digest: i.digest, fixed: true ).first
+                                 digest: i.digest.to_s, fixed: true ).first
 
                 if previously_fixed_issue
                     previously_fixed_issue.notify action: :fixed,
@@ -722,7 +722,7 @@ class Scan < ActiveRecord::Base
                 end
 
                 # Mark issue as not fixed for all revisions since we came across it.
-                Issue.where( scan_id: previous_rev_ids, digest: i.digest )
+                Issue.where( scan_id: previous_rev_ids, digest: i.digest.to_s )
                     .update_all( { fixed: false } )
             end
 
