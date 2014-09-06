@@ -35,7 +35,7 @@ class Issue < ActiveRecord::Base
         digest:          nil,
         cwe:             nil,
         tags:            nil,
-        vector_type:     { vector:   :type },
+        vector_type:     { vector:   { class: :type } },
         vector_html:     { vector:   :html },
         url:             { vector:   :action },
         severity:        { severity: { to_s: :capitalize } }
