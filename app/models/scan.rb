@@ -210,6 +210,10 @@ class Scan < ActiveRecord::Base
         active? && !initializing?
     end
 
+    def starting?
+        status == :starting
+    end
+
     def cleaning_up?
         !active? && !finished? && !suspended?
     end
@@ -304,10 +308,13 @@ class Scan < ActiveRecord::Base
         save
 
         instance.service.native_abort_and_report do |report|
-            if !report.rpc_exception?
+            if report.rpc_exception?
+                error_out report
+            else
                 create_report( report )
-                instance.service.shutdown { delete_client }
             end
+
+            instance.service.shutdown { delete_client }
 
             self.status = :aborted
             finish
@@ -323,14 +330,14 @@ class Scan < ActiveRecord::Base
         save
 
         instance.service.suspend do |r|
-            next error_out if r.rpc_exception?
+            next error_out( r ) if r.rpc_exception?
 
             # Might take a while for the scan to finish suspending.
             probe_freq = 5
 
             Arachni::Reactor.global.delay( probe_freq ) do |task|
                 instance.service.snapshot_path do |path|
-                    next error_out if path.rpc_exception?
+                    next error_out( path ) if path.rpc_exception?
                     next Arachni::Reactor.global.delay( probe_freq, &task ) if !path
 
                     self.snapshot_path = path
@@ -417,7 +424,6 @@ class Scan < ActiveRecord::Base
 
     def start
         self.status     = :starting
-        self.active     = true
         self.started_at = Time.now
         save
 
@@ -435,7 +441,14 @@ class Scan < ActiveRecord::Base
             end
         end
 
-        instance.service.scan( options ) { refresh }
+        instance.service.scan( options ) do |r|
+            if r.rpc_exception?
+                error_out( r )
+                next
+            end
+
+            refresh
+        end
 
         self
     rescue => e
@@ -503,9 +516,11 @@ class Scan < ActiveRecord::Base
                             errors: error_messages.to_s.lines.count ],
                 without: [ issues: issue_digests ] ) do |progress_data|
 
+            self.error_messages ||= ''
+
             # ap progress_data
             if progress_data.rpc_exception?
-                error_out
+                error_out( progress_data )
                 next
             end
 
@@ -516,7 +531,7 @@ class Scan < ActiveRecord::Base
 
                 if progress_data[:errors] && progress_data[:errors].any?
                     self.error_messages ||= ''
-                    self.error_messages  += "\n#{progress_data[:errors].join( "\n" )}"
+                    self.error_messages  += "#{progress_data[:errors].join( "\n" )}\n"
                 end
                 save
 
@@ -642,7 +657,20 @@ class Scan < ActiveRecord::Base
 
     private
 
-    def error_out
+    def error_out( error = nil )
+        if error
+            self.error_messages ||= ''
+            self.error_messages  += "#{error}\n"
+
+            if error.respond_to?( :backtrace ) && (error.backtrace || []).any?
+                self.error_messages += "#{error.backtrace.join("\n")}\n"
+            end
+
+            self.error_messages += "#{'-' * 80}\n"
+            self.error_messages += "#{caller.join("\n")}\n"
+            self.error_messages += "#{'*' * 80}\n"
+        end
+
         self.status = :error
         finish
 
@@ -685,7 +713,7 @@ class Scan < ActiveRecord::Base
             if revision?
                 previously_fixed_issue =
                     Issue.where( scan_id: previous_rev_ids,
-                                 digest: i.digest, fixed: true ).first
+                                 digest: i.digest.to_s, fixed: true ).first
 
                 if previously_fixed_issue
                     previously_fixed_issue.notify action: :fixed,
@@ -694,7 +722,7 @@ class Scan < ActiveRecord::Base
                 end
 
                 # Mark issue as not fixed for all revisions since we came across it.
-                Issue.where( scan_id: previous_rev_ids, digest: i.digest )
+                Issue.where( scan_id: previous_rev_ids, digest: i.digest.to_s )
                     .update_all( { fixed: false } )
             end
 

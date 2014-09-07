@@ -1,5 +1,22 @@
 # ChangeLog
 
+## 0.5.2 _(September 7, 2014)_
+
+- `Dispatcher`
+    - Remove RPC clients of deleted or unreachable Dispatchers from the cache.
+    - `#preferred` -- Only include reachable Dispatchers.
+- `Scan`
+    - `#start` -- Only set status to `active` after the RPC call, to avoid a race
+        condition.
+    - Improved logging of RPC errors.
+    - Fixed loose-typing bug when using PostgreSQL.
+- `Issue`
+    - Fixed loose-typing bug when using PostgreSQL.
+- `Profile`
+    - `#to_rpc_options`
+        - Sanitize hash via `Arachni::Options.hash_to_rpc_data`.
+        - Only use the configured input values and ignore Framework defaults.
+
 ## 0.5.1 _(September 01, 2014)_
 
 - `Gemfile`: Include `pg` gem.

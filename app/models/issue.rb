@@ -35,7 +35,7 @@ class Issue < ActiveRecord::Base
         digest:          nil,
         cwe:             nil,
         tags:            nil,
-        vector_type:     { vector:   :type },
+        vector_type:     { vector:   { class: :type } },
         vector_html:     { vector:   :html },
         url:             { vector:   :action },
         severity:        { severity: { to_s: :capitalize } }
@@ -203,7 +203,7 @@ class Issue < ActiveRecord::Base
     def self.update_from_framework_issue( issue, update_only = [] )
         h = translate_framework_issue( issue )
 
-        return if !(i = where( digest: issue.digest ).first)
+        return if !(i = where( digest: issue.digest.to_s ).first)
 
         h.delete( :requires_verification ) if i.requires_verification?
 
