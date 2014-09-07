@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.2 _(September 7, 2014)_
 
 - `Dispatcher`
     - Remove RPC clients of deleted or unreachable Dispatchers from the cache.
