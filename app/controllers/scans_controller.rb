@@ -93,9 +93,18 @@ class ScansController < ApplicationController
             gsub( '/', '_' ).gsub( '.', '_' ).gsub( "\n", '' ).gsub( "\r", '' )
 
         format = URI( request.url ).path.split( '.' ).last
-        send_data FrameworkHelper.framework { |f| f.report_as format, @scan.report.object },
+
+        if format == 'afr'
+            report    = @scan.report.object
+            extension = 'afr'
+        else
+            report    = FrameworkHelper.framework { |f| f.report_as format, @scan.report.object }
+            extension = FrameworkHelper.reporters[format][:extension]
+        end
+
+        send_data report,
                   type: FrameworkHelper.content_type_for_report( format ),
-                  disposition: "attachment; filename=\"#{name}.#{FrameworkHelper.reporters[format][:extension]}\""
+                  disposition: "attachment; filename=\"#{name}.#{extension}\""
     end
 
     # GET /scans/new
