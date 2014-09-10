@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: 95df8f07b1351f6487bbfc79a41d4cdc8d69aeda
+  revision: 0d395dfba9548678955dede5f5f2c595ac234f03
   branch: experimental
   specs:
     arachni (2.0dev)
