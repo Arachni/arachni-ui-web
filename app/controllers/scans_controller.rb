@@ -95,7 +95,7 @@ class ScansController < ApplicationController
         format = URI( request.url ).path.split( '.' ).last
 
         if format == 'afr'
-            report    = @scan.report.object
+            report    = @scan.report.object.to_afr
             extension = 'afr'
         else
             report    = FrameworkHelper.framework { |f| f.report_as format, @scan.report.object }
