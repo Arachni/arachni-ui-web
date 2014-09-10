@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: 2e8cd82b7f64d24676b29b9670208cb7c8a47894
+  revision: 95df8f07b1351f6487bbfc79a41d4cdc8d69aeda
   branch: experimental
   specs:
     arachni (2.0dev)
@@ -191,11 +191,11 @@ GEM
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
-    selenium-webdriver (2.42.0)
-      childprocess (>= 0.5.0)
+    selenium-webdriver (2.43.0)
+      childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
-      websocket (~> 1.0.4)
+      websocket (~> 1.0)
     simple_form (3.0.2)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -234,7 +234,7 @@ GEM
       rack (>= 1.0)
     watir-webdriver (0.6.9)
       selenium-webdriver (>= 2.18.0)
-    websocket (1.0.7)
+    websocket (1.2.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
