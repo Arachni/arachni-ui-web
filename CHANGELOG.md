@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.3 _(September 13, 2014)_
 
 - Scan
     - Added support for exporting reports as AFR (Arachni Framework Report).
