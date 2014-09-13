@@ -1,5 +1,10 @@
 # ChangeLog
 
+## 0.5.3 _(September 13, 2014)_
+
+- Scan
+    - Added support for exporting reports as AFR (Arachni Framework Report).
+
 ## 0.5.2 _(September 7, 2014)_
 
 - `Dispatcher`

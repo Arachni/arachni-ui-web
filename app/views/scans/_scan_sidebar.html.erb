@@ -130,6 +130,13 @@
                         <%= l %>
                     </li>
                 <% end %>
+                <li>
+                    <%=
+                        link_to 'AFR', report_scan_path( format: 'afr' ),
+                                rel: 'tooltip', title:  'Arachni Framework Report',
+                                data: { 'no-turbolink' => true }
+                    %>
+                </li>
             </ul>
         </li>
     <% end %>

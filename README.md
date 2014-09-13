@@ -11,7 +11,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.2</td>
+        <td>0.5.3</td>
     </tr>
     <tr>
         <th>Homepage</th>
