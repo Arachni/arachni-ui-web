@@ -6,12 +6,58 @@
 
 <hr/>
 
+# Experimental/unstable branch -- used for development/integration
+
+This branch is where all development takes place, once its code has been tested and
+is considered stable, it is then merged into the `master` branch and released.
+
+Do not be confused by the version of this branch, `1.0dev` is a placeholder
+which simply means _next release_.
+
+## Nightlies
+
+For self-contained, nightly snapshot packages take a look at:
+http://downloads.arachni-scanner.com/nightlies/
+
+## Source
+
+To run from source you first need to setup a
+[development environment](https://github.com/Arachni/arachni/wiki/Development-environment).
+
+**After** you've setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment),
+run the following to checkout the source code of the `experimental` branch and
+resolve its dependencies:
+
+    git clone https://github.com/Arachni/arachni-ui-web
+    cd arachni-ui-web
+    git checkout experimental
+
+    # --binstubs will make the executables of the Framework available under 'bin/',
+    # so that you'll be able to run the CLI if needed.
+    bundle install --binstubs
+
+    rake db:migrate
+    rake db:setup
+    script/rails s thin
+
+For seed data (default user accounts etc) take a look in `db/seeds.rb`.
+
+Also, the DB schema is pretty fluid during development so migrate after each
+`git pull` and don't be surprised if you'll have to remove the existing schema
+and DBs for things to work again:
+
+    rm db/development.sqlite3
+    rm db/test.sqlite3
+    rm db/schema.rb
+    rake db:migrate
+    rake db:setup
+
 # Arachni - Web User Interface
 
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.3</td>
+        <td>1.0dev</td>
     </tr>
     <tr>
         <th>Homepage</th>
