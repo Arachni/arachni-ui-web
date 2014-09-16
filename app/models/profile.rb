@@ -60,7 +60,6 @@ class Profile < ActiveRecord::Base
         :audit_forms,
         :audit_headers,
         :audit_include_vector_patterns,
-        :audit_include_vectors,
         :audit_link_templates,
         :audit_links,
         :audit_with_both_http_methods,
