@@ -2,6 +2,9 @@
 
 ## _Under development_
 
+- `ProfilesController`
+    - Added `http_request_queue_size` option to the permitted parameters.
+
 ## 0.5.3 _(September 13, 2014)_
 
 - Scan
