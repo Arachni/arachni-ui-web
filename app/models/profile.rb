@@ -85,6 +85,7 @@ class Profile < ActiveRecord::Base
         :http_request_queue_size,
         :http_request_redirect_limit,
         :http_request_timeout,
+        :http_response_max_size,
         :http_user_agent,
         :input_values,
         :session_check_pattern,

@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- Profile
+    - Added the `http_response_max_size` option.
 - `ProfilesController`
     - Added `http_request_queue_size` option to the permitted parameters.
 

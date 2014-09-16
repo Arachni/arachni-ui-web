@@ -50,6 +50,9 @@ http_proxy_port: 'Proxy server port.'
 http_proxy_type: 'Proxy server type.'
 http_proxy_username: 'Proxy server username.'
 http_request_redirect_limit: 'Limits the amount of total redirects to be followed.'
+http_response_max_size:
+    description: 'Maximum size of acceptable remote resources (in bytes).'
+    notice: 'Large responses (in the MB range) can greatly increase memory consumption, you can use this option as a safeguard.'
 scope_redundant_path_patterns: 'Limits crawl on redundant pages like galleries or catalogs by following
     URLs that match certain patterns a limited amount of times.'
 scope_restrict_paths: 'Uses the given paths instead of crawling.'
