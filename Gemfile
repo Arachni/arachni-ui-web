@@ -85,4 +85,5 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', '~> 1.0.3'
+gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+# gem 'arachni', path: '../arachni'
