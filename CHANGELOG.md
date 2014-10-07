@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.4 _(October 7, 2014)_
 
 - Profile
     - Added the `http_response_max_size` option.
