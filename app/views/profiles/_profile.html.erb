@@ -460,6 +460,17 @@
       <%= messages_for :http_request_timeout %>
     </div>
   </div>
+    <% if profile.http_response_max_size %>
+    <div class="row-fluid">
+        <div class="span6">
+            <p>
+                <b>HTTP response max-size:</b>
+                <%= profile.http_response_max_size %>
+            </p>
+            <%= messages_for :http_response_max_size %>
+        </div>
+    </div>
+    <% end %>
   <div class="row-fluid">
     <% if profile.http_cookies.any? %>
         <div class="span6">

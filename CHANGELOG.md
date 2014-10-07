@@ -1,5 +1,12 @@
 # ChangeLog
 
+## 0.5.4 _(October 7, 2014)_
+
+- Profile
+    - Added the `http_response_max_size` option.
+- `ProfilesController`
+    - Added `http_request_queue_size` option to the permitted parameters.
+
 ## 0.5.3 _(September 13, 2014)_
 
 - Scan

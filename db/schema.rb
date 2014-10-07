@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140706182925) do
+ActiveRecord::Schema.define(version: 20140916190718) do
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20140706182925) do
     t.boolean  "browser_cluster_ignore_images"
     t.integer  "browser_cluster_screen_width"
     t.integer  "browser_cluster_screen_height"
+    t.integer  "http_response_max_size"
   end
 
   create_table "profiles_users", id: false, force: true do |t|
