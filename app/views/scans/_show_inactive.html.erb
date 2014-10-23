@@ -20,7 +20,7 @@
                     The scan completed in
             <% end %>
 
-            <%= @scan.report.delta_time %>
+            <%= @scan.delta_time %>
 
             <% if @scan.timed_out? %>
                 , due to a configured timeout
@@ -29,18 +29,25 @@
             .
             </p>
 
-            <% reports_links = reports_with_outfile.
-                    map do |shortname, (n, desc)|
-                        link_to n, report_scan_path( format: shortname ),
-                                rel: 'tooltip', title: desc, data: { 'no-turbolink' => true }
-                    end
-            %>
+            <% if @scan.report %>
+                <% reports_links = reports_with_outfile.
+                        map do |shortname, (n, desc)|
+                            link_to n, report_scan_path( format: shortname ),
+                                    rel: 'tooltip', title: desc, data: { 'no-turbolink' => true }
+                        end
+                %>
 
-            <p class="alert alert-info visible-phone">
-                Download the <%= report_type %> report as
-                <%= reports_links[0...-1].join( ', ' ).html_safe %> or
-                <%= reports_links.last %>.
-            </p>
+                <p class="alert alert-info visible-phone">
+                    Download the <%= report_type %> report as
+                    <%= reports_links[0...-1].join( ', ' ).html_safe %> or
+                    <%= reports_links.last %>.
+                </p>
+
+            <% else %>
+                <p class="alert alert-error">
+                    The full report for this scan could not be retrieved due to an unknown error.
+                </p>
+            <% end %>
 
             <hr/>
         <% end %>

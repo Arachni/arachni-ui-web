@@ -2,6 +2,10 @@
 
 ## _Under development_
 
+- Scans
+    - Show error message when the full report could not be retrieved instead
+        of crashing.
+
 ## 0.5.4 _(October 7, 2014)_
 
 - Profile

@@ -422,6 +422,10 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def delta_time
+        Arachni::Utilities.seconds_to_hms( finished_at - started_at )
+    end
+
     def start
         self.status     = :starting
         self.started_at = Time.now
