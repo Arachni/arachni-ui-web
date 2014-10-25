@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.5 _(October 25, 2014)_
 
 - Scans
     - Show error message when the full report could not be retrieved instead
