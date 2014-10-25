@@ -112,7 +112,7 @@
         </li>
     <% end %>
 
-    <% if !@scan.suspended? && @scan.finished? && !@scan.overview? %>
+    <% if !@scan.suspended? && @scan.finished? && !@scan.overview? && @scan.report %>
         <li id="download-report">
             <i class="icon-download-alt"></i>
             Download report as:

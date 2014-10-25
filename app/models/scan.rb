@@ -422,6 +422,10 @@ class Scan < ActiveRecord::Base
         end
     end
 
+    def delta_time
+        Arachni::Utilities.seconds_to_hms( finished_at - started_at )
+    end
+
     def start
         self.status     = :starting
         self.started_at = Time.now
@@ -743,7 +747,12 @@ class Scan < ActiveRecord::Base
     def save_report_and_shutdown( &block )
         # Grab the report and save the scan, we're all done now. :)
         instance.service.native_abort_and_report do |report|
-            create_report( report )
+            if report.rpc_exception?
+                error_out( report )
+            else
+                create_report( report )
+            end
+
             instance.service.shutdown { delete_client }
 
             block.call if block_given?
