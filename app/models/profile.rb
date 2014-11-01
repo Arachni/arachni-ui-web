@@ -442,7 +442,9 @@ class Profile < ActiveRecord::Base
                 next if !available.include? plugin.to_s
 
                 begin
-                    f.plugins.prepare_options( plugin, f.plugins[plugin], options )
+                    f.plugins.prepare_options( plugin, f.plugins[plugin],
+                                               (options || {}).reject { |k, v| v.empty? }
+                    )
                 rescue Arachni::Component::Options::Error::Invalid => e
                     errors.add :plugins, e.to_s
                 end

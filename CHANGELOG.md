@@ -4,6 +4,7 @@
 
 - `Profile`
     - `#export` -- Fixed error on YAML/JSON exporting.
+    - Fixed plugin option validation.
 - `Scan`
     - Only stop the scan when an RPC connection error occurs, not for every
         RPC exception.
