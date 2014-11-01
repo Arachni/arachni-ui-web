@@ -200,7 +200,7 @@ class Profile < ActiveRecord::Base
         profile_hash[:name] = name
         profile_hash[:description] = description
 
-        profile_hash = profile_hash.stringify_keys( false )
+        profile_hash = profile_hash.stringify_keys
         if serializer == JSON
             JSON::pretty_generate profile_hash
         else

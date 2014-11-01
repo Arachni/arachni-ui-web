@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- Profile
+    - Fixed error on YAML/JSON exporting.
 - `Scan`
     - Only stop the scan when an RPC connection error occurs, not for every
         RPC exception.
