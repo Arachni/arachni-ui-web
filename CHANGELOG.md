@@ -2,6 +2,10 @@
 
 ## _Under development_
 
+- `Scan`
+    - Only stop the scan when an RPC connection error occurs, not for every
+        RPC exception.
+
 ## 0.5.5 _(October 25, 2014)_
 
 - Scans
