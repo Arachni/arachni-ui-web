@@ -5,6 +5,7 @@
 - `Profile`
     - `#export` -- Fixed error on YAML/JSON exporting.
     - Fixed plugin option validation.
+    - Fixed bug causing stored plugin options not to be shown in their forms.
 - `Scan`
     - Only stop the scan when an RPC connection error occurs, not for every
         RPC exception.
