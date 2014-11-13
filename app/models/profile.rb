@@ -200,7 +200,7 @@ class Profile < ActiveRecord::Base
         profile_hash[:name] = name
         profile_hash[:description] = description
 
-        profile_hash = profile_hash.stringify_keys( false )
+        profile_hash = profile_hash.stringify_keys
         if serializer == JSON
             JSON::pretty_generate profile_hash
         else
@@ -442,7 +442,9 @@ class Profile < ActiveRecord::Base
                 next if !available.include? plugin.to_s
 
                 begin
-                    f.plugins.prepare_options( plugin, f.plugins[plugin], options )
+                    f.plugins.prepare_options( plugin, f.plugins[plugin],
+                                               (options || {}).reject { |k, v| v.empty? }
+                    )
                 rescue Arachni::Component::Options::Error::Invalid => e
                     errors.add :plugins, e.to_s
                 end

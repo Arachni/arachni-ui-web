@@ -309,7 +309,7 @@ class Scan < ActiveRecord::Base
 
         instance.service.native_abort_and_report do |report|
             if report.rpc_exception?
-                error_out report
+                handle_error report
             else
                 create_report( report )
             end
@@ -330,14 +330,14 @@ class Scan < ActiveRecord::Base
         save
 
         instance.service.suspend do |r|
-            next error_out( r ) if r.rpc_exception?
+            next handle_error( r ) if r.rpc_exception?
 
             # Might take a while for the scan to finish suspending.
             probe_freq = 5
 
             Arachni::Reactor.global.delay( probe_freq ) do |task|
                 instance.service.snapshot_path do |path|
-                    next error_out( path ) if path.rpc_exception?
+                    next handle_error( path ) if path.rpc_exception?
                     next Arachni::Reactor.global.delay( probe_freq, &task ) if !path
 
                     self.snapshot_path = path
@@ -388,7 +388,8 @@ class Scan < ActiveRecord::Base
             when :completed
                 action
             when :error
-                'encountered a fatal error and stopped'
+                'could no longer be monitored due to a connection error.' +
+                    'The Instance has probably encountered a fatal error and stopped.'
             when :destroy
                 'was deleted'
             when :abort, :abort_all
@@ -447,7 +448,7 @@ class Scan < ActiveRecord::Base
 
         instance.service.scan( options ) do |r|
             if r.rpc_exception?
-                error_out( r )
+                handle_error( r )
                 next
             end
 
@@ -524,7 +525,7 @@ class Scan < ActiveRecord::Base
 
             # ap progress_data
             if progress_data.rpc_exception?
-                error_out( progress_data )
+                handle_error( progress_data )
                 next
             end
 
@@ -661,19 +662,24 @@ class Scan < ActiveRecord::Base
 
     private
 
-    def error_out( error = nil )
-        if error
-            self.error_messages ||= ''
-            self.error_messages  += "#{error}\n"
+    def handle_error( error )
+        self.error_messages ||= ''
+        self.error_messages  += "#{error}\n"
 
-            if error.respond_to?( :backtrace ) && (error.backtrace || []).any?
-                self.error_messages += "#{error.backtrace.join("\n")}\n"
-            end
-
-            self.error_messages += "#{'-' * 80}\n"
-            self.error_messages += "#{caller.join("\n")}\n"
-            self.error_messages += "#{'*' * 80}\n"
+        if error.respond_to?( :backtrace ) && (error.backtrace || []).any?
+            self.error_messages += "#{error.backtrace.join("\n")}\n"
         end
+
+        self.error_messages += "#{'-' * 80}\n"
+        self.error_messages += "#{caller.join("\n")}\n"
+        self.error_messages += "#{'*' * 80}\n"
+
+        save
+
+        # If it's not a connection error then just logging it should be enough,
+        # otherwise assume that the remote Instance has crashed and mark the
+        # scan as errored.
+        return if !error.rpc_connection_error?
 
         self.status = :error
         finish
@@ -748,7 +754,7 @@ class Scan < ActiveRecord::Base
         # Grab the report and save the scan, we're all done now. :)
         instance.service.native_abort_and_report do |report|
             if report.rpc_exception?
-                error_out( report )
+                handle_error( report )
             else
                 create_report( report )
             end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.7'
 
 gem 'psych'
 
@@ -85,4 +85,4 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', '1.0.4'
+gem 'arachni', '1.0.5'

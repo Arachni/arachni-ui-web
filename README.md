@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.5</td>
+        <td>0.5.6</td>
     </tr>
     <tr>
         <th>Homepage</th>

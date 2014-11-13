@@ -1,5 +1,15 @@
 # ChangeLog
 
+## 0.5.6 _(November 14, 2014)_
+
+- `Profile`
+    - `#export` -- Fixed error on YAML/JSON exporting.
+    - Fixed plugin option validation.
+    - Fixed bug causing stored plugin options not to be shown in their forms.
+- `Scan`
+    - Only stop the scan when an RPC connection error occurs, not for every
+        RPC exception.
+
 ## 0.5.5 _(October 25, 2014)_
 
 - Scans
