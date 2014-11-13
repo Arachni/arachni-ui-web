@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.6 _(November 14, 2014)_
 
 - `Profile`
     - `#export` -- Fixed error on YAML/JSON exporting.
