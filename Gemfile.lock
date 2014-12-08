@@ -28,7 +28,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.6)
-    arachni (1.0.5)
+    arachni (1.0.6)
       addressable (= 2.3.6)
       arachni-rpc (= 0.2.1.1)
       awesome_print (= 1.2.0)
@@ -231,7 +231,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  arachni (= 1.0.5)
+  arachni (= 1.0.6)
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
