@@ -85,4 +85,4 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', '1.0.5'
+gem 'arachni', '1.0.6'
