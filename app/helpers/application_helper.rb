@@ -56,6 +56,9 @@ module ApplicationHelper
     end
 
     def m( string )
+        string = string.to_s.strip
+        return '' if string.empty?
+
         html = Kramdown::Document.new( string.recode ).to_html
         Loofah.fragment( html ).scrub!(:prune).to_s.html_safe
     end
