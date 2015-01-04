@@ -1,36 +1,11 @@
-GEM
-  remote: https://rubygems.org/
+GIT
+  remote: git://github.com/Arachni/arachni.git
+  revision: ec4273b54ed63c612bc76b1cf5044a2edf75d37d
+  branch: v1.1
   specs:
-    actionmailer (4.1.8)
-      actionpack (= 4.1.8)
-      actionview (= 4.1.8)
-      mail (~> 2.5, >= 2.5.4)
-    actionpack (4.1.8)
-      actionview (= 4.1.8)
-      activesupport (= 4.1.8)
-      rack (~> 1.5.2)
-      rack-test (~> 0.6.2)
-    actionview (4.1.8)
-      activesupport (= 4.1.8)
-      builder (~> 3.1)
-      erubis (~> 2.7.0)
-    activemodel (4.1.8)
-      activesupport (= 4.1.8)
-      builder (~> 3.1)
-    activerecord (4.1.8)
-      activemodel (= 4.1.8)
-      activesupport (= 4.1.8)
-      arel (~> 5.0.0)
-    activesupport (4.1.8)
-      i18n (~> 0.6, >= 0.6.9)
-      json (~> 1.7, >= 1.7.7)
-      minitest (~> 5.1)
-      thread_safe (~> 0.1)
-      tzinfo (~> 1.1)
-    addressable (2.3.6)
-    arachni (1.0.6)
+    arachni (2.0dev)
       addressable (= 2.3.6)
-      arachni-rpc (= 0.2.1.1)
+      arachni-rpc (= 0.2.1.2)
       awesome_print (= 1.2.0)
       bundler
       childprocess (= 0.5.3)
@@ -41,14 +16,58 @@ GEM
       msgpack (= 0.5.8)
       nokogiri (= 1.6.2.1)
       pony (= 1.8)
+      rack
       rb-readline (= 0.5.1)
       rubyzip (= 1.1.6)
       terminal-table (= 1.4.5)
       typhoeus (= 0.6.9)
       watir-webdriver (= 0.6.9)
-    arachni-reactor (0.1.0.beta5)
-    arachni-rpc (0.2.1.1)
-      arachni-reactor (= 0.1.0.beta5)
+
+GIT
+  remote: git://github.com/arachni/arachni-reactor.git
+  revision: 10cc7ae6e9b19453f71d486f9d945b650efadb2c
+  branch: experimental
+  specs:
+    arachni-reactor (0.1.0.beta6)
+
+GIT
+  remote: git://github.com/arachni/arachni-rpc.git
+  revision: 98953ee5fa780b3281f25dbb35a0027eb1db9c14
+  branch: experimental
+  specs:
+    arachni-rpc (0.2.1.2)
+      arachni-reactor (= 0.1.0.beta6)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    actionmailer (4.1.7)
+      actionpack (= 4.1.7)
+      actionview (= 4.1.7)
+      mail (~> 2.5, >= 2.5.4)
+    actionpack (4.1.7)
+      actionview (= 4.1.7)
+      activesupport (= 4.1.7)
+      rack (~> 1.5.2)
+      rack-test (~> 0.6.2)
+    actionview (4.1.7)
+      activesupport (= 4.1.7)
+      builder (~> 3.1)
+      erubis (~> 2.7.0)
+    activemodel (4.1.7)
+      activesupport (= 4.1.7)
+      builder (~> 3.1)
+    activerecord (4.1.7)
+      activemodel (= 4.1.7)
+      activesupport (= 4.1.7)
+      arel (~> 5.0.0)
+    activesupport (4.1.7)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    addressable (2.3.6)
     arel (5.0.1.20140414130214)
     awesome_print (1.2.0)
     bcrypt (3.1.9)
@@ -72,7 +91,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
-    cucumber (1.3.17)
+    cucumber (1.3.18)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
       gherkin (~> 2.12)
@@ -84,8 +103,7 @@ GEM
       mime-types (>= 1.16, < 3)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    daemons (1.1.9)
-    database_cleaner (1.3.0)
+    database_cleaner (1.4.0)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -94,9 +112,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    ethon (0.7.1)
+    ethon (0.7.2)
       ffi (>= 1.3.0)
-    eventmachine (1.0.3)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -109,7 +126,7 @@ GEM
     gherkin (2.12.2)
       multi_json (~> 1.3)
     hike (1.2.3)
-    i18n (0.6.11)
+    i18n (0.7.0)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -127,36 +144,37 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     mini_portile (0.6.0)
-    minitest (5.4.3)
+    minitest (5.5.0)
     msgpack (0.5.8)
     multi_json (1.10.1)
     multi_test (0.1.1)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
-    pg (0.17.1)
+    pg (0.18.0)
     pony (1.8)
       mail (>= 2.0)
-    psych (2.0.6)
+    puma (2.10.2)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (4.1.8)
-      actionmailer (= 4.1.8)
-      actionpack (= 4.1.8)
-      actionview (= 4.1.8)
-      activemodel (= 4.1.8)
-      activerecord (= 4.1.8)
-      activesupport (= 4.1.8)
+    rails (4.1.7)
+      actionmailer (= 4.1.7)
+      actionpack (= 4.1.7)
+      actionview (= 4.1.7)
+      activemodel (= 4.1.7)
+      activerecord (= 4.1.7)
+      activesupport (= 4.1.7)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.1.8)
+      railties (= 4.1.7)
       sprockets-rails (~> 2.0)
-    railties (4.1.8)
-      actionpack (= 4.1.8)
-      activesupport (= 4.1.8)
+    railties (4.1.7)
+      actionpack (= 4.1.7)
+      activesupport (= 4.1.7)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.3.2)
+    rake (10.4.2)
     rb-readline (0.5.1)
     ref (1.0.5)
     rolify (3.4.1)
@@ -178,25 +196,25 @@ GEM
     rspec-support (3.1.2)
     rubyzip (1.1.6)
     sass (3.2.19)
-    sass-rails (4.0.4)
+    sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2.2)
-      sprockets (~> 2.8, < 2.12)
+      sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
     selenium-webdriver (2.44.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    simple_form (3.0.2)
+    simple_form (3.0.3)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
-    sprockets (2.11.3)
+    sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.2.1)
+    sprockets-rails (2.2.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
@@ -205,10 +223,6 @@ GEM
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
-    thin (1.6.3)
-      daemons (~> 1.0, >= 1.0.9)
-      eventmachine (~> 1.0)
-      rack (~> 1.0)
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -231,7 +245,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  arachni (= 1.0.6)
+  activerecord-jdbc-adapter
+  arachni!
+  arachni-reactor!
+  arachni-rpc!
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
@@ -242,6 +259,8 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   faker
+  jdbc-postgres
+  jdbc-sqlite3
   jquery-rails (= 2.1.4)
   kaminari
   kramdown
@@ -249,13 +268,13 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   loofah
   pg
-  psych
-  rails (= 4.1.8)
+  puma
+  rails (= 4.1.7)
   rolify (~> 3.4.0)
   rspec-rails (>= 2.11.0)
   sass-rails (~> 4.0.0)
   simple_form (~> 3.0.1)
   sqlite3
   therubyracer
-  thin
+  therubyrhino
   uglifier (~> 1.0.3)
