@@ -147,6 +147,8 @@ module ScansHelper
                 Arachni::Element::LinkTemplate.type      => 0,
                 Arachni::Element::LinkTemplate::DOM.type => 0,
                 Arachni::Element::GenericDOM.type        => 0,
+                Arachni::Element::XML.type               => 0,
+                Arachni::Element::JSON.type              => 0,
                 Arachni::Element::Body.type              => 0,
                 Arachni::Element::Path.type              => 0,
                 Arachni::Element::Server.type            => 0
