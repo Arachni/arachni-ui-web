@@ -2,6 +2,10 @@
 
 ## _Under development_
 
+- `Report`
+    - `#object` serialization now uses `MessagePack` to fix encoding errors and
+        improve performance. (**Breaks backwards compatibility**)
+
 ## 0.5.6 _(November 14, 2014)_
 
 - `Profile`
