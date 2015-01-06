@@ -42,6 +42,9 @@ gem 'kaminari'
 
 gem 'loofah'
 
+# Required for MS Windows.
+gem 'tzinfo-data'
+
 group :development do
     # Model factory.
     gem 'factory_girl_rails'
