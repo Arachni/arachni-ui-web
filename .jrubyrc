@@ -1,5 +1,5 @@
-# Ruby 2.0 mode.
-compat.version=2.0
+# Rails doesn't like JRuby in Ruby 2.0 compatibility mode.
+# compat.version=2.0
 
 # Make backtraces pretty.
 errno.backtrace=true
@@ -8,11 +8,3 @@ backtrace.style=mri
 
 # Keep a lot of methods in the JIT cache.
 jruby.jit.max=16384
-
-# Could be trouble.
-compile.fastest=true
-
-# Store the JIT compilation data to disk for subsequent runs.
-# Could be nice but has to remain disabled for now as it throws
-# 'java.lang.NullPointerException' during runtime.
-#jit.codeCache=tmp/jit-cache
