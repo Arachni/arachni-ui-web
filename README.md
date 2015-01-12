@@ -63,8 +63,8 @@ If you get an error when trying to run Arachni, use `bundle exec` like so:
 Windows support is experimental and could use some serious testing.
 Please give it a go and let us know of any issues that you may come across:
 
-* [Framework](https://github.com/Arachni/arachni/issues]
-* [WebUI](https://github.com/Arachni/arachni-ui-web/issues]
+* [Framework](https://github.com/Arachni/arachni/issues)
+* [WebUI](https://github.com/Arachni/arachni-ui-web/issues)
 
 #### Environment setup
 
