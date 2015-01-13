@@ -93,7 +93,7 @@ group :test do
     gem 'faker'
 end
 
-gem 'ethon',           github: 'zapotek/ethon',           branch: 'windows-fixes'
+gem 'ethon',           github: 'typhoeus/ethon'
 gem 'arachni-reactor', github: 'arachni/arachni-reactor', branch: 'experimental'
 gem 'arachni-rpc',     github: 'arachni/arachni-rpc',     branch: 'experimental'
 gem 'arachni',         github: 'Arachni/arachni', branch: 'v1.1'
