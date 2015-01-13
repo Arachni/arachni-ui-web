@@ -92,6 +92,7 @@ JRuby to run on MS Windows, utilising the Java Virtual Machine.
 
     RAILS_ENV=production jruby -S rake db:migrate
     RAILS_ENV=production jruby -S rake db:setup
+    RAILS_ENV=production jruby -S rake assets:precompile
 
 You can now start the WebUI like so:
 
