@@ -88,14 +88,14 @@ JRuby to run on MS Windows, utilising the Java Virtual Machine.
 
     rm Gemfile.lock
     jruby -S gem install bundler
-    jruby -S bundle install
+    RAILS_ENV=production jruby -S bundle install
 
-    jruby -S rake db:migrate
-    jruby -S rake db:setup
+    RAILS_ENV=production jruby -S rake db:migrate
+    RAILS_ENV=production jruby -S rake db:setup
 
 You can now start the WebUI like so:
 
-    jruby -S rails s
+    RAILS_ENV=production jruby -S rackup
 
 You can also run Arachni Framework CLI executables using the the executables under `bin/`:
 
