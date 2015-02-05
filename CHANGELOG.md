@@ -5,6 +5,9 @@
 - `Report`
     - `#object` serialization now uses `MessagePack` to fix encoding errors and
         improve performance. (**Breaks backwards compatibility**)
+- `Profile`
+    - `#strong_params` -- Fixed parameter whitelist, causing some options to
+        be ignored.
 
 ## 0.5.6 _(November 14, 2014)_
 
