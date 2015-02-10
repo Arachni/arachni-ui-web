@@ -5,7 +5,7 @@ gem 'rails', '4.1.7'
 gem 'psych'
 
 # Web server.
-gem 'thin'
+gem 'ouma'
 
 # SQLite DB (Default)
 gem 'sqlite3'
