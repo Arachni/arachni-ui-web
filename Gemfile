@@ -11,7 +11,7 @@ gem 'puma'
 gem 'sqlite3'
 
 # Postgres DB (Optional)
-gem 'pg'
+gem 'pg', '0.18.0'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
