@@ -457,8 +457,10 @@ class Scan < ActiveRecord::Base
 
         self
     rescue => e
-        ap e
-        ap e.backtrace
+        Rails.logger.error e.to_s
+        e.backtrace.each do |line|
+            Rails.logger.error line
+        end
     end
 
     def share( user_id_list )
@@ -600,8 +602,10 @@ class Scan < ActiveRecord::Base
 
                 save
             rescue => e
-                ap e
-                ap e.backtrace
+                Rails.logger.error e.to_s
+                e.backtrace.each do |line|
+                    Rails.logger.error line
+                end
             end
         end
     end
@@ -655,8 +659,10 @@ class Scan < ActiveRecord::Base
 
             r
         rescue => e
-            ap e
-            ap e.backtrace
+            Rails.logger.error e.to_s
+            e.backtrace.each do |line|
+                Rails.logger.error line
+            end
         end
     end
 
@@ -740,8 +746,10 @@ class Scan < ActiveRecord::Base
             issues.create_from_framework_issue i
         end
     rescue => e
-        ap e
-        ap e.backtrace
+        Rails.logger.error e.to_s
+        e.backtrace.each do |line|
+            Rails.logger.error line
+        end
     end
 
     def update_from_framework_issues( a_issues )

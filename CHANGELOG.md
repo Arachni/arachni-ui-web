@@ -2,6 +2,8 @@
 
 ## _Under development_
 
+- `Scan`
+    - Improved error logging.
 - `Report`
     - `#object` serialization now uses `MessagePack` to fix encoding errors and
         improve performance. (**Breaks backwards compatibility**)
