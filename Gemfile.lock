@@ -38,6 +38,13 @@ GIT
     arachni-rpc (0.2.1.2)
       arachni-reactor (= 0.1.0.beta6)
 
+GIT
+  remote: git://github.com/typhoeus/ethon.git
+  revision: c9367f22849cea3aab5f21ff0c0d62bf0a8572f5
+  specs:
+    ethon (0.7.2)
+      ffi (>= 1.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,8 +119,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    ethon (0.7.2)
-      ffi (>= 1.3.0)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -230,6 +235,8 @@ GEM
       ethon (>= 0.7.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2015.1)
+      tzinfo (>= 1.0.0)
     uglifier (1.0.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
@@ -256,6 +263,7 @@ DEPENDENCIES
   cucumber-rails (>= 1.3.0)
   database_cleaner (>= 0.8.0)
   devise (~> 3.2.2)
+  ethon!
   factory_girl
   factory_girl_rails
   faker
@@ -277,4 +285,5 @@ DEPENDENCIES
   sqlite3
   therubyracer
   therubyrhino
+  tzinfo-data
   uglifier (~> 1.0.3)

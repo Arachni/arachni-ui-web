@@ -13,7 +13,7 @@ gem 'sqlite3', platform: :ruby
 gem 'jdbc-sqlite3', platform: :jruby
 
 # Postgres DB (Optional)
-gem 'pg', '0.18.0', platform: :ruby
+gem 'pg', platform: :ruby
 gem 'jdbc-postgres', platform: :jruby
 
 # JavaScript support framework.
