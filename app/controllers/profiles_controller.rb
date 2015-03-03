@@ -228,7 +228,8 @@ class ProfilesController < ApplicationController
             :browser_cluster_job_timeout, :browser_cluster_worker_time_to_live,
             :browser_cluster_ignore_images, :browser_cluster_screen_width,
             :browser_cluster_screen_height, :scope_dom_depth_limit,
-            :audit_link_templates, :http_request_queue_size, :http_response_max_size
+            :audit_link_templates, :http_request_queue_size, :http_response_max_size,
+            :scope_url_rewrites
         ]
 
         allowed << :global if current_user.admin?
