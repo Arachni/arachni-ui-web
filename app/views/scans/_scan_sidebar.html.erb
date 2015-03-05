@@ -31,17 +31,6 @@
         </a>
     </li>
     <% end %>
-
-    <% if !@scan.cleaning_up? %>
-        <li id="toggle-charts">
-            <a href="#graphs" onclick="toggleCharts(); return false;"
-               title="Toggle chart visibility" role="button">
-                <i class="icon-bar-chart"></i>
-
-                Charts
-            </a>
-        </li>
-    <% end %>
 </ul>
 
 <% if @scan.root_revision.has_revisions? %>

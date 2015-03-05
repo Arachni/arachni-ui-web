@@ -26,7 +26,6 @@
 //= require bootstrap-tooltip
 //= require bootstrap-tab
 //= require bootstrap-dropdown
-//= require jqplot/jquery.jqplot.js.erb
 //= require_tree .
 
 jQuery.fn.exists = function(){ return this.length > 0; }

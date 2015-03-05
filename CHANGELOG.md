@@ -4,6 +4,7 @@
 
 - `Scan`
     - Improved error logging.
+    - Removed charts from progress page due to JS memory leak.
 - `Report`
     - `#object` serialization now uses `MessagePack` to fix encoding errors and
         improve performance. (**Breaks backwards compatibility**)
