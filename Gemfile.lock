@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: dd053a18212f4a366845fd71fde74a7c1149da34
+  revision: 556e48ba76fc07a87b479e1c053acf846b59f6f9
   branch: v1.1
   specs:
     arachni (2.0dev)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/arachni/arachni-rpc.git
-  revision: 98953ee5fa780b3281f25dbb35a0027eb1db9c14
+  revision: dfab31a4328998661a40de32eda88b274ce35d5a
   branch: experimental
   specs:
     arachni-rpc (0.2.1.2)
@@ -40,9 +40,9 @@ GIT
 
 GIT
   remote: git://github.com/typhoeus/ethon.git
-  revision: c9367f22849cea3aab5f21ff0c0d62bf0a8572f5
+  revision: 1ee2a1589223f0eb1466920fd75d9df7765bd193
   specs:
-    ethon (0.7.2)
+    ethon (0.7.3)
       ffi (>= 1.3.0)
 
 GEM
@@ -151,7 +151,7 @@ GEM
     mini_portile (0.6.2)
     minitest (5.5.1)
     msgpack (0.5.8)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     multi_test (0.1.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -207,7 +207,7 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
-    selenium-webdriver (2.44.0)
+    selenium-webdriver (2.45.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
