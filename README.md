@@ -38,6 +38,9 @@ very simple and should generally be preferred.
     # Use Ruby.
     rvm use ruby
 
+You will also need to make sure that [PhantomJs 1.9.2](https://code.google.com/p/phantomjs/downloads/list)
+is in your `$PATH`.
+
 #### WebUI installation
 
     git clone https://github.com/Arachni/arachni-ui-web
