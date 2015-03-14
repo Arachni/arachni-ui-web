@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.7'
 
+# FFI latest is currently 1.9.7 which can't compile on 32bit.
+gem 'ffi', '1.9.6'
+
 # Web server.
 gem 'puma'
 
