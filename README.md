@@ -1,3 +1,8 @@
+**Development of this branch has been discontinued as it has been merged back into
+[experimental](https://github.com/Arachni/arachni-ui-web/tree/experimental).**
+
+<hr/>
+
 **NOTICE**:
 
 * Arachni's license has changed, please see the _LICENSE_ file before working
