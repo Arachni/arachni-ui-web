@@ -99,5 +99,5 @@ end
 gem 'ethon',           github: 'typhoeus/ethon'
 gem 'arachni-reactor', github: 'arachni/arachni-reactor', branch: 'experimental'
 gem 'arachni-rpc',     github: 'arachni/arachni-rpc',     branch: 'experimental'
-gem 'arachni',         github: 'Arachni/arachni', branch: 'v1.1'
+gem 'arachni',         github: 'Arachni/arachni',         branch: 'experimental'
 # gem 'arachni', path: '../arachni'
