@@ -1,5 +1,5 @@
 **Development of this branch has been discontinued as it has been merged back into
-[experimental](https://github.com/Arachni/arachni/tree/experimental).**
+[experimental](https://github.com/Arachni/arachni-ui-web/tree/experimental).**
 
 <hr/>
 
