@@ -1,0 +1,10 @@
+# Rails doesn't like JRuby in Ruby 2.0 compatibility mode.
+# compat.version=2.0
+
+# Make backtraces pretty.
+errno.backtrace=true
+backtrace.color=true
+backtrace.style=mri
+
+# Keep a lot of methods in the JIT cache.
+jruby.jit.max=16384

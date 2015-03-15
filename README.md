@@ -6,51 +6,108 @@
 
 <hr/>
 
-# Experimental/unstable branch -- used for development/integration
+# Framework v1.1 compatibility branch
 
-This branch is where all development takes place, once its code has been tested and
-is considered stable, it is then merged into the `master` branch and released.
+This branch contains updates directly related to the under development Framework v1.1.
 
-Do not be confused by the version of this branch, `1.0dev` is a placeholder
-which simply means _next release_.
+## Setup
 
-## Nightlies
+### Linux and OSX
 
-For self-contained, nightly snapshot packages take a look at:
-http://downloads.arachni-scanner.com/nightlies/
+#### Environment setup
 
-## Source
+Ruby and library dependency installation can take place via either the official
+build scripts or manually.
 
-To run from source you first need to setup a
-[development environment](https://github.com/Arachni/arachni/wiki/Development-environment).
+##### Using the build scripts
 
-**After** you've setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment),
-run the following to checkout the source code of the `experimental` branch and
-resolve its dependencies:
+The build scripts make [setting up a development environment](https://github.com/Arachni/arachni/wiki/Development-environment)
+very simple and should generally be preferred.
+
+##### Using RVM
+
+    # Install system dependencies
+    sudo apt-get install build-essential curl libcurl3 libcurl4-openssl-dev
+
+    # Install GPG keys to verify RVM files.
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+
+    # Install RVM and Ruby.
+    curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+    # Use Ruby.
+    rvm use ruby
+
+You will also need to make sure that [PhantomJs 1.9.2](https://code.google.com/p/phantomjs/downloads/list)
+is in your `$PATH`.
+
+#### WebUI installation
 
     git clone https://github.com/Arachni/arachni-ui-web
     cd arachni-ui-web
-    git checkout experimental
+    git checkout framework-v1.1
 
-    # --binstubs will make the executables of the Framework available under 'bin/',
-    # so that you'll be able to run the CLI if needed.
-    bundle install --binstubs
+    bundle install
 
-    rake db:migrate
-    rake db:setup
-    script/rails s thin
+    bundle exec rake db:migrate
+    bundle exec rake db:setup
 
-For seed data (default user accounts etc) take a look in `db/seeds.rb`.
+You can now start the WebUI like so:
 
-Also, the DB schema is pretty fluid during development so migrate after each
-`git pull` and don't be surprised if you'll have to remove the existing schema
-and DBs for things to work again:
+    bundle exec rails s
 
-    rm db/development.sqlite3
-    rm db/test.sqlite3
-    rm db/schema.rb
-    rake db:migrate
-    rake db:setup
+You can also run Arachni Framework CLI executables using the the executables under `bin/`.
+
+If you get an error when trying to run Arachni, use `bundle exec` like so:
+`bundle exec <executable>`.
+
+### MS Windows
+
+Windows support is experimental and could use some serious testing.
+Please give it a go and let us know of any issues that you may come across:
+
+* [Framework](https://github.com/Arachni/arachni/issues)
+* [WebUI](https://github.com/Arachni/arachni-ui-web/issues)
+
+#### Environment setup
+
+Due to stability issues with the official Ruby interpreter, Arachni depends on
+JRuby to run on MS Windows, utilising the Java Virtual Machine.
+
+* [Install JRuby](https://s3.amazonaws.com/jruby.org/downloads/1.7.18/jruby_windows_x64_jre_1_7_18.exe) -- includes Java.
+* Install `libcurl`:
+    * [Download curl-7.40.0-win64.zip](http://www.confusedbycode.com/curl/).
+    * Place the contents of the `bin` and `dlls` directories under `C:\jruby-1.7.18\bin`.
+* Install PhantomJS:
+    * [Download](https://phantomjs.googlecode.com/files/phantomjs-1.9.2-windows.zip).
+    * Place `phantomjs.exe` under `C:\jruby-1.7.18\bin`.
+* [Install Git](https://msysgit.github.io/).
+
+#### WebUI installation
+
+    git clone https://github.com/Arachni/arachni-ui-web
+    cd arachni-ui-web
+    git checkout framework-v1.1
+
+    rm Gemfile.lock
+    jruby -S gem install bundler
+    RAILS_ENV=production jruby -S bundle install
+
+    RAILS_ENV=production jruby -S rake db:migrate
+    RAILS_ENV=production jruby -S rake db:setup
+    RAILS_ENV=production jruby -S rake assets:precompile
+
+You can now start the WebUI like so:
+
+    RAILS_ENV=production jruby -S rackup
+
+You can also run Arachni Framework CLI executables using the the executables under `bin/`:
+
+    jruby bin/arachni -h
+
+#### Known issues
+
+For known Framework issues please see: https://github.com/Arachni/arachni/tree/v1.1#known-issues
 
 # Arachni - Web User Interface
 

@@ -7,9 +7,21 @@
 =end
 
 class Report < ActiveRecord::Base
+    class ArachniReportWrapper
+        def self.load( string )
+            return if string.nil?
+
+            Arachni::Report.from_rpc_data MessagePack.load( string )
+        end
+
+        def self.dump( report )
+            MessagePack.dump( report.to_rpc_data )
+        end
+    end
+
     belongs_to :scan
 
-    serialize :object,  Arachni::Report
+    serialize :object,  ArachniReportWrapper
     serialize :sitemap, Hash
 
     def object=( report )

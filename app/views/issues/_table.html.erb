@@ -21,8 +21,6 @@ url_method =    if !local_assigns.include?( :url_method_type )
                 end
 %>
 
-<%= render partial: '/issues/charts_drawer', locals: { issues: issues } %>
-
 <h2>Issues <small>[<%= counts['all'] %>]</small></h2>
 
 <% if issues.any? %>
