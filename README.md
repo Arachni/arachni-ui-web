@@ -145,7 +145,7 @@ For known Framework issues please see: https://github.com/Arachni/arachni/tree/v
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2014 Tasos Laskos</td>
+        <td>2013-2015 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>
