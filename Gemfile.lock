@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: 0730baccced8ab9431d5ddaa336ccaf4f1e5cfc1
-  branch: v1.1
+  revision: 53842ca53ba2ce0769c6c1fbc7d67da1e20c7db2
+  branch: experimental
   specs:
     arachni (2.0dev)
       addressable (= 2.3.6)
@@ -22,28 +22,6 @@ GIT
       terminal-table (= 1.4.5)
       typhoeus (= 0.6.9)
       watir-webdriver (= 0.6.9)
-
-GIT
-  remote: git://github.com/arachni/arachni-reactor.git
-  revision: 10cc7ae6e9b19453f71d486f9d945b650efadb2c
-  branch: experimental
-  specs:
-    arachni-reactor (0.1.0.beta6)
-
-GIT
-  remote: git://github.com/arachni/arachni-rpc.git
-  revision: dfab31a4328998661a40de32eda88b274ce35d5a
-  branch: experimental
-  specs:
-    arachni-rpc (0.2.1.2)
-      arachni-reactor (= 0.1.0.beta6)
-
-GIT
-  remote: git://github.com/typhoeus/ethon.git
-  revision: 1ee2a1589223f0eb1466920fd75d9df7765bd193
-  specs:
-    ethon (0.7.3)
-      ffi (>= 1.3.0)
 
 GEM
   remote: https://rubygems.org/
@@ -75,6 +53,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.6)
+    arachni-reactor (0.1.0)
+    arachni-rpc (0.2.1.2)
+      arachni-reactor (= 0.1.0)
     arel (5.0.1.20140414130214)
     awesome_print (1.2.0)
     bcrypt (3.1.10)
@@ -119,6 +100,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    ethon (0.7.3)
+      ffi (>= 1.3.0)
     execjs (2.4.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -255,8 +238,6 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbc-adapter
   arachni!
-  arachni-reactor!
-  arachni-rpc!
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
@@ -264,7 +245,6 @@ DEPENDENCIES
   cucumber-rails (>= 1.3.0)
   database_cleaner (>= 0.8.0)
   devise (~> 3.2.2)
-  ethon!
   factory_girl
   factory_girl_rails
   faker
