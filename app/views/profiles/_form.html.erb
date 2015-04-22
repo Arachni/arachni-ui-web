@@ -181,6 +181,16 @@
             <%= messages_for( :audit_headers ) %>
           </div>
         </div>
+          <div class="row-fluid">
+              <div class="span6">
+                  <%= f.input :audit_jsons %>
+                  <%= messages_for( :audit_jsons ) %>
+              </div>
+              <div class="span6">
+                  <%= f.input :audit_xmls %>
+                  <%= messages_for( :audit_xmls ) %>
+              </div>
+          </div>
         <div class="row-fluid">
           <div class="span6">
             <%= f.input :audit_with_both_http_methods %>

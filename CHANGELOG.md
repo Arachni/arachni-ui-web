@@ -11,6 +11,7 @@
 - `Profile`
     - `#strong_params` -- Fixed parameter whitelist, causing some options to
         be ignored.
+    - Added audit options for JSON and XML inputs.
 
 ## 0.5.6 _(November 14, 2014)_
 

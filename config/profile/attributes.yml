@@ -11,6 +11,8 @@ audit_headers:
         that the web app uses them."
     warning: "Enabling this option will result in increased requests, maybe by an order of magnitude."
 audit_links: 'Audits links.'
+audit_jsons: 'Audits JSON inputs.'
+audit_xmls: 'Audits XML inputs.'
 authorized_by:
     description: "Name and e-mail address of the person who authorized the scan."
     notice: "It'll make it easier on the sys-admins during log reviews -- will be appended to the user-agent string."

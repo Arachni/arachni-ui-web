@@ -59,6 +59,8 @@ class Profile < ActiveRecord::Base
         :audit_exclude_vector_patterns,
         :audit_forms,
         :audit_headers,
+        :audit_jsons,
+        :audit_xmls,
         :audit_include_vector_patterns,
         :audit_link_templates,
         :audit_links,
