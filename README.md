@@ -27,7 +27,7 @@ very simple and should generally be preferred.
 ##### Using RVM
 
     # Install system dependencies
-    sudo apt-get install build-essential curl libcurl3 libcurl4-openssl-dev
+    sudo apt-get install build-essential curl libcurl3 libcurl4-openssl-dev libpq-dev
 
     # Install GPG keys to verify RVM files.
     gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
