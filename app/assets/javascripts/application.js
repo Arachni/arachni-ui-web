@@ -1,4 +1,4 @@
-// Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+// Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 //
 // This file is part of the Arachni WebUI project and is subject to
 // redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -26,7 +26,6 @@
 //= require bootstrap-tooltip
 //= require bootstrap-tab
 //= require bootstrap-dropdown
-//= require jqplot/jquery.jqplot.js.erb
 //= require_tree .
 
 jQuery.fn.exists = function(){ return this.length > 0; }

@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -147,6 +147,8 @@ module ScansHelper
                 Arachni::Element::LinkTemplate.type      => 0,
                 Arachni::Element::LinkTemplate::DOM.type => 0,
                 Arachni::Element::GenericDOM.type        => 0,
+                Arachni::Element::XML.type               => 0,
+                Arachni::Element::JSON.type              => 0,
                 Arachni::Element::Body.type              => 0,
                 Arachni::Element::Path.type              => 0,
                 Arachni::Element::Server.type            => 0

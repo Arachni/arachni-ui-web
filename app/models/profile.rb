@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -59,6 +59,8 @@ class Profile < ActiveRecord::Base
         :audit_exclude_vector_patterns,
         :audit_forms,
         :audit_headers,
+        :audit_jsons,
+        :audit_xmls,
         :audit_include_vector_patterns,
         :audit_link_templates,
         :audit_links,

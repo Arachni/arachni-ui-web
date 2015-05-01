@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.6</td>
+        <td>0.5.7</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2014 Tasos Laskos</td>
+        <td>2013-2015 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>
@@ -135,9 +135,3 @@ for working with the source code.
 
 Dual-licensed (Apache License v2.0/Commercial) -- please see the _LICENSE_ file
 for more information.
-
-## Disclaimer
-
-This is free software and you are allowed to use it as you see fit.
-However, neither the development team nor any of our contributors can held
-responsible for your actions or for any damage caused by the use of this software.

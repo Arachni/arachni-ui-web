@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -457,8 +457,8 @@ class Scan < ActiveRecord::Base
 
         self
     rescue => e
-        ap e
-        ap e.backtrace
+        logger.error e.to_s
+        logger.error e.backtrace.join("\n")
     end
 
     def share( user_id_list )
@@ -513,7 +513,7 @@ class Scan < ActiveRecord::Base
     end
 
     def refresh( &block )
-        Rails.logger.info "#{self.class}##{__method__}: #{self.id}"
+        logger.info "#{self.class}##{__method__}: #{self.id}"
 
         instance.service.
             native_progress(
@@ -600,8 +600,8 @@ class Scan < ActiveRecord::Base
 
                 save
             rescue => e
-                ap e
-                ap e.backtrace
+                logger.error e.to_s
+                logger.error e.backtrace.join("\n")
             end
         end
     end
@@ -655,8 +655,8 @@ class Scan < ActiveRecord::Base
 
             r
         rescue => e
-            ap e
-            ap e.backtrace
+            logger.error e.to_s
+            logger.error e.backtrace.join("\n")
         end
     end
 
@@ -740,8 +740,8 @@ class Scan < ActiveRecord::Base
             issues.create_from_framework_issue i
         end
     rescue => e
-        ap e
-        ap e.backtrace
+        logger.error e.to_s
+        logger.error e.backtrace.join("\n")
     end
 
     def update_from_framework_issues( a_issues )

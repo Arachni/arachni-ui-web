@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2014 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -7,9 +7,21 @@
 =end
 
 class Report < ActiveRecord::Base
+    class ArachniReportWrapper
+        def self.load( string )
+            return if string.nil?
+
+            Arachni::Report.from_rpc_data MessagePack.load( string )
+        end
+
+        def self.dump( report )
+            MessagePack.dump( report.to_rpc_data )
+        end
+    end
+
     belongs_to :scan
 
-    serialize :object,  Arachni::Report
+    serialize :object,  ArachniReportWrapper
     serialize :sitemap, Hash
 
     def object=( report )

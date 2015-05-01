@@ -1,17 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.7'
 
-gem 'psych'
+# FFI latest is currently 1.9.7 which can't compile on 32bit.
+gem 'ffi', '1.9.6'
 
 # Web server.
-gem 'thin'
+gem 'puma'
+
+# Bunch of bundled DB adaptors for use when on JRuby.
+gem 'activerecord-jdbc-adapter', platform: :jruby
 
 # SQLite DB (Default)
-gem 'sqlite3'
+gem 'sqlite3', platform: :ruby
+gem 'jdbc-sqlite3', platform: :jruby
 
 # Postgres DB (Optional)
-gem 'pg'
+gem 'pg', platform: :ruby
+gem 'jdbc-postgres', platform: :jruby
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -39,6 +45,9 @@ gem 'kaminari'
 
 gem 'loofah'
 
+# Required for MS Windows.
+gem 'tzinfo-data'
+
 group :development do
     # Model factory.
     gem 'factory_girl_rails'
@@ -59,10 +68,12 @@ group :assets do
     # JavaScript compression.
     gem 'uglifier', '~> 1.0.3'
 
-    # JavaScript interpreter.
-    gem 'libv8',    '~> 3.11.8'
+    # JavaScript interpreters.
+    gem 'therubyrhino', platform: 'jruby'
+    gem 'libv8',    '~> 3.11.8', platform: 'ruby'
+
     # JavaScript interpreter wrapper.
-    gem 'therubyracer'
+    gem 'therubyracer', platform: 'ruby'
 end
 
 group :test do
@@ -85,4 +96,4 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', '1.0.6'
+gem 'arachni', '1.1'
