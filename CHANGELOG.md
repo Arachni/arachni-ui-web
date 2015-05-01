@@ -1,6 +1,6 @@
 # ChangeLog
 
-## _Under development_
+## 0.5.7 _(May 1, 2015)_
 
 - `Scan`
     - Improved error logging.
