@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.7'
+gem 'rails', '4.1.7.1'
 
 # FFI latest is currently 1.9.7 which can't compile on 32bit.
 gem 'ffi', '1.9.6'
@@ -96,4 +96,4 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', '1.1'
+gem 'arachni', '1.2'

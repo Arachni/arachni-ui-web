@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.7</td>
+        <td>0.5.7.1</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -38,7 +38,7 @@
     </tr>
     <tr>
         <th>License</th>
-        <td>Dual-licensed (Apache License v2.0/Commercial) - (see LICENSE file)</td>
+        <td>Arachni Public Source License v1.0 (see LICENSE file)</td>
     </tr>
 </table>
 
@@ -47,7 +47,7 @@
 ## Synopsis
 
 A web user interface and collaboration platform for the
-[Arachni](https://github.com/Arachni/arachni) open source web application
+[Arachni](https://github.com/Arachni/arachni) web application
 security scanner framework.
 
 ## Features
@@ -133,5 +133,4 @@ for working with the source code.
 
 ## License
 
-Dual-licensed (Apache License v2.0/Commercial) -- please see the _LICENSE_ file
-for more information.
+Arachni Public Source License v1.0 -- please see the _LICENSE_ file for more information.
