@@ -1,5 +1,7 @@
 # ChangeLog
 
+## Under development
+
 ## 0.5.7.1 _(July 16, 2015)_
 
 - Switched to Arachni Public Source License v1.0.
