@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.7.1'
+gem 'rails', '4.2.3'
 
 # FFI latest is currently 1.9.7 which can't compile on 32bit.
 gem 'ffi', '1.9.6'
@@ -32,13 +32,13 @@ gem 'kramdown'
 gem 'simple_form', '~> 3.0.1'
 
 # User management/authentication.
-gem "devise", "~> 3.2.2"
+gem "devise", "~> 3.5.1"
 
 # User authorization management.
 gem 'cancan', '~> 1.6.10'
 
 # User role management.
-gem 'rolify', '~> 3.4.0'
+gem 'rolify', '~> 4.0.0'
 
 # Pagination helper.
 gem 'kaminari'

@@ -2,12 +2,12 @@ class UpdateIssuesForFrameworkv10 < ActiveRecord::Migration
     def change
         remove_column :issues, :headers
 
-        add_column :issues, :vector_inputs,   :text
-        add_column :issues, :vector_html,     :text
-        add_column :issues, :dom_transitions, :text
-        add_column :issues, :dom_body,        :text
-        add_column :issues, :response,        :text
-        add_column :issues, :request,         :text
+        add_column :issues, :vector_inputs,   :binary
+        add_column :issues, :vector_html,     :binary
+        add_column :issues, :dom_transitions, :binary
+        add_column :issues, :dom_body,        :binary
+        add_column :issues, :response,        :binary
+        add_column :issues, :request,         :binary
 
         (Issue.find_each || []).each do |issue|
             sql = "SELECT * from issues WHERE \"id\"=#{issue.id}"
