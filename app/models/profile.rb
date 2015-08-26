@@ -58,6 +58,8 @@ class Profile < ActiveRecord::Base
         :audit_cookies_extensively,
         :audit_exclude_vector_patterns,
         :audit_forms,
+        :audit_ui_forms,
+        :audit_ui_inputs,
         :audit_headers,
         :audit_jsons,
         :audit_xmls,

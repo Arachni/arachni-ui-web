@@ -2,6 +2,8 @@
 
 ## Under development
 
+- Profiles
+    - Added UI form and UI input audit options.
 - Changed `text` DB columns that may contain `null`-bytes to `binary`.
     - **Breaks backwards compatibility.**
 

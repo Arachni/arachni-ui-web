@@ -149,6 +149,10 @@ module ScansHelper
                 Arachni::Element::GenericDOM.type        => 0,
                 Arachni::Element::XML.type               => 0,
                 Arachni::Element::JSON.type              => 0,
+                Arachni::Element::UIForm.type            => 0,
+                Arachni::Element::UIForm::DOM.type       => 0,
+                Arachni::Element::UIInput.type           => 0,
+                Arachni::Element::UIInput::DOM.type      => 0,
                 Arachni::Element::Body.type              => 0,
                 Arachni::Element::Path.type              => 0,
                 Arachni::Element::Server.type            => 0
