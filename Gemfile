@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.4'
 
 # FFI latest is currently 1.9.7 which can't compile on 32bit.
 gem 'ffi', '1.9.6'
@@ -66,7 +66,7 @@ group :assets do
     gem 'coffee-rails', '~> 4.0.0'
 
     # JavaScript compression.
-    gem 'uglifier', '~> 1.0.3'
+    gem 'uglifier', '~> 2.7.2'
 
     # JavaScript interpreters.
     gem 'therubyrhino', platform: 'jruby'
