@@ -13,7 +13,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'all' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'all' ) ),
                         onclick: 'loading();', remote: true do %>
                 All <small>[<%= counts['all'] %>]</small>
             <% end %>
@@ -33,7 +33,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'fixed' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'fixed' ) ),
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'fixed' ) do %>
@@ -56,7 +56,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'verified' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'verified' ) ),
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'verified' ) do %>
@@ -80,7 +80,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'pending-verification' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'pending-verification' ) ),
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'pending-verification' ) do %>
@@ -103,7 +103,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'false-positives' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'false-positives' ) ),
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'false-positives' ) do %>
@@ -126,7 +126,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to url_method.call( @scan, opts.merge( tab: 'awaiting-review' ) ),
+            <%= link_to url_method.call( @scan, opts.merge( format: 'js', tab: 'awaiting-review' ) ),
                         onclick: 'loading();', remote: true,
                         rel: 'tooltip',
                         title:  issue_tab_description( 'awaiting-review' ) do %>
