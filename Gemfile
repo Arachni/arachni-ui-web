@@ -70,7 +70,7 @@ group :assets do
 
     # JavaScript interpreters.
     gem 'therubyrhino', platform: 'jruby'
-    gem 'libv8',    '~> 3.11.8', platform: 'ruby'
+    gem 'libv8',    '~> 3.16.14.11', platform: 'ruby'
 
     # JavaScript interpreter wrapper.
     gem 'therubyracer', platform: 'ruby'
