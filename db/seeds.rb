@@ -84,6 +84,8 @@ arachni_defaults.merge!(
     audit_cookies: true,
     audit_jsons:   true,
     audit_xmls:    true,
+    audit_ui_forms:  true,
+    audit_ui_inputs: true,
     plugins:       :default,
     input_values:  Arachni::Options.input.default_values
 )
