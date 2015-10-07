@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422221306) do
+ActiveRecord::Schema.define(version: 20150826121727) do
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.datetime "updated_at"
   end
 
-  create_table "dispatchers", force: true do |t|
+  create_table "dispatchers", force: :cascade do |t|
     t.integer  "owner_id"
     t.boolean  "global"
     t.boolean  "default"
@@ -36,25 +36,25 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.datetime "updated_at"
   end
 
-  create_table "dispatchers_users", id: false, force: true do |t|
+  create_table "dispatchers_users", id: false, force: :cascade do |t|
     t.integer "dispatcher_id", null: false
     t.integer "user_id",       null: false
   end
 
-  create_table "issues", force: true do |t|
+  create_table "issues", force: :cascade do |t|
     t.string   "name"
-    t.text     "url"
-    t.text     "vector_name"
+    t.binary   "url"
+    t.binary   "vector_name"
     t.float    "cvssv2"
     t.integer  "cwe"
     t.text     "description"
     t.string   "vector_type"
     t.string   "http_method"
     t.text     "tags"
-    t.text     "signature"
-    t.text     "seed"
-    t.text     "proof"
-    t.text     "response_body"
+    t.binary   "signature"
+    t.binary   "seed"
+    t.binary   "proof"
+    t.binary   "response_body"
     t.boolean  "requires_verification"
     t.text     "references"
     t.text     "remedy_code"
@@ -70,15 +70,15 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.integer  "scan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "vector_inputs"
-    t.text     "vector_html"
-    t.text     "dom_transitions"
-    t.text     "dom_body"
-    t.text     "response"
-    t.text     "request"
+    t.binary   "vector_inputs"
+    t.binary   "vector_html"
+    t.binary   "dom_transitions"
+    t.binary   "dom_body"
+    t.binary   "response"
+    t.binary   "request"
   end
 
-  create_table "notifications", force: true do |t|
+  create_table "notifications", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "model_type"
     t.integer  "model_id"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.string   "identifier"
   end
 
-  create_table "profiles", force: true do |t|
+  create_table "profiles", force: :cascade do |t|
     t.integer  "owner_id"
     t.boolean  "global"
     t.boolean  "default"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.text     "platforms"
     t.string   "http_authentication_username"
     t.string   "http_authentication_password"
-    t.integer  "http_request_queue_size",             default: 500
+    t.integer  "http_request_queue_size",             default: 100
     t.text     "input_values"
     t.text     "audit_link_templates"
     t.text     "audit_include_vector_patterns"
@@ -154,22 +154,24 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.integer  "http_response_max_size"
     t.boolean  "audit_jsons"
     t.boolean  "audit_xmls"
+    t.boolean  "audit_ui_forms"
+    t.boolean  "audit_ui_inputs"
   end
 
-  create_table "profiles_users", id: false, force: true do |t|
+  create_table "profiles_users", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "profile_id"
   end
 
-  create_table "reports", force: true do |t|
-    t.text     "object"
+  create_table "reports", force: :cascade do |t|
+    t.binary   "object"
     t.text     "sitemap"
     t.integer  "scan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "roles", force: true do |t|
+  create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
@@ -180,7 +182,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], name: "index_roles_on_name"
 
-  create_table "scan_groups", force: true do |t|
+  create_table "scan_groups", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "owner_id"
@@ -188,17 +190,17 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.datetime "updated_at"
   end
 
-  create_table "scan_groups_scans", id: false, force: true do |t|
+  create_table "scan_groups_scans", id: false, force: :cascade do |t|
     t.integer "scan_group_id", null: false
     t.integer "scan_id",       null: false
   end
 
-  create_table "scan_groups_users", id: false, force: true do |t|
+  create_table "scan_groups_users", id: false, force: :cascade do |t|
     t.integer "user_id",       null: false
     t.integer "scan_group_id", null: false
   end
 
-  create_table "scans", force: true do |t|
+  create_table "scans", force: :cascade do |t|
     t.string   "type"
     t.boolean  "active",                        default: false
     t.boolean  "extend_from_revision_sitemaps"
@@ -227,12 +229,12 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.string   "snapshot_path"
   end
 
-  create_table "scans_users", id: false, force: true do |t|
+  create_table "scans_users", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "scan_id"
   end
 
-  create_table "schedules", force: true do |t|
+  create_table "schedules", force: :cascade do |t|
     t.datetime "start_at"
     t.integer  "every_minute"
     t.integer  "every_hour"
@@ -245,7 +247,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.boolean  "stop_suspend"
   end
 
-  create_table "settings", force: true do |t|
+  create_table "settings", force: :cascade do |t|
     t.string   "name"
     t.integer  "scan_global_limit"
     t.integer  "scan_per_user_limit"
@@ -261,7 +263,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
     t.boolean  "scan_auto_refresh",              default: true
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -280,7 +282,7 @@ ActiveRecord::Schema.define(version: 20150422221306) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "users_roles", id: false, force: true do |t|
+  create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
   end

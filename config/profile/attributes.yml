@@ -13,6 +13,11 @@ audit_headers:
 audit_links: 'Audits links.'
 audit_jsons: 'Audits JSON inputs.'
 audit_xmls: 'Audits XML inputs.'
+audit_ui_forms: >
+  Audits input/button groups that do not belong to an HTML form but are instead
+  associated via JavaScript code.
+audit_ui_inputs: >
+  Audits orphan input elements with associated DOM events.
 authorized_by:
     description: "Name and e-mail address of the person who authorized the scan."
     notice: "It'll make it easier on the sys-admins during log reviews -- will be appended to the user-agent string."

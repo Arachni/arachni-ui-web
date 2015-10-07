@@ -220,7 +220,7 @@ class Issue < ActiveRecord::Base
         end
 
         FRAMEWORK_ISSUE_VARIATION_MAP.each do |k, v|
-            val = attribute_from_framework_issue( issue.variations.first || issue, v || k )
+            val = attribute_from_framework_issue( issue, v || k )
             h[k] = val.is_a?( String ) ? val.recode : val
         end
 
@@ -232,7 +232,7 @@ class Issue < ActiveRecord::Base
     private
 
     def self.attribute_from_framework_issue( issue, attribute )
-     traverse_attributes( issue, attribute )
+        traverse_attributes( issue, attribute )
     end
 
     def self.traverse_attributes( object, path )

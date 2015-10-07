@@ -2,9 +2,9 @@ class CreateIssues < ActiveRecord::Migration
   def change
     create_table :issues do |t|
       t.string :name
-      t.text :url
+      t.binary :url
 
-      t.text :vector_name # var
+      t.binary :vector_name # var
 
       t.float :cvssv2
       t.integer :cwe
@@ -17,15 +17,15 @@ class CreateIssues < ActiveRecord::Migration
       t.text :tags
       t.text :headers
 
-      t.text :signature # regexp
-      t.text :seed # injected
-      t.text :proof # regexp_match
+      t.binary :signature # regexp
+      t.binary :seed # injected
+      t.binary :proof # regexp_match
 
-      t.text :response_body # response
+      t.binary :response_body # response
 
       t.boolean :requires_verification # verification
 
-      t.text :audit_options # opts
+      t.binary :audit_options # opts
 
       t.text :references
       t.text :remedy_code
