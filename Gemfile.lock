@@ -1,29 +1,3 @@
-GIT
-  remote: git://github.com/Arachni/arachni.git
-  revision: 0236fbdbb81635b116274ab922f626ca01546494
-  branch: experimental
-  specs:
-    arachni (2.0dev)
-      addressable (= 2.3.6)
-      arachni-rpc (= 0.2.1.2)
-      awesome_print (~> 1.2.0)
-      bundler
-      childprocess (= 0.5.3)
-      coderay (= 1.1.0)
-      kramdown (= 1.4.1)
-      loofah (~> 2.0.0)
-      msgpack (= 0.5.8)
-      nokogiri (~> 1.6.5)
-      oj (~> 2.12.9)
-      oj_mimic_json
-      pony (= 1.8)
-      rack
-      rb-readline (= 0.5.1)
-      rubyzip (= 1.1.6)
-      terminal-table (= 1.4.5)
-      typhoeus (= 0.6.9)
-      watir-webdriver (= 0.6.9)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,6 +37,26 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.6)
+    arachni (1.3)
+      addressable (= 2.3.6)
+      arachni-rpc (= 0.2.1.2)
+      awesome_print (~> 1.2.0)
+      bundler
+      childprocess (= 0.5.3)
+      coderay (= 1.1.0)
+      kramdown (= 1.4.1)
+      loofah (~> 2.0.0)
+      msgpack (= 0.5.8)
+      nokogiri (~> 1.6.5)
+      oj (~> 2.12.9)
+      oj_mimic_json
+      pony (= 1.8)
+      rack
+      rb-readline (= 0.5.1)
+      rubyzip (= 1.1.6)
+      terminal-table (= 1.4.5)
+      typhoeus (= 0.6.9)
+      watir-webdriver (= 0.6.9)
     arachni-reactor (0.1.0)
     arachni-rpc (0.2.1.2)
       arachni-reactor (= 0.1.0)
@@ -244,7 +238,7 @@ GEM
       ethon (>= 0.7.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2015.6)
+    tzinfo-data (1.2015.7)
       tzinfo (>= 1.0.0)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
@@ -262,7 +256,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-jdbc-adapter
-  arachni!
+  arachni (= 1.3)
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
