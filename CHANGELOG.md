@@ -2,6 +2,11 @@
 
 ## Under development
 
+- Scan
+    - Progress page
+        - Fixed bug causing scroll offset not to be maintained between AJAX
+            refreshed on Chrome.
+
 ## 0.5.8 _(October 17, 2015)_
 
 - Profiles

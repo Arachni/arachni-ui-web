@@ -192,6 +192,7 @@ class Profile < ActiveRecord::Base
         opts = Arachni::Options.hash_to_rpc_data( opts )
         opts['input']['without_defaults'] = true
         opts['input'].delete 'default_values'
+
         opts
     end
 
