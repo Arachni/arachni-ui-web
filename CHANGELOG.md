@@ -1,5 +1,12 @@
 # ChangeLog
 
+## 0.5.9 _(October 20, 2015)_
+
+- Scan
+    - Progress page
+        - Fixed bug causing scroll offset not to be maintained between AJAX
+            refreshed on Chrome.
+
 ## 0.5.8 _(October 17, 2015)_
 
 - Profiles

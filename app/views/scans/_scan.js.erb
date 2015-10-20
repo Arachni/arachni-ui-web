@@ -1,7 +1,8 @@
 // The AJAX refresh messes with the page scroll so we need to keep track of it
 // and then restore it.
 
-var pageYOffset = $('html, body').scrollTop();
+// One works in FF, the other in Chrome, try both and see what sticks.
+var pageYOffset = $('body').scrollTop() || $('html').scrollTop();
 var legendWidth = $('#issues div#legend' ).parent().width();
 var legendClass = $('#issues div#legend' ).attr('class');
 
