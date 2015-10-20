@@ -1,5 +1,7 @@
 # ChangeLog
 
+## Under development
+
 ## 0.5.9 _(October 20, 2015)_
 
 - Scan
