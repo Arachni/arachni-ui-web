@@ -96,4 +96,8 @@ group :test do
     gem 'faker'
 end
 
+gem 'ethon',           github: 'zapotek/ethon'
+gem 'typhoeus',        github: 'zapotek/typhoeus'
+gem 'arachni-reactor', github: 'arachni/arachni-reactor', branch: 'slice-to-byteslice'
+
 gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'

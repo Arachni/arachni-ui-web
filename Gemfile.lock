@@ -1,12 +1,11 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: 4147564584bb6021903b5fbe11be0184b0b6ee28
+  revision: b63dc0047e6b5419673e91baeb8214d5009154bd
   branch: experimental
   specs:
     arachni (2.0dev)
       addressable (= 2.3.6)
       arachni-rpc (= 0.2.1.2)
-      awesome_print (~> 1.2.0)
       bundler
       childprocess (= 0.5.3)
       coderay (= 1.1.0)
@@ -24,8 +23,29 @@ GIT
       rb-readline (= 0.5.1)
       rubyzip (= 1.1.6)
       terminal-table (= 1.4.5)
-      typhoeus (= 0.6.9)
+      typhoeus (= 0.8.0)
       watir-webdriver (= 0.8.0)
+
+GIT
+  remote: git://github.com/arachni/arachni-reactor.git
+  revision: e4db53893c98e42d7d3af0266251e37673bfeff5
+  branch: slice-to-byteslice
+  specs:
+    arachni-reactor (0.1.0)
+
+GIT
+  remote: git://github.com/zapotek/ethon.git
+  revision: 90fbfaac94bd303576bfe0dc3228b2b3098b0d95
+  specs:
+    ethon (0.8.0)
+      ffi (>= 1.3.0)
+
+GIT
+  remote: git://github.com/zapotek/typhoeus.git
+  revision: 02cadc7b5f5ae482a602788a9ab83900bbb9aaa1
+  specs:
+    typhoeus (0.8.0)
+      ethon (>= 0.8.0)
 
 GEM
   remote: https://rubygems.org/
@@ -66,11 +86,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.6)
-    arachni-reactor (0.1.0)
     arachni-rpc (0.2.1.2)
       arachni-reactor (= 0.1.0)
     arel (6.0.3)
-    awesome_print (1.2.0)
     bcrypt (3.1.10)
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
@@ -117,8 +135,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    ethon (0.8.0)
-      ffi (>= 1.3.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -247,8 +263,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    typhoeus (0.6.9)
-      ethon (>= 0.7.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     tzinfo-data (1.2015.7)
@@ -270,6 +284,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbc-adapter
   arachni!
+  arachni-reactor!
   bootstrap-sass (= 2.3.1.0)
   cancan (~> 1.6.10)
   capybara (>= 1.1.2)
@@ -277,6 +292,7 @@ DEPENDENCIES
   cucumber-rails (>= 1.3.0)
   database_cleaner (>= 0.8.0)
   devise (~> 3.5.1)
+  ethon!
   factory_girl
   factory_girl_rails
   faker
@@ -299,6 +315,7 @@ DEPENDENCIES
   sqlite3
   therubyracer
   therubyrhino
+  typhoeus!
   tzinfo-data
   uglifier (~> 2.7.2)
 
