@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
 
-# FFI latest is currently 1.9.7 which can't compile on 32bit.
-gem 'ffi', '1.9.6'
+gem 'ffi', '1.9.10'
 
 # Web server.
 gem 'puma'
@@ -12,11 +11,11 @@ gem 'puma'
 gem 'activerecord-jdbc-adapter', platform: :jruby
 
 # SQLite DB (Default)
-gem 'sqlite3', platform: :ruby
+gem 'sqlite3', platforms: [:ruby, :mingw]
 gem 'jdbc-sqlite3', platform: :jruby
 
 # Postgres DB (Optional)
-gem 'pg', platform: :ruby
+gem 'pg', platforms: [:ruby, :mingw]
 gem 'jdbc-postgres', platform: :jruby
 
 # JavaScript support framework.

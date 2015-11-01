@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: b63dc0047e6b5419673e91baeb8214d5009154bd
+  revision: f3640693734d7f1a3d43d1dfa5348ae7bc664bf8
   branch: experimental
   specs:
     arachni (2.0dev)
@@ -14,21 +14,24 @@ GIT
       http_parser.rb
       kramdown (= 1.4.1)
       loofah (~> 2.0.0)
-      msgpack (= 0.5.8)
-      nokogiri (~> 1.6.5)
+      msgpack (= 0.7.0)
+      nokogiri (= 1.6.7.rc3)
       oj (~> 2.12.9)
       oj_mimic_json
       pony (= 1.8)
+      puma (= 2.14.0)
       rack
       rb-readline (= 0.5.1)
       rubyzip (= 1.1.6)
+      sinatra (= 1.4.6)
+      sinatra-contrib (= 1.4.6)
       terminal-table (= 1.4.5)
       typhoeus (= 0.8.0)
       watir-webdriver (= 0.8.0)
 
 GIT
   remote: git://github.com/arachni/arachni-reactor.git
-  revision: e4db53893c98e42d7d3af0266251e37673bfeff5
+  revision: 7a80b003fc026ce81f17272b05e445b049369073
   branch: slice-to-byteslice
   specs:
     arachni-reactor (0.1.0)
@@ -89,6 +92,7 @@ GEM
     arachni-rpc (0.2.1.2)
       arachni-reactor (= 0.1.0)
     arel (6.0.3)
+    backports (3.6.6)
     bcrypt (3.1.10)
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
@@ -143,7 +147,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.5.0)
       i18n (~> 0.5)
-    ffi (1.9.6)
+    ffi (1.9.10)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     globalid (0.3.6)
@@ -167,13 +171,13 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.6.2)
-    mini_portile (0.6.2)
-    minitest (5.8.1)
-    msgpack (0.5.8)
+    mini_portile (0.7.0.rc4)
+    minitest (5.8.2)
+    msgpack (0.7.0)
     multi_json (1.11.2)
     multi_test (0.1.2)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7.rc3)
+      mini_portile (~> 0.7.0.rc4)
     oj (2.12.14)
     oj_mimic_json (1.0.1)
     orm_adapter (0.5.0)
@@ -182,6 +186,8 @@ GEM
       mail (>= 2.0)
     puma (2.14.0)
     rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.4)
@@ -246,6 +252,17 @@ GEM
     simple_form (3.0.4)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-contrib (1.4.6)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (>= 1.3, < 3)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -296,7 +313,7 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   faker
-  ffi (= 1.9.6)
+  ffi (= 1.9.10)
   jdbc-postgres
   jdbc-sqlite3
   jquery-rails (= 2.1.4)
