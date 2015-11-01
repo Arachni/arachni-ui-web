@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
 
-gem 'ffi', '1.9.10'
-
 # Web server.
 gem 'puma'
 

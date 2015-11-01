@@ -1,11 +1,12 @@
 GIT
   remote: git://github.com/Arachni/arachni.git
-  revision: f3640693734d7f1a3d43d1dfa5348ae7bc664bf8
+  revision: 27bae69d6b35aebc739aba8026d1481d2491f2ea
   branch: experimental
   specs:
     arachni (2.0dev)
       addressable (= 2.3.6)
       arachni-rpc (= 0.2.1.2)
+      awesome_print
       bundler
       childprocess (= 0.5.3)
       coderay (= 1.1.0)
@@ -92,6 +93,7 @@ GEM
     arachni-rpc (0.2.1.2)
       arachni-reactor (= 0.1.0)
     arel (6.0.3)
+    awesome_print (1.6.1)
     backports (3.6.6)
     bcrypt (3.1.10)
     bootstrap-sass (2.3.1.0)
@@ -313,7 +315,6 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   faker
-  ffi (= 1.9.10)
   jdbc-postgres
   jdbc-sqlite3
   jquery-rails (= 2.1.4)
