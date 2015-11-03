@@ -6,10 +6,10 @@ gem 'rails', '4.2.4'
 gem 'puma'
 
 # SQLite DB (Default)
-gem 'sqlite3'#, platforms: [:ruby, :mingw, :mswin]
+gem 'sqlite3'
 
 # Postgres DB (Optional)
-gem 'pg'#, platforms: [:ruby, :mingw, :mswin]
+gem 'pg'
 
 platforms :jruby do
     # Bunch of bundled DB adaptors for use when on JRuby.
