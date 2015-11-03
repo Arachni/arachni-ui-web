@@ -5,16 +5,18 @@ gem 'rails', '4.2.4'
 # Web server.
 gem 'puma'
 
-# Bunch of bundled DB adaptors for use when on JRuby.
-gem 'activerecord-jdbc-adapter', platform: :jruby
-
 # SQLite DB (Default)
-gem 'sqlite3', platforms: [:ruby, :mingw]
-gem 'jdbc-sqlite3', platform: :jruby
+gem 'sqlite3'#, platforms: [:ruby, :mingw, :mswin]
 
 # Postgres DB (Optional)
-gem 'pg', platforms: [:ruby, :mingw]
-gem 'jdbc-postgres', platform: :jruby
+gem 'pg'#, platforms: [:ruby, :mingw, :mswin]
+
+platforms :jruby do
+    # Bunch of bundled DB adaptors for use when on JRuby.
+    gem 'activerecord-jdbc-adapter'
+    gem 'jdbc-postgres'
+    gem 'jdbc-sqlite3'
+end
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -29,6 +31,7 @@ gem 'kramdown'
 gem 'simple_form', '~> 3.0.1'
 
 # User management/authentication.
+gem 'bcrypt', "3.1.9" # Lock it to this version for Windows compat.
 gem "devise", "~> 3.5.1"
 
 # User authorization management.
@@ -59,7 +62,9 @@ group :assets do
     # Sass CSS preprocessor.
     gem 'sass-rails', '~> 4.0.0'
 
-    # CoffeeScript JavaScript preprocessor.
+    # CoffeeScript JavaScript preprocessor, stick with '1.8.0' for Windows
+    # compat.
+    gem 'coffee-script-source', '1.8.0'
     gem 'coffee-rails', '~> 4.0.0'
 
     # JavaScript compression.
@@ -93,8 +98,8 @@ group :test do
     gem 'faker'
 end
 
-gem 'ethon',           github: 'zapotek/ethon'
-gem 'typhoeus',        github: 'zapotek/typhoeus'
+gem 'ethon',           github: 'typhoeus/ethon'
+gem 'typhoeus',        github: 'typhoeus/typhoeus'
 gem 'arachni-reactor', github: 'arachni/arachni-reactor', branch: 'slice-to-byteslice'
 
 gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
