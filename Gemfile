@@ -31,7 +31,6 @@ gem 'kramdown'
 gem 'simple_form', '~> 3.0.1'
 
 # User management/authentication.
-gem 'bcrypt', "3.1.9" # Lock it to this version for Windows compat.
 gem "devise", "~> 3.5.1"
 
 # User authorization management.
