@@ -97,7 +97,7 @@ group :test do
     gem 'faker'
 end
 
-# gem 'ffi',             github: 'ffi/ffi', branch: 'elcapt'
+gem 'ffi',             github: 'ffi/ffi', branch: 'elcapt', platform: :ruby
 gem 'ethon',           github: 'typhoeus/ethon'
 gem 'typhoeus',        github: 'typhoeus/typhoeus'
 gem 'arachni-reactor', github: 'arachni/arachni-reactor', branch: 'slice-to-byteslice'
