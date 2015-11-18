@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
         name
     end
 
+    def name
+        super.force_encoding('utf-8')
+    end
+
     def notifications
         super.where( 'actor_id IS NULL OR actor_id != ?', id ).order( 'id desc' )
     end

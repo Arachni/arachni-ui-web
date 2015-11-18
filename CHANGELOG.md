@@ -2,7 +2,10 @@
 
 ## Under development
 
+- User
+    - `#name` -- Force encoding to UTF8.
 - Profile
+    - `#name` -- Force encoding to UTF8.
     - Form
         - Show HTTP proxy types as drop-down.
 

@@ -160,6 +160,10 @@ class Profile < ActiveRecord::Base
         name
     end
 
+    def name
+        super.force_encoding('utf-8')
+    end
+
     def has_scheduled_scans?
         scans.scheduled.any?
     end
