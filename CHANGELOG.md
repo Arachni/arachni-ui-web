@@ -4,6 +4,9 @@
 
 ## 0.5.9 _(October 20, 2015)_
 
+- Profile
+    - Form
+        - Show HTTP proxy types as drop-down.
 - Scan
     - Progress page
         - Fixed bug causing scroll offset not to be maintained between AJAX
