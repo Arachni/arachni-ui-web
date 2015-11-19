@@ -49,7 +49,7 @@
 
         <div class="lead">
             at <%= link_to @issue.url, @issue.url %>
-            <small>&ndash; found by <%= link_to @issue.scan, scan_url( @issue.scan ) %>.</small>
+            <small>&ndash; found by <%= link_to @issue.scan, scan_path( @issue.scan ) %>.</small>
         </div>
 
         <p class="pull-left label severity-<%= @issue.severity.downcase %>">
@@ -277,7 +277,7 @@
         <div id="issue-<%= @issue.digest %>-discussion" class="tab-pane">
             <%= render partial: 'comments/list',
                        locals: { comments: @issue.comments,
-                                 list_url: scan_issue_comments_url( @issue.scan, @issue, partial: true )
+                                 list_url: scan_issue_comments_path( @issue.scan, @issue, partial: true )
                        } %>
 
             <%= render partial: 'comments/form', locals: { commentable: @issue } %>

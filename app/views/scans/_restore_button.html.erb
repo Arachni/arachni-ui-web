@@ -18,7 +18,7 @@
           <i class=" icon-play-circle"></i>
         </a>
     <% else %>
-        <%= link_to restore_scan_url(scan),
+        <%= link_to restore_scan_path(scan),
                     remote: true,
                     title:  'Restore scan', method: :patch, class: 'btn btn-small btn-success',
                     data:   { confirm: 'Are you sure you want to restore the scan?' } do %>

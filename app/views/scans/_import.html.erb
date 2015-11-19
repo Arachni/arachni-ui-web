@@ -6,7 +6,7 @@
         <h3>Import scan report:</h3>
     </div>
 
-    <%= simple_form_for :scan, url: import_scans_url, html: { multipart: true } do |f| %>
+    <%= simple_form_for :scan, url: import_scans_path, html: { multipart: true } do |f| %>
         <div class="modal-body">
             <%= f.error_notification %>
             <%= f.input :file, as: :file, label: false,

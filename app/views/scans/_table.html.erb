@@ -27,7 +27,7 @@
         <% end %>
         >
 
-        <%= link_to scans_url( opts.merge( filter => 'yours' ) ),
+        <%= link_to scans_path( opts.merge( filter => 'yours' ) ),
                     onclick: 'loading();', remote: true do %>
             <i class="icon-user"></i>
             Yours <small>[<%= @counts[type.to_sym]['yours'] %>]</small>
@@ -50,7 +50,7 @@
         <% end %>
 
         >
-        <%= link_to scans_url( opts.merge( filter => 'shared' ) ),
+        <%= link_to scans_path( opts.merge( filter => 'shared' ) ),
                     onclick: 'loading();', remote: true do %>
             <i class="icon-share-alt"></i>
             Shared <small>[<%= @counts[type.to_sym]['shared'] %>]</small>
@@ -73,7 +73,7 @@
             class="active"
             <% end %>
             >
-                <%= link_to scans_url( opts.merge( filter => 'others' ) ),
+                <%= link_to scans_path( opts.merge( filter => 'others' ) ),
                             onclick: 'loading();', remote: true do %>
                     <i class="icon-group"></i>
                     Others' <small>[<%= @counts[type.to_sym]['others'] %>]</small>

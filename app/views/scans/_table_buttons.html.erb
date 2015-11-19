@@ -4,7 +4,7 @@
 %>
 
 <% if can? :read, scan %>
-    <%= link_to !show_as_revision && scan.has_revisions? ? scan_url( scan, overview: true ) : scan,
+    <%= link_to !show_as_revision && scan.has_revisions? ? scan_path( scan, overview: true ) : scan,
                 title: 'Show scan', class: 'btn btn-small btn-info' do %>
         <i class="icon-eye-open"></i>
     <% end %>
@@ -15,7 +15,7 @@
 <% if scan.active? %>
     <% if can? :pause, scan %>
         <% if scan.paused? %>
-            <%= link_to resume_scan_url( scan, render: :index ), title: 'Resume scan',
+            <%= link_to resume_scan_path( scan, render: :index ), title: 'Resume scan',
                         method: :patch, class: 'btn btn-small btn-success',
                         remote: true,
                         data: { confirm: 'Are you sure you want to resume the scan?' } do %>
@@ -23,7 +23,7 @@
             <% end %>
 
         <% else %>
-            <%= link_to pause_scan_url( scan, render: :index ), title: 'Pause scan',
+            <%= link_to pause_scan_path( scan, render: :index ), title: 'Pause scan',
                         method: :patch, class: 'btn btn-small btn-warning',
                         remote: true,
                         data: { confirm: 'Are you sure you want to pause the scan?' } do %>
@@ -33,7 +33,7 @@
     <% end  %>
 
     <% if scan.scanning? && scan.spawns == 0 && can?( :suspend, scan ) %>
-        <%= link_to suspend_scan_url(scan),
+        <%= link_to suspend_scan_path(scan),
                     remote: true,
                     title:  'Suspend scan', method: :patch, class: 'btn btn-small',
                     data:   { confirm: 'Are you sure you want to suspend the scan?' } do %>
@@ -42,7 +42,7 @@
     <% end %>
 
     <% if can? :abort, scan %>
-        <%= link_to abort_scan_url( scan, render: :index ), title: 'Abort scan',
+        <%= link_to abort_scan_path( scan, render: :index ), title: 'Abort scan',
                     method: :patch, class: 'btn btn-small btn-danger',
                     remote: true,
                     data: { confirm: 'Are you sure you want to abort the scan?' } do %>

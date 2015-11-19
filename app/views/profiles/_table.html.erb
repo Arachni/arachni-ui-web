@@ -21,7 +21,7 @@
         <% end %>
         >
 
-            <%= link_to profiles_url( opts.merge( 'tab' => 'yours' ) ),
+            <%= link_to profiles_path( opts.merge( 'tab' => 'yours' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-user"></i>
                 Yours <small>[<%= @counts['yours'] %>]</small>
@@ -44,7 +44,7 @@
         <% end %>
 
         >
-            <%= link_to profiles_url( opts.merge( 'tab' => 'shared' ) ),
+            <%= link_to profiles_path( opts.merge( 'tab' => 'shared' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-share-alt"></i>
                 Shared <small>[<%= @counts['shared'] %>]</small>
@@ -65,7 +65,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to profiles_url( opts.merge( 'tab' => 'global' ) ),
+            <%= link_to profiles_path( opts.merge( 'tab' => 'global' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-globe"></i>
                 Global <small>[<%= @counts['global'] %>]</small>
@@ -87,7 +87,7 @@
             class="active"
             <% end %>
             >
-                <%= link_to profiles_url( opts.merge( 'tab' => 'others' ) ),
+                <%= link_to profiles_path( opts.merge( 'tab' => 'others' ) ),
                             onclick: 'loading();', remote: true do %>
                     <i class="icon-group"></i>
                     Others' <small>[<%= @counts['others'] %>]</small>

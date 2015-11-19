@@ -6,7 +6,7 @@
     </li>
 
     <li class="<%= 'active' if @scan.overview? %>">
-        <%= link_to scan_url( @scan, overview: true,
+        <%= link_to scan_path( @scan, overview: true,
                               change_revision: true ),
                     remote: true, onclick: 'loading();' do %>
             <i class="icon-eye-open"></i>
@@ -24,7 +24,7 @@
                            "#{@scan.root_revision.issues.fixed.count} fixed")
         %>
 
-        <%= link_to txt.html_safe, scan_url( @scan.root_revision,
+        <%= link_to txt.html_safe, scan_path( @scan.root_revision,
                                              change_revision: true ),
                     remote: true, onclick: 'loading();' %>
     </li>
@@ -49,7 +49,7 @@
                end
 
             %>
-            <%= link_to txt.html_safe, scan_url( revision,
+            <%= link_to txt.html_safe, scan_path( revision,
                                                  change_revision: true ),
                         remote: true, onclick: 'loading();' %>
         </li>

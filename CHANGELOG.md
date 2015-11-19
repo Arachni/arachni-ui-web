@@ -2,6 +2,7 @@
 
 ## Under development
 
+- Switched to absolute paths instead of full URLs across the interface.
 - User
     - `#name` -- Force encoding to UTF8.
 - Profile
