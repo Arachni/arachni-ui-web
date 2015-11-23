@@ -43,7 +43,10 @@ class User < ActiveRecord::Base
     end
 
     def name
-        super.force_encoding('utf-8')
+        n = super
+        return if !n
+
+        n.force_encoding('utf-8')
     end
 
     def notifications
