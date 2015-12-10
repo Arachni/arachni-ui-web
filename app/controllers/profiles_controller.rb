@@ -230,7 +230,7 @@ class ProfilesController < ApplicationController
             :browser_cluster_ignore_images, :browser_cluster_screen_width,
             :browser_cluster_screen_height, :scope_dom_depth_limit,
             :audit_link_templates, :http_request_queue_size, :http_response_max_size,
-            :scope_url_rewrites
+            :scope_url_rewrites, :scope_exclude_binaries
         ]
 
         allowed << :global if current_user.admin?

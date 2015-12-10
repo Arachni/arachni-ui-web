@@ -7,6 +7,7 @@
     - `#name` -- Force encoding to UTF8.
 - Profile
     - `#name` -- Force encoding to UTF8.
+    - Whitelisted `scope_exclude_binaries` option.
     - Form
         - Show HTTP proxy types as drop-down.
 
