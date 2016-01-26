@@ -80,7 +80,7 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2015 Tasos Laskos</td>
+        <td>2013-2016 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>
