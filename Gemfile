@@ -97,9 +97,5 @@ group :test do
     gem 'faker'
 end
 
-if !Gem.win_platform?
-    gem 'ffi', github: 'ffi/ffi', branch: 'elcapt'
-end
-
 gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
 # gem 'arachni', path: '../arachni'
