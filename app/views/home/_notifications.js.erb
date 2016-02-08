@@ -1,2 +1,2 @@
-$( '#dashboard' ).data( 'refresh-url', "<%= root_url( params.merge( partial: true ) ) %>");
+$( '#dashboard' ).data( 'refresh-url', "<%= root_path( params.merge( partial: true ) ) %>");
 $( '#notifications' ).html( '<%= escape_javascript( render 'notifications.html' ) %>' );

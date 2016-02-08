@@ -1,2 +1,2 @@
-$("#dispatchers #tables").data( "refresh-url", "<%= escape_javascript dispatchers_url( format: :js, params: params ) %>" );
+$("#dispatchers #tables").data( "refresh-url", "<%= escape_javascript dispatchers_path( format: :js, params: params ) %>" );
 $('#dispatchers #tables').html( "<%= escape_javascript( render partial: 'tables', formats: :html, locals: { profiles: @dispatchers } ) %>" );

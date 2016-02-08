@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+ * Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
  *
  * This file is part of the Arachni WebUI project and is subject to
  * redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -31,7 +31,7 @@
         padding-right: 10px;
     }
 
-    .checkbox, input {
+    .checkbox, input, select {
         float: right;
     }
 
@@ -56,7 +56,8 @@
         float: none;
     }
 
-    .plugin-options .checkbox, .plugin-options input {
+    .plugin-options .checkbox,
+    .plugin-options input {
         display: block;
         float: none;
     }

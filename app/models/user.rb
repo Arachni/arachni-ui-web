@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -40,6 +40,13 @@ class User < ActiveRecord::Base
 
     def to_s
         name
+    end
+
+    def name
+        n = super
+        return if !n
+
+        n.force_encoding('utf-8')
     end
 
     def notifications

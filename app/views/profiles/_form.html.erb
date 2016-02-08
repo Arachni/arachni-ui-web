@@ -319,7 +319,7 @@
                     <%= messages_for( :http_proxy_password ) %>
                 </div>
                 <div class="span6">
-                    <%= f.input :http_proxy_type %>
+                    <%= f.input :http_proxy_type, collection: Arachni::OptionGroups::HTTP::PROXY_TYPES %>
                     <%= messages_for( :http_proxy_type ) %>
                 </div>
             </div>

@@ -25,7 +25,7 @@
         <% end %>
         >
 
-            <%= link_to dispatchers_url( opts.merge( tab_name => 'yours' ) ),
+            <%= link_to dispatchers_path( opts.merge( tab_name => 'yours' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-user"></i>
                 Yours <small>[<%= @counts[type]['yours'] %>]</small>
@@ -48,7 +48,7 @@
         <% end %>
 
         >
-            <%= link_to dispatchers_url( opts.merge( tab_name => 'shared' ) ),
+            <%= link_to dispatchers_path( opts.merge( tab_name => 'shared' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-share-alt"></i>
                 Shared <small>[<%= @counts[type]['shared'] %>]</small>
@@ -69,7 +69,7 @@
         class="active"
         <% end %>
         >
-            <%= link_to dispatchers_url( opts.merge( tab_name => 'global' ) ),
+            <%= link_to dispatchers_path( opts.merge( tab_name => 'global' ) ),
                         onclick: 'loading();', remote: true do %>
                 <i class="icon-globe"></i>
                 Global <small>[<%= @counts[type]['global'] %>]</small>
@@ -91,7 +91,7 @@
             class="active"
             <% end %>
             >
-                <%= link_to dispatchers_url( opts.merge( tab_name => 'others' ) ),
+                <%= link_to dispatchers_path( opts.merge( tab_name => 'others' ) ),
                             onclick: 'loading();', remote: true do %>
                     <i class="icon-group"></i>
                     Others' <small>[<%= @counts[type]['others'] %>]</small>

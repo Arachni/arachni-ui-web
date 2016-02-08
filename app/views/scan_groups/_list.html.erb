@@ -3,7 +3,7 @@
    if local_assigns[:path_method].is_a? Symbol
        path_method = method( local_assigns[:path_method] )
    elsif local_assigns[:path_method].nil?
-       path_method = method( :scans_url )
+       path_method = method( :scans_path )
    end
 
    show_owner = !!local_assigns[:show_owner]

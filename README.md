@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.9</td>
+        <td>0.5.10</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2015 Tasos Laskos</td>
+        <td>2013-2016 Tasos Laskos</td>
     </tr>
     <tr>
         <th>License</th>

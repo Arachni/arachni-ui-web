@@ -38,7 +38,7 @@
     </div>
 
     <div id="tables"
-         data-refresh-url="<%= scans_url( format: :js, params: params ) %>"
+         data-refresh-url="<%= scans_path( format: :js, params: params ) %>"
          data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
          data-refresh-type='js'
     >

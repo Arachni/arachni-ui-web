@@ -34,7 +34,7 @@
     <td>
         <% if can? :read, scan %>
             <% if !scan.error_messages.to_s.empty? %>
-                <%= link_to errors_scan_url( scan, format: :txt ),
+                <%= link_to errors_scan_path( scan, format: :txt ),
                             title: 'This scan has encountered errors.',
                             class: 'label label-important',
                             rel: 'tooltip', data: { placement: 'left' } do %>

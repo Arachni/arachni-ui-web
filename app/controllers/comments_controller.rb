@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2015 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
         html_block = if render_partial?
             proc { render partial: 'list',
                          locals: { comments: commentable.comments,
-                                  list_url: polymorphic_url( [@commentable.family, Comment].flatten ) } }
+                                  list_url: polymorphic_path( [@commentable.family, Comment].flatten ) } }
         end
 
         respond_to do |format|
@@ -74,7 +74,7 @@ class CommentsController < ApplicationController
                 notify commentable, action: :commented,
                        text: truncate_html( m( @comment.text ) )
 
-                format.js { redirect_to polymorphic_url( [@commentable.family, Comment].flatten, format: :js ) }
+                format.js { redirect_to polymorphic_path( [@commentable.family, Comment].flatten, format: :js ) }
 
                 format.html { redirect_to :back, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }

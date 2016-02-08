@@ -15,7 +15,7 @@ opts   = params.dup
 opts.delete( :format )
 
 url_method =    if !local_assigns.include?( :url_method_type )
-                    method( :scan_issues_url )
+                    method( :scan_issues_path )
                 else
                     method( url_method_type )
                 end

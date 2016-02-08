@@ -1,11 +1,22 @@
 # ChangeLog
 
+## 0.5.10 _(February 8, 2015)_
+
+- Switched to absolute paths instead of full URLs across the interface.
+- User
+    - `#name` -- Force encoding to UTF8.
+- Profile
+    - `#name` -- Force encoding to UTF8.
+    - Whitelisted `scope_exclude_binaries` option.
+    - Form
+        - Show HTTP proxy types as drop-down.
+
 ## 0.5.9 _(October 20, 2015)_
 
 - Scan
     - Progress page
         - Fixed bug causing scroll offset not to be maintained between AJAX
-            refreshed on Chrome.
+            refreshes on Chrome.
 
 ## 0.5.8 _(October 17, 2015)_
 

@@ -1,23 +1,22 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
-
-# FFI latest is currently 1.9.7 which can't compile on 32bit.
-gem 'ffi', '1.9.6'
+gem 'rails', '4.2.5.1'
 
 # Web server.
 gem 'puma'
 
-# Bunch of bundled DB adaptors for use when on JRuby.
-gem 'activerecord-jdbc-adapter', platform: :jruby
-
 # SQLite DB (Default)
-gem 'sqlite3', platform: :ruby
-gem 'jdbc-sqlite3', platform: :jruby
+gem 'sqlite3'
 
 # Postgres DB (Optional)
-gem 'pg', platform: :ruby
-gem 'jdbc-postgres', platform: :jruby
+gem 'pg'
+
+platforms :jruby do
+    # Bunch of bundled DB adaptors for use when on JRuby.
+    gem 'activerecord-jdbc-adapter'
+    gem 'jdbc-postgres'
+    gem 'jdbc-sqlite3'
+end
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -62,7 +61,9 @@ group :assets do
     # Sass CSS preprocessor.
     gem 'sass-rails', '~> 4.0.0'
 
-    # CoffeeScript JavaScript preprocessor.
+    # CoffeeScript JavaScript preprocessor, stick with '1.8.0' for Windows
+    # compat.
+    gem 'coffee-script-source', '1.8.0'
     gem 'coffee-rails', '~> 4.0.0'
 
     # JavaScript compression.

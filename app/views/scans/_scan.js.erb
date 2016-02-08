@@ -11,7 +11,7 @@ var legendClass = $('#issues div#legend' ).attr('class');
                         render partial: 'comments/list.html',
                             locals: {
                                  comments: @scan.comments,
-                                 list_url: scan_comments_url( @scan, partial: true ),
+                                 list_url: scan_comments_path( @scan, partial: true ),
                                  refresh: false
                        }).force_encoding( 'utf-8' ) %>" );
 <% else %>
@@ -31,7 +31,7 @@ var legendClass = $('#issues div#legend' ).attr('class');
     objDiv.scrollTop = objDiv.scrollHeight;
 <% end %>
 
-$("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html', locals: { url_method_type: :scan_url } ) .force_encoding( 'utf-8' ) ) %>" );
+$("#issues").html( "<%= escape_javascript( render( partial: 'issues/table.html', locals: { url_method_type: :scan_path } ) .force_encoding( 'utf-8' ) ) %>" );
 
 $("#revisions-nav-list").html( "<%= escape_javascript( render( partial: 'revisions_nav_list' ).force_encoding( 'utf-8' ) ) %>" );
 $("#scan-sidebar").html( "<%= escape_javascript( render( partial: 'scan_sidebar' ).force_encoding( 'utf-8' ) ) %>" );
@@ -43,7 +43,7 @@ $("#scan-sidebar").html( "<%= escape_javascript( render( partial: 'scan_sidebar'
 <% end %>
 
 <% if !params['_method'] || params['_method'] == 'get' %>
-    $('#updater').data( 'refresh-url', "<%= scan_url( @scan, params.merge( format: :js ) ) %>" );
+    $('#updater').data( 'refresh-url', "<%= scan_path( @scan, params.merge( format: :js ) ) %>" );
 <% end %>
 
 <% if @scan.overview? %>

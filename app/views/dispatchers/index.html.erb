@@ -18,7 +18,7 @@
     <% end %>
 
     <div id="tables"
-         data-refresh-url="<%= dispatchers_url( params: params, format: :js ) %>"
+         data-refresh-url="<%= dispatchers_path( params: params, format: :js ) %>"
          data-refresh-rate="<%= HardSettings.dispatcher_refresh_rate %>"
          data-refresh-type='js'
      >
