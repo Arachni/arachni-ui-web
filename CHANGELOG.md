@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Under development
+## 0.5.10 _(February 8, 2015)_
 
 - Switched to absolute paths instead of full URLs across the interface.
 - User
