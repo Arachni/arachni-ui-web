@@ -4,6 +4,7 @@
 
 - Profile
     - Scope: Validate regular expressions.
+    - Added "exclude file extensions" option.
 
 ## 0.5.10 _(February 8, 2015)_
 

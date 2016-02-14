@@ -37,6 +37,7 @@ class Profile < ActiveRecord::Base
     serialize :http_cookies,                   Hash
     serialize :http_request_headers,           Hash
     serialize :scope_exclude_path_patterns,    Array
+    serialize :scope_exclude_file_extensions,  Array
     serialize :scope_exclude_content_patterns, Array
     serialize :scope_include_path_patterns,    Array
     serialize :scope_extend_paths,             Array
@@ -237,6 +238,10 @@ class Profile < ActiveRecord::Base
 
     def html_description_excerpt( *args )
         ApplicationHelper.truncate_html *[html_description, args].flatten
+    end
+
+    def scope_exclude_file_extensions=( string )
+        super string.to_s.split( /\s+/ )
     end
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns

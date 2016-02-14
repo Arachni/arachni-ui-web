@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826121727) do
+ActiveRecord::Schema.define(version: 20160214104259) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20150826121727) do
     t.boolean  "audit_xmls"
     t.boolean  "audit_ui_forms"
     t.boolean  "audit_ui_inputs"
+    t.text     "scope_exclude_file_extensions"
   end
 
   create_table "profiles_users", id: false, force: :cascade do |t|
