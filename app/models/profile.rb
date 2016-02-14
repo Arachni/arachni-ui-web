@@ -112,6 +112,7 @@ class Profile < ActiveRecord::Base
         :scope_redundant_path_patterns,
         :scope_restrict_paths,
         :scope_url_rewrites,
+        :scope_exclude_file_extensions,
         :spawns
     ]
 
