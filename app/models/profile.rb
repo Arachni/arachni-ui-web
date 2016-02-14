@@ -28,6 +28,7 @@ class Profile < ActiveRecord::Base
     validate :validate_http_cookies
     validate :validate_http_request_headers
     validate :validate_session_check
+    validate :validate_scope_url_rewrites
 
     # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
@@ -244,6 +245,14 @@ class Profile < ActiveRecord::Base
         define_method "#{m}=" do |string_or_array|
             super self.class.string_list_to_array( string_or_array )
         end
+
+        validate "validate_#{m}"
+
+        define_method "validate_#{m}" do
+            send( m ).each do |pattern|
+                check_pattern( pattern, m )
+            end
+        end
     end
 
     %w(scope_redundant_path_patterns scope_url_rewrites).each do |m|
@@ -397,6 +406,45 @@ class Profile < ActiveRecord::Base
             errors.add :scope_redundant_path_patterns,
                        "rule '#{pattern}' needs an integer counter greater than 0"
         end
+    end
+
+    def validate_scope_url_rewrites
+        scope_url_rewrites.each do |pattern, substitution|
+            pattern      = pattern.to_s.strip
+            substitution = substitution.to_s.strip
+
+            if pattern.empty?
+                errors.add :scope_url_rewrites, 'pattern cannot be empty'
+                next
+            end
+
+            if substitution.empty?
+                errors.add :scope_url_rewrites,
+                           "substitution for pattern #{pattern} cannot be empty"
+                next
+            end
+
+            next if !check_pattern( pattern, :scope_url_rewrites )
+
+            if !(pattern =~ /\(.*\)/)
+                ap 111111
+                errors.add :scope_url_rewrites,
+                           "pattern #{pattern} includes no captures"
+            end
+
+            if !(substitution =~ /\\\d/)
+                errors.add :scope_url_rewrites,
+                           "substitution #{substitution} includes no substitutions"
+            end
+        end
+    end
+
+    def check_pattern( pattern, attribute )
+        Regexp.new( pattern.to_s )
+        true
+    rescue RegexpError => e
+        errors.add attribute, "invalid pattern #{pattern.inspect} (#{e})"
+        false
     end
 
     def validate_http_cookies
