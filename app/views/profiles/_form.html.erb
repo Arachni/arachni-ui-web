@@ -291,6 +291,14 @@
             </div>
             <div class="row-fluid">
                 <div class="span6">
+                    <%= f.input :http_authentication_type,
+                                default: 'auto',
+                                collection: Arachni::OptionGroups::HTTP::AUTHENTICATION_TYPES %>
+                    <%= messages_for( :http_authentication_type ) %>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
                     <%= f.input :http_request_concurrency %>
                     <%=  messages_for( :http_request_concurrency ) %>
                 </div>

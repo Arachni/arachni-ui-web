@@ -79,6 +79,7 @@ class Profile < ActiveRecord::Base
         :checks,
         :http_authentication_password,
         :http_authentication_username,
+        :http_authentication_type,
         :http_cookies,
         :http_proxy_host,
         :http_proxy_password,

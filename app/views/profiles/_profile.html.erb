@@ -430,6 +430,16 @@
           <%= messages_for :http_authentication_password %>
         </div>
       </div>
+
+        <div class="row-fluid">
+            <div class="span6">
+                <p>
+                    <b>HTTP authentication type:</b>
+                    <%= profile.http_authentication_type %>
+                </p>
+                <%= messages_for :http_authentication_type %>
+            </div>
+        </div>
   <% end %>
 
   <div class="row-fluid">
