@@ -97,8 +97,6 @@ group :test do
     gem 'faker'
 end
 
-gem 'typhoeus', github: 'typhoeus/typhoeus'
-
 gem 'arachni-debug-rack', github: 'Arachni/arachni-debug-rack'
 # gem 'arachni-debug-rack', path: '../arachni-debug-rack'
 
