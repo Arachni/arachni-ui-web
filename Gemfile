@@ -100,5 +100,7 @@ end
 gem 'arachni-debug-rack', github: 'Arachni/arachni-debug-rack'
 # gem 'arachni-debug-rack', path: '../arachni-debug-rack'
 
+gem 'arachni-rpc',        github: 'Arachni/arachni-rpc'
+gem 'arachni-reactor',    github: 'Arachni/arachni-reactor'
 gem 'arachni',            github: 'Arachni/arachni', branch: 'experimental'
 # gem 'arachni', path: '../arachni'
