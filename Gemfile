@@ -97,8 +97,5 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni-debug-rack', github: 'Arachni/arachni-debug-rack'
-# gem 'arachni-debug-rack', path: '../arachni-debug-rack'
-
-gem 'arachni',            github: 'Arachni/arachni', branch: 'experimental'
+gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
 # gem 'arachni', path: '../arachni'
