@@ -212,10 +212,10 @@
                     <% @issue.vector_inputs.each do |k, v| %>
                         <tr>
                           <th>
-                            <%= k %>
+                            <%= k.recode %>
                           </th>
                           <td>
-                            <%= v %>
+                            <%= v.recode %>
                           </td>
                         </tr>
                     <% end %>
