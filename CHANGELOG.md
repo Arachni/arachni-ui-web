@@ -1,6 +1,15 @@
 # ChangeLog
 
-## 0.5.10 _(February 8, 2015)_
+## 0.5.11 (January 21, 2017)
+
+- Profile
+    - Scope: Validate regular expressions.
+    - Added "exclude file extensions" option.
+    - Added "HTTP authentication type" option.
+- Issue
+    - Fixed incompatible encoding error when displaying vector inputs.
+
+## 0.5.10 _(February 8, 2016)_
 
 - Switched to absolute paths instead of full URLs across the interface.
 - User

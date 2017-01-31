@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -230,7 +230,8 @@ class ProfilesController < ApplicationController
             :browser_cluster_ignore_images, :browser_cluster_screen_width,
             :browser_cluster_screen_height, :scope_dom_depth_limit,
             :audit_link_templates, :http_request_queue_size, :http_response_max_size,
-            :scope_url_rewrites, :scope_exclude_binaries
+            :scope_url_rewrites, :scope_exclude_binaries, :scope_exclude_file_extensions,
+            :http_authentication_type
         ]
 
         allowed << :global if current_user.admin?

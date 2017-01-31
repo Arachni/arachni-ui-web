@@ -133,22 +133,28 @@
                     <p class="alert alert-info">Input each path in its own line.</p>
                 </div>
             </div>
-          <div class="row-fluid">
-            <div class="span6">
-              <%= f.input :scope_url_rewrites, input_html: {
-                      value: @profile.scope_url_rewrites.
+            <div class="row-fluid">
+                <div class="span6">
+                    <%= f.input :scope_exclude_file_extensions,
+                                input_html: { value: @profile.scope_exclude_file_extensions.join( ' ' ) } %>
+                    <%=  messages_for( :scope_exclude_file_extensions ) %>
+                    <p class="alert alert-info">Separate extensions with a spaces.</p>
+                </div>
+                <div class="span6">
+                    <%= f.input :scope_url_rewrites, input_html: {
+                        value: @profile.scope_url_rewrites.
                                      map { |k, v| "#{k}:#{v}" }.join( "\n" )
-              } %>
-              <%=  messages_for( :scope_url_rewrites ) %>
-              <p class="alert alert-info">
-                Rules take the format of <em>pattern:substitution</em>,
-                input each rule in its own line.<br/>
+                    } %>
+                    <%=  messages_for( :scope_url_rewrites ) %>
+                    <p class="alert alert-info">
+                        Rules take the format of <em>pattern:substitution</em>,
+                        input each rule in its own line.<br/>
 
-                For example, to convert <code>http://test.com/articles/some-stuff/23</code> to
-                <code>http://test.com/articles.php?id=23</code> use
-                <code>/articles\/[\w-]+\/(\d+)/:articles.php?id=\1</code>.
-              </p>
-            </div>
+                        For example, to convert <code>http://test.com/articles/some-stuff/23</code> to
+                        <code>http://test.com/articles.php?id=23</code> use
+                        <code>/articles\/[\w-]+\/(\d+)/:articles.php?id=\1</code>.
+                    </p>
+                </div>
           </div>
 
         </fieldset>
@@ -281,6 +287,14 @@
                 <div class="span6">
                     <%= f.input :http_authentication_password, as: :string %>
                     <%=  messages_for( :http_authentication_password ) %>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <%= f.input :http_authentication_type,
+                                default: 'auto',
+                                collection: Arachni::OptionGroups::HTTP::AUTHENTICATION_TYPES %>
+                    <%= messages_for( :http_authentication_type ) %>
                 </div>
             </div>
             <div class="row-fluid">

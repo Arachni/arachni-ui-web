@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -664,7 +664,7 @@ class Scan < ActiveRecord::Base
 
     def handle_error( error )
         self.error_messages ||= ''
-        self.error_messages  += "#{error}\n"
+        self.error_messages  += "[#{error.class}] #{error}\n"
 
         if error.respond_to?( :backtrace ) && (error.backtrace || []).any?
             self.error_messages += "#{error.backtrace.join("\n")}\n"

@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -28,6 +28,7 @@ class Profile < ActiveRecord::Base
     validate :validate_http_cookies
     validate :validate_http_request_headers
     validate :validate_session_check
+    validate :validate_scope_url_rewrites
 
     # #checks= will ignore any any checks which have not specifically been
     # authorized so this is not strictly required.
@@ -36,6 +37,7 @@ class Profile < ActiveRecord::Base
     serialize :http_cookies,                   Hash
     serialize :http_request_headers,           Hash
     serialize :scope_exclude_path_patterns,    Array
+    serialize :scope_exclude_file_extensions,  Array
     serialize :scope_exclude_content_patterns, Array
     serialize :scope_include_path_patterns,    Array
     serialize :scope_extend_paths,             Array
@@ -77,6 +79,7 @@ class Profile < ActiveRecord::Base
         :checks,
         :http_authentication_password,
         :http_authentication_username,
+        :http_authentication_type,
         :http_cookies,
         :http_proxy_host,
         :http_proxy_password,
@@ -110,6 +113,7 @@ class Profile < ActiveRecord::Base
         :scope_redundant_path_patterns,
         :scope_restrict_paths,
         :scope_url_rewrites,
+        :scope_exclude_file_extensions,
         :spawns
     ]
 
@@ -238,11 +242,23 @@ class Profile < ActiveRecord::Base
         ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
+    def scope_exclude_file_extensions=( string )
+        super string.to_s.split( /\s+/ )
+    end
+
     %w(scope_exclude_path_patterns scope_exclude_content_patterns
         scope_include_path_patterns scope_restrict_paths scope_extend_paths
         audit_exclude_vector_patterns audit_include_vector_patterns audit_link_templates).each do |m|
         define_method "#{m}=" do |string_or_array|
             super self.class.string_list_to_array( string_or_array )
+        end
+
+        validate "validate_#{m}"
+
+        define_method "validate_#{m}" do
+            send( m ).each do |pattern|
+                check_pattern( pattern, m )
+            end
         end
     end
 
@@ -397,6 +413,45 @@ class Profile < ActiveRecord::Base
             errors.add :scope_redundant_path_patterns,
                        "rule '#{pattern}' needs an integer counter greater than 0"
         end
+    end
+
+    def validate_scope_url_rewrites
+        scope_url_rewrites.each do |pattern, substitution|
+            pattern      = pattern.to_s.strip
+            substitution = substitution.to_s.strip
+
+            if pattern.empty?
+                errors.add :scope_url_rewrites, 'pattern cannot be empty'
+                next
+            end
+
+            if substitution.empty?
+                errors.add :scope_url_rewrites,
+                           "substitution for pattern #{pattern} cannot be empty"
+                next
+            end
+
+            next if !check_pattern( pattern, :scope_url_rewrites )
+
+            if !(pattern =~ /\(.*\)/)
+                ap 111111
+                errors.add :scope_url_rewrites,
+                           "pattern #{pattern} includes no captures"
+            end
+
+            if !(substitution =~ /\\\d/)
+                errors.add :scope_url_rewrites,
+                           "substitution #{substitution} includes no substitutions"
+            end
+        end
+    end
+
+    def check_pattern( pattern, attribute )
+        Regexp.new( pattern.to_s )
+        true
+    rescue RegexpError => e
+        errors.add attribute, "invalid pattern #{pattern.inspect} (#{e})"
+        false
     end
 
     def validate_http_cookies

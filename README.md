@@ -3,7 +3,7 @@
 <table>
     <tr>
         <th>Version</th>
-        <td>0.5.10</td>
+        <td>0.5.11</td>
     </tr>
     <tr>
         <th>Homepage</th>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2016 Tasos Laskos</td>
+        <td>2013-2017 <a href="http://www.sarosys.com">Sarosys LLC</a></td>
     </tr>
     <tr>
         <th>License</th>

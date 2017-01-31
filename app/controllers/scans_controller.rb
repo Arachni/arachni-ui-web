@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2016 Tasos Laskos <tasos.laskos@arachni-scanner.com>
+    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -224,7 +224,7 @@ class ScansController < ApplicationController
         @scan = find_scan( params.require( :id ) )
 
         update_params   = strong_params( @scan )
-        schedule_params = update_params.delete(:schedule)
+        schedule_params = update_params.delete(:schedule) || {}
 
         respond_to do |format|
             if @scan.update_attributes( update_params ) &&
