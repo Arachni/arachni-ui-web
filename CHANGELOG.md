@@ -2,6 +2,8 @@
 
 ## Under development
 
+- Hide affixed sidebar on smaller screens to prevent overlaps.
+
 ## 0.5.11 (January 21, 2017)
 
 - Profile
