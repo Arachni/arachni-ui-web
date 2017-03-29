@@ -6,8 +6,8 @@
     <%= link_to polymorphic_path( notification.model.family ) do %>
 
         <%= notification.model.family.reverse.map do |model|
-            "#{model.class} <em>#{model}</em>"
-        end.join( ' of ' ).html_safe %>
+            "#{model.class} #{model}"
+        end.join( ' of ' ) %>
 
     <% end %>
 <% else %>
