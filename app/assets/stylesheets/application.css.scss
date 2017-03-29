@@ -187,7 +187,6 @@ footer ul li a:hover {
 .subnav .nav > li:first-child > a, .subnav .nav > li:first-child > a:hover {
     border-radius: 0 0 0 0;
 }
-
 .sidenav {
     width: 200px;
     margin: 30px 0 0;
@@ -252,6 +251,12 @@ footer ul li a:hover {
     position: absolute;
     top: auto;
     bottom: 270px;
+}
+
+@media screen and (max-width: 1400px) {
+    .sidenav {
+        visibility: hidden;
+    }
 }
 
 .breadcrumbs {

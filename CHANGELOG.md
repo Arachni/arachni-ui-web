@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 0.5.12 (March 29, 2017)
+
+- Hide affixed sidebar on smaller screens to prevent overlaps.
+- Notifications:
+    - Updated to sanitize scan targets.
+
 ## 0.5.11 (January 21, 2017)
 
 - Profile

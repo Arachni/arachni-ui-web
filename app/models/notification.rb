@@ -48,7 +48,7 @@ class Notification < ActiveRecord::Base
     def to_s
         s = if model
                 model.family.reverse.map do |model|
-                "#{model.class} <em>#{model}</em>"
+                "#{model.class} #{model}"
                 end.join( ' of ' )
             else
                 "(Now deleted) #{model_type} ##{model_id}"
