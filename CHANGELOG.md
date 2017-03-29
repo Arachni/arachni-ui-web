@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Under development
+## 0.5.12 (March 29, 2017)
 
 - Hide affixed sidebar on smaller screens to prevent overlaps.
 - Notifications:
