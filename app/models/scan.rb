@@ -607,11 +607,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.import( owner, file )
-        report = begin
-            Arachni::Report.load( file.path )
-        rescue
-            return
-        end
+        report = Arachni::Report.load( file.path )
 
         # First, we need a profile.
         profile             = Profile.import_from_data( report.options )

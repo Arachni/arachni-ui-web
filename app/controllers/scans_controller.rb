@@ -179,10 +179,11 @@ class ScansController < ApplicationController
             return
         end
 
-        if !(scan = Scan.import( current_user, file ))
+        begin
+            scan = Scan.import( current_user, file )
+        rescue => e
             redirect_to scans_url,
-                        alert: 'Could not understand the Report format, please' <<
-                                   ' ensure that you are using a v0.5 report.'
+                        alert: "Report could not be imported because: [#{e.class}] #{e}"
             return
         end
 

@@ -63,13 +63,13 @@ if !File.exist?( report_path )
     exit 1
 end
 
-scan = Scan.import(
-    User.find( owner_id ),
-    UploadedFileStub.new( report_path )
-)
-
-if !scan
-    $stderr.puts 'Report format could not be understood.'
+begin
+    scan = Scan.import(
+        User.find( owner_id ),
+        UploadedFileStub.new( report_path )
+    )
+rescue => e
+    $stderr.puts "Report could not be imported because: [#{e.class}] #{e}"
     exit 1
 end
 
