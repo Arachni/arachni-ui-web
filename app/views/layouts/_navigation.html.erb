@@ -1,5 +1,4 @@
 <%= link_to "Arachni v#{Arachni::VERSION}  - WebUI v#{ArachniWebui::Application::VERSION}", root_path, class: 'brand' %>
-
 <% if user_signed_in? %>
 
     <div id="phone-menu" class="nav visible-phone">
@@ -11,7 +10,7 @@
         <ul class="dropdown-menu">
             <li>
                 <%= link_to scans_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                    Scans
+                    <%= t 'scans' %>
 
                     <% if (scan_acount = current_user.scans.active.count) > 0 %>
                         <span id="active-scan-counter" class="label"><%= scan_acount %></span>
@@ -20,18 +19,18 @@
             </li>
             <li>
                 <%= link_to profiles_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                    Profiles
+                    <%= t 'profiles' %>
                 <% end %>
             </li>
             <li class="dropdown">
                 <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                    Dispatchers
+                    <%= t 'dispatchers' %>
                 <% end %>
             </li>
             <% if can? :read, User %>
                 <li>
                     <%= link_to users_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                        Users
+                        <%= t 'users' %>
                     <% end %>
                 </li>
             <% end %>
@@ -44,7 +43,7 @@
     <ul class="nav hidden-phone">
         <li class="dropdown">
             <%= link_to scans_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                Scans
+                <%= t 'scans' %>
 
                 <% if (scan_acount = current_user.scans.active.count) > 0 %>
                     <span id="active-scan-counter" class="label"><%= scan_acount %></span>
@@ -103,7 +102,7 @@
 
         <li class="dropdown">
             <%= link_to profiles_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                Profiles
+                <%= t 'profiles' %>
                 <b class="caret"></b>
             <% end %>
 
@@ -132,7 +131,7 @@
 
         <li class="dropdown">
             <%= link_to dispatchers_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                Dispatchers
+                <%= t 'dispatchers' %>
                 <% if has_dropdown %>
                 <b class="caret"></b>
                 <% end %>
@@ -165,7 +164,7 @@
         <% if can? :read, User %>
         <li class="dropdown">
             <%= link_to users_path, class: 'dropdown-toggle disabled', data: { toggle: 'dropdown' } do %>
-                Users
+                <%= t 'users' %>
                 <b class="caret"></b>
             <% end %>
 
