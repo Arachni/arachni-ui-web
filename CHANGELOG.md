@@ -2,6 +2,9 @@
 
 ## Under development
 
+- Profile
+    - Fixed bug causing plugins values to be overwritten on edit.
+
 ## 0.5.12 (March 29, 2017)
 
 - Hide affixed sidebar on smaller screens to prevent overlaps.

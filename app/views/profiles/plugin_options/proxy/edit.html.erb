@@ -4,14 +4,14 @@
         <%= render partial: 'profiles/plugin_options/option_label', locals: {
                 plugin_name: plugin_name,
                 option:      option,
-                value:       configuration[option.name]
+                value:       configuration[option.name.to_s]
         } %>
 
         <div class="input-append">
             <%= render partial: 'profiles/plugin_options/option_input', locals: {
                     plugin_name: plugin_name,
                     option:      option,
-                    value:       configuration[option.name],
+                    value:       configuration[option.name.to_s],
                     disabled:    disabled
             } %>
 
