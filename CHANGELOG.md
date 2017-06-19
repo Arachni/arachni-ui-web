@@ -4,6 +4,7 @@
 
 - Profile
     - Fixed bug causing plugins values to be overwritten on edit.
+    - Added audit nested cookies option.
 
 ## 0.5.12 (March 29, 2017)
 

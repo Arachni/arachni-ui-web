@@ -82,6 +82,7 @@ arachni_defaults.merge!(
     audit_links:   true,
     audit_forms:   true,
     audit_cookies: true,
+    audit_nested_cookies: true,
     audit_jsons:   true,
     audit_xmls:    true,
     audit_ui_forms:  true,

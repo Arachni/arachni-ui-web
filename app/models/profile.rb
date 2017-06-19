@@ -57,6 +57,7 @@ class Profile < ActiveRecord::Base
 
     RPC_OPTS = [
         :audit_cookies,
+        :audit_nested_cookies,
         :audit_cookies_extensively,
         :audit_exclude_vector_patterns,
         :audit_forms,

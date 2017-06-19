@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303170652) do
+ActiveRecord::Schema.define(version: 20170619155515) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20160303170652) do
     t.boolean  "audit_ui_inputs"
     t.text     "scope_exclude_file_extensions"
     t.string   "http_authentication_type"
+    t.boolean  "audit_nested_cookies"
   end
 
   create_table "profiles_users", id: false, force: :cascade do |t|
