@@ -243,8 +243,13 @@ class Profile < ActiveRecord::Base
         ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
-    def scope_exclude_file_extensions=( string )
-        super string.to_s.split( /\s+/ )
+    def scope_exclude_file_extensions=( string_or_array )
+        case string_or_array
+            when Array
+                super string_or_array
+            else
+                super string_or_array.to_s.split( /\s+/ )
+        end
     end
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns

@@ -5,6 +5,7 @@
 - Profile
     - Fixed bug causing plugins values to be overwritten on edit.
     - Added audit nested cookies option.
+    - Fixed default value of "scope exclude file extentions" option.
 
 ## 0.5.12 (March 29, 2017)
 
