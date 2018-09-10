@@ -4,9 +4,28 @@
         value:       value
 } %>
 
-<%= render partial: 'profiles/plugin_options/option_input', locals: {
-        plugin_name: plugin_name,
-        option:      option,
-        value:       value,
-        disabled:    disabled
+<% if plugin_name == 'vector_feed'%>
+        <%= option.name %>
+        <% if option.name.to_s == 'yaml_string' %>
+                <%= render partial: 'profiles/plugin_options/option_textarea', locals: {
+                        plugin_name: plugin_name,
+                        option:      option,
+                        value:       value,
+                        disabled:    disabled
 } %>
+        <% else %>
+                <%= render partial: 'profiles/plugin_options/option_input', locals: {
+                        plugin_name: plugin_name,
+                        option:      option,
+                        value:       value,
+                        disabled:    disabled
+                } %>
+        <% end %>
+<% else %>
+        <%= render partial: 'profiles/plugin_options/option_input', locals: {
+                plugin_name: plugin_name,
+                option:      option,
+                value:       value,
+                disabled:    disabled
+        } %>
+<% end %>
