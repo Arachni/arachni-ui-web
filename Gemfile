@@ -6,17 +6,10 @@ gem 'rails', '4.2.8'
 gem 'puma'
 
 # SQLite DB (Default)
-gem 'sqlite3'
+gem 'sqlite3', '1.3.13'
 
 # Postgres DB (Optional)
-gem 'pg'
-
-platforms :jruby do
-    # Bunch of bundled DB adaptors for use when on JRuby.
-    gem 'activerecord-jdbc-adapter'
-    gem 'jdbc-postgres'
-    gem 'jdbc-sqlite3'
-end
+gem 'pg', '1.1.2'
 
 # JavaScript support framework.
 gem 'jquery-rails', '2.1.4'
@@ -31,7 +24,7 @@ gem 'kramdown'
 gem 'simple_form', '~> 3.0.1'
 
 # User management/authentication.
-gem "devise", "~> 3.5.1"
+gem "devise"#, "~> 3.5.1"
 
 # User authorization management.
 gem 'cancan', '~> 1.6.10'
@@ -70,11 +63,10 @@ group :assets do
     gem 'uglifier', '~> 2.7.2'
 
     # JavaScript interpreters.
-    gem 'therubyrhino', platform: 'jruby'
-    gem 'libv8',    '~> 3.16.14.11', platform: 'ruby'
+    gem 'libv8', '~> 3.16.14.11'
 
     # JavaScript interpreter wrapper.
-    gem 'therubyracer', platform: 'ruby'
+    gem 'therubyracer'
 end
 
 group :test do
@@ -97,5 +89,5 @@ group :test do
     gem 'faker'
 end
 
-gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
-# gem 'arachni', path: '../arachni'
+# gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+gem 'arachni', path: '../arachni'
