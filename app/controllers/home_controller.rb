@@ -10,9 +10,11 @@ class HomeController < ApplicationController
     include ApplicationHelper
     include NavigationHelper
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
     def index
+        params.permit!
+
         @activities    = current_user.activities.page( params[:activities_page] ).
             per( HardSettings.activities_pagination_entries ).order( 'id DESC' )
 

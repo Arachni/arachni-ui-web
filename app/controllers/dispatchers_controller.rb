@@ -11,8 +11,8 @@ class DispatchersController < ApplicationController
     include NotificationsHelper
     include DispatchersHelper
 
-    before_filter :authenticate_user!
-    before_filter :new_dispatcher, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_dispatcher, only: [ :create ]
 
     load_and_authorize_resource
 

@@ -10,9 +10,9 @@ class ProfilesController < ApplicationController
     include ProfilesHelper
     include NotificationsHelper
 
-    before_filter :authenticate_user!
-    before_filter :prepare_plugin_params
-    before_filter :new_profile, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :prepare_plugin_params
+    before_action :new_profile, only: [ :create ]
 
     load_and_authorize_resource
 

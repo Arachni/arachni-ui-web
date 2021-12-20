@@ -259,7 +259,7 @@ class Profile < ActiveRecord::Base
             super self.class.string_list_to_array( string_or_array )
         end
 
-        validate "validate_#{m}"
+        validate "validate_#{m}".to_sym
 
         define_method "validate_#{m}" do
             send( m ).each do |pattern|

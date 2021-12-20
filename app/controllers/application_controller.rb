@@ -7,7 +7,7 @@
 =end
 
 class ApplicationController < ActionController::Base
-    before_filter :wipe_storage
+    before_action :wipe_storage
 
     protect_from_forgery
     rescue_from CanCan::AccessDenied do |exception|

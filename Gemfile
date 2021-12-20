@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.8'
+gem 'rails', '6.0.0'
 
 # Web server.
 gem 'puma'
 
 # SQLite DB (Default)
-gem 'sqlite3', '1.3.13'
+gem 'sqlite3'#, '1.3.13'
 
 # Postgres DB (Optional)
-gem 'pg', '1.1.2'
+gem 'pg'#, '1.1.2'
 
 # JavaScript support framework.
-gem 'jquery-rails', '2.1.4'
+gem 'jquery-rails'#, '2.1.4'
 
 # UI/CSS framework.
 gem 'bootstrap-sass', '2.3.1.0'
@@ -21,13 +21,13 @@ gem 'bootstrap-sass', '2.3.1.0'
 gem 'kramdown'
 
 # HTML form helper.
-gem 'simple_form', '~> 3.0.1'
+gem 'simple_form'
 
 # User management/authentication.
 gem "devise"#, "~> 3.5.1"
 
 # User authorization management.
-gem 'cancan', '~> 1.6.10'
+gem 'cancancan'#, '~> 1.6.10'
 
 # User role management.
 gem 'rolify', '~> 4.0.0'
@@ -40,24 +40,21 @@ gem 'loofah'
 # Required for MS Windows.
 gem 'tzinfo-data'
 
-group :development do
-    # Model factory.
-    gem 'factory_girl_rails'
-end
-
 group :development, :test do
     # Test framework.
     gem 'rspec-rails', '>= 2.11.0'
+    gem 'factory_bot'
+    gem 'listen'
 end
 
 group :assets do
     # Sass CSS preprocessor.
-    gem 'sass-rails', '~> 4.0.0'
+    gem 'sass-rails'#, '~> 4.0.0'
 
     # CoffeeScript JavaScript preprocessor, stick with '1.8.0' for Windows
     # compat.
     gem 'coffee-script-source', '1.8.0'
-    gem 'coffee-rails', '~> 4.0.0'
+    gem 'coffee-rails'#, '~> 4.0.0'
 
     # JavaScript compression.
     gem 'uglifier', '~> 2.7.2'
@@ -82,12 +79,9 @@ group :test do
     # Saves and launches the last failing webapp page.
     gem 'launchy',          '>= 2.2.0'
 
-    # Model factory.
-    gem 'factory_girl'
-
     # Sample values for model attributes.
     gem 'faker'
 end
 
-# gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
-gem 'arachni', path: '../arachni'
+gem 'arachni', github: 'Arachni/arachni', branch: 'experimental'
+# gem 'arachni', path: '../arachni'

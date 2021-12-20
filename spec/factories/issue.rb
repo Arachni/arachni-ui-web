@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
     factory :issue do
         name 'Super important issue'
         description { Faker::Lorem.paragraph }

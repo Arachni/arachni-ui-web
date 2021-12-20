@@ -10,8 +10,8 @@ class CommentsController < ApplicationController
     include ApplicationHelper
     include NotificationsHelper
 
-    before_filter :authenticate_user!
-    before_filter :new_comment, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_comment, only: [ :create ]
 
     load_and_authorize_resource :scan
     load_and_authorize_resource :comment, through: [:scan]

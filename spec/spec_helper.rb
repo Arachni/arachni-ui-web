@@ -8,7 +8,7 @@ require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/rails'
 
-require 'factory_girl'
+require 'factory_bot'
 require 'database_cleaner'
 
 require 'faker'

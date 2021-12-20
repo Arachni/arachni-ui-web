@@ -10,7 +10,7 @@ class ScanGroupsController < ApplicationController
     include ScanGroupsHelper
     include ScansHelper
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
     # Watch out, sets @scan_group to an empty group as a fail-safe.
     before_action :set_selected_group, only: [:new, :edit, :create, :update, :destroy]

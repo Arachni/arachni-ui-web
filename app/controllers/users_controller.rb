@@ -7,8 +7,8 @@
 =end
 
 class UsersController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :new_user, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_user, only: [ :create ]
 
     load_and_authorize_resource
 

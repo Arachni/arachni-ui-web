@@ -21,16 +21,16 @@ class ScansController < ApplicationController
         end
     end
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
-    before_filter :prepare_associations,
+    before_action :prepare_associations,
                   only: [ :new, :new_revision, :create, :repeat, :update, :edit ]
 
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
-    before_filter :new_scan, only: [ :create, :import ]
+    before_action :new_scan, only: [ :create, :import ]
 
-    before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
+    before_action :check_scan_type_abilities, only: [ :create, :repeat ]
 
     load_and_authorize_resource
 
@@ -71,6 +71,8 @@ class ScansController < ApplicationController
     # GET /scans/1
     # GET /scans/1.json
     def show
+        params.permit!
+
         @scan = find_scan( params.require( :id ) )
 
         html_block = if render_partial?

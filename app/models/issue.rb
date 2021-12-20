@@ -94,7 +94,7 @@ class Issue < ActiveRecord::Base
     end
 
     def id_name
-        name.parameterize
+        name#.parameterize
     end
 
     def url
