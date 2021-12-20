@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2021_12_20_161002) do
     t.text "platforms"
     t.string "http_authentication_username"
     t.string "http_authentication_password"
-    t.integer "http_request_queue_size", default: 100
+    t.integer "http_request_queue_size", default: 50
     t.text "input_values"
     t.text "audit_link_templates"
     t.text "audit_include_vector_patterns"
@@ -175,8 +175,8 @@ ActiveRecord::Schema.define(version: 2021_12_20_161002) do
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
-    t.integer "resource_id"
     t.string "resource_type"
+    t.integer "resource_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"

@@ -1,4 +1,4 @@
-class UpdateIssuesForFrameworkv10 < ActiveRecord::Migration
+class UpdateIssuesForFrameworkv10 < ActiveRecord::Migration[4.2]
     def change
         remove_column :issues, :headers
 
