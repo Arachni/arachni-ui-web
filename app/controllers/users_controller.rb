@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
         respond_to do |format|
             if @user.update_attributes( strong_params )
-                format.html { redirect_to :back, notice: 'User was successfully updated.' }
+                format.html { redirect_back fallback_location: users_url, notice: 'User was successfully updated.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }

@@ -15,7 +15,7 @@ module ApplicationHelper
     def params_to_hash( params )
         return {} if !params
 
-        params.inject({}) do |h, (k, v)|
+        params.to_hash.inject({}) do |h, (k, v)|
             h[k] = v.is_a?( ActionController::Parameters ) ? params_to_hash( v ) : v
             h
         end

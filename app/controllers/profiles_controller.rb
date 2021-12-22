@@ -19,6 +19,7 @@ class ProfilesController < ApplicationController
     # GET /profiles
     # GET /profiles.json
     def index
+        params.permit!
         prepare_table_data
 
         respond_to do |format|

@@ -19,6 +19,7 @@ class DispatchersController < ApplicationController
     # GET /dispatchers
     # GET /dispatchers.json
     def index
+        params.permit!
         prepare_table_data
 
         html_block = if render_partial?

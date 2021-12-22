@@ -37,6 +37,7 @@ class ScansController < ApplicationController
     # GET /scans
     # GET /scans.json
     def index
+        params.permit!
         prepare_scan_group_tab_data
         prepare_tables_data
 
@@ -50,6 +51,7 @@ class ScansController < ApplicationController
     # GET /scans/schedule
     # GET /scans/schedule.json
     def schedule
+        params.permit!
         prepare_scan_group_tab_data
         prepare_schedule_data
 
