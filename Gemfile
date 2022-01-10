@@ -59,9 +59,6 @@ group :assets do
     # JavaScript compression.
     gem 'uglifier', '~> 2.7.2'
 
-    # JavaScript interpreters.
-    gem 'libv8', '~> 3.16.14.11'
-
     # JavaScript interpreter wrapper.
     gem 'therubyracer'
 end
