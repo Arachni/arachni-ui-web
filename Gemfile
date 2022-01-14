@@ -58,6 +58,8 @@ group :assets do
 
     # JavaScript compression.
     gem 'uglifier', '~> 2.7.2'
+
+    gem 'therubyracer'
 end
 
 group :test do
