@@ -59,6 +59,7 @@ group :assets do
     # JavaScript compression.
     gem 'uglifier', '~> 2.7.2'
 
+    gem 'execjs'
     gem 'therubyracer', platforms: :ruby
 end
 

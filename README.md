@@ -80,7 +80,7 @@ and DBs for things to work again:
     </tr>
     <tr>
         <th>Copyright</th>
-        <td>2013-2022 <a href="http://www.ecsypno.com">Ecsypno LLC</a></td>
+        <td>2013-2022 <a href="http://www.ecsypno.com">Ecsypno</a></td>
     </tr>
     <tr>
         <th>License</th>
