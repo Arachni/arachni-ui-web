@@ -7,7 +7,7 @@ gem 'puma'
 
 # SQLite DB (Default)
 # Lock it there for Windows compat.
-gem 'sqlite3', platform: :ruby
+gem 'sqlite3', '~> 1.3.6', platform: :ruby
 
 # Postgres DB (Optional)
 gem 'pg'#, '1.1.2'
