@@ -6,7 +6,7 @@ gem 'rails', '6.0.0'
 gem 'puma'
 
 # SQLite DB (Default)
-gem 'sqlite3', git: "https://github.com/sparklemotion/sqlite3-ruby"
+gem 'sqlite3'
 
 # Postgres DB (Optional)
 gem 'pg'#, '1.1.2'
