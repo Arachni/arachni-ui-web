@@ -6,8 +6,7 @@ gem 'rails', '6.0.0'
 gem 'puma'
 
 # SQLite DB (Default)
-# Lock it there for Windows compat.
-gem 'sqlite3'
+gem 'sqlite3', git: "https://github.com/sparklemotion/sqlite3-ruby"
 
 # Postgres DB (Optional)
 gem 'pg'#, '1.1.2'
