@@ -60,7 +60,7 @@ group :assets do
     gem 'uglifier', '~> 2.7.2'
 
     gem 'execjs'
-    gem 'therubyracer', platforms: :ruby
+    gem 'therubyracer'
 end
 
 group :test do
