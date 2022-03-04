@@ -21,11 +21,11 @@ require 'spec_helper'
 describe ProfilesController do
 
     def valid_attributes
-        FactoryGirl.attributes_for( :profile ).merge( name: 'New name' )
+        FactoryBot.attributes_for( :profile ).merge( name: 'New name' )
     end
 
     before( :each ) do
-        @profile = FactoryGirl.create( :profile )
+        @profile = FactoryBot.create( :profile )
         signed_in_as_a_valid_user
     end
 
@@ -172,7 +172,7 @@ describe ProfilesController do
                     ex = nil
                     begin
                         delete :destroy, {
-                            id: FactoryGirl.create( :default_profile ).to_param
+                            id: FactoryBot.create( :default_profile ).to_param
                         }
                     rescue => e
                         ex = e

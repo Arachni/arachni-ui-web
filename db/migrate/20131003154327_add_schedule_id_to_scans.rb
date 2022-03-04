@@ -1,4 +1,4 @@
-class AddScheduleIdToScans < ActiveRecord::Migration
+class AddScheduleIdToScans < ActiveRecord::Migration[4.2]
     def change
         add_column :scans, :schedule_id, :integer
 

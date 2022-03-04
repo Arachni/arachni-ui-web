@@ -1,6 +1,6 @@
 module UserHelper
     def valid_user
-        @user ||= FactoryGirl.create( :user )
+        @user ||= FactoryBot.create( :user )
     end
 
     def sign_out( user = nil )

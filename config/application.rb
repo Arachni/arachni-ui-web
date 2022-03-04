@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -40,6 +40,7 @@ module ArachniWebui
         config.autoload_once_paths += %W(#{config.root}/lib/dispatcher_manager.rb)
         config.autoload_once_paths += %W(#{config.root}/lib/scan_manager.rb)
 
+        config.eager_load_paths << Rails.root.join('lib')
 
         # Only load the plugins named here, in the order given (default is alphabetical).
         # :all can be used as a placeholder for all plugins not explicitly named.

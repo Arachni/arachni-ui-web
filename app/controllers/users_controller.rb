@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -7,8 +7,8 @@
 =end
 
 class UsersController < ApplicationController
-    before_filter :authenticate_user!
-    before_filter :new_user, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_user, only: [ :create ]
 
     load_and_authorize_resource
 
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
         respond_to do |format|
             if @user.update_attributes( strong_params )
-                format.html { redirect_to :back, notice: 'User was successfully updated.' }
+                format.html { redirect_back fallback_location: users_url, notice: 'User was successfully updated.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }

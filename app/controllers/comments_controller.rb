@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -10,8 +10,8 @@ class CommentsController < ApplicationController
     include ApplicationHelper
     include NotificationsHelper
 
-    before_filter :authenticate_user!
-    before_filter :new_comment, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_comment, only: [ :create ]
 
     load_and_authorize_resource :scan
     load_and_authorize_resource :comment, through: [:scan]

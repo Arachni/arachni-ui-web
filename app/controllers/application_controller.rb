@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -7,7 +7,7 @@
 =end
 
 class ApplicationController < ActionController::Base
-    before_filter :wipe_storage
+    before_action :wipe_storage
 
     protect_from_forgery
     rescue_from CanCan::AccessDenied do |exception|

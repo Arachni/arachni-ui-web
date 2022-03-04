@@ -279,6 +279,13 @@
                disabled type="checkbox">
       </p>
       <%= messages_for :audit_cookies %>
+
+      <p>
+        <b>Nested cookies:</b>
+        <input <%= 'checked' if profile.audit_nested_cookies %>
+               disabled type="checkbox">
+      </p>
+      <%= messages_for :audit_nested_cookies %>
     </div>
     <div class="span6">
       <p>

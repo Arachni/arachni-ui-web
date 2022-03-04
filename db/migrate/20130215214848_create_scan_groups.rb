@@ -1,4 +1,4 @@
-class CreateScanGroups < ActiveRecord::Migration
+class CreateScanGroups < ActiveRecord::Migration[4.2]
   def change
     create_table :scan_groups do |t|
       t.string :name

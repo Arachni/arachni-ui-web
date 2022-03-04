@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -11,14 +11,15 @@ class DispatchersController < ApplicationController
     include NotificationsHelper
     include DispatchersHelper
 
-    before_filter :authenticate_user!
-    before_filter :new_dispatcher, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :new_dispatcher, only: [ :create ]
 
     load_and_authorize_resource
 
     # GET /dispatchers
     # GET /dispatchers.json
     def index
+        params.permit!
         prepare_table_data
 
         html_block = if render_partial?

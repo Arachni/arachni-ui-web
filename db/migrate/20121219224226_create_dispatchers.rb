@@ -1,4 +1,4 @@
-class CreateDispatchers < ActiveRecord::Migration
+class CreateDispatchers < ActiveRecord::Migration[4.2]
     def change
         create_table :dispatchers do |t|
             t.integer :owner_id

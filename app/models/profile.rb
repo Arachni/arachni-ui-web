@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -57,6 +57,7 @@ class Profile < ActiveRecord::Base
 
     RPC_OPTS = [
         :audit_cookies,
+        :audit_nested_cookies,
         :audit_cookies_extensively,
         :audit_exclude_vector_patterns,
         :audit_forms,
@@ -242,8 +243,13 @@ class Profile < ActiveRecord::Base
         ApplicationHelper.truncate_html *[html_description, args].flatten
     end
 
-    def scope_exclude_file_extensions=( string )
-        super string.to_s.split( /\s+/ )
+    def scope_exclude_file_extensions=( string_or_array )
+        case string_or_array
+            when Array
+                super string_or_array
+            else
+                super string_or_array.to_s.split( /\s+/ )
+        end
     end
 
     %w(scope_exclude_path_patterns scope_exclude_content_patterns
@@ -253,7 +259,7 @@ class Profile < ActiveRecord::Base
             super self.class.string_list_to_array( string_or_array )
         end
 
-        validate "validate_#{m}"
+        validate "validate_#{m}".to_sym
 
         define_method "validate_#{m}" do
             send( m ).each do |pattern|

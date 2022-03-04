@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -607,11 +607,7 @@ class Scan < ActiveRecord::Base
     end
 
     def self.import( owner, file )
-        report = begin
-            Arachni::Report.load( file.path )
-        rescue
-            return
-        end
+        report = Arachni::Report.load( file.path )
 
         # First, we need a profile.
         profile             = Profile.import_from_data( report.options )

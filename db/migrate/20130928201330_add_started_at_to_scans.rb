@@ -1,4 +1,4 @@
-class AddStartedAtToScans < ActiveRecord::Migration
+class AddStartedAtToScans < ActiveRecord::Migration[4.2]
     def change
         add_column :scans, :started_at, :datetime
 

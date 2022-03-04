@@ -1,5 +1,13 @@
 # ChangeLog
 
+## Under development
+
+- Updated to Rails 6.
+- Profile
+    - Fixed bug causing plugins values to be overwritten on edit.
+    - Added audit nested cookies option.
+    - Fixed default value of "scope exclude file extentions" option.
+
 ## 0.5.12 (March 29, 2017)
 
 - Hide affixed sidebar on smaller screens to prevent overlaps.

@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -10,7 +10,7 @@ class ScanGroupsController < ApplicationController
     include ScanGroupsHelper
     include ScansHelper
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
     # Watch out, sets @scan_group to an empty group as a fail-safe.
     before_action :set_selected_group, only: [:new, :edit, :create, :update, :destroy]

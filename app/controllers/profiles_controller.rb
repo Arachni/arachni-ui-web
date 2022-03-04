@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -10,15 +10,16 @@ class ProfilesController < ApplicationController
     include ProfilesHelper
     include NotificationsHelper
 
-    before_filter :authenticate_user!
-    before_filter :prepare_plugin_params
-    before_filter :new_profile, only: [ :create ]
+    before_action :authenticate_user!
+    before_action :prepare_plugin_params
+    before_action :new_profile, only: [ :create ]
 
     load_and_authorize_resource
 
     # GET /profiles
     # GET /profiles.json
     def index
+        params.permit!
         prepare_table_data
 
         respond_to do |format|
@@ -207,7 +208,7 @@ class ProfilesController < ApplicationController
         end
 
         allowed = [
-            :name, :audit_cookies, :audit_cookies_extensively, :audit_forms,
+            :name, :audit_cookies, :audit_nested_cookies, :audit_cookies_extensively, :audit_forms,
             :audit_headers, :audit_links, :audit_jsons, :audit_xmls,
             :audit_ui_forms,:audit_ui_inputs, :authorized_by, :scope_auto_redundant_paths,
             :audit_exclude_vector_patterns, :audit_include_vector_patterns,

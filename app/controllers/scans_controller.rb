@@ -1,5 +1,5 @@
 =begin
-    Copyright 2013-2017 Sarosys LLC <http://www.sarosys.com>
+    Copyright 2013-2022 Ecsypno <http://www.ecsypno.com>
 
     This file is part of the Arachni WebUI project and is subject to
     redistribution and commercial restrictions. Please see the Arachni WebUI
@@ -21,22 +21,23 @@ class ScansController < ApplicationController
         end
     end
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
-    before_filter :prepare_associations,
+    before_action :prepare_associations,
                   only: [ :new, :new_revision, :create, :repeat, :update, :edit ]
 
     # Prevents CanCan throwing ActiveModel::ForbiddenAttributesError when calling
     # load_and_authorize_resource.
-    before_filter :new_scan, only: [ :create, :import ]
+    before_action :new_scan, only: [ :create, :import ]
 
-    before_filter :check_scan_type_abilities, only: [ :create, :repeat ]
+    before_action :check_scan_type_abilities, only: [ :create, :repeat ]
 
     load_and_authorize_resource
 
     # GET /scans
     # GET /scans.json
     def index
+        params.permit!
         prepare_scan_group_tab_data
         prepare_tables_data
 
@@ -50,6 +51,7 @@ class ScansController < ApplicationController
     # GET /scans/schedule
     # GET /scans/schedule.json
     def schedule
+        params.permit!
         prepare_scan_group_tab_data
         prepare_schedule_data
 
@@ -71,6 +73,8 @@ class ScansController < ApplicationController
     # GET /scans/1
     # GET /scans/1.json
     def show
+        params.permit!
+
         @scan = find_scan( params.require( :id ) )
 
         html_block = if render_partial?
@@ -179,10 +183,11 @@ class ScansController < ApplicationController
             return
         end
 
-        if !(scan = Scan.import( current_user, file ))
+        begin
+            scan = Scan.import( current_user, file )
+        rescue => e
             redirect_to scans_url,
-                        alert: 'Could not understand the Report format, please' <<
-                                   ' ensure that you are using a v0.5 report.'
+                        alert: "Report could not be imported because: [#{e.class}] #{e}"
             return
         end
 

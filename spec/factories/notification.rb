@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
     factory :notification do
         text { Faker::Lorem.paragraph }
         association :user,  factory: :user

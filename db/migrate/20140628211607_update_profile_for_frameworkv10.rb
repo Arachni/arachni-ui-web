@@ -1,4 +1,4 @@
-class UpdateProfileForFrameworkv10 < ActiveRecord::Migration
+class UpdateProfileForFrameworkv10 < ActiveRecord::Migration[4.2]
     def change
         {
             redirect_limit:    :http_request_redirect_limit,

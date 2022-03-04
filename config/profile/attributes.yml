@@ -1,5 +1,8 @@
 name: 'Profile name.'
 audit_cookies: 'Audits cookies.'
+audit_nested_cookies:
+    description: 'Audits nested cookies.'
+    notice: 'Audits cookie inputs in the form of: mycookie=nested_name=nested_value'
 audit_cookies_extensively:
     description: 'Submits all links and forms of the page along with the cookie permutations.'
     warning: 'Will severely increase the scan-time.'
