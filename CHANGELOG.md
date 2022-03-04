@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Under development
+## 0.6.0 (March 4, 2022)
 
 - Updated to Rails 6.
 - Profile
