@@ -235,7 +235,7 @@ class ScansController < ApplicationController
             if @scan.update_attributes( update_params ) &&
                 @scan.schedule.update_attributes( schedule_params )
 
-                format.html { redirect_to :back, notice: 'Scan was successfully updated.' }
+                format.html { redirect_back fallback_location: scans_path, notice: 'Scan was successfully updated.' }
                 format.js { render '_scan.js' }
                 format.json { head :no_content }
             else
@@ -264,7 +264,7 @@ class ScansController < ApplicationController
 
                 notify @scan, text: text
 
-                format.html { redirect_to :back, notice: 'Scan was successfully shared.' }
+                format.html { redirect_back fallback_location: scans_path, notice: 'Scan was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
@@ -281,7 +281,7 @@ class ScansController < ApplicationController
 
                 notify @scan
 
-                format.html { redirect_to :back, notice: 'Scan was successfully shared.' }
+                format.html { redirect_back fallback_location: scans_path, notice: 'Scan was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
