@@ -168,7 +168,7 @@ class ProfilesController < ApplicationController
             if @profile.update_attributes( params.require( :profile ).permit( user_ids: [] ) )
                 notify @profile
 
-                format.html { redirect_to :back, notice: 'Profile was successfully shared.' }
+                format.html { redirect_back fallback_location: profiles_path, notice: 'Profile was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }

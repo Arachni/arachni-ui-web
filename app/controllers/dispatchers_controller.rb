@@ -126,7 +126,7 @@ class DispatchersController < ApplicationController
             if @dispatcher.update_attributes( params.require( :dispatcher ).permit( user_ids: [] ) )
                 notify @dispatcher
 
-                format.html { redirect_to :back, notice: 'Dispatcher was successfully shared.' }
+                format.html { redirect_back fallback_location: dispatchers_path, notice: 'Dispatcher was successfully shared.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
