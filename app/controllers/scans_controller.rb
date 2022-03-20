@@ -546,7 +546,7 @@ class ScansController < ApplicationController
         return if can? "perform_#{params[:scan][:type]}".to_sym, Scan
 
         flash[:error] = "You don't have #{params[:scan][:type]} scan privileges."
-        redirect_to :back
+        redirect_back fallback_location: scans_path
     end
 
     def show_scan_limit_errors

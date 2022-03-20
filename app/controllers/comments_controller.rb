@@ -76,7 +76,7 @@ class CommentsController < ApplicationController
 
                 format.js { redirect_to polymorphic_path( [@commentable.family, Comment].flatten, format: :js ) }
 
-                format.html { redirect_to :back, notice: 'Comment was successfully created.' }
+                format.html { redirect_back fallback_location: root_path, notice: 'Comment was successfully created.' }
                 format.json { render json: @comment, status: :created, location: @comment }
             else
                 format.js { render partial: 'form.js' }
@@ -93,7 +93,7 @@ class CommentsController < ApplicationController
 
         respond_to do |format|
             if @comment.update_attributes( params.require( :comment ).permit( :text ) )
-                format.html { redirect_to :back, notice: 'Comment was successfully updated.' }
+                format.html { redirect_back fallback_location: root_path, notice: 'Comment was successfully updated.' }
                 format.json { head :no_content }
             else
                 format.html { render action: "edit" }
