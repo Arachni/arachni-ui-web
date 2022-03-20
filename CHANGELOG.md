@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.6.1 (March 20, 2022)
+
+- Fixed redirect back calls.
+
 ## 0.6.0 (March 4, 2022)
 
 - Updated to Rails 6.
