@@ -1,3 +1,8 @@
+# Notice
+
+Arachni is heading towards obsolescence, try out its next-gen successor
+[Ecsypno](https://www.ecsypno.com/) [SCNR](https://ecsypno.com/scnr-documentation/)!
+
 # Arachni - Web User Interface
 
 <table>
