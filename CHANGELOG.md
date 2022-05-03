@@ -1,5 +1,9 @@
 # ChangeLog
 
+## 0.6.1.1 (May 3, 2022)
+
+- Added alert informing of obsolescence and [SCNR](https://ecsypno.com/scnr-documentation/).
+
 ## 0.6.1 (March 20, 2022)
 
 - Fixed redirect back calls.
