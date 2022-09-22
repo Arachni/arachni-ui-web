@@ -1,0 +1,6 @@
+<% disabled   = false if local_assigns[:disabled].nil? %>
+
+<% required = option.required? ? 'required' : 'optional' %>
+
+<textarea id="profile_plugins_<%= plugin_name %>_<%= option.name %>"
+   name="profile[plugins][<%= plugin_name %>][<%= option.name %>]" <%= 'disabled' if disabled %> class="string <%= required %>"><%= value %></textarea>
